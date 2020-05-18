@@ -3,19 +3,23 @@ package com.uniongoods.adapters
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.os.Build
 import android.provider.Settings
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.NonNull
+import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.services.R
+import com.example.services.application.MyApplication
 import com.example.services.constants.GlobalConstants
 import com.example.services.databinding.ServicesItemBinding
 import com.example.services.model.services.Services
+import com.example.services.sharedpreference.SharedPrefClass
 import com.example.services.views.subcategories.ServicesListActivity
 
 class ServicesListAdapter(
@@ -44,11 +48,24 @@ class ServicesListAdapter(
         return ViewHolder(binding.root, viewType, binding, mContext, addressList)
     }
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onBindViewHolder(@NonNull holder: ViewHolder, position: Int) {
         viewHolder = holder
         holder.binding!!.tvCatName.text = addressList[position].name
         holder.binding!!.tvOfferPrice.text = GlobalConstants.Currency + addressList[position].price.toString()
         holder.binding!!.tvDuration.setText(mContext.resources.getString(R.string.duration) + ": " + addressList[position].duration)
+
+        val applicationType = SharedPrefClass()!!.getPrefValue(
+            MyApplication.instance,
+            GlobalConstants.PRODUCT_TYPE
+        ).toString()
+
+        if (applicationType.equals(GlobalConstants.PRODUCT_DELIVERY)){
+            holder.binding!!.tvAdd.text = activity.resources.getString(R.string.book)
+        } else if (applicationType.equals(GlobalConstants.PRODUCT_SERVICES)) {
+            holder.binding!!.tvAdd.text = activity.resources.getString(R.string.order)
+        }
+
         // holder.binding!!.rBar.setRating(addressList[position].rating.toFloat())
         Glide.with(mContext)
                 .load(addressList[position].icon)

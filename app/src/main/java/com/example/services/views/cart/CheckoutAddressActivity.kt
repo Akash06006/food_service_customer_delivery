@@ -103,6 +103,19 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
         cartBinding.commonToolBar.imgRight.setImageResource(R.drawable.ic_cart)
         cartBinding.commonToolBar.imgToolbarText.text =
                 resources.getString(R.string.checkout)
+
+        val applicationType = SharedPrefClass()!!.getPrefValue(
+            MyApplication.instance,
+            GlobalConstants.PRODUCT_TYPE
+        ).toString()
+
+        if (applicationType.equals(GlobalConstants.PRODUCT_DELIVERY)){
+            cartBinding.tvSelectdateMsg.text =
+                resources.getString(R.string.when_do_you_want_this_product)
+        } else if (applicationType.equals(GlobalConstants.PRODUCT_SERVICES)) {
+            cartBinding.tvSelectdateMsg.text =
+                resources.getString(R.string.when_do_you_want_this_service)
+        }
         cartBinding.cartViewModel = cartViewModel
         val userId = SharedPrefClass()!!.getPrefValue(
                 MyApplication.instance,

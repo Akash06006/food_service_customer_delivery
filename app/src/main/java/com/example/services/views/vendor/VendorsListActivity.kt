@@ -47,8 +47,21 @@ class VendorsListActivity : BaseActivity() {
 
         favoriteBinding.commonToolBar.imgRight.visibility = View.GONE
         favoriteBinding.commonToolBar.imgRight.setImageResource(R.drawable.ic_cart)
-        favoriteBinding.commonToolBar.imgToolbarText.text =
-            resources.getString(R.string.vendor)
+
+        val applicationType = SharedPrefClass()!!.getPrefValue(
+            MyApplication.instance,
+            GlobalConstants.PRODUCT_TYPE
+        ).toString()
+
+        if (applicationType.equals(GlobalConstants.PRODUCT_DELIVERY)){
+            favoriteBinding.commonToolBar.imgToolbarText.text =
+                resources.getString(R.string.vendor)
+        } else if (applicationType.equals(GlobalConstants.PRODUCT_SERVICES)) {
+            favoriteBinding.commonToolBar.imgToolbarText.text =
+                resources.getString(R.string.vendor)
+        }
+
+
 
         if (UtilsFunctions.isNetworkConnected()) {
             startProgressDialog()

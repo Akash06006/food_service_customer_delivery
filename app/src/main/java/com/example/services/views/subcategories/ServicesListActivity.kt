@@ -61,8 +61,20 @@ class ServicesListActivity : BaseActivity() {
         servicesViewModel = ViewModelProviders.of(this).get(ServicesViewModel::class.java)
 
         servicesBinding.commonToolBar.imgRight.setImageResource(R.drawable.ic_cart)
-        servicesBinding.commonToolBar.imgToolbarText.text =
+
+        val applicationType = SharedPrefClass()!!.getPrefValue(
+            MyApplication.instance,
+            GlobalConstants.PRODUCT_TYPE
+        ).toString()
+
+        if (applicationType.equals(GlobalConstants.PRODUCT_DELIVERY)){
+            servicesBinding.commonToolBar.imgToolbarText.text =
+                resources.getString(R.string.products)
+        } else if (applicationType.equals(GlobalConstants.PRODUCT_SERVICES)) {
+            servicesBinding.commonToolBar.imgToolbarText.text =
                 resources.getString(R.string.services)
+        }
+
         servicesBinding.servicesViewModel = servicesViewModel
         catId = intent.extras?.get("catId").toString()
         subCatId = intent.extras?.get("subCatId").toString()

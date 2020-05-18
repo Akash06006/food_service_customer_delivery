@@ -10,9 +10,11 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.services.R
+import com.example.services.application.MyApplication
 import com.example.services.constants.GlobalConstants
 import com.example.services.databinding.OrderItemBinding
 import com.example.services.model.orders.OrdersListResponse
+import com.example.services.sharedpreference.SharedPrefClass
 import com.example.services.utils.BaseActivity
 import com.example.services.utils.Utils
 import com.example.services.views.orders.OrdersListActivity
@@ -59,6 +61,27 @@ class OrderListAdapter(
                 addressList[position].serviceDateTime,
                 "HH:mm yyyy-MM-dd"
         )
+
+        val applicationType = SharedPrefClass()!!.getPrefValue(
+            MyApplication.instance,
+            GlobalConstants.PRODUCT_TYPE
+        ).toString()
+
+        if (applicationType.equals(GlobalConstants.PRODUCT_DELIVERY)){
+            holder.binding!!.tvCatName.text =
+                mContext.resources.getString(R.string.products)
+            holder.binding!!.tvServiceDate.text =
+                mContext.resources.getString(R.string.order_date)
+            holder.binding!!.tvBookedOn.text =
+                mContext.resources.getString(R.string.ordered_on)
+        } else if (applicationType.equals(GlobalConstants.PRODUCT_SERVICES)) {
+            holder.binding!!.tvCatName.text =
+            mContext.resources.getString(R.string.services)
+            holder.binding!!.tvServiceDate.text =
+                mContext.resources.getString(R.string.service_date)
+            holder.binding!!.tvBookedOn.text =
+                mContext.resources.getString(R.string.booked_on)
+        }
 
         holder.binding!!.tvTotal.setText(addressList[position].totalOrderPrice)
 ////0-Pending/Not Confirmed, 1-> Confirmed , 2->Cancelled , 3->Processing,4//cancelled by company, 5->Completed

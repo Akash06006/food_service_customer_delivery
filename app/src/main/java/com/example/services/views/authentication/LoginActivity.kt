@@ -67,6 +67,12 @@ class LoginActivity : BaseActivity() {
                                         GlobalConstants.isCartAdded,
                                         "false"
                                 )
+                                // TODO place check here for product type
+                                SharedPrefClass().putObject(
+                                    this,
+                                    GlobalConstants.PRODUCT_TYPE,
+                                    GlobalConstants.PRODUCT_DELIVERY
+                                )
 
                                /* SharedPrefClass().putObject(
                                         this,

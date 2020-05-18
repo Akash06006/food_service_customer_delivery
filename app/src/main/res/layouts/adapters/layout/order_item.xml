@@ -88,6 +88,7 @@
                         android:layout_marginLeft="@dimen/dp_5" />
 
                     <TextView
+                        android:id="@+id/tv_service_date"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/dp_10"
@@ -112,6 +113,7 @@
                         app:font="@{`regular`}" />
 
                     <TextView
+                        android:id="@+id/tv_booked_on"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/dp_10"

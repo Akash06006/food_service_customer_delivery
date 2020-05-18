@@ -13,10 +13,12 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.example.services.R
+import com.example.services.application.MyApplication
 import com.example.services.constants.GlobalConstants
 import com.example.services.databinding.ServicesItemBinding
 import com.example.services.model.cart.CartListResponse
 import com.example.services.model.fav.FavListResponse
+import com.example.services.sharedpreference.SharedPrefClass
 import com.example.services.views.favorite.FavoriteListActivity
 
 class FavoriteListAdapter(
@@ -53,6 +55,18 @@ class FavoriteListAdapter(
         holder.binding!!.tvDuration.setText(mContext.resources.getString(R.string.duration) + ": " + addressList[position].service?.duration)
         holder.binding!!.tvAdd.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(GlobalConstants.COLOR_CODE))/*mContext.getResources().getColorStateList(R.color.colorOrange)*/)
 
+        val applicationType = SharedPrefClass()!!.getPrefValue(
+            MyApplication.instance,
+            GlobalConstants.PRODUCT_TYPE
+        ).toString()
+
+        if (applicationType.equals(GlobalConstants.PRODUCT_DELIVERY)){
+            holder.binding!!.tvAdd.text =
+                activity.resources.getString(R.string.order)
+        } else if (applicationType.equals(GlobalConstants.PRODUCT_SERVICES)) {
+            holder.binding!!.tvAdd.text =
+                activity.resources.getString(R.string.book)
+        }
         holder.binding.imgFavourite.setImageResource(R.drawable.ic_delete)
         //holder.binding!!.rBar.setRating(addressList[position].rating?.toFloat())
         Glide.with(mContext)

@@ -55,7 +55,7 @@ class ServiceDetailActivity : BaseActivity(), DialogssInterface {
     var dateSlotsAdapter: DateListAdapter? = null
     var slotsList = ArrayList<TimeSlotsResponse.Body>()
     var dateList = ArrayList<DateSlotsResponse.Body>()
-
+    var applicationType: String? = null
     var isfav = "false"
     var addressType = "false"
     // public var addressType = ""
@@ -86,8 +86,20 @@ class ServiceDetailActivity : BaseActivity(), DialogssInterface {
 
         serviceDetailBinding.commonToolBar.imgRight.visibility = View.GONE
         serviceDetailBinding.commonToolBar.imgRight.setImageResource(R.drawable.ic_cart)
-        serviceDetailBinding.commonToolBar.imgToolbarText.text =
+
+         applicationType = SharedPrefClass()!!.getPrefValue(
+            MyApplication.instance,
+            GlobalConstants.PRODUCT_TYPE
+        ).toString()
+
+        if (applicationType.equals(GlobalConstants.PRODUCT_DELIVERY)){
+            serviceDetailBinding.commonToolBar.imgToolbarText.text =
+                resources.getString(R.string.products_detail)
+        } else if (applicationType.equals(GlobalConstants.PRODUCT_SERVICES)) {
+            serviceDetailBinding.commonToolBar.imgToolbarText.text =
                 resources.getString(R.string.services_detail)
+        }
+
         serviceDetailBinding.servicesViewModel = servicesViewModel
         serviceDetailBinding.btnSubmit.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(GlobalConstants.COLOR_CODE))/*mContext.getResources().getColorStateList(R.color.colorOrange)*/)
         serviceDetailBinding.AddCart.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(GlobalConstants.COLOR_CODE))/*mContext.getResources().getColorStateList(R.color.colorOrange)*/)
@@ -134,16 +146,28 @@ class ServiceDetailActivity : BaseActivity(), DialogssInterface {
                                 detail = DetailModel("Pricing", response.data!!.type.toString())
                                 detailList.add(detail)
 
+                                if (applicationType.equals(GlobalConstants.PRODUCT_DELIVERY)){
+                                    if (!TextUtils.isEmpty(response.data!!.includedServices.toString())) {
+                                        detail = DetailModel("Included Items", response.data!!.includedServices.toString())
+                                        detailList.add(detail)
+                                    }
 
-                                if (!TextUtils.isEmpty(response.data!!.includedServices.toString())) {
-                                    detail = DetailModel("Included Services", response.data!!.includedServices.toString())
-                                    detailList.add(detail)
+                                    if (!TextUtils.isEmpty(response.data!!.excludedServices.toString())) {
+                                        detail = DetailModel("Excluded Items", response.data!!.excludedServices.toString())
+                                        detailList.add(detail)
+                                    }
+                                } else if (applicationType.equals(GlobalConstants.PRODUCT_SERVICES)) {
+                                    if (!TextUtils.isEmpty(response.data!!.includedServices.toString())) {
+                                        detail = DetailModel("Included Services", response.data!!.includedServices.toString())
+                                        detailList.add(detail)
+                                    }
+
+                                    if (!TextUtils.isEmpty(response.data!!.excludedServices.toString())) {
+                                        detail = DetailModel("Excluded Services", response.data!!.excludedServices.toString())
+                                        detailList.add(detail)
+                                    }
                                 }
 
-                                if (!TextUtils.isEmpty(response.data!!.excludedServices.toString())) {
-                                    detail = DetailModel("Excluded Services", response.data!!.excludedServices.toString())
-                                    detailList.add(detail)
-                                }
 
                                 initRecyclerView(detailList)
                                 priceAmount = response.data!!.price.toString()

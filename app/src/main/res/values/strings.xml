@@ -311,7 +311,9 @@
     <string name="saved_locations">Saved Locations</string>
     <string name="add_a_location">Add A Location</string>
     <string name="most_booked_services_in_this_week">Most booked services in this week</string>
+    <string name="most_booked_products_in_this_week">Most booked products in this week</string>
     <string name="trending_services">Trending Services</string>
+    <string name="trending_products">Trending Products</string>
     <string name="sub_categories">Sub Categories</string>
     <string name="offers">Offers</string>
     <string name="add">Add</string>
@@ -319,7 +321,9 @@
     <string name="add_to_cart">Add To Cart</string>
     <string name="remove_to_cart">Remove From Cart</string>
     <string name="services">Services</string>
+    <string name="products">Products</string>
     <string name="services_detail">Services details</string>
+    <string name="products_detail">Products details</string>
     <string name="cart">Cart</string>
     <string name="favorite">Favorites</string>
     <string name="warning_remove_cart">Do you really want to remove item?</string>
@@ -330,6 +334,7 @@
     <string name="no_time_slots_available">No Time Slots Available</string>
     <string name="no_date_slots_available">No Date Slots Available</string>
     <string name="when_do_you_want_this_service">When do you want this Service</string>
+    <string name="when_do_you_want_this_product">When do you want this Product</string>
     <string name="select_time">Please Select Time</string>
     <string name="visit_shop">Visit Shop</string>
     <string name="at_home">At Home</string>
@@ -346,6 +351,7 @@
     <string name="orders_history">Orders History</string>
     <string name="terms_condition">Terms and Conditions</string>
     <string name="booked_on">Booked On</string>
+    <string name="ordered_on">Ordered On</string>
     <string name="total">Total</string>
     <!--PayUMoney-->
     <string name="txt_nike_shoes">Nike Power-Run</string>
@@ -356,9 +362,11 @@
 
 
     <string name="book">Book</string>
+    <string name="order">Order</string>
     <string name="current_location">Current Location</string>
     <string name="duration">Duration</string>
     <string name="service_date">Service Date</string>
+    <string name="order_date">Order Date</string>
     <string name="reviews">Reviews</string>
     <string name="rating">Ratings</string>
     <string name="rate_service">Rate Service</string>

@@ -81,6 +81,23 @@ HomeFragment : BaseFragment(), SocketInterface {
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(activity!!)
         // baseActivity.startProgressDialog()
         categoriesList?.clear()
+
+        val applicationType = SharedPrefClass()!!.getPrefValue(
+            MyApplication.instance,
+            GlobalConstants.PRODUCT_TYPE
+        ).toString()
+
+        if (applicationType.equals(GlobalConstants.PRODUCT_DELIVERY)){
+            fragmentHomeBinding.tvTrendingHeading.text =
+                resources.getString(R.string.trending_products)
+            fragmentHomeBinding.tvSubHeading.text =
+                resources.getString(R.string.most_booked_products_in_this_week)
+        } else if (applicationType.equals(GlobalConstants.PRODUCT_SERVICES)) {
+            fragmentHomeBinding.tvTrendingHeading.text =
+                resources.getString(R.string.trending_services)
+            fragmentHomeBinding.tvSubHeading.text =
+                resources.getString(R.string.most_booked_services_in_this_week)
+        }
         //getLastLocation()
         /*socket.updateSocketInterface(this)
         Log.e("Connect Socket", "Home Fragment")
