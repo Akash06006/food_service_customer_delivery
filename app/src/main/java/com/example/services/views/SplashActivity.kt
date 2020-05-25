@@ -41,9 +41,9 @@ class SplashActivity : BaseActivity() {
 
         if (token != null) {
             sharedPrefClass!!.putObject(
-                    applicationContext,
-                    GlobalConstants.NOTIFICATION_TOKEN,
-                    token
+                applicationContext,
+                GlobalConstants.NOTIFICATION_TOKEN,
+                token
             )
         }
 
@@ -59,11 +59,11 @@ class SplashActivity : BaseActivity() {
     private fun checkScreenType() {
         var login = ""
         if (checkObjectNull(
-                        SharedPrefClass().getPrefValue(
-                                MyApplication.instance,
-                                "isLogin"
-                        )
+                SharedPrefClass().getPrefValue(
+                    MyApplication.instance,
+                    "isLogin"
                 )
+            )
         )
             login = sharedPrefClass!!.getPrefValue(this, "isLogin").toString()
         var jobId = sharedPrefClass!!.getPrefValue(this, GlobalConstants.JOBID).toString()
@@ -71,27 +71,32 @@ class SplashActivity : BaseActivity() {
             if (!jobId.equals("null") && !jobId.equals("0")) {
                 var mJsonObjectStartJob = JsonObject()
                 var destLat =
-                        sharedPrefClass!!.getPrefValue(this, GlobalConstants.DEST_LAT).toString()
+                    sharedPrefClass!!.getPrefValue(this, GlobalConstants.DEST_LAT).toString()
                 var destLong =
-                        sharedPrefClass!!.getPrefValue(this, GlobalConstants.DEST_LONG).toString()
+                    sharedPrefClass!!.getPrefValue(this, GlobalConstants.DEST_LONG).toString()
                 mJsonObjectStartJob.addProperty(
-                        "jobId", jobId
+                    "jobId", jobId
                 )
                 mJsonObjectStartJob.addProperty(
-                        "dest_lat", destLat
+                    "dest_lat", destLat
                 )
                 mJsonObjectStartJob.addProperty(
-                        "dest_long", destLong
+                    "dest_long", destLong
                 )
                 mJsonObjectStartJob.addProperty(
-                        "trackOrStart", "Track"
+                    "trackOrStart", "Track"
                 )
                 val intent = Intent(this, TrackingActivity::class.java)
                 intent.putExtra("data", mJsonObjectStartJob.toString())
                 //startActivity(intent)
             } else {
                 Intent(this, LandingMainActivity::class.java)
-                // Intent(this, CheckoutAddressActivity::class.java)
+                // Intent(this, PaymentActivity::class.java)
+               /* var intent = Intent(this, PaymentActivity::class.java)
+                intent.putExtra("amount", "100")
+                intent.putExtra("currency", GlobalConstants.Currency)
+                intent.putExtra("totalItems", "2")*/
+                //startActivityForResult(intent1, 200)
             }
 
         } else {

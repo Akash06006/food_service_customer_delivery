@@ -20,6 +20,7 @@ import com.example.services.viewmodels.services.ServicesViewModel
 import com.example.services.databinding.ActivityCartListBinding
 import com.example.services.model.CommonModel
 import com.example.services.model.cart.CartListResponse
+import com.example.services.model.orders.CreateOrdersResponse
 import com.example.services.sharedpreference.SharedPrefClass
 import com.example.services.utils.DialogClass
 import com.example.services.utils.DialogssInterface
@@ -85,7 +86,7 @@ class CartListActivity : BaseActivity(), DialogssInterface {
                                 // cartBinding.rlCoupon.visibility = View.VISIBLE
                                 cartBinding.btnCheckout.visibility = View.VISIBLE
                                 initRecyclerView()
-                                cartBinding.tvOfferPrice.setText(GlobalConstants.Currency + "" + response.body!!.sum)
+                                cartBinding.tvOfferPrice.setText(GlobalConstants.Currency + " " + response.body!!.sum)
                                 /*if (response.coupanDetails?.isCouponApplied.equals("true")) {
 
                                     if (response.coupanDetails?.isCoupanValid.equals("true")) {
@@ -157,7 +158,7 @@ class CartListActivity : BaseActivity(), DialogssInterface {
                 })
 
         cartViewModel.getOrderPlaceRes().observe(this,
-                Observer<CommonModel> { response ->
+                Observer<CreateOrdersResponse> { response ->
                     stopProgressDialog()
                     if (response != null) {
                         val message = response.message

@@ -42,7 +42,7 @@ class ServiceDetailActivity : BaseActivity(), DialogssInterface {
     var serviceId = ""
     var isCart = "false"
     var cartId = "false"
-    var currency = "Rs"
+    var currency = "Rs "
     var priceAmount = "false"
     var selectedDate = ""
     var selectedTime = ""
@@ -66,8 +66,8 @@ class ServiceDetailActivity : BaseActivity(), DialogssInterface {
             startProgressDialog()
         }
         isCart = SharedPrefClass().getPrefValue(
-                MyApplication.instance,
-                GlobalConstants.isCartAdded
+            MyApplication.instance,
+            GlobalConstants.isCartAdded
         ).toString()
         if (isCart.equals("true")) {
             serviceDetailBinding.commonToolBar.imgRight.visibility = View.VISIBLE
@@ -99,52 +99,64 @@ class ServiceDetailActivity : BaseActivity(), DialogssInterface {
             serviceDetailBinding.commonToolBar.imgToolbarText.text =
                 resources.getString(R.string.services_detail)
         }
-
         serviceDetailBinding.servicesViewModel = servicesViewModel
-        serviceDetailBinding.btnSubmit.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(GlobalConstants.COLOR_CODE))/*mContext.getResources().getColorStateList(R.color.colorOrange)*/)
-        serviceDetailBinding.AddCart.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(GlobalConstants.COLOR_CODE))/*mContext.getResources().getColorStateList(R.color.colorOrange)*/)
+        serviceDetailBinding.btnSubmit.setBackgroundTintList(
+            ColorStateList.valueOf(
+                Color.parseColor(
+                    GlobalConstants.COLOR_CODE
+                )
+            )/*mContext.getResources().getColorStateList(R.color.colorOrange)*/
+        )
+        serviceDetailBinding.AddCart.setBackgroundTintList(
+            ColorStateList.valueOf(
+                Color.parseColor(
+                    GlobalConstants.COLOR_CODE
+                )
+            )/*mContext.getResources().getColorStateList(R.color.colorOrange)*/
+        )
 
         serviceId = intent.extras?.get("serviceId").toString()
         var serviceObject = JsonObject()
         serviceObject.addProperty(
-                "serviceId", serviceId
+            "serviceId", serviceId
         )
 
 
         addressType = SharedPrefClass().getPrefValue(
-                MyApplication.instance,
-                GlobalConstants.SelectedAddressType
+            MyApplication.instance,
+            GlobalConstants.SelectedAddressType
         ).toString()
         serviceDetailBinding.radioGroup.setOnCheckedChangeListener(
-                RadioGroup.OnCheckedChangeListener { group, checkedId ->
-                    val radio: RadioButton = findViewById(checkedId)
-                    // selectedAddressType=radio.text.toString()
+            RadioGroup.OnCheckedChangeListener { group, checkedId ->
+                val radio: RadioButton = findViewById(checkedId)
+                // selectedAddressType=radio.text.toString()
 
-                    if (radio.text.toString().equals(getString(R.string.at_home))) {
-                        selectedAddressType = "0"
-                    } else {
-                        selectedAddressType = "1"
-                    }
-                })
+                if (radio.text.toString().equals(getString(R.string.at_home))) {
+                    selectedAddressType = "0"
+                } else {
+                    selectedAddressType = "1"
+                }
+            })
 
         // initDateRecyclerView()
         servicesViewModel.getServiceDetailRes().observe(this,
-                Observer<ServicesDetailResponse> { response ->
-                    stopProgressDialog()
-                    if (response != null) {
-                        val message = response.message
-                        when {
-                            response.code == 200 -> {
-                                serviceDetailBinding.serviceDetail = response.data
-                                var rt = response.data!!.rating
-                                // isfav = response.data!!.favorite!!
-                                // isCart = response.data!!.cart!!
-                                // currency = response.data!!.currency.toString()
-                                var detailList = ArrayList<DetailModel>()
-                                var detail = DetailModel("Duration", response.data!!.duration.toString())
-                                detailList.add(detail)
-                                detail = DetailModel("Pricing", response.data!!.type.toString())
-                                detailList.add(detail)
+            Observer<ServicesDetailResponse> { response ->
+                stopProgressDialog()
+                if (response != null) {
+                    val message = response.message
+                    when {
+                        response.code == 200 -> {
+                            serviceDetailBinding.serviceDetail = response.data
+                            var rt = response.data!!.rating
+                            // isfav = response.data!!.favorite!!
+                            // isCart = response.data!!.cart!!
+                            // currency = response.data!!.currency.toString()
+                            var detailList = ArrayList<DetailModel>()
+                            var detail =
+                                DetailModel("Duration", response.data!!.duration.toString())
+                            detailList.add(detail)
+                            detail = DetailModel("Pricing", response.data!!.type.toString())
+                            detailList.add(detail)
 
                                 if (applicationType.equals(GlobalConstants.PRODUCT_DELIVERY)){
                                     if (!TextUtils.isEmpty(response.data!!.includedServices.toString())) {
@@ -161,6 +173,13 @@ class ServiceDetailActivity : BaseActivity(), DialogssInterface {
                                         detail = DetailModel("Included Services", response.data!!.includedServices.toString())
                                         detailList.add(detail)
                                     }
+                            if (!TextUtils.isEmpty(response.data!!.includedServices.toString())) {
+                                detail = DetailModel(
+                                    "Included Services",
+                                    response.data!!.includedServices.toString()
+                                )
+                                detailList.add(detail)
+                            }
 
                                     if (!TextUtils.isEmpty(response.data!!.excludedServices.toString())) {
                                         detail = DetailModel("Excluded Services", response.data!!.excludedServices.toString())
@@ -168,177 +187,191 @@ class ServiceDetailActivity : BaseActivity(), DialogssInterface {
                                     }
                                 }
 
+                            if (!TextUtils.isEmpty(response.data!!.excludedServices.toString())) {
+                                detail = DetailModel(
+                                    "Excluded Services",
+                                    response.data!!.excludedServices.toString()
+                                )
+                                detailList.add(detail)
+                            }
 
-                                initRecyclerView(detailList)
-                                priceAmount = response.data!!.price.toString()
-                                serviceDetailBinding.tvOfferPrice.setText(GlobalConstants.Currency + " " + priceAmount)
-                                serviceDetailBinding.rBar.setRating(response.data!!.rating!!.toFloat())
-                                Glide.with(this)
-                                        .load(response.data!!.icon)
-                                        .apply(RequestOptions.bitmapTransform(RoundedCorners(20)))
-                                        .placeholder(R.drawable.ic_category)
-                                        .into(serviceDetailBinding.imgService)
-                                serviceDetailBinding.imgAddFavorite.bringToFront()
-                                serviceDetailBinding.rBar.bringToFront()
-                                if (TextUtils.isEmpty(response.data!!.cart) || response.data!!.cart.equals("null") || response.data!!.cart.equals("false")) {
-                                    serviceDetailBinding.AddCart.setText(getString(R.string.add_to_cart))
-                                } else {
-                                    cartId = response.data!!.cart!!
-                                    serviceDetailBinding.AddCart.setText(getString(R.string.remove_to_cart))
-                                }
-                                if (response.data!!.favourite.equals("null") && response.data!!.favourite.equals("false")) {
-                                    serviceDetailBinding.imgAddFavorite.setImageResource(R.drawable.ic_unfavorite)
-                                } else {
-                                    serviceDetailBinding.imgAddFavorite.setImageResource(R.drawable.ic_favorite)
-                                }
-                                // serviceDetailBinding.servicesViewModel=response.body
+                            initRecyclerView(detailList)
+                            priceAmount = response.data!!.price.toString()
+                            serviceDetailBinding.tvOfferPrice.setText(GlobalConstants.Currency + " " + priceAmount)
+                            serviceDetailBinding.rBar.setRating(response.data!!.rating!!.toFloat())
+                            Glide.with(this)
+                                .load(response.data!!.icon)
+                                .apply(RequestOptions.bitmapTransform(RoundedCorners(20)))
+                                .placeholder(R.drawable.ic_category)
+                                .into(serviceDetailBinding.imgService)
+                            serviceDetailBinding.imgAddFavorite.bringToFront()
+                            serviceDetailBinding.rBar.bringToFront()
+                            if (TextUtils.isEmpty(response.data!!.cart) || response.data!!.cart.equals(
+                                    "null"
+                                ) || response.data!!.cart.equals("false")
+                            ) {
+                                serviceDetailBinding.AddCart.setText(getString(R.string.add_to_cart))
+                            } else {
+                                cartId = response.data!!.cart!!
+                                serviceDetailBinding.AddCart.setText(getString(R.string.remove_to_cart))
                             }
-                            else -> message?.let {
-                                UtilsFunctions.showToastError(it)
+                            if (response.data!!.favourite.equals("null") && response.data!!.favourite.equals(
+                                    "false"
+                                )
+                            ) {
+                                serviceDetailBinding.imgAddFavorite.setImageResource(R.drawable.ic_unfavorite)
+                            } else {
+                                serviceDetailBinding.imgAddFavorite.setImageResource(R.drawable.ic_favorite)
                             }
+                            // serviceDetailBinding.servicesViewModel=response.body
                         }
-
+                        else -> message?.let {
+                            UtilsFunctions.showToastError(it)
+                        }
                     }
-                })
+
+                }
+            })
 
         servicesViewModel.addRemoveCartRes().observe(this,
-                Observer<CommonModel> { response ->
-                    stopProgressDialog()
-                    if (response != null) {
-                        val message = response.message
-                        when {
-                            response.code == 200 -> {
+            Observer<CommonModel> { response ->
+                stopProgressDialog()
+                if (response != null) {
+                    val message = response.message
+                    when {
+                        response.code == 200 -> {
 
-                                serviceDetailBinding.AddCart.isEnabled = true
-                                serviceDetailBinding.llSlots.visibility = View.GONE
-                                if (!cartId.equals("false")) {
-                                    cartId = "false"
-                                    showToastSuccess(message)
-                                    serviceDetailBinding.AddCart.setText(getString(R.string.add_to_cart))
-                                } else {
-                                    serviceDetailBinding.commonToolBar.imgRight.visibility = View.VISIBLE
-                                    serviceDetailBinding.AddCart.setText(getString(R.string.remove_to_cart))
-                                    SharedPrefClass().putObject(
-                                            this,
-                                            GlobalConstants.isCartAdded,
-                                            "true"
-                                    )
-                                    val intent = Intent(this, CartListActivity::class.java)
-                                    startActivity(intent)
-                                }
+                            serviceDetailBinding.AddCart.isEnabled = true
+                            serviceDetailBinding.llSlots.visibility = View.GONE
+                            if (!cartId.equals("false")) {
+                                cartId = "false"
+                                showToastSuccess(message)
+                                serviceDetailBinding.AddCart.setText(getString(R.string.add_to_cart))
+                            } else {
+                                serviceDetailBinding.commonToolBar.imgRight.visibility =
+                                    View.VISIBLE
+                                serviceDetailBinding.AddCart.setText(getString(R.string.remove_to_cart))
+                                SharedPrefClass().putObject(
+                                    this,
+                                    GlobalConstants.isCartAdded,
+                                    "true"
+                                )
+                                val intent = Intent(this, CartListActivity::class.java)
+                                startActivity(intent)
+                            }
 
-                                //servicesViewModel.getServices(serviceObject)
-                            }
-                            else -> message?.let {
-                                UtilsFunctions.showToastError(it)
-                            }
+                            //servicesViewModel.getServices(serviceObject)
                         }
-
+                        else -> message?.let {
+                            UtilsFunctions.showToastError(it)
+                        }
                     }
-                })
+
+                }
+            })
 
         servicesViewModel.addRemovefavRes().observe(this,
-                Observer<CommonModel> { response ->
-                    stopProgressDialog()
-                    if (response != null) {
-                        val message = response.message
-                        when {
-                            response.code == 200 -> {
-                                if (isfav.equals("false")) {
-                                    isfav = "true"
-                                    serviceDetailBinding.imgAddFavorite.setImageResource(R.drawable.ic_favorite)
-                                } else {
-                                    isfav = "false"
-                                    serviceDetailBinding.imgAddFavorite.setImageResource(R.drawable.ic_unfavorite)
-                                }
-                            }
-                            else -> message?.let {
-                                UtilsFunctions.showToastError(it)
+            Observer<CommonModel> { response ->
+                stopProgressDialog()
+                if (response != null) {
+                    val message = response.message
+                    when {
+                        response.code == 200 -> {
+                            if (isfav.equals("false")) {
+                                isfav = "true"
+                                serviceDetailBinding.imgAddFavorite.setImageResource(R.drawable.ic_favorite)
+                            } else {
+                                isfav = "false"
+                                serviceDetailBinding.imgAddFavorite.setImageResource(R.drawable.ic_unfavorite)
                             }
                         }
-
+                        else -> message?.let {
+                            UtilsFunctions.showToastError(it)
+                        }
                     }
-                })
+
+                }
+            })
 
         servicesViewModel.isClick().observe(
-                this, Observer<String>(function =
-        fun(it: String?) {
-            when (it) {
-                "ratingView" -> {
-                    val intent = Intent(this, ReviewsListActivity::class.java)
-                    intent.putExtra("serviceId", serviceId)
-                    startActivity(intent)
-                }
-                "img_right" -> {
-                    val intent = Intent(this, CartListActivity::class.java)
-                    startActivity(intent)
-                }
-                "AddCart" -> {
-                    // if (isCart.equals("false")) {
-                    if (!cartId.equals("false")) {
-                        confirmationDialog = mDialogClass.setDefaultDialog(
+            this, Observer<String>(function =
+            fun(it: String?) {
+                when (it) {
+                    "ratingView" -> {
+                        val intent = Intent(this, ReviewsListActivity::class.java)
+                        intent.putExtra("serviceId", serviceId)
+                        startActivity(intent)
+                    }
+                    "img_right" -> {
+                        val intent = Intent(this, CartListActivity::class.java)
+                        startActivity(intent)
+                    }
+                    "AddCart" -> {
+                        // if (isCart.equals("false")) {
+                        if (!cartId.equals("false")) {
+                            confirmationDialog = mDialogClass.setDefaultDialog(
                                 this,
                                 this,
                                 "Remove Cart",
                                 getString(R.string.warning_remove_cart)
-                        )
-                        confirmationDialog?.show()
-                    } else {
-                        showCartInfoLayout()
-                    }
+                            )
+                            confirmationDialog?.show()
+                        } else {
+                            showCartInfoLayout()
+                        }
 
-                    /* } else {
-                         //remove from cart
-                         callAddRemoveCartApi(false)
-                     }*/
-                }
-                "img_cross" -> {
-                    serviceDetailBinding.AddCart.isEnabled = true
-                    serviceDetailBinding.llSlots.visibility = View.GONE
-                }
-                "imgMinus" -> {
-                    if (quantityCount > 0) {
-                        quantityCount--
-                        price = quantityCount * priceAmount.toInt()
-                        serviceDetailBinding.tvTotalPrice.setText(GlobalConstants.Currency + price.toString())
-                        //callGetTimeSlotsApi()
+                        /* } else {
+                             //remove from cart
+                             callAddRemoveCartApi(false)
+                         }*/
                     }
-                    if (quantityCount == 0) {
-                        serviceDetailBinding.tvTotalPrice.setText("0")
-                        serviceDetailBinding.tvTimeSlots.visibility = View.GONE
-                        // serviceDetailBinding.btnSubmit.isEnabled = false
-                        // serviceDetailBinding.btnSubmit.visibility = View.GONE
-                        serviceDetailBinding.rvSlots.visibility = View.GONE
+                    "img_cross" -> {
+                        serviceDetailBinding.AddCart.isEnabled = true
+                        serviceDetailBinding.llSlots.visibility = View.GONE
                     }
-                    serviceDetailBinding.tvQuantity.setText(quantityCount.toString())
-                }
-                "imgPlus" -> {
-                    if (quantityCount <= 5) {
-                        quantityCount++
-                        // serviceDetailBinding.btnSubmit.isEnabled = false
+                    "imgMinus" -> {
+                        if (quantityCount > 0) {
+                            quantityCount--
+                            price = quantityCount * priceAmount.toInt()
+                            serviceDetailBinding.tvTotalPrice.setText(GlobalConstants.Currency + " " + price.toString())
+                            //callGetTimeSlotsApi()
+                        }
+                        if (quantityCount == 0) {
+                            serviceDetailBinding.tvTotalPrice.setText("0")
+                            serviceDetailBinding.tvTimeSlots.visibility = View.GONE
+                            // serviceDetailBinding.btnSubmit.isEnabled = false
+                            // serviceDetailBinding.btnSubmit.visibility = View.GONE
+                            serviceDetailBinding.rvSlots.visibility = View.GONE
+                        }
                         serviceDetailBinding.tvQuantity.setText(quantityCount.toString())
-                        //   serviceDetailBinding.btnSubmit.visibility = View.VISIBLE
-                        //callGetTimeSlotsApi()
-                        price = quantityCount * priceAmount.toInt()
-                        serviceDetailBinding.tvTotalPrice.setText(GlobalConstants.Currency + price.toString())
                     }
+                    "imgPlus" -> {
+                        if (quantityCount <= 5) {
+                            quantityCount++
+                            // serviceDetailBinding.btnSubmit.isEnabled = false
+                            serviceDetailBinding.tvQuantity.setText(quantityCount.toString())
+                            //   serviceDetailBinding.btnSubmit.visibility = View.VISIBLE
+                            //callGetTimeSlotsApi()
+                            price = quantityCount * priceAmount.toInt()
+                            serviceDetailBinding.tvTotalPrice.setText(GlobalConstants.Currency + " " + price.toString())
+                        }
 
 
-                }
-                "btnSubmit" -> {
-                    if (quantityCount == 0) {
-                        showToastError(getString(R.string.select_quantity_msg))
-                    } else {
-                        callAddRemoveCartApi(true)
                     }
+                    "btnSubmit" -> {
+                        if (quantityCount == 0) {
+                            showToastError(getString(R.string.select_quantity_msg))
+                        } else {
+                            callAddRemoveCartApi(true)
+                        }
 
+                    }
+                    "img_add_favorite" -> {
+                        // addRemovefav()
+                    }
                 }
-                "img_add_favorite" -> {
-                    // addRemovefav()
-                }
-            }
 
-        })
+            })
         )
 
     }
@@ -351,7 +384,7 @@ class ServiceDetailActivity : BaseActivity(), DialogssInterface {
         serviceDetailBinding.rvServiceDetail.setHasFixedSize(true)
         serviceDetailBinding.rvServiceDetail.adapter = servicesListAdapter
         serviceDetailBinding.rvServiceDetail.addOnScrollListener(object :
-                RecyclerView.OnScrollListener() {
+            RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
 
             }
@@ -404,19 +437,19 @@ class ServiceDetailActivity : BaseActivity(), DialogssInterface {
         if (isAdd) {
             var cartObject = JsonObject()
             cartObject.addProperty(
-                    "serviceId", serviceId
+                "serviceId", serviceId
             )
             /* cartObject.addProperty(
                      "status", isCart
              )*/
             cartObject.addProperty(
-                    "orderPrice", priceAmount
+                "orderPrice", priceAmount
             )
             cartObject.addProperty(
-                    "orderTotalPrice", price
+                "orderTotalPrice", price
             )
             cartObject.addProperty(
-                    "quantity", quantityCount
+                "quantity", quantityCount
             )
 
             if (UtilsFunctions.isNetworkConnected()) {
@@ -442,10 +475,10 @@ class ServiceDetailActivity : BaseActivity(), DialogssInterface {
             isCart = "false"
         }
         favObject.addProperty(
-                "status", isCart
+            "status", isCart
         )
         favObject.addProperty(
-                "serviceId", serviceId
+            "serviceId", serviceId
         )
         if (UtilsFunctions.isNetworkConnected()) {
             servicesViewModel.addFav(favObject)

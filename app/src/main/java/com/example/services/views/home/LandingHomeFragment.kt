@@ -70,7 +70,7 @@ LandingHomeFragment : BaseFragment(), DialogssInterface {
                             response.code == 200 -> {
                                // GlobalConstants.Currency = response.body.currency
                               //  cartCategoryTypeId = response.body.cartCategoryType
-                                if (TextUtils.isEmpty(cartCategoryTypeId)) {
+                                /*if (TextUtils.isEmpty(cartCategoryTypeId)) {
                                     SharedPrefClass().putObject(
                                             activity!!,
                                             GlobalConstants.isCartAdded,
@@ -84,7 +84,7 @@ LandingHomeFragment : BaseFragment(), DialogssInterface {
                                             "true"
                                     )
                                     (activity as LandingMainActivity).onResumedForFragment()
-                                }
+                                }*/
                                 categoriesList.clear()
                                 categoriesList?.addAll(response.body.services)
                                 fragmentHomeBinding.gvServices.visibility = View.VISIBLE

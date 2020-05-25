@@ -88,7 +88,19 @@ class OrdersListResponse {
         @Expose
         var cancellable: String? = null
 
+        @SerializedName("companyAddress")
+        @Expose
+        var companyAddress: CompanyAddress? = null
 
+    }
+
+    inner class CompanyAddress {
+        @SerializedName("lat")
+        @Expose
+        var lat: String? = null
+        @SerializedName("long")
+        @Expose
+        var long: String? = null
     }
 
     inner class Suborders {

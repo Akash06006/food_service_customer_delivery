@@ -15,16 +15,16 @@ import org.json.JSONObject
 import java.net.URISyntaxException
 
 internal class SocketClass private constructor() {
-    private var mSocket : Socket? = null
+    private var mSocket: Socket? = null
     // Enter ON Method Name here
     private val mOnMethod = "responseFromServer"
-    private var mSocketInterface : SocketInterface? = null
-    private var isConnected : Boolean? = null
+    private var mSocketInterface: SocketInterface? = null
+    private var isConnected: Boolean? = null
     /**
      * Default Listener
      * Define what you want to do when connection is established
      */
-    private val onConnect = Emitter.Listener { args->
+    private val onConnect = Emitter.Listener { args ->
         // Get a handler that can be used to post to the main thread
         Handler(Looper.getMainLooper()).post {
             Log.e(TAG, "connect run")
@@ -37,7 +37,7 @@ internal class SocketClass private constructor() {
      * Default Listener
      * Define what you want to do when connection is disconnected
      */
-    private val onDisconnect = Emitter.Listener { args->
+    private val onDisconnect = Emitter.Listener { args ->
         /**
          *
          * @param args args
@@ -55,7 +55,7 @@ internal class SocketClass private constructor() {
      * Default Listener
      * Define what you want to do when there's a connection error
      */
-    private val onConnectError = Emitter.Listener { args->
+    private val onConnectError = Emitter.Listener { args ->
         // Get a handler that can be used to post to the main thread
         Handler(Looper.getMainLooper()).post {
             Log.e(TAG, "Run" + args[0])
@@ -65,7 +65,7 @@ internal class SocketClass private constructor() {
     /*
      * On Method call backs from server
      * */
-    private val socketListner = Emitter.Listener { args->
+    private val socketListner = Emitter.Listener { args ->
         // Get a handler that can be used to post to the main thread
         Handler(Looper.getMainLooper()).post {
             val data = args[0] as JSONObject
@@ -81,13 +81,13 @@ internal class SocketClass private constructor() {
             options.reconnectionAttempts = Integer.MAX_VALUE
             Log.e("Constants.BASE_URL", GlobalConstants.SOCKET_URL)
             mSocket = IO.socket(GlobalConstants.SOCKET_URL, options)
-        } catch (e : URISyntaxException) {
+        } catch (e: URISyntaxException) {
             e.printStackTrace()
         }
 
     }
 
-    fun updateSocketInterface(mSocketInterface : SocketInterface) {
+    fun updateSocketInterface(mSocketInterface: SocketInterface) {
         this.mSocketInterface = mSocketInterface
     }
 
@@ -123,20 +123,21 @@ internal class SocketClass private constructor() {
     /*
      * Send Data to server by use of socket
      * */
-    fun sendDataToServer(methodName : String, mObject : Any) {
+    fun sendDataToServer(methodName: String, mObject: Any) {
         // Get a handler that can be used to post to the main thread
         Handler(Looper.getMainLooper()).post {
             mSocket!!.emit("socketFromClient", mObject)
             Log.e("Emit Method", "$methodName Object$mObject")
         }
     }
+
     /*
      * Interface for Socket Callbacks
      * */
     companion object {
-        private var mSocketClass : SocketClass? = null
+        private var mSocketClass: SocketClass? = null
         private val TAG = SocketClass::class.java.canonicalName
-        val socket : SocketClass
+        val socket: SocketClass
             get() {
                 if (mSocketClass == null)
                     mSocketClass = SocketClass()

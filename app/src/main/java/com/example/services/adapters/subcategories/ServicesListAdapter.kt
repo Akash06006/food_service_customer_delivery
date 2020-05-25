@@ -23,11 +23,11 @@ import com.example.services.sharedpreference.SharedPrefClass
 import com.example.services.views.subcategories.ServicesListActivity
 
 class ServicesListAdapter(
-        context: ServicesListActivity,
-        addressList: ArrayList<Services>,
-        var activity: Context
+    context: ServicesListActivity,
+    addressList: ArrayList<Services>,
+    var activity: Context
 ) :
-        RecyclerView.Adapter<ServicesListAdapter.ViewHolder>() {
+    RecyclerView.Adapter<ServicesListAdapter.ViewHolder>() {
     private val mContext: ServicesListActivity
     private var viewHolder: ViewHolder? = null
     private var addressList: ArrayList<Services>
@@ -40,10 +40,10 @@ class ServicesListAdapter(
     @NonNull
     override fun onCreateViewHolder(@NonNull parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = DataBindingUtil.inflate(
-                LayoutInflater.from(parent.context),
-                R.layout.services_item,
-                parent,
-                false
+            LayoutInflater.from(parent.context),
+            R.layout.services_item,
+            parent,
+            false
         ) as ServicesItemBinding
         return ViewHolder(binding.root, viewType, binding, mContext, addressList)
     }
@@ -52,7 +52,8 @@ class ServicesListAdapter(
     override fun onBindViewHolder(@NonNull holder: ViewHolder, position: Int) {
         viewHolder = holder
         holder.binding!!.tvCatName.text = addressList[position].name
-        holder.binding!!.tvOfferPrice.text = GlobalConstants.Currency + addressList[position].price.toString()
+        holder.binding!!.tvOfferPrice.text =
+            GlobalConstants.Currency + " " + addressList[position].price.toString()
         holder.binding!!.tvDuration.setText(mContext.resources.getString(R.string.duration) + ": " + addressList[position].duration)
 
         val applicationType = SharedPrefClass()!!.getPrefValue(
@@ -68,10 +69,10 @@ class ServicesListAdapter(
 
         // holder.binding!!.rBar.setRating(addressList[position].rating.toFloat())
         Glide.with(mContext)
-                .load(addressList[position].icon)
-                // .apply(RequestOptions.bitmapTransform(RoundedCorners(20)))
-                .placeholder(R.drawable.ic_category)
-                .into(holder.binding.imgCat)
+            .load(addressList[position].icon)
+            // .apply(RequestOptions.bitmapTransform(RoundedCorners(20)))
+            .placeholder(R.drawable.ic_category)
+            .into(holder.binding.imgCat)
 
         if (TextUtils.isEmpty(addressList[position].favourite)) {
             holder.binding.imgFavourite.setImageResource(R.drawable.ic_unfavorite)
@@ -80,7 +81,13 @@ class ServicesListAdapter(
         }
         //is button ka krna h
 
-        holder.binding!!.tvAdd.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(GlobalConstants.COLOR_CODE))/*mContext.getResources().getColorStateList(R.color.colorOrange)*/)
+        holder.binding!!.tvAdd.setBackgroundTintList(
+            ColorStateList.valueOf(
+                Color.parseColor(
+                    GlobalConstants.COLOR_CODE
+                )
+            )/*mContext.getResources().getColorStateList(R.color.colorOrange)*/
+        )
 
         //img_cat
         /* holder.binding!!.tvAdd.setOnClickListener {
@@ -101,11 +108,11 @@ class ServicesListAdapter(
     }
 
     inner class ViewHolder//This constructor would switch what to findViewBy according to the type of viewType
-    (
-            v: View, val viewType: Int, //These are the general elements in the RecyclerView
-            val binding: ServicesItemBinding?,
-            mContext: ServicesListActivity,
-            addressList: ArrayList<Services>?
+        (
+        v: View, val viewType: Int, //These are the general elements in the RecyclerView
+        val binding: ServicesItemBinding?,
+        mContext: ServicesListActivity,
+        addressList: ArrayList<Services>?
     ) : RecyclerView.ViewHolder(v) {
         /*init {
             binding.linAddress.setOnClickListener {

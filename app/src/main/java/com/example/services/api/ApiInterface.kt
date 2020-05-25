@@ -159,6 +159,10 @@ interface ApiInterface {
     @POST("mobile/orders/create")
     fun ordePlace(@Body mJsonObject: JsonObject): Call<JsonObject>
 
+    @POST("mobile/orders/paymentStatus")
+    fun updatePaymentSuccess(@Body mJsonObject: JsonObject): Call<JsonObject>
+
+
     @POST("mobile/orders/cancel")
     fun cancelOrder(@Body mJsonObject: JsonObject): Call<JsonObject>
 

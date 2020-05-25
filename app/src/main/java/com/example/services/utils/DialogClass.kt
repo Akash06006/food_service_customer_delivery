@@ -25,6 +25,7 @@ import com.example.services.R
 import com.example.services.callbacks.ChoiceCallBack
 import com.example.services.constants.GlobalConstants
 import com.example.services.sharedpreference.SharedPrefClass
+import com.example.services.socket.DriverTrackingActivity
 import com.example.services.socket.TrackingActivity
 import com.example.services.views.subcategories.ServiceDetailActivity
 
@@ -121,7 +122,7 @@ class DialogClass {
 
     }
 
-    fun setPermissionDialog(mContext: Context, homeActivity: TrackingActivity): Dialog {
+    fun setPermissionDialog(mContext: Context, homeActivity: DriverTrackingActivity): Dialog {
         val dialogView = Dialog(mContext)
         dialogView.requestWindowFeature(Window.FEATURE_NO_TITLE)
         val activity = mContext as Activity

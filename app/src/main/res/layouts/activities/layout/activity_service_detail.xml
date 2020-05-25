@@ -135,7 +135,7 @@
                             android:layout_alignParentRight="true"
                             android:layout_marginRight="@dimen/dp_10"
                             android:layout_toLeftOf="@+id/rl_real_price"
-                            android:text="sdfsdf"
+                            android:text=""
                             android:textColor="@color/colorPrice"
                             android:textStyle="bold" />
 

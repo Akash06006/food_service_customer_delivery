@@ -46,7 +46,6 @@ class TimeSlotsResponse {
     }
 
     inner class Slots {
-
         @SerializedName("slot")
         @Expose
         var slot: String? = null
@@ -56,6 +55,9 @@ class TimeSlotsResponse {
         @SerializedName("selected")
         @Expose
         var selected: String? = null
+        @SerializedName("status")
+        @Expose
+        var status: String? = null
 
 
     }

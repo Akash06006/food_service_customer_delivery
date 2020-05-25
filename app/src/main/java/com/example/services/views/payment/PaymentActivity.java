@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -102,7 +103,7 @@ public class PaymentActivity extends BaseActivity {
         builder.setAmount(String.valueOf(convertStringToDouble(amount)))
                 .setTxnId(System.currentTimeMillis() + "")
                 .setPhone(GlobalConstants.getMOBILE())
-                .setProductName(getResources().getString(R.string.nike_power_run))
+                .setProductName("Order Information"/*getResources().getString(R.string.nike_power_run)*/)
                 .setFirstName(GlobalConstants.getFIRST_NAME())
                 .setEmail(GlobalConstants.getEMAIL())
                 .setsUrl(GlobalConstants.getSURL())
@@ -186,10 +187,15 @@ public class PaymentActivity extends BaseActivity {
                     String res = transactionResponse.getPayuResponse();
                     try {
                         JSONObject jsonObject = new JSONObject(res);
-                        intent.putExtra("status", "success");
-                        /*String result = jsonObject.getString("result");
+
+                        String result = jsonObject.getString("result");
+                        Log.d("id------", result);
                         jsonObject = new JSONObject(result);
-                        String id = jsonObject.getString("payuMoneyId");*/
+                        String id = jsonObject.getString("paymentId");
+                        Log.d("id------", id);
+                        intent.putExtra("status", "success");
+                        intent.putExtra("id", id);
+
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }

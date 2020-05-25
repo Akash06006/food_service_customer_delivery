@@ -11,6 +11,7 @@ import android.text.SpannableStringBuilder
 import android.text.TextUtils
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.Window
@@ -32,6 +33,7 @@ import com.example.services.databinding.ActivityCheckoutAddressBinding
 import com.example.services.model.CommonModel
 import com.example.services.model.address.AddressListResponse
 import com.example.services.model.cart.CartListResponse
+import com.example.services.model.orders.CreateOrdersResponse
 import com.example.services.model.services.DateSlotsResponse
 import com.example.services.model.services.TimeSlotsResponse
 import com.example.services.sharedpreference.SharedPrefClass
@@ -75,6 +77,8 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
     var couponCodeId = ""
     var price = 0
     var payableAmount = ""
+    var orderNo = ""
+    var orderId = ""
     lateinit var addressViewModel: AddressViewModel
     private var addressesList = ArrayList<AddressListResponse.Body>()
     var addressId = ""
@@ -118,23 +122,35 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
         }
         cartBinding.cartViewModel = cartViewModel
         val userId = SharedPrefClass()!!.getPrefValue(
-                MyApplication.instance,
-                GlobalConstants.USERID
+            MyApplication.instance,
+            GlobalConstants.USERID
         ).toString()
         if (UtilsFunctions.isNetworkConnected()) {
             startProgressDialog()
             //cartViewModel.getcartList(userId)
         }
-         cartBinding.tvChange.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(GlobalConstants.COLOR_CODE))/*mContext.getResources().getColorStateList(R.color.colorOrange)*/)
-        cartBinding.btnCheckout.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(GlobalConstants.COLOR_CODE))/*mContext.getResources().getColorStateList(R.color.colorOrange)*/)
+        cartBinding.tvChange.setBackgroundTintList(
+            ColorStateList.valueOf(
+                Color.parseColor(
+                    GlobalConstants.COLOR_CODE
+                )
+            )/*mContext.getResources().getColorStateList(R.color.colorOrange)*/
+        )
+        cartBinding.btnCheckout.setBackgroundTintList(
+            ColorStateList.valueOf(
+                Color.parseColor(
+                    GlobalConstants.COLOR_CODE
+                )
+            )/*mContext.getResources().getColorStateList(R.color.colorOrange)*/
+        )
 
         for (i in 0..4) {
             val item = DateSlotsResponse()
             dateList.add(item.Body())
             dateList[i].date = Utils(this).getDateLocal(
-                    "EEE MMM dd HH:mm:ss zzzz yyyy",
-                    getDaysAgo(i).toString(),
-                    "MM-dd-YYYY"
+                "EEE MMM dd HH:mm:ss zzzz yyyy",
+                getDaysAgo(i).toString(),
+                "MM-dd-YYYY"
             )
             //dateList[i].date = getDaysAgo(i).toString()
             dateList[i].selected = "false"
@@ -146,195 +162,250 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
         initDateRecyclerView()
         /*EEE MMM dd HH:mm:ss zzzz yyyy*/
         cartViewModel.getCartListRes().observe(this,
-                Observer<CartListResponse> { response ->
-                    stopProgressDialog()
-                    if (response != null) {
-                        val message = response.message
-                        when {
-                            response.code == 200 -> {
-                                cartList.addAll(response.body!!.data!!)
-                                payableAmount = response.body?.sum.toString()
-                                cartBinding.tvTotalItems.setText(cartList.size.toString())
-                                cartBinding.tvOfferPrice.setText(GlobalConstants.Currency + " " + response.body?.sum)
-                                cartBinding.tvPromo.setText(getString(R.string.apply_coupon))
-                                cartBinding.rlRealPrice.visibility = View.GONE
-                            }
-                            else -> message?.let {
-                                UtilsFunctions.showToastError(it)
+            Observer<CartListResponse> { response ->
+                stopProgressDialog()
+                if (response != null) {
+                    val message = response.message
+                    when {
+                        response.code == 200 -> {
+                            cartList.addAll(response.body!!.data!!)
+                            payableAmount = response.body?.sum.toString()
+                            cartBinding.tvTotalItems.setText(cartList.size.toString())
+                            cartBinding.tvOfferPrice.setText(GlobalConstants.Currency + " " + response.body?.sum)
+                            cartBinding.tvPromo.setText(getString(R.string.apply_coupon))
+                            cartBinding.rlRealPrice.visibility = View.GONE
+                        }
+                        else -> message?.let {
+                            UtilsFunctions.showToastError(it)
 
-                            }
                         }
                     }
-                })
+                }
+            })
 
 
         servicesViewModel.getTimeSlotsRes().observe(this,
-                Observer<TimeSlotsResponse> { response ->
-                    stopProgressDialog()
-                    if (response != null) {
-                        val message = response.message
-                        when {
-                            response.code == 200 -> {
-                                //if (quantityCount != 0) {
-                                selectedTime = ""
-                                slotsList.clear()
-                                slotsList.addAll(response.data!!.slots!!)
-                                cartBinding.rvSlots.visibility = View.VISIBLE
-                                cartBinding.tvNoRecord.visibility = View.GONE
-                                cartBinding.tvTimeSlots.visibility = View.VISIBLE
-                                //cartBinding.btnSubmit.visibility = View.VISIBLE
-                                initRecyclerView()
-                                //}
+            Observer<TimeSlotsResponse> { response ->
+                stopProgressDialog()
+                if (response != null) {
+                    val message = response.message
+                    when {
+                        response.code == 200 -> {
+                            //if (quantityCount != 0) {
+                            selectedTime = ""
+                            slotsList.clear()
+                            slotsList.addAll(response.data!!.slots!!)
+                            cartBinding.rvSlots.visibility = View.VISIBLE
+                            cartBinding.tvNoRecord.visibility = View.GONE
+                            cartBinding.tvTimeSlots.visibility = View.VISIBLE
+                            //cartBinding.btnSubmit.visibility = View.VISIBLE
+                            initRecyclerView()
+                            //}
 
-                            }
-                            else -> {
-                                message?.let {
-                                    UtilsFunctions.showToastError(it)
-                                    cartBinding.tvNoRecord.setText(message)
-                                }
-                                selectedTime = ""
-                                // cartBinding.btnSubmit.visibility = View.GONE
-                                cartBinding.rvSlots.visibility = View.GONE
-                                cartBinding.tvTimeSlots.visibility = View.GONE
-                                cartBinding.tvNoRecord.visibility = View.VISIBLE
-
-                            }
                         }
-
-                    }
-                })
-
-        cartViewModel.getOrderPlaceRes().observe(this,
-                Observer<CommonModel> { response ->
-                    stopProgressDialog()
-                    if (response != null) {
-                        val message = response.message
-                        when {
-                            response.code == 200 -> {
-                                SharedPrefClass().putObject(
-                                        this,
-                                        GlobalConstants.SelectedAddressType,
-                                        "null"
-                                )
-                                //showToastSuccess(message)
-                                showPaymentSuccessDialog()
-
-                            }
-                            else -> message?.let {
+                        else -> {
+                            message?.let {
                                 UtilsFunctions.showToastError(it)
+                                cartBinding.tvNoRecord.setText(message)
                             }
+                            selectedTime = ""
+                            // cartBinding.btnSubmit.visibility = View.GONE
+                            cartBinding.rvSlots.visibility = View.GONE
+                            cartBinding.tvTimeSlots.visibility = View.GONE
+                            cartBinding.tvNoRecord.visibility = View.VISIBLE
+
                         }
                     }
-                })
+
+                }
+            })
+
+        cartViewModel.getUpdatePayemntStatusRes().observe(this,
+            Observer<CommonModel> { response ->
+                stopProgressDialog()
+                if (response != null) {
+                    val message = response.message
+                    when {
+                        response.code == 200 -> {
+                            SharedPrefClass().putObject(
+                                this,
+                                GlobalConstants.SelectedAddressType,
+                                "null"
+                            )
+                            //showToastSuccess(message)
+                            showPaymentSuccessDialog()
+                        }
+                        else -> message?.let {
+                            UtilsFunctions.showToastError(it)
+                        }
+                    }
+                }
+            })
+        cartViewModel.getOrderPlaceRes().observe(this,
+            Observer<CreateOrdersResponse> { response ->
+                stopProgressDialog()
+                if (response != null) {
+                    val message = response.message
+                    when {
+                        response.code == 200 -> {
+                            SharedPrefClass().putObject(
+                                this,
+                                GlobalConstants.SelectedAddressType,
+                                "null"
+                            )
+                            //showToastSuccess(message)
+                            // showPaymentSuccessDialog()
+                            orderId = response.data?.id!!
+                            orderNo = response.data?.orderNo!!
+                            val intent = Intent(this, PaymentActivity::class.java)
+                            intent.putExtra("amount", payableAmount)
+                            intent.putExtra("currency", GlobalConstants.Currency)
+                            intent.putExtra("totalItems", cartList.size.toString())
+                            startActivityForResult(intent, 200)
+
+                        }
+                        else -> message?.let {
+                            UtilsFunctions.showToastError(it)
+                        }
+                    }
+                }
+            })
 
         addressViewModel.getAddressList().observe(this,
-                Observer<AddressListResponse> { response ->
-                    stopProgressDialog()
-                    if (response != null) {
-                        val message = response.message
-                        when {
-                            response.code == 200 -> {
-                                addressesList.addAll(response.data!!)
-                                var default = "false"
-                                cartBinding.tvChange.setText(getString(R.string.change))
-                                for (item in addressesList) {
-                                    if (item.default.equals("1")) {
-                                        default = "true"
-                                        addressId = item.id.toString()
-                                        cartBinding.tvAddress.text = item.addressType
-                                        cartBinding.tvAddressDetail.text = item.addressName
+            Observer<AddressListResponse> { response ->
+                stopProgressDialog()
+                if (response != null) {
+                    val message = response.message
+                    when {
+                        response.code == 200 -> {
+                            addressesList.addAll(response.data!!)
+                            var default = "false"
+                            cartBinding.tvChange.setText(getString(R.string.change))
+                            for (item in addressesList) {
+                                if (item.default.equals("1")) {
+                                    default = "true"
+                                    addressId = item.id.toString()
+                                    cartBinding.tvAddress.text = item.addressType
+                                    cartBinding.tvAddressDetail.text = item.addressName
 
-                                        if (item.addressType.equals(getString(R.string.home))) {
-                                            cartBinding.addresssImg.setImageDrawable(resources.getDrawable(R.drawable.ic_home))
-                                        } else if (item.addressType.equals(getString(R.string.work))) {
-                                            cartBinding.addresssImg.setImageDrawable(resources.getDrawable(R.drawable.ic_work))
-                                        } else {
-                                            cartBinding.addresssImg.setImageDrawable(resources.getDrawable(R.drawable.ic_other))
-                                        }
+                                    if (item.addressType.equals(getString(R.string.home))) {
+                                        cartBinding.addresssImg.setImageDrawable(
+                                            resources.getDrawable(
+                                                R.drawable.ic_home
+                                            )
+                                        )
+                                    } else if (item.addressType.equals(getString(R.string.work))) {
+                                        cartBinding.addresssImg.setImageDrawable(
+                                            resources.getDrawable(
+                                                R.drawable.ic_work
+                                            )
+                                        )
+                                    } else {
+                                        cartBinding.addresssImg.setImageDrawable(
+                                            resources.getDrawable(
+                                                R.drawable.ic_other
+                                            )
+                                        )
                                     }
                                 }
-                                if (default.equals("false")) {
-                                    if (addressesList.size > 0) {
-                                        setAddressData(0)
-                                    }
+                            }
+                            if (default.equals("false")) {
+                                if (addressesList.size > 0) {
+                                    setAddressData(0)
                                 }
-                                cartBinding.addressItem.visibility = View.VISIBLE
                             }
-                            else -> {
-                                /*message?.let {
-                                    UtilsFunctions.showToastError(it)
-                                }*/
-                                cartBinding.tvChange.setText(getString(R.string.add_address))
-                                cartBinding.addressItem.visibility = View.GONE
-                            }
+                            cartBinding.addressItem.visibility = View.VISIBLE
                         }
-
+                        else -> {
+                            /*message?.let {
+                                UtilsFunctions.showToastError(it)
+                            }*/
+                            cartBinding.tvChange.setText(getString(R.string.add_address))
+                            cartBinding.addressItem.visibility = View.GONE
+                        }
                     }
-                })
+
+                }
+            })
 
         promcodeViewModel.getRemovePromoRes().observe(this,
-                Observer<CommonModel> { response ->
-                    stopProgressDialog()
-                    if (response != null) {
-                        val message = response.message
-                        when {
-                            response.code == 200 -> {
-                                couponCodeId = ""
-                                cartList.clear()
-                                cartViewModel.getCartList()
-                            }
-                            else -> message?.let {
-                                UtilsFunctions.showToastError(it)
-                            }
+            Observer<CommonModel> { response ->
+                stopProgressDialog()
+                if (response != null) {
+                    val message = response.message
+                    when {
+                        response.code == 200 -> {
+                            couponCodeId = ""
+                            cartList.clear()
+                            cartViewModel.getCartList()
                         }
-
+                        else -> message?.let {
+                            UtilsFunctions.showToastError(it)
+                        }
                     }
-                })
+
+                }
+            })
 
         cartViewModel.isClick().observe(
-                this, Observer<String>(function =
-        fun(it: String?) {
-            when (it) {
-                "tvPromo" -> {
-                    if (cartBinding.tvPromo.getText().toString().equals(getString(R.string.apply_coupon))) {
-                        val intent = Intent(this, PromoCodeActivity::class.java)
-                        startActivityForResult(intent, SECOND_ACTIVITY_REQUEST_CODE)
-                    } else {
-                        confirmationDialog = mDialogClass.setDefaultDialog(
+            this, Observer<String>(function =
+            fun(it: String?) {
+                when (it) {
+                    "tvPromo" -> {
+                        if (cartBinding.tvPromo.getText().toString().equals(getString(R.string.apply_coupon))) {
+                            val intent = Intent(this, PromoCodeActivity::class.java)
+                            startActivityForResult(intent, SECOND_ACTIVITY_REQUEST_CODE)
+                        } else {
+                            confirmationDialog = mDialogClass.setDefaultDialog(
                                 this,
                                 this,
                                 "Remove Coupon",
                                 getString(R.string.warning_remove_coupon)
-                        )
-                        confirmationDialog?.show()
+                            )
+                            confirmationDialog?.show()
+
+                        }
+                    }
+                    "tvChange" -> {
+                        if (cartBinding.tvChange.getText().toString().equals(getString(R.string.add_address))) {
+                            val intent = Intent(this, AddAddressActivity::class.java)
+                            startActivity(intent)
+                        } else {
+                            addressDialog()
+                        }
 
                     }
-                }
-                "tvChange" -> {
-                    if (cartBinding.tvChange.getText().toString().equals(getString(R.string.add_address))) {
-                        val intent = Intent(this, AddAddressActivity::class.java)
-                        startActivity(intent)
-                    } else {
-                        addressDialog()
-                    }
+                    "btnCheckout" -> {
 
-                }
-                "btnCheckout" -> {
+                        if (TextUtils.isEmpty(selectedDate)) {
+                            showToastError("Please Select Date For The Service")
+                        } else if (TextUtils.isEmpty(selectedTime)) {
+                            showToastError("Please Select Time Slot For The Service")
+                        } else if (TextUtils.isEmpty(addressId)) {
+                            showToastError("Please Select Address")
+                        } else {
 
-                    if (TextUtils.isEmpty(selectedDate)) {
-                        showToastError("Please Select Date For The Service")
-                    } else if (TextUtils.isEmpty(selectedTime)) {
-                        showToastError("Please Select Time Slot For The Service")
-                    } else if (TextUtils.isEmpty(addressId)) {
-                        showToastError("Please Select Address")
-                    } else {
-                        val intent = Intent(this, PaymentActivity::class.java)
-                        intent.putExtra("amount", payableAmount)
-                        intent.putExtra("currency", GlobalConstants.Currency)
-                        intent.putExtra("totalItems", cartList.size.toString())
-                        startActivityForResult(intent, 200)
 
-                    }
+                            val addressObject = JsonObject()
+                            addressObject.addProperty(
+                                "addressId", addressId
+                            )
+                            addressObject.addProperty(
+                                "serviceDateTime", selectedDate + " " + selectedTime
+                            )
+                            addressObject.addProperty(
+                                "orderPrice", payableAmount
+                            )
+                            addressObject.addProperty(
+                                "serviceCharges", "0"
+                            )
+                            addressObject.addProperty(
+                                "promoCode", couponCodeId
+                            )
+                            cartViewModel.orderPlace(addressObject)
+
+
+                        }
 /*{
 
  "addressId" :"d936a494-61ba-4ae4-9f29-83af67826c8b",
@@ -343,9 +414,9 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
  "serviceCharges":"",
  "promoCode" :"PRO1234567"
 }*/
+                    }
                 }
-            }
-        })
+            })
         )
     }
 
@@ -390,19 +461,19 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
         confirmationDialog = Dialog(this, R.style.transparent_dialog_borderless)
         confirmationDialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
         val binding =
-                DataBindingUtil.inflate<ViewDataBinding>(
-                        LayoutInflater.from(this),
-                        R.layout.address_list_dialog,
-                        null,
-                        false
-                )
+            DataBindingUtil.inflate<ViewDataBinding>(
+                LayoutInflater.from(this),
+                R.layout.address_list_dialog,
+                null,
+                false
+            )
 
         confirmationDialog?.setContentView(binding.root)
         confirmationDialog?.setCancelable(false)
 
         confirmationDialog?.window!!.setLayout(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
         )
         confirmationDialog?.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         val rvAddress = confirmationDialog?.findViewById<RecyclerView>(R.id.rvAddRess)
@@ -417,7 +488,7 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
         rvAddress?.layoutManager = linearLayoutManager
         rvAddress?.adapter = addressListAdapter
         rvAddress?.addOnScrollListener(object :
-                RecyclerView.OnScrollListener() {
+            RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
 
             }
@@ -455,7 +526,7 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
         cartBinding.rvSlots.layoutManager = linearLayoutManager
         cartBinding.rvSlots.adapter = timeSlotsAdapter
         cartBinding.rvSlots.addOnScrollListener(object :
-                RecyclerView.OnScrollListener() {
+            RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
 
             }
@@ -470,7 +541,7 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
         cartBinding.rvDate.layoutManager = linearLayoutManager
         cartBinding.rvDate.adapter = dateSlotsAdapter
         cartBinding.rvDate.addOnScrollListener(object :
-                RecyclerView.OnScrollListener() {
+            RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
 
             }
@@ -514,7 +585,7 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
                     "serviceId", cartList[0].id
             )*/
             cartObject.addProperty(
-                    "date", selectedDate
+                "date", selectedDate
             )
             servicesViewModel.getTimeSlot(selectedDate)
         }
@@ -524,51 +595,23 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
         confirmationDialog = Dialog(this, R.style.transparent_dialog)
         confirmationDialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
         val binding =
-                DataBindingUtil.inflate<ViewDataBinding>(
-                        LayoutInflater.from(this),
-                        R.layout.order_place_success_dialog,
-                        null,
-                        false
-                )
+            DataBindingUtil.inflate<ViewDataBinding>(
+                LayoutInflater.from(this),
+                R.layout.order_place_success_dialog,
+                null,
+                false
+            )
 
         confirmationDialog?.setContentView(binding.root)
         confirmationDialog?.setCancelable(false)
 
         confirmationDialog?.window!!.setLayout(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.MATCH_PARENT
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.MATCH_PARENT
         )
         confirmationDialog?.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         val cancel = confirmationDialog?.findViewById<Button>(R.id.btnDone)
-        // val imgTick = confirmationDialog?.findViewById<ImageView>(R.id.imgTick)
-        /* val timer = object : CountDownTimer(800, 800) {
-             override fun onTick(millisUntilFinished: Long) {
-                 //((Animatable) imgTick.getDrawable()).start();
-             }
-
-             override fun onFinish() {
-             }
-         }
-         timer.start()*/
-
-        /*new CountDownTimer(800, 800) {
-
-            public void onTick(long millisUntilFinished) {
-
-                ((Animatable) imgTick.getDrawable()).start();
-            }
-
-            public void onFinish() {
-                switch (key) {
-                    case "bank_detail":
-
-                        dialog.dismiss();
-                        break;
-                }
-            }
-
-        }.start();
-*/        cancel?.setOnClickListener {
+        cancel?.setOnClickListener {
             confirmationDialog?.dismiss()
             val intent = Intent(this, LandingMainActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
@@ -607,7 +650,12 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
                 var length = cartBinding.tvPromo.getText().toString().length
                 val startPos = length - 7
                 styledString.setSpan(StyleSpan(Typeface.BOLD), startPos, styledString.length, 0)
-                styledString.setSpan(ForegroundColorSpan(Color.RED), startPos, styledString.length, 0)
+                styledString.setSpan(
+                    ForegroundColorSpan(Color.RED),
+                    startPos,
+                    styledString.length,
+                    0
+                )
                 cartBinding.tvPromo.setText(/*span[0] + ". " +*/ styledString)
 
 
@@ -615,27 +663,34 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
             } else if (requestCode == 200) {
                 val message = data?.getStringExtra("status")
                 if (message.equals("success")) {
-                    // showToastSuccess("Hit Api")
+                    // showToastSuccess("Hit Api")/*
+                    // {
+                    // "transactionId" :"TRANS12345",
+                    // "paymentMode":"Net Banking",
+                    // "status":"2",
+                    // "orderId" : "aed5935d-c603-4f1d-9235-8affccb953a2",
+                    // "amount" :399
+                    //}*/
+                    val transactionId = data?.getStringExtra("id")
                     val addressObject = JsonObject()
                     addressObject.addProperty(
-                            "addressId", addressId
+                        "transactionId", transactionId
                     )
                     addressObject.addProperty(
-                            "serviceDateTime", selectedDate + " " + selectedTime
-                    )
-                    /* addressObject.addProperty(
-                             "timeslotId", selectedTime
-                     )*/
-                    addressObject.addProperty(
-                            "orderPrice", payableAmount
+                        "paymentMode", "Net Banking"
                     )
                     addressObject.addProperty(
-                            "serviceCharges", "0"
+                        "status", "2"
                     )
                     addressObject.addProperty(
-                            "promoCode", couponCodeId
+                        "orderId", orderId
                     )
-                    cartViewModel.orderPlace(addressObject)
+                    addressObject.addProperty(
+                        "amount", payableAmount
+                    )
+                    Log.d("addressObject", addressObject.toString())
+                    cartViewModel.updatePaymentStatus(addressObject)
+                    //   showPaymentSuccessDialog()
                 } else if (message.equals("Payment Cancelled")) {
                     showToastError("Payment Cancelled")
                 } else {
