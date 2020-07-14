@@ -107,7 +107,6 @@
                 android:layout_marginLeft="@dimen/dp_5"
                 android:layout_marginRight="@dimen/dp_5"
                 android:layout_marginBottom="@dimen/dp_5"
-                android:background="@drawable/round_back_transparent"
                 android:elevation="@dimen/dp_5"
                 android:orientation="vertical"
                 android:visibility="gone">

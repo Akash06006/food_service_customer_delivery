@@ -121,6 +121,14 @@
                         app:font="@{`bold`}"
                         tools:ignore="AllCaps" />
 
+                    <View
+                        android:background="@color/light_grey"
+                        android:layout_width="match_parent"
+                        android:layout_below="@+id/service_item"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:layout_marginBottom="@dimen/dimen_5dp"
+                        android:layout_height="@dimen/dp_1"/>
+
 
                     <TextView
                         android:id="@+id/tv_timeSlots"

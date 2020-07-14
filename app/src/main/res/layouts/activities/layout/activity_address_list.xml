@@ -69,9 +69,9 @@
                 android:padding="@dimen/dp_5">
 
             <TextView
+                android:id="@+id/loc_icon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/saved_locations"
                     android:drawablePadding="@dimen/dp_5"
                     android:drawableLeft="@drawable/ic_location"
                     android:textColor="@color/colorBlack"
@@ -83,7 +83,7 @@
                     android:id="@+id/tv_add_address"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
+                   android:layout_toRightOf="@+id/loc_icon"
                     android:background="@drawable/btn_bg_shape_colored"
                     android:paddingLeft="@dimen/dp_10"
                     android:paddingTop="@dimen/dp_5"

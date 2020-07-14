@@ -46,7 +46,7 @@ class AddressListActivity : BaseActivity(), DialogssInterface {
         addressBinding.commonToolBar.imgRight.visibility = View.GONE
         addressBinding.commonToolBar.imgRight.setImageResource(R.drawable.ic_cart)
         addressBinding.commonToolBar.imgToolbarText.text =
-                resources.getString(R.string.locations)
+                resources.getString(R.string.addresses)
         addressBinding.tvAddAddress.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(GlobalConstants.COLOR_CODE))/*mContext.getResources().getColorStateList(R.color.colorOrange)*/)
 
         if (UtilsFunctions.isNetworkConnected()) {

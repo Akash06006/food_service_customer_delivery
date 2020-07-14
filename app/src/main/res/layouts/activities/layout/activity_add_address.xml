@@ -40,7 +40,7 @@
             <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/colorWhite"
+                    android:background="@color/colorBlack2"
                     android:orientation="vertical">
 
                 <fragment xmlns:android="http://schemas.android.com/apk/res/android"
@@ -64,7 +64,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_alignParentBottom="true"
-                        android:background="@color/colorWhite"
+                    android:background="@color/colorBlack2"
                         android:elevation="@dimen/dp_5"
                         android:orientation="vertical"
                         android:padding="@dimen/dp_5"
@@ -74,6 +74,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/dp_5"
+                        android:textColor="@color/white"
                             android:text="@string/select_address"
                             android:textSize="@dimen/sp_16" />
 
@@ -87,6 +88,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/dp_5"
+                        android:textColor="@color/colorPrimary"
                             android:layout_marginTop="@dimen/dp_5"
                             android:text="@string/your_address"
                             android:textSize="@dimen/sp_12" />
@@ -96,7 +98,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/dp_5"
-                            android:textColor="@color/colorBlack"
+                            android:textColor="@color/white"
                             android:textSize="@dimen/sp_14" />
 
                     <View
@@ -112,7 +114,7 @@
                             android:layout_alignParentBottom="true"
                             android:layout_gravity="center"
                             android:layout_margin="@dimen/dp_10"
-                            android:background="@drawable/btn_bg_shape_colored"
+                            android:background="@drawable/btn_bg_shape_colored_round"
                             android:elevation="@dimen/dp_10"
                             android:onClick="@{(v) -> addressViewModel.clickListener(v)}"
                             android:paddingLeft="@dimen/dp_20"

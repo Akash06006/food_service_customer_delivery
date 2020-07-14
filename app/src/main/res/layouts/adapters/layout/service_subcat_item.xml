@@ -19,7 +19,6 @@
         android:layout_marginTop="@dimen/dp_5"
         android:layout_marginRight="@dimen/dp_3"
         android:layout_marginBottom="@dimen/dp_5"
-        android:background="@drawable/btn_bg_shape_colored"
         android:elevation="@dimen/dp_10">
         <!---->
         <androidx.cardview.widget.CardView
@@ -27,6 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:background="@drawable/shape_round_corner"
             android:elevation="@dimen/dp_5"
             android:paddingLeft="@dimen/dp_10"
             android:paddingRight="@dimen/dp_10">
