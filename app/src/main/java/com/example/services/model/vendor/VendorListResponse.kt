@@ -27,8 +27,33 @@ class VendorListResponse {
         @SerializedName("address1")
         @Expose
         var address1: String? = null
+        @SerializedName("coupan")
+        @Expose
+        var coupan: Coupon? = null
+        @SerializedName("startTime")
+        @Expose
+        var startTime: String? = null
+        @SerializedName("distance")
+        @Expose
+        var distance: String? = null
+        @SerializedName("endTime")
+        @Expose
+        var endTIme: String? = null
+        @SerializedName("rating")
+        @Expose
+        var rating: String? = null
+    }
 
-
+    inner class Coupon {
+        @SerializedName("discount")
+        @Expose
+        var discount: String? = null
+        @SerializedName("code")
+        @Expose
+        var code: String? = null
+        @SerializedName("validUpto")
+        @Expose
+        var validUpto: String? = null
     }
 
     inner class Service {

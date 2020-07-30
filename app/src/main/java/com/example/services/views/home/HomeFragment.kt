@@ -13,6 +13,7 @@ import android.os.Looper
 import android.view.View
 import android.widget.Toast
 import android.provider.Settings
+import android.view.animation.AnimationUtils
 import android.widget.AdapterView
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.Observer
@@ -32,6 +33,7 @@ import com.example.services.socket.SocketClass
 import com.example.services.socket.SocketInterface
 import com.example.services.utils.BaseFragment
 import com.example.services.utils.DialogClass
+import com.example.services.viewmodels.home.Banners
 import com.example.services.viewmodels.home.CategoriesListResponse
 import com.example.services.viewmodels.home.HomeViewModel
 import com.example.services.viewmodels.home.Subcat
@@ -46,6 +48,7 @@ HomeFragment : BaseFragment(), SocketInterface {
     private var mFusedLocationClass: FusedLocationClass? = null
     private var socket = SocketClass.socket
     private var categoriesList = ArrayList<Subcat>()
+    private var bannersList = ArrayList<Banners>()
     private var trendingServiceList =
         ArrayList<com.example.services.viewmodels.home.Trending>()
     private var offersList =
@@ -87,7 +90,7 @@ HomeFragment : BaseFragment(), SocketInterface {
             GlobalConstants.PRODUCT_TYPE
         ).toString()
 
-        if (applicationType.equals(GlobalConstants.PRODUCT_DELIVERY)){
+        if (applicationType.equals(GlobalConstants.PRODUCT_DELIVERY)) {
             fragmentHomeBinding.tvTrendingHeading.text =
                 resources.getString(R.string.trending_products)
             fragmentHomeBinding.tvSubHeading.text =
@@ -109,7 +112,7 @@ HomeFragment : BaseFragment(), SocketInterface {
         // initRecyclerView()
 
         if (UtilsFunctions.isNetworkConnected()) {
-            homeViewModel.getSubServices(GlobalConstants.CATEGORY_SELECTED)
+            homeViewModel.getSubServices("b21a7c8f-078f-4323-b914-8f59054c4467",""/*GlobalConstants.CATEGORY_SELECTED*/)
             baseActivity.startProgressDialog()
         }
         homeViewModel.getGetSubServices().observe(this,
@@ -122,10 +125,11 @@ HomeFragment : BaseFragment(), SocketInterface {
                             categoriesList.addAll(response.body.subcat)
                             trendingServiceList.addAll(response.body.trending)
                             offersList.addAll(response.body.offers)
+                            bannersList.addAll(response.body.banners)
                             fragmentHomeBinding.rvJobs.visibility = View.VISIBLE
 
                             initRecyclerView()
-                            if (categoriesList.size > 0) {
+                            if (bannersList.size > 0) {
                                 fragmentHomeBinding.rvBanners.visibility = View.VISIBLE
                                 initBannersRecyclerView()
                             } else {
@@ -200,6 +204,10 @@ HomeFragment : BaseFragment(), SocketInterface {
         // val linearLayoutManager = LinearLayoutManager(this)
         val gridLayoutManager = GridLayoutManager(activity!!, 4)
         fragmentHomeBinding.rvJobs.layoutManager = gridLayoutManager
+        val controller =
+            AnimationUtils.loadLayoutAnimation(activity, R.anim.layout_animation_from_bottom)
+        fragmentHomeBinding.rvJobs.setLayoutAnimation(controller);
+        fragmentHomeBinding.rvJobs.scheduleLayoutAnimation();
         fragmentHomeBinding.rvJobs.setHasFixedSize(true)
         // linearLayoutManager.orientation = RecyclerView.VERTICAL
         // favoriteBinding.rvFavorite.layoutManager = linearLayoutManager
@@ -218,7 +226,7 @@ HomeFragment : BaseFragment(), SocketInterface {
         fragmentHomeBinding.gridview.adapter = adapter*/
 
         val vendorsListAdapter =
-            DashboardBannersRecyclerAdapter(this@HomeFragment, categoriesList, activity!!)
+            DashboardBannersRecyclerAdapter(this@HomeFragment, bannersList, activity!!)
         val linearLayoutManager = LinearLayoutManager(activity!!)
         //val gridLayoutManager = GridLayoutManager(activity!!, 1)
         fragmentHomeBinding.rvBanners.layoutManager = linearLayoutManager

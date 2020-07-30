@@ -53,7 +53,7 @@ class VendorsListActivity : BaseActivity() {
             GlobalConstants.PRODUCT_TYPE
         ).toString()
 
-        if (applicationType.equals(GlobalConstants.PRODUCT_DELIVERY)){
+        if (applicationType.equals(GlobalConstants.PRODUCT_DELIVERY)) {
             favoriteBinding.commonToolBar.imgToolbarText.text =
                 resources.getString(R.string.vendor)
         } else if (applicationType.equals(GlobalConstants.PRODUCT_SERVICES)) {
@@ -65,10 +65,10 @@ class VendorsListActivity : BaseActivity() {
 
         if (UtilsFunctions.isNetworkConnected()) {
             startProgressDialog()
-            vendorsViewModel.getVendorList(GlobalConstants.CATEGORY_SELECTED, "0.0", "0.0")
+            vendorsViewModel.getVendorList(GlobalConstants.CATEGORY_SELECTED, "0.0", "0.0","")
             //cartViewModel.getvendorList(userId)
         }
-        vendorsViewModel.getVendorListRes().observe(this,
+        /*vendorsViewModel.getVendorListRes().observe(this,
             Observer<VendorListResponse> { response ->
                 stopProgressDialog()
                 if (response != null) {
@@ -88,11 +88,11 @@ class VendorsListActivity : BaseActivity() {
                     }
 
                 }
-            })
+            })*/
     }
 
 
-    private fun initRecyclerView() {
+    /*private fun initRecyclerView() {
         vendorsListAdapter = VendorsListAdapter(this, vendorList)
         // val linearLayoutManager = LinearLayoutManager(this)
         val gridLayoutManager = GridLayoutManager(this, 1)
@@ -107,6 +107,6 @@ class VendorsListActivity : BaseActivity() {
 
             }
         })
-    }
+    }*/
 
 }

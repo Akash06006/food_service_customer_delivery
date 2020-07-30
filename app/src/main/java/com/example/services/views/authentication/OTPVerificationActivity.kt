@@ -19,6 +19,7 @@ import com.example.services.utils.BaseActivity
 import com.example.services.viewmodels.OTPVerificationModel
 import com.example.services.views.home.DashboardActivity
 import com.example.services.views.home.LandingMainActivity
+import com.example.services.views.profile.DatesActivity
 import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.auth.api.credentials.HintRequest
 import com.google.android.gms.auth.api.phone.SmsRetriever
@@ -34,7 +35,7 @@ import org.json.JSONException
 import org.json.JSONObject
 
 class OTPVerificationActivity : BaseActivity(),
-        OtpReceivedInterface, GoogleApiClient.OnConnectionFailedListener {
+    OtpReceivedInterface, GoogleApiClient.OnConnectionFailedListener {
     override fun onConnectionFailed(p0: ConnectionResult) {
         //To change body of created functions use File | Settings | File Templates.
     }
@@ -64,7 +65,7 @@ class OTPVerificationActivity : BaseActivity(),
     public override fun initViews() {
         activityOtpVerificationBinding = viewDataBinding as ActivityOtpVerificationBinding
         activityOtpVerificationBinding.toolbarCommon.imgToolbarText.text =
-                resources.getString(R.string.otp_verify)
+            resources.getString(R.string.otp_verify)
         otpVerificationModel = ViewModelProviders.of(this).get(OTPVerificationModel::class.java)
         activityOtpVerificationBinding.verifViewModel = otpVerificationModel
 
@@ -72,16 +73,8 @@ class OTPVerificationActivity : BaseActivity(),
         try {
             mJsonObject = JSONObject(intent.extras.get("data").toString())
             var mob = mJsonObject.get("phoneNumber").toString()
-            var msg=activityOtpVerificationBinding.tvOtpSent.getText().toString()
+            var msg = activityOtpVerificationBinding.tvOtpSent.getText().toString()
             activityOtpVerificationBinding.tvOtpSent.setText(msg + " " + mob.toString())
-            //  action = intent.extras.get("action").toString()
-            // var mSmsBroadcastReceiver = SMSBroadcastReciever()
-            //set google api client for hint request
-//            mSmsBroadcastReceiver.setOnOtpListeners(this)
-//
-//            val intentFilter = IntentFilter()
-//            intentFilter.addAction(SmsRetriever.SMS_RETRIEVED_ACTION)
-//            LocalBroadcastManager.getInstance(this).registerReceiver(mSmsBroadcastReceiver, intentFilter)
 
         } catch (e: JSONException) {
             e.printStackTrace()
@@ -95,105 +88,69 @@ class OTPVerificationActivity : BaseActivity(),
             }
         })
 
-
-
-
-
-
         otpVerificationModel.isClick().observe(
-                this, Observer<String>(function =
-        fun(it: String?) {
-            val otp = activityOtpVerificationBinding.pinview.value.toString()
-            when (it) {
-                "btn_send" -> {
-                    if (TextUtils.isEmpty(otp)) {
-                        showToastError(getString(R.string.empty) + " " + getString(R.string.OTP))
-                    } else if (otp.length < 6) {
-                        showToastError(
+            this, Observer<String>(function =
+            fun(it: String?) {
+                val otp = activityOtpVerificationBinding.pinview.value.toString()
+                when (it) {
+                    "btn_send" -> {
+                        if (TextUtils.isEmpty(otp)) {
+                            showToastError(getString(R.string.empty) + " " + getString(R.string.OTP))
+                        } else if (otp.length < 6) {
+                            showToastError(
                                 getString(R.string.invalid) + " " + getString(
-                                        R.string.OTP
+                                    R.string.OTP
                                 )
-                        )
-                    } else {
-                        try {
-                            mVerificationId = SharedPrefClass().getPrefValue(
+                            )
+                        } else {
+                            try {
+                                mVerificationId = SharedPrefClass().getPrefValue(
                                     MyApplication.instance.applicationContext,
                                     GlobalConstants.OTP_VERIFICATION_ID
-                            ).toString()
+                                ).toString()
 
-                        } catch (e: JSONException) {
-                            e.printStackTrace()
+                            } catch (e: JSONException) {
+                                e.printStackTrace()
+                            }
+                            startProgressDialog()
+                            verifyVerificationCode(otp)
+
                         }
-                        startProgressDialog()
-                        verifyVerificationCode(otp)
 
                     }
-
-                }
-                "tv_resend" -> {
-                    val mJsonObject1 = JsonObject()
-                    mJsonObject1.addProperty(
+                    "tv_resend" -> {
+                        val mJsonObject1 = JsonObject()
+                        mJsonObject1.addProperty(
                             "countryCode",
                             mJsonObject.get("countryCode").toString()
-                    )
-                    mJsonObject1.addProperty(
+                        )
+                        mJsonObject1.addProperty(
                             "phoneNumber",
                             mJsonObject.get("phoneNumber").toString()
-                    )
-                    FirebaseFunctions.sendOTP("resend", mJsonObject1, this)
-                    startProgressDialog()
+                        )
+                        FirebaseFunctions.sendOTP("resend", mJsonObject1, this)
+                        startProgressDialog()
 
-                    object : CountDownTimer(60000, 1000) {
-                        override fun onTick(millisUntilFinished: Long) {
-                            activityOtpVerificationBinding.resendOTP = 1
-                            activityOtpVerificationBinding.tvResendTime.text =
+                        object : CountDownTimer(60000, 1000) {
+                            override fun onTick(millisUntilFinished: Long) {
+                                activityOtpVerificationBinding.resendOTP = 1
+                                activityOtpVerificationBinding.tvResendTime.text =
                                     "00:" + millisUntilFinished / 1000
-                            //here you can have your logic to set text to edittext
-                        }
+                                //here you can have your logic to set text to edittext
+                            }
 
-                        override fun onFinish() {
-                            activityOtpVerificationBinding.resendOTP = 0
-                            // mTextField.setText("done!")
-                        }
+                            override fun onFinish() {
+                                activityOtpVerificationBinding.resendOTP = 0
+                                // mTextField.setText("done!")
+                            }
 
-                    }.start()
+                        }.start()
 
+                    }
                 }
-            }
 
-        })
+            })
         )
-
-    }
-
-    public fun getHintPhoneNumber() {
-        var hintRequest =
-                HintRequest.Builder()
-                        .setPhoneNumberIdentifierSupported(true)
-                        .build();
-        var mIntent = Auth.CredentialsApi.getHintPickerIntent(mGoogleApiClient, hintRequest);
-        try {
-            startIntentSenderForResult(mIntent.getIntentSender(), RESOLVE_HINT, null, 0, 0, 0);
-        } catch (e: IntentSender.SendIntentException) {
-            e.printStackTrace()
-        }
-    }
-
-    private fun startSMSListener() {
-        val mClient = SmsRetriever.getClient(this)
-        val mTask = mClient.startSmsRetriever()
-//        mTask.addOnSuccessListener(object : OnSuccessListener<Void> {
-//            override fun onSuccess(aVoid : Void) {
-//                //layoutInput.setVisibility(View.GONE)
-//                //  layoutVerify.setVisibility(View.VISIBLE)
-//                // Toast.makeText(this@MainActivity, "SMS Retriever starts", Toast.LENGTH_LONG).show()
-//            }
-//        })
-//        mTask.addOnFailureListener(object : OnFailureListener {
-//            override fun onFailure(@NonNull e : Exception) {
-//                // Toast.makeText(this@MainActivity, "Error", Toast.LENGTH_LONG).show()
-//            }
-//        })
 
     }
 
@@ -230,46 +187,54 @@ class OTPVerificationActivity : BaseActivity(),
 
     private fun signInWithPhoneAuthCredential(credential: PhoneAuthCredential) {
         mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this,
-                        { task ->
-                            stopProgressDialog()
-                            if (task.isSuccessful) {
-                                SharedPrefClass().putObject(
-                                        MyApplication.instance.applicationContext,
-                                        "isLogin",
-                                        true
-                                )
+            .addOnCompleteListener(this,
+                { task ->
+                    stopProgressDialog()
+                    if (task.isSuccessful) {
+                        SharedPrefClass().putObject(
+                            MyApplication.instance.applicationContext,
+                            "isLogin",
+                            true
+                        )
+                        var dob = SharedPrefClass().getPrefValue(this, "dob").toString()
+                        var intent: Intent? = null
+                        if (TextUtils.isEmpty(dob) || dob.equals("null")) {
+                            intent = Intent(this, DatesActivity::class.java)
+                        } else {
+                            intent = Intent(this, LandingMainActivity::class.java)
+                        }
+                        //val intent = Intent(this, LandingMainActivity::class.java)
 
-                                val intent = Intent(this, LandingMainActivity::class.java)
-                                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                                intent.putExtra("data", mJsonObject.toString())
-                                startActivity(intent)
-                                finish()
-                                // otpVerificationModel.login(mJsonObject)
-                                /* if (action.equals("signup"))
-                                 {
-                                     val intent = Intent(this, RegisterActivity::class.java)
-                                     startActivity(intent)
-                                 }
+                        intent.flags =
+                            Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        intent.putExtra("data", mJsonObject.toString())
+                        startActivity(intent)
+                        finish()
+                        // otpVerificationModel.login(mJsonObject)
+                        /* if (action.equals("signup"))
+                         {
+                             val intent = Intent(this, RegisterActivity::class.java)
+                             startActivity(intent)
+                         }
 
-                                 if (action.equals("forgot")) {
-                                     val intent = Intent(this, ResetPasswrodActivity::class.java)
-                                     startActivity(intent)
-                                 }*/
+                         if (action.equals("forgot")) {
+                             val intent = Intent(this, ResetPasswrodActivity::class.java)
+                             startActivity(intent)
+                         }*/
 
-                            } else {
-                                //verification unsuccessful.. display an error message
-                                var message = getString(R.string.something_error)
+                    } else {
+                        //verification unsuccessful.. display an error message
+                        var message = getString(R.string.something_error)
 
-                                if (task.exception is FirebaseAuthException) {
-                                    message = getString(R.string.invalid_otp)
-                                }
+                        if (task.exception is FirebaseAuthException) {
+                            message = getString(R.string.invalid_otp)
+                        }
 
-                                showToastError(message)
-                                //Toast.makeText(OtpVerificationFirebase.this, message, Toast.LENGTH_SHORT).show();
+                        showToastError(message)
+                        //Toast.makeText(OtpVerificationFirebase.this, message, Toast.LENGTH_SHORT).show();
 
-                            }
-                        })
+                    }
+                })
     }
 
 }

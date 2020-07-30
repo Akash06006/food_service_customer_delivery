@@ -45,8 +45,8 @@ import com.google.gson.JsonObject
 import java.util.*
 
 class AddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationListener,
-        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
-        GoogleMap.OnCameraIdleListener {
+    GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
+    GoogleMap.OnCameraIdleListener {
     lateinit var addressBinding: ActivityAddAddressBinding
     lateinit var addressViewModel: AddressViewModel
     private var mMap: GoogleMap? = null
@@ -70,144 +70,156 @@ class AddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationListener,
         addressBinding.commonToolBar.imgRight.visibility = View.GONE
         addressBinding.commonToolBar.imgRight.setImageResource(R.drawable.ic_cart)
         addressBinding.commonToolBar.imgToolbarText.text =
-                resources.getString(R.string.add_address)
-        addressBinding.btnConfirm.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(GlobalConstants.COLOR_CODE))/*mContext.getResources().getColorStateList(R.color.colorOrange)*/)
-        addressBinding.btnSubmit.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(GlobalConstants.COLOR_CODE))/*mContext.getResources().getColorStateList(R.color.colorOrange)*/)
+            resources.getString(R.string.add_address)
+        addressBinding.btnConfirm.setBackgroundTintList(
+            ColorStateList.valueOf(
+                Color.parseColor(
+                    GlobalConstants.COLOR_CODE
+                )
+            )/*mContext.getResources().getColorStateList(R.color.colorOrange)*/
+        )
+        addressBinding.btnSubmit.setBackgroundTintList(
+            ColorStateList.valueOf(
+                Color.parseColor(
+                    GlobalConstants.COLOR_CODE
+                )
+            )/*mContext.getResources().getColorStateList(R.color.colorOrange)*/
+        )
 
 
         val mapFragment = supportFragmentManager
-                .findFragmentById(R.id.map) as SupportMapFragment
+            .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
         selectedAddressType = this.resources.getString(R.string.home)
         // Get radio group selected item using on checked change listener
         addressBinding.radioGroup.setOnCheckedChangeListener(
-                RadioGroup.OnCheckedChangeListener { group, checkedId ->
-                    val radio: RadioButton = findViewById(checkedId)
-                    selectedAddressType = radio.text.toString()
-                    /* Toast.makeText(
-                        applicationContext, " On checked change : ${radio.text}",
-                        Toast.LENGTH_SHORT
-                    ).show()*/
-                })
+            RadioGroup.OnCheckedChangeListener { group, checkedId ->
+                val radio: RadioButton = findViewById(checkedId)
+                selectedAddressType = radio.text.toString()
+                /* Toast.makeText(
+                    applicationContext, " On checked change : ${radio.text}",
+                    Toast.LENGTH_SHORT
+                ).show()*/
+            })
 
         addressViewModel.getAddress().observe(this,
-                Observer<AddressResponse> { response ->
-                    stopProgressDialog()
-                    if (response != null) {
-                        val message = response.message
-                        when {
-                            response.code == 200 -> {
-                                // profileBinding.profileModel = response.data
-                                showToastSuccess(message)
-                                val intent = Intent()
-                                setResult(Activity.RESULT_OK, intent)
-                                finish()
+            Observer<AddressResponse> { response ->
+                stopProgressDialog()
+                if (response != null) {
+                    val message = response.message
+                    when {
+                        response.code == 200 -> {
+                            // profileBinding.profileModel = response.data
+                            showToastSuccess(message)
+                            val intent = Intent()
+                            setResult(Activity.RESULT_OK, intent)
+                            finish()
 
-                            }
-                            else -> showToastError(message)
                         }
-
+                        else -> showToastError(message)
                     }
-                })
+
+                }
+            })
 
         addressViewModel.isClick().observe(
-                this, Observer<String>(function =
-        fun(it: String?) {
-            when (it) {
-                "btn_confirm" -> {
-                    if (!TextUtils.isEmpty(addressBinding.etAddress.text.toString()) && !addressBinding.etAddress.text.toString().equals(
-                                    "null"
+            this, Observer<String>(function =
+            fun(it: String?) {
+                when (it) {
+                    "btn_confirm" -> {
+                        if (!TextUtils.isEmpty(addressBinding.etAddress.text.toString()) && !addressBinding.etAddress.text.toString().equals(
+                                "null"
                             )
-                    ) {
-                        mMap?.uiSettings?.setAllGesturesEnabled(false)
-                        mMap?.uiSettings?.isZoomControlsEnabled = false
-                        mMap?.uiSettings?.isScrollGesturesEnabled = false
-                        addressBinding.etCity.setText("")
-                        addressBinding.etHouseNo.setText("")
-                        addressBinding.detailLayout.visibility = View.VISIBLE
-                        var animation = AnimationUtils.loadAnimation(this, R.anim.anim)
-                        animation.setDuration(500)
-                        addressBinding.detailLayout.setAnimation(animation)
-                        addressBinding.detailLayout.animate()
-                        animation.start()
-                        addressBinding.confirmLayout.visibility = View.GONE
+                        ) {
+                            mMap?.uiSettings?.setAllGesturesEnabled(false)
+                            mMap?.uiSettings?.isZoomControlsEnabled = false
+                            mMap?.uiSettings?.isScrollGesturesEnabled = false
+                            addressBinding.etCity.setText("")
+                            addressBinding.etHouseNo.setText("")
+                            addressBinding.detailLayout.visibility = View.VISIBLE
+                            var animation = AnimationUtils.loadAnimation(this, R.anim.anim)
+                            animation.setDuration(500)
+                            addressBinding.detailLayout.setAnimation(animation)
+                            addressBinding.detailLayout.animate()
+                            animation.start()
+                            addressBinding.confirmLayout.visibility = View.GONE
+                        }
+                        //   addressBinding.mapPin.visibility = View.GONE
                     }
-                    //   addressBinding.mapPin.visibility = View.GONE
-                }
-                "img_cross" -> {
-                    /* addressBinding.detailLayout.visibility = View.VISIBLE
-                     var animation = AnimationUtils.loadAnimation(this, R.anim.anim)
-                     animation.setDuration(500)
-                     addressBinding.detailLayout.setAnimation(animation)
-                     addressBinding.detailLayout.animate()
-                     animation.start()*/
-                    mMap?.uiSettings?.setAllGesturesEnabled(true)
-                    mMap?.uiSettings?.isScrollGesturesEnabled = true
-                    mMap?.uiSettings?.isZoomControlsEnabled = true
-                    addressBinding.confirmLayout.visibility = View.VISIBLE
-                    addressBinding.detailLayout.visibility = View.GONE
-                }
-                "btn_submit" -> {
-                    val houseNo = addressBinding.etHouseNo.text.toString()
-                    val city = addressBinding.etCity.text.toString()
-                    val addresss = addressBinding.etAddress.text.toString()
-                    val address = addressBinding.etAddress.text.toString()
+                    "img_cross" -> {
+                        /* addressBinding.detailLayout.visibility = View.VISIBLE
+                         var animation = AnimationUtils.loadAnimation(this, R.anim.anim)
+                         animation.setDuration(500)
+                         addressBinding.detailLayout.setAnimation(animation)
+                         addressBinding.detailLayout.animate()
+                         animation.start()*/
+                        mMap?.uiSettings?.setAllGesturesEnabled(true)
+                        mMap?.uiSettings?.isScrollGesturesEnabled = true
+                        mMap?.uiSettings?.isZoomControlsEnabled = true
+                        addressBinding.confirmLayout.visibility = View.VISIBLE
+                        addressBinding.detailLayout.visibility = View.GONE
+                    }
+                    "btn_submit" -> {
+                        val houseNo = addressBinding.etHouseNo.text.toString()
+                        val city = addressBinding.etCity.text.toString()
+                        val addresss = addressBinding.etAddress.text.toString()
+                        val address = addressBinding.etAddress.text.toString()
 
-                    when {
-                        addresss.isEmpty() -> showError(
+                        when {
+                            addresss.isEmpty() -> showError(
                                 addressBinding.etCity,
                                 getString(R.string.empty) + " " + getString(
-                                        R.string.city
+                                    R.string.city
                                 )
-                        )
-                        houseNo.isEmpty() -> showError(
+                            )
+                            houseNo.isEmpty() -> showError(
                                 addressBinding.etHouseNo,
                                 getString(R.string.empty) + " " + getString(
-                                        R.string.house_no
+                                    R.string.house_no
                                 )
-                        )
-                        city.isEmpty() -> showError(
+                            )
+                            city.isEmpty() -> showError(
                                 addressBinding.etCity,
                                 getString(R.string.empty) + " " + getString(
-                                        R.string.city
+                                    R.string.city
                                 )
-                        )
-                        else -> {
-                            var addAddressObject = JsonObject()
-                            addAddressObject.addProperty(
+                            )
+                            else -> {
+                                var addAddressObject = JsonObject()
+                                addAddressObject.addProperty(
                                     "addressName", addresss
-                            )
-                            addAddressObject.addProperty(
+                                )
+                                addAddressObject.addProperty(
                                     "city", city
-                            )
-                            addAddressObject.addProperty(
+                                )
+                                addAddressObject.addProperty(
                                     "defautlt", "0"
-                            )
-                            addAddressObject.addProperty(
+                                )
+                                addAddressObject.addProperty(
                                     "latitude", selectedLat
-                            )
-                            addAddressObject.addProperty(
+                                )
+                                addAddressObject.addProperty(
                                     "longitude", selectedLong
-                            )
-                            addAddressObject.addProperty(
+                                )
+                                addAddressObject.addProperty(
                                     "addressType", selectedAddressType
-                            )
-                            addAddressObject.addProperty(
+                                )
+                                addAddressObject.addProperty(
                                     "houseNo", houseNo
-                            )
+                                )
 
-                            if (UtilsFunctions.isNetworkConnected()) {
-                                startProgressDialog()
-                                addressViewModel.addAddressDetail(addAddressObject)
+                                if (UtilsFunctions.isNetworkConnected()) {
+                                    startProgressDialog()
+                                    addressViewModel.addAddressDetail(addAddressObject)
+                                }
+
+
                             }
-
-
                         }
-                    }
 
+                    }
                 }
-            }
-        })
+            })
         )
 
     }
@@ -218,9 +230,9 @@ class AddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationListener,
 
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ContextCompat.checkSelfPermission(
-                            this,
-                            Manifest.permission.ACCESS_FINE_LOCATION
-                    ) == PackageManager.PERMISSION_GRANTED
+                    this,
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                ) == PackageManager.PERMISSION_GRANTED
             ) {
                 buildGoogleApiClient()
                 mMap!!.isMyLocationEnabled = true
@@ -235,25 +247,25 @@ class AddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationListener,
     @Synchronized
     protected fun buildGoogleApiClient() {
         mGoogleApiClient = GoogleApiClient.Builder(this)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .addApi(LocationServices.API).build()
+            .addConnectionCallbacks(this)
+            .addOnConnectionFailedListener(this)
+            .addApi(LocationServices.API).build()
         mGoogleApiClient!!.connect()
     }
 
     override fun onConnected(bundle: Bundle?) {
         if (ActivityCompat.checkSelfPermission(
-                        this,
-                        Manifest.permission.ACCESS_FINE_LOCATION
-                ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                        this,
-                        Manifest.permission.ACCESS_COARSE_LOCATION
-                ) != PackageManager.PERMISSION_GRANTED
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
         ) {
             return
         }
         val mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
-                mGoogleApiClient
+            mGoogleApiClient
         )
         if (mLastLocation != null) {
             val latLng = LatLng(mLastLocation.latitude, mLastLocation.longitude)
@@ -268,19 +280,19 @@ class AddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationListener,
         mLocationRequest.smallestDisplacement = 0.1f //added
         mLocationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
         if (ActivityCompat.checkSelfPermission(
-                        this,
-                        Manifest.permission.ACCESS_FINE_LOCATION
-                ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                        this,
-                        Manifest.permission.ACCESS_COARSE_LOCATION
-                ) != PackageManager.PERMISSION_GRANTED
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
         ) {
             return
         }
         LocationServices.FusedLocationApi.requestLocationUpdates(
-                mGoogleApiClient,
-                mLocationRequest,
-                this
+            mGoogleApiClient,
+            mLocationRequest,
+            this
         )
     }
 
@@ -331,15 +343,15 @@ class AddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationListener,
         //  List<Address> addresses;
         val geocoder = Geocoder(this, Locale.getDefault());
         var addresses = geocoder.getFromLocation(
-                loc?.latitude!!,
-                loc.longitude,
-                1
+            loc?.latitude!!,
+            loc.longitude,
+            1
         ) // Here 1 represent max location result to returned, by documents it recommended 1 to 5
         if (addresses.size > 0) {
             selectedLat = loc?.latitude!!.toString()
             selectedLong = loc.longitude.toString()
             var address = addresses?.get(0)
-                    ?.getAddressLine(0) // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+                ?.getAddressLine(0) // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
             var city = addresses.get(0).getLocality()
             var state = addresses.get(0).getAdminArea()
             var country = addresses.get(0).getCountryName()

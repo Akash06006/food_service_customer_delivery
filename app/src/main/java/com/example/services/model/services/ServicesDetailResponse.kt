@@ -40,6 +40,12 @@ class ServicesDetailResponse {
         @SerializedName("price")
         @Expose
         var price: String? = null
+        @SerializedName("originalPrice")
+        @Expose
+        var originalPrice: String? = null
+        @SerializedName("offer")
+        @Expose
+        var offer: String? = null
         @SerializedName("type")
         @Expose
         var type: String? = null

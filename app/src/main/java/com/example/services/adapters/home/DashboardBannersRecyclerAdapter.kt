@@ -12,6 +12,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.example.services.R
 import com.example.services.databinding.VendorItemBinding
+import com.example.services.viewmodels.home.Banners
 import com.example.services.viewmodels.home.Subcat
 import com.example.services.views.home.HomeFragment
 import kotlinx.android.synthetic.main.trending_service_item.view.*
@@ -20,13 +21,13 @@ import kotlin.collections.ArrayList
 
 class DashboardBannersRecyclerAdapter(
     context: HomeFragment,
-    addressList: ArrayList<Subcat>,
+    addressList: ArrayList<Banners>,
     var activity: Context
 ) :
     RecyclerView.Adapter<DashboardBannersRecyclerAdapter.ViewHolder>() {
     private val mContext: HomeFragment
     private var viewHolder: ViewHolder? = null
-    private var categoriesList: ArrayList<Subcat>
+    private var categoriesList: ArrayList<Banners>
 
     init {
         this.mContext = context
@@ -64,7 +65,7 @@ class DashboardBannersRecyclerAdapter(
         v: View, val viewType: Int, //These are the general elements in the RecyclerView
         val binding: VendorItemBinding?,
         mContext: HomeFragment,
-        addressList: ArrayList<Subcat>
+        addressList: ArrayList<Banners>
     ) : RecyclerView.ViewHolder(v) {
         /*init {
             binding.linAddress.setOnClickListener {

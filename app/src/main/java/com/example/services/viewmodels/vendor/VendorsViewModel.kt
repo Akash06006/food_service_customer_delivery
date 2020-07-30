@@ -9,6 +9,7 @@ import com.example.services.model.LoginResponse
 import com.example.services.model.address.AddressResponse
 import com.example.services.model.cart.CartListResponse
 import com.example.services.model.fav.FavListResponse
+import com.example.services.model.home.LandingResponse
 import com.example.services.model.vendor.VendorListResponse
 import com.example.services.repositories.favorite.FavoriteRepository
 import com.example.services.repositories.vendor.VendorsRepository
@@ -26,7 +27,7 @@ class VendorsViewModel : BaseViewModel() {
 
     init {
         if (UtilsFunctions.isNetworkConnectedWithoutToast()) {
-            favList = vendorRepository.vendorList("", "", "")
+            favList = vendorRepository.vendorList("", "", "","")
         }
 
     }
@@ -55,9 +56,9 @@ class VendorsViewModel : BaseViewModel() {
          }
      }*/
 
-    fun getVendorList(id: String, lat: String, longi: String) {
+    fun getVendorList(id: String, lat: String, longi: String, vegNonVeg: String) {
         if (UtilsFunctions.isNetworkConnected()) {
-            favList = vendorRepository.vendorList(id, lat, longi)
+            favList = vendorRepository.vendorList(id, lat, longi,vegNonVeg)
             mIsUpdating.postValue(true)
         }
 

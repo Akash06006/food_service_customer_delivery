@@ -9,13 +9,14 @@ import com.example.services.api.ApiService
 import com.example.services.application.MyApplication
 import com.example.services.common.UtilsFunctions
 import com.example.services.model.CommonModel
+import com.example.services.model.home.LandingResponse
 import com.example.services.viewmodels.home.CategoriesListResponse
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonObject
 import retrofit2.Response
 
 class HomeJobsRepository {
-    private var data: MutableLiveData<CategoriesListResponse>? = null
+    private var data: MutableLiveData<LandingResponse>? = null
     private var data2: MutableLiveData<CategoriesListResponse>? = null
     private var data1: MutableLiveData<CommonModel>? = null
     private val gson = GsonBuilder().serializeNulls().create()
@@ -26,21 +27,26 @@ class HomeJobsRepository {
         data2 = MutableLiveData()
     }
 
-    fun getCategories(mJsonObject: String): MutableLiveData<CategoriesListResponse> {
-        // if (!TextUtils.isEmpty(mJsonObject)) {
-        val mApiService = ApiService<JsonObject>()
-        mApiService.get(
+    fun getCategories(
+        deliveryPickupType: String,
+        currentLat: String,
+        currentLong: String,
+        vegNonVeg: String
+    ): MutableLiveData<LandingResponse> {
+        if (!TextUtils.isEmpty(deliveryPickupType)) {
+            val mApiService = ApiService<JsonObject>()
+            mApiService.get(
                 object : ApiResponse<JsonObject> {
                     override fun onResponse(mResponse: Response<JsonObject>) {
                         val loginResponse = if (mResponse.body() != null)
-                            gson.fromJson<CategoriesListResponse>(
-                                    "" + mResponse.body(),
-                                    CategoriesListResponse::class.java
+                            gson.fromJson<LandingResponse>(
+                                "" + mResponse.body(),
+                                LandingResponse::class.java
                             )
                         else {
-                            gson.fromJson<CategoriesListResponse>(
-                                    mResponse.errorBody()!!.charStream(),
-                                    CategoriesListResponse::class.java
+                            gson.fromJson<LandingResponse>(
+                                mResponse.errorBody()!!.charStream(),
+                                LandingResponse::class.java
                             )
                         }
 
@@ -54,41 +60,49 @@ class HomeJobsRepository {
 
                     }
 
-                }, ApiClient.getApiInterface().getCategories()
-        )
-        //}
+                },
+                ApiClient.getApiInterface().getlandingResponse(
+                    deliveryPickupType,
+                    currentLat,
+                    currentLong, vegNonVeg
+                )
+            )
+        }
         return data!!
     }
 
-    fun getSubServices(mJsonObject: String): MutableLiveData<CategoriesListResponse> {
+    fun getSubServices(
+        mJsonObject: String,
+        vegNonVeg: String
+    ): MutableLiveData<CategoriesListResponse> {
         if (!TextUtils.isEmpty(mJsonObject)) {
             val mApiService = ApiService<JsonObject>()
             mApiService.get(
-                    object : ApiResponse<JsonObject> {
-                        override fun onResponse(mResponse: Response<JsonObject>) {
-                            val loginResponse = if (mResponse.body() != null)
-                                gson.fromJson<CategoriesListResponse>(
-                                        "" + mResponse.body(),
-                                        CategoriesListResponse::class.java
-                                )
-                            else {
-                                gson.fromJson<CategoriesListResponse>(
-                                        mResponse.errorBody()!!.charStream(),
-                                        CategoriesListResponse::class.java
-                                )
-                            }
-
-                            data2!!.postValue(loginResponse)
-
+                object : ApiResponse<JsonObject> {
+                    override fun onResponse(mResponse: Response<JsonObject>) {
+                        val loginResponse = if (mResponse.body() != null)
+                            gson.fromJson<CategoriesListResponse>(
+                                "" + mResponse.body(),
+                                CategoriesListResponse::class.java
+                            )
+                        else {
+                            gson.fromJson<CategoriesListResponse>(
+                                mResponse.errorBody()!!.charStream(),
+                                CategoriesListResponse::class.java
+                            )
                         }
 
-                        override fun onError(mKey: String) {
-                            UtilsFunctions.showToastError(MyApplication.instance.getString(R.string.internal_server_error))
-                            data2!!.postValue(null)
+                        data2!!.postValue(loginResponse)
 
-                        }
+                    }
 
-                    }, ApiClient.getApiInterface().getSubServices(mJsonObject)
+                    override fun onError(mKey: String) {
+                        UtilsFunctions.showToastError(MyApplication.instance.getString(R.string.internal_server_error))
+                        data2!!.postValue(null)
+
+                    }
+
+                }, ApiClient.getApiInterface().getSubServices(mJsonObject, vegNonVeg)
             )
         }
         return data2!!
@@ -99,31 +113,31 @@ class HomeJobsRepository {
         if (!TextUtils.isEmpty(mJsonObject)) {
             val mApiService = ApiService<JsonObject>()
             mApiService.get(
-                    object : ApiResponse<JsonObject> {
-                        override fun onResponse(mResponse: Response<JsonObject>) {
-                            val loginResponse = if (mResponse.body() != null)
-                                gson.fromJson<CommonModel>(
-                                        "" + mResponse.body(),
-                                        CommonModel::class.java
-                                )
-                            else {
-                                gson.fromJson<CommonModel>(
-                                        mResponse.errorBody()!!.charStream(),
-                                        CommonModel::class.java
-                                )
-                            }
-
-                            data1!!.postValue(loginResponse)
-
+                object : ApiResponse<JsonObject> {
+                    override fun onResponse(mResponse: Response<JsonObject>) {
+                        val loginResponse = if (mResponse.body() != null)
+                            gson.fromJson<CommonModel>(
+                                "" + mResponse.body(),
+                                CommonModel::class.java
+                            )
+                        else {
+                            gson.fromJson<CommonModel>(
+                                mResponse.errorBody()!!.charStream(),
+                                CommonModel::class.java
+                            )
                         }
 
-                        override fun onError(mKey: String) {
-                            UtilsFunctions.showToastError(MyApplication.instance.getString(R.string.internal_server_error))
-                            data1!!.postValue(null)
+                        data1!!.postValue(loginResponse)
 
-                        }
+                    }
 
-                    }, ApiClient.getApiInterface().clearCart()
+                    override fun onError(mKey: String) {
+                        UtilsFunctions.showToastError(MyApplication.instance.getString(R.string.internal_server_error))
+                        data1!!.postValue(null)
+
+                    }
+
+                }, ApiClient.getApiInterface().clearCart()
             )
         }
         return data1!!

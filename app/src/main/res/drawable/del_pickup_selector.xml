@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/round_back_transparent" android:state_checked="true" />
+    <item android:drawable="@null" android:state_checked="false" />
+</selector>-->
+
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+<item android:drawable="@drawable/round_back_transparent" android:state_checked="true" />
+<item android:drawable="@drawable/del_pickup_back" android:state_checked="false" />
+
+</selector>
+
+    <!--<item android:drawable="@color/transparent" android:state_pressed="true" />-->

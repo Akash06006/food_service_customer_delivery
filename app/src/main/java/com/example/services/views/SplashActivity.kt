@@ -2,6 +2,7 @@ package com.example.services.views
 
 import android.content.Context
 import android.content.Intent
+import android.text.TextUtils
 import androidx.databinding.DataBindingUtil
 import com.example.services.R
 import com.example.services.application.MyApplication
@@ -17,6 +18,7 @@ import com.example.services.views.home.DashboardActivity
 import com.example.services.views.home.LandingMainActivity
 import com.example.services.views.orders.OrdersListActivity
 import com.example.services.views.payment.PaymentActivity
+import com.example.services.views.profile.DatesActivity
 import com.example.services.views.promocode.PromoCodeActivity
 import com.example.services.views.subcategories.ServicesListActivity
 import com.example.services.views.subcategories.SubCategoriesActivity
@@ -66,38 +68,24 @@ class SplashActivity : BaseActivity() {
             )
         )
             login = sharedPrefClass!!.getPrefValue(this, "isLogin").toString()
-        var jobId = sharedPrefClass!!.getPrefValue(this, GlobalConstants.JOBID).toString()
+
         val intent = if (login == "true") {
-            if (!jobId.equals("null") && !jobId.equals("0")) {
-                var mJsonObjectStartJob = JsonObject()
-                var destLat =
-                    sharedPrefClass!!.getPrefValue(this, GlobalConstants.DEST_LAT).toString()
-                var destLong =
-                    sharedPrefClass!!.getPrefValue(this, GlobalConstants.DEST_LONG).toString()
-                mJsonObjectStartJob.addProperty(
-                    "jobId", jobId
-                )
-                mJsonObjectStartJob.addProperty(
-                    "dest_lat", destLat
-                )
-                mJsonObjectStartJob.addProperty(
-                    "dest_long", destLong
-                )
-                mJsonObjectStartJob.addProperty(
-                    "trackOrStart", "Track"
-                )
-                val intent = Intent(this, TrackingActivity::class.java)
-                intent.putExtra("data", mJsonObjectStartJob.toString())
-                //startActivity(intent)
+            //Intent(this, LandingMainActivity::class.java)
+            var dob = sharedPrefClass!!.getPrefValue(this, "dob").toString()
+            if (TextUtils.isEmpty(dob) || dob.equals("null")) {
+                Intent(this, DatesActivity::class.java)
             } else {
                 Intent(this, LandingMainActivity::class.java)
-                // Intent(this, PaymentActivity::class.java)
-               /* var intent = Intent(this, PaymentActivity::class.java)
-                intent.putExtra("amount", "100")
-                intent.putExtra("currency", GlobalConstants.Currency)
-                intent.putExtra("totalItems", "2")*/
-                //startActivityForResult(intent1, 200)
+                //     Intent(this, SearchActivity::class.java)
             }
+
+            // Intent(this, PaymentActivity::class.java)
+            /* var intent = Intent(this, PaymentActivity::class.java)
+             intent.putExtra("amount", "100")
+             intent.putExtra("currency", GlobalConstants.Currency)
+             intent.putExtra("totalItems", "2")*/
+            //startActivityForResult(intent1, 200)
+
 
         } else {
             Intent(this, LoginActivity::class.java)

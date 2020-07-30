@@ -122,12 +122,12 @@
                         tools:ignore="AllCaps" />
 
                     <View
-                        android:background="@color/light_grey"
                         android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_1"
                         android:layout_below="@+id/service_item"
                         android:layout_marginTop="@dimen/dp_10"
                         android:layout_marginBottom="@dimen/dimen_5dp"
-                        android:layout_height="@dimen/dp_1"/>
+                        android:background="@color/light_grey" />
 
 
                     <TextView
@@ -187,7 +187,7 @@
                     android:elevation="@dimen/dp_5"
                     android:orientation="vertical"
                     android:paddingTop="@dimen/dp_5"
-                    android:visibility="visible">
+                    android:visibility="gone">
 
                     <TextView
                         android:id="@+id/txt_title"
@@ -293,7 +293,152 @@
 
                         </LinearLayout>
                     </RelativeLayout>
+
+                    <TextView
+                        android:id="@+id/txtNotDelivery"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/addressItem"
+                        android:layout_margin="@dimen/dp_5"
+                        android:maxLines="3"
+                        android:text=""
+                        android:textColor="@color/red"
+                        android:textSize="@dimen/sp_10"
+                        android:visibility="gone"
+                        app:font="@{`bold`}" />
                 </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="@dimen/dp_5"
+                    android:background="@drawable/round_back_transparent"
+                    android:elevation="5dp">
+
+                    <TextView
+                        android:id="@+id/tvDeliveryInstruction"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/dp_10"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:text="Delivery Instruction"
+                        android:textAllCaps="false"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/sp_16"
+                        android:visibility="visible"
+                        app:font="@{`bold`}"
+                        tools:ignore="AllCaps" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvDeliveryInstruction"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tvDeliveryInstruction"
+                        android:layout_marginBottom="@dimen/dp_5"
+                        android:layoutAnimation="@anim/layout_animation_from_left"
+                        android:nestedScrollingEnabled="false"
+                        android:padding="@dimen/dp_5"
+                        android:visibility="visible" />
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="@dimen/dp_5"
+                    android:background="@drawable/round_back_transparent"
+                    android:elevation="5dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/dp_10"
+                        android:layout_marginTop="@dimen/dp_12"
+                        android:text="Cooking Instructions"
+                        android:textAllCaps="false"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/sp_16"
+                        android:visibility="visible"
+                        app:font="@{`bold`}"
+                        tools:ignore="AllCaps" />
+
+                    <TextView
+                        android:id="@+id/tvCookingInstructions"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/dp_10"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:layout_marginBottom="@dimen/dp_12"
+                        android:text="Add Instructions"
+                        android:textAllCaps="false"
+                        android:textColor="#F75469"
+                        android:textSize="15sp"
+                        android:visibility="visible"
+                        app:font="@{`bold`}"
+                        tools:ignore="AllCaps" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/llTipLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/dp_5"
+                    android:background="@drawable/round_back_transparent"
+                    android:elevation="5dp"
+                    android:orientation="vertical"
+                    android:padding="5dp"
+                    android:paddingLeft="@dimen/dp_10"
+                    android:paddingTop="@dimen/dp_15"
+                    android:paddingRight="@dimen/dp_5"
+                    android:paddingBottom="@dimen/dp_10">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/dp_5"
+                        android:layout_marginTop="@dimen/dp_5"
+                        android:text="Tip your delivery partner"
+                        android:textAllCaps="false"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/sp_16"
+                        android:visibility="visible"
+                        app:font="@{`bold`}"
+                        tools:ignore="AllCaps" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/dp_5"
+                        android:layout_marginTop="@dimen/dp_5"
+                        android:layout_marginRight="@dimen/dp_10"
+                        android:paddingRight="@dimen/dp_30"
+                        android:text="Thank you delivery partner for helping you stay safe indoors, Support them with some tip."
+                        android:textAllCaps="false"
+                        android:textSize="@dimen/sp_12"
+                        android:visibility="visible"
+                        app:font="@{`regular`}"
+                        tools:ignore="AllCaps" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvTips"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/gridview"
+                        android:layout_marginLeft="@dimen/dp_2"
+                        android:layout_marginTop="@dimen/dp_15"
+                        android:layout_marginRight="@dimen/dp_5"
+                        android:layout_marginBottom="@dimen/dp_5"
+                        android:layoutAnimation="@anim/layout_animation_from_left"
+                        android:nestedScrollingEnabled="false"
+                        android:padding="@dimen/dp_5"
+                        android:visibility="visible" />
+                </LinearLayout>
 
                 <RelativeLayout
                     android:id="@+id/rlCoupon"
@@ -399,6 +544,45 @@
                         android:background="@color/colorGrey1" />
 
                     <LinearLayout
+                        android:id="@+id/llDevCharges"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_above="@+id/totalPriceLay"
+                        android:orientation="horizontal"
+                        android:paddingLeft="@dimen/dp_20"
+                        android:paddingTop="@dimen/dp_10"
+                        android:paddingRight="@dimen/dp_20"
+                        android:paddingBottom="@dimen/dp_10"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:singleLine="true"
+                            android:text="Delivery Charges"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                            android:textStyle="bold"
+                            app:font="@{`bold`}" />
+
+                        <TextView
+                            android:id="@+id/tvDelCharges"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:gravity="right"
+                            android:singleLine="true"
+                            android:text="0"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                            android:textColor="@android:color/black"
+                            app:font="@{`bold`}" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_1"
+                        android:background="@color/colorGrey1" />
+
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
@@ -446,7 +630,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="@dimen/dp_10"
                                 android:padding="@dimen/dp_1"
-                                android:text="Rs.100"
+                                android:text=""
                                 android:textColor="@color/colorPrimary"
                                 android:textStyle="bold" />
 

@@ -16,11 +16,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.Window
 import android.widget.Button
+import android.widget.CompoundButton
 import android.widget.LinearLayout
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.services.R
@@ -32,7 +34,10 @@ import com.example.services.viewmodels.cart.CartViewModel
 import com.example.services.databinding.ActivityCheckoutAddressBinding
 import com.example.services.model.CommonModel
 import com.example.services.model.address.AddressListResponse
+import com.example.services.model.address.DeliveryChargesResponse
 import com.example.services.model.cart.CartListResponse
+import com.example.services.model.cart.DeliveryTipInstructionListResponse
+import com.example.services.model.cart.TipResponse
 import com.example.services.model.orders.CreateOrdersResponse
 import com.example.services.model.services.DateSlotsResponse
 import com.example.services.model.services.TimeSlotsResponse
@@ -44,20 +49,17 @@ import com.example.services.viewmodels.address.AddressViewModel
 import com.example.services.viewmodels.promocode.PromoCodeViewModel
 import com.example.services.viewmodels.services.ServicesViewModel
 import com.example.services.views.address.AddAddressActivity
-import com.example.services.views.home.DashboardActivity
 import com.example.services.views.home.LandingMainActivity
 import com.example.services.views.payment.PaymentActivity
 import com.example.services.views.promocode.PromoCodeActivity
 import com.google.gson.JsonObject
-import com.uniongoods.adapters.CartListAdapter
-import com.uniongoods.adapters.CheckoutAddressListAdapter
-import com.uniongoods.adapters.DateListAdapter
-import com.uniongoods.adapters.TimeSlotsListAdapter
+import com.uniongoods.adapters.*
 import org.json.JSONObject
 import java.util.*
 import kotlin.collections.ArrayList
 
 class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
+    private var deliveryCharges = 0.0
     lateinit var cartBinding: ActivityCheckoutAddressBinding
     lateinit var cartViewModel: CartViewModel
     var cartList = ArrayList<CartListResponse.Data>()
@@ -66,10 +68,15 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
     private var mDialogClass = DialogClass()
     var timeSlotsAdapter: TimeSlotsListAdapter? = null
     var dateSlotsAdapter: DateListAdapter? = null
+    var tipAdapter: TipListAdapter? = null
+    var instructionAdapter: InsructionsListAdapter? = null
+
     var slotsList = ArrayList<TimeSlotsResponse.Slots>()
     var dateList = ArrayList<DateSlotsResponse.Body>()
+    var tipList = ArrayList<TipResponse>()
     var pos = 0
     var selectedDate = ""
+    var tipSelected = "0"
     var date = ""
     var selectedTime = ""
     var quantityCount = 0
@@ -79,13 +86,18 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
     var payableAmount = ""
     var orderNo = ""
     var orderId = ""
+    var selectedDeliveryInstructionsList = ArrayList<String>()
+    var selectedPickupInstructionsList = ArrayList<String>()
     lateinit var addressViewModel: AddressViewModel
     private var addressesList = ArrayList<AddressListResponse.Body>()
+    var instructionResponse: DeliveryTipInstructionListResponse.Body? = null
     var addressId = ""
     // var addressType = ""
     lateinit var servicesViewModel: ServicesViewModel
     lateinit var promcodeViewModel: PromoCodeViewModel
     private val SECOND_ACTIVITY_REQUEST_CODE = 0
+    var DELIVERY_PICKUP_TYPE = "0"
+    var isCalled = false
     override fun getLayoutId(): Int {
         return R.layout.activity_checkout_address
     }
@@ -106,14 +118,15 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
         cartBinding.commonToolBar.imgRight.visibility = View.GONE
         cartBinding.commonToolBar.imgRight.setImageResource(R.drawable.ic_cart)
         cartBinding.commonToolBar.imgToolbarText.text =
-                resources.getString(R.string.checkout)
+            resources.getString(R.string.checkout)
+
 
         val applicationType = SharedPrefClass()!!.getPrefValue(
             MyApplication.instance,
             GlobalConstants.PRODUCT_TYPE
         ).toString()
 
-        if (applicationType.equals(GlobalConstants.PRODUCT_DELIVERY)){
+        if (applicationType.equals(GlobalConstants.PRODUCT_DELIVERY)) {
             cartBinding.tvSelectdateMsg.text =
                 resources.getString(R.string.when_do_you_want_this_product)
         } else if (applicationType.equals(GlobalConstants.PRODUCT_SERVICES)) {
@@ -165,15 +178,40 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
             Observer<CartListResponse> { response ->
                 stopProgressDialog()
                 if (response != null) {
+                    Log.e("address", "Cart")
                     val message = response.message
                     when {
                         response.code == 200 -> {
                             cartList.addAll(response.body!!.data!!)
                             payableAmount = response.body?.sum.toString()
                             cartBinding.tvTotalItems.setText(cartList.size.toString())
-                            cartBinding.tvOfferPrice.setText(GlobalConstants.Currency + " " + response.body?.sum)
+                            var total =
+                                deliveryCharges?.plus(payableAmount.toDouble().plus(tipSelected.toDouble()))
+                            payableAmount =
+                                (deliveryCharges?.plus(payableAmount.toDouble().plus(tipSelected.toDouble()))).toString()
+                            cartBinding.tvOfferPrice.setText(GlobalConstants.Currency + " " + total/*response.body?.sum*/)
                             cartBinding.tvPromo.setText(getString(R.string.apply_coupon))
                             cartBinding.rlRealPrice.visibility = View.GONE
+                            if (response.body!!.data?.size!! > 0) {
+                                DELIVERY_PICKUP_TYPE =
+                                    response.body!!.data?.get(0)?.deliveryType.toString()
+                                if (DELIVERY_PICKUP_TYPE.equals("0")) {
+                                    cartBinding.addressLayout.visibility = View.GONE
+                                    cartBinding.tvDeliveryInstruction.setText("Pickup Instructions")
+                                } else {
+                                    if (!isCalled) {
+                                        Log.e("address", "" + "Call Delivery Charges")
+                                        callCheckDelivery()
+                                    }
+                                    cartBinding.addressLayout.visibility = View.VISIBLE
+                                    cartBinding.tvDeliveryInstruction.setText("Delivery Instructions")
+                                }
+                            }
+                            cartViewModel.deliveryInstructions(
+                                GlobalConstants.COMPANY_ID,
+                                DELIVERY_PICKUP_TYPE
+                            )
+
                         }
                         else -> message?.let {
                             UtilsFunctions.showToastError(it)
@@ -241,6 +279,45 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
                     }
                 }
             })
+
+        cartViewModel.getDeliveryInstructions().observe(this,
+            Observer<DeliveryTipInstructionListResponse> { response ->
+                stopProgressDialog()
+                if (response != null) {
+                    val message = response.message
+                    when {
+                        response.code == 200 -> {
+                            instructionResponse = response.body
+                            initInstructionRecyclerView()
+                            if (DELIVERY_PICKUP_TYPE.equals("1")) {
+                                cartBinding.llTipLayout.visibility = View.VISIBLE
+                                var tipData = TipResponse()
+                                tipData.selected = "false"
+                                tipData.tips = "10"
+                                tipList.add(tipData)
+                                tipData = TipResponse()
+                                tipData.selected = "false"
+                                tipData.tips = "20"
+                                tipList.add(tipData)
+                                tipData = TipResponse()
+                                tipData.selected = "false"
+                                tipData.tips = "30"
+                                tipList.add(tipData)
+                                tipData = TipResponse()
+                                tipData.selected = "false"
+                                tipData.tips = "50"
+                                tipList.add(tipData)
+                                initTipsRecyclerView()
+                            } else {
+                                cartBinding.llTipLayout.visibility = View.GONE
+                            }
+                        }
+                        else -> message?.let {
+                            UtilsFunctions.showToastError(it)
+                        }
+                    }
+                }
+            })
         cartViewModel.getOrderPlaceRes().observe(this,
             Observer<CreateOrdersResponse> { response ->
                 stopProgressDialog()
@@ -275,6 +352,7 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
             Observer<AddressListResponse> { response ->
                 stopProgressDialog()
                 if (response != null) {
+                    Log.e("address", "Address")
                     val message = response.message
                     when {
                         response.code == 200 -> {
@@ -287,7 +365,7 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
                                     addressId = item.id.toString()
                                     cartBinding.tvAddress.text = item.addressType
                                     cartBinding.tvAddressDetail.text = item.addressName
-
+                                    callCheckDelivery()
                                     if (item.addressType.equals(getString(R.string.home))) {
                                         cartBinding.addresssImg.setImageDrawable(
                                             resources.getDrawable(
@@ -314,6 +392,7 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
                                     setAddressData(0)
                                 }
                             }
+
                             cartBinding.addressItem.visibility = View.VISIBLE
                         }
                         else -> {
@@ -322,6 +401,50 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
                             }*/
                             cartBinding.tvChange.setText(getString(R.string.add_address))
                             cartBinding.addressItem.visibility = View.GONE
+                        }
+                    }
+
+                }
+            })
+
+
+        cartViewModel.checkDeliveryAddressRes().observe(this,
+            Observer<DeliveryChargesResponse> { response ->
+                stopProgressDialog()
+                if (response != null) {
+                    val message = response.message
+                    when {
+                        response.code == 200 -> {
+                            if (!TextUtils.isEmpty(response.data?.shipment) && !response.data?.shipment.equals(
+                                    "0"
+                                )
+                            ) {
+                                cartBinding.txtNotDelivery.visibility = View.GONE
+                                cartBinding.llDevCharges.visibility = View.VISIBLE
+                                cartBinding.btnCheckout.visibility = View.VISIBLE
+                                payableAmount =
+                                    (payableAmount.toDouble().minus(deliveryCharges)).toString()
+                                deliveryCharges = response.data?.shipment?.toDouble()!!
+                                val totalCharges =
+                                    deliveryCharges?.plus(payableAmount.toDouble())
+                                payableAmount = totalCharges.toString()
+                                cartBinding.tvDelCharges.setText(GlobalConstants.Currency + " " + response.data?.shipment)
+                                cartBinding.tvOfferPrice.setText(GlobalConstants.Currency + " " + totalCharges)
+                            } else {
+                                cartBinding.llDevCharges.visibility = View.GONE
+                            }
+                            //
+                        }
+                        response.code == 400 -> {
+                            cartBinding.llDevCharges.visibility = View.GONE
+                            cartBinding.txtNotDelivery.visibility = View.VISIBLE
+                            cartBinding.btnCheckout.visibility = View.GONE
+                            cartBinding.txtNotDelivery.setText(message)
+                        }
+                        else -> message?.let {
+                            cartBinding.llDevCharges.visibility = View.GONE
+                            cartBinding.btnCheckout.visibility = View.GONE
+                            UtilsFunctions.showToastError(it)
                         }
                     }
 
@@ -381,14 +504,37 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
                             showToastError("Please Select Date For The Service")
                         } else if (TextUtils.isEmpty(selectedTime)) {
                             showToastError("Please Select Time Slot For The Service")
-                        } else if (TextUtils.isEmpty(addressId)) {
+                        } else if (DELIVERY_PICKUP_TYPE.equals("1") && TextUtils.isEmpty(
+                                addressId
+                            )
+                        ) {
                             showToastError("Please Select Address")
                         } else {
-
+                            var deliveryInstruction = ""
+                            var pickupInstruction = ""
+                            for (item in selectedDeliveryInstructionsList) {
+                                if (TextUtils.isEmpty(deliveryInstruction)) {
+                                    deliveryInstruction = item.toString()
+                                } else {
+                                    deliveryInstruction =
+                                        deliveryInstruction + "," + item.toString()
+                                }
+                            }
+                            for (item in selectedPickupInstructionsList) {
+                                if (TextUtils.isEmpty(deliveryInstruction)) {
+                                    pickupInstruction = item
+                                } else {
+                                    pickupInstruction =
+                                        pickupInstruction + "," + item
+                                }
+                            }
 
                             val addressObject = JsonObject()
                             addressObject.addProperty(
                                 "addressId", addressId
+                            )
+                            addressObject.addProperty(
+                                "deliveryType", DELIVERY_PICKUP_TYPE
                             )
                             addressObject.addProperty(
                                 "serviceDateTime", selectedDate + " " + selectedTime
@@ -397,27 +543,54 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
                                 "orderPrice", payableAmount
                             )
                             addressObject.addProperty(
-                                "serviceCharges", "0"
+                                "serviceCharges", deliveryCharges.toString()
                             )
                             addressObject.addProperty(
                                 "promoCode", couponCodeId
                             )
+                            addressObject.addProperty(
+                                "companyId", GlobalConstants.COMPANY_ID
+                            )
+                            addressObject.addProperty(
+                                "cookingInstructions", "Testing"
+                            )
+                            addressObject.addProperty(
+                                "pickupInstructions", pickupInstruction
+                            )
+                            addressObject.addProperty(
+                                "deliveryInstructions", deliveryInstruction
+                            )
+                            addressObject.addProperty(
+                                "tip", tipSelected.toString()
+                            )
+
+
+
                             cartViewModel.orderPlace(addressObject)
 
-
                         }
-/*{
-
- "addressId" :"d936a494-61ba-4ae4-9f29-83af67826c8b",
- "serviceDateTime":"2020-03-30 14:00:00",
- "orderPrice":"600",
- "serviceCharges":"",
- "promoCode" :"PRO1234567"
-}*/
                     }
                 }
             })
         )
+    }
+
+    private fun callCheckDelivery() {
+        Log.e("address", "Method Enter")
+
+        if (DELIVERY_PICKUP_TYPE.equals("1")) {
+            isCalled = true
+            val addressObject = JsonObject()
+            addressObject.addProperty(
+                "addressId", addressId
+            )
+            addressObject.addProperty(
+                "companyId", GlobalConstants.COMPANY_ID
+            )
+            Log.e("address", "Before Call")
+            cartViewModel.checkDeliveryAddress(addressObject)
+            Log.e("address", "Call")
+        }
     }
 
 
@@ -455,6 +628,10 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
             "Remove Cart" -> confirmationDialog?.dismiss()
             "Remove Coupon" -> confirmationDialog?.dismiss()
         }
+    }
+
+    override fun onCheckedChanged(p0: CompoundButton?, p1: Boolean) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     fun addressDialog() {
@@ -517,6 +694,7 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
         } else {
             cartBinding.addresssImg.setImageDrawable(resources.getDrawable(R.drawable.ic_other))
         }
+        callCheckDelivery()
     }
 
     private fun initRecyclerView() {
@@ -532,6 +710,7 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
             }
         })
     }
+
 
     private fun initDateRecyclerView() {
         // cartBinding.rvDate.visibility=View.GONE
@@ -640,8 +819,19 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
                 // couponCode = response.coupanDetails?.coupanCode.toString()
                 cartBinding.tvPromo.setText(dis + "% " + "Discount coupon applied. Remove?")
                 cartBinding.rlRealPrice.visibility = View.VISIBLE
-                cartBinding.tvOfferPrice.setText(GlobalConstants.Currency + " " + payableAmount)
-                cartBinding.tvRealPrice.setText(GlobalConstants.Currency + " " + totalAmount)
+
+                payableAmount = (deliveryCharges?.plus(payableAmount.toDouble())).toString()
+                payableAmount = (payableAmount.toDouble().plus(tipSelected.toDouble())).toString()
+                cartBinding.tvOfferPrice.setText(
+                    GlobalConstants.Currency + " " +
+                            payableAmount
+                    /*payableAmount*/
+                )
+                cartBinding.tvRealPrice.setText(
+                    GlobalConstants.Currency + " " + deliveryCharges?.plus(
+                        totalAmount.toDouble()
+                    )/*totalAmount*/
+                )
 
                 val str = cartBinding.tvPromo.getText().toString()
                 var span = str.split(".")
@@ -698,6 +888,93 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
                 }
             }
         }
+    }
+
+    private fun initTipsRecyclerView() {
+        /*val adapter = CategoriesGridListAdapter(this@HomeFragment, categoriesList, activity!!)
+        fragmentHomeBinding.gridview.adapter = adapter*/
+
+        tipAdapter =
+            TipListAdapter(this, tipList, this)
+        // val linearLayoutManager = LinearLayoutManager(this)
+        val gridLayoutManager = GridLayoutManager(this, 4)
+        cartBinding.rvTips.layoutManager = gridLayoutManager
+        cartBinding.rvTips.setHasFixedSize(true)
+        cartBinding.rvTips.adapter = tipAdapter
+        cartBinding.rvTips.addOnScrollListener(object :
+            RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+
+            }
+        })
+
+    }
+
+    fun selectTip(position: Int, selected: String) {
+
+        var i = 0
+        for (item in tipList) {
+            tipList[i].selected = "false"
+            i++
+        }
+        tipList[position].selected = selected
+        tipAdapter?.notifyDataSetChanged()
+        if (selected.equals("true")) {
+            payableAmount = (payableAmount.toDouble().minus(tipSelected.toDouble())).toString()
+            tipSelected = tipList[position].tips!!
+            // payableAmount = (deliveryCharges?.plus(payableAmount.toDouble())).toString()
+            payableAmount = (payableAmount.toDouble().plus(tipSelected.toDouble())).toString()
+            cartBinding.tvOfferPrice.setText(
+                GlobalConstants.Currency + " " +
+                        payableAmount
+                /*payableAmount*/
+            )
+        } else {
+            payableAmount = (payableAmount.toDouble().minus(tipSelected.toDouble())).toString()
+            cartBinding.tvOfferPrice.setText(
+                GlobalConstants.Currency + " " +
+                        payableAmount
+                /*payableAmount*/
+            )
+            tipSelected = "0"
+
+        }
+
+    }
+
+    private fun initInstructionRecyclerView() {
+        instructionAdapter =
+            InsructionsListAdapter(this, instructionResponse, DELIVERY_PICKUP_TYPE)
+        val linearLayoutManager = LinearLayoutManager(this)
+        linearLayoutManager.orientation = RecyclerView.VERTICAL
+        cartBinding.rvDeliveryInstruction.layoutManager = linearLayoutManager
+        cartBinding.rvDeliveryInstruction.adapter = instructionAdapter
+        cartBinding.rvDeliveryInstruction.addOnScrollListener(object :
+            RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+
+            }
+        })
+    }
+
+    fun selectedInstruction(position: Int, selected: Boolean) {
+        if (DELIVERY_PICKUP_TYPE.equals("1")) {
+            instructionResponse?.deliveryInstructions!![position].selected = selected.toString()
+            if (!selectedDeliveryInstructionsList.contains(instructionResponse?.deliveryInstructions!![position].id)) {
+                selectedDeliveryInstructionsList.add(instructionResponse?.deliveryInstructions!![position].id.toString())
+            } else {
+                selectedDeliveryInstructionsList.remove(instructionResponse?.deliveryInstructions!![position].id.toString())
+            }
+        } else {
+            instructionResponse?.pickupInstructions!![position].selected = selected.toString()
+            if (!selectedPickupInstructionsList.contains(instructionResponse?.pickupInstructions!![position].id)) {
+                selectedPickupInstructionsList.add(instructionResponse?.pickupInstructions!![position].id.toString())
+            } else {
+                selectedPickupInstructionsList.remove(instructionResponse?.pickupInstructions!![position].id.toString())
+            }
+        }
+        instructionAdapter?.notifyDataSetChanged()
+
     }
 }
 

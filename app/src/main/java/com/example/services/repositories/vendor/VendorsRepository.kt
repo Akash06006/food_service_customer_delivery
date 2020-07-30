@@ -13,6 +13,7 @@ import com.example.services.model.address.AddressListResponse
 import com.example.services.model.address.AddressResponse
 import com.example.services.model.cart.CartListResponse
 import com.example.services.model.fav.FavListResponse
+import com.example.services.model.home.LandingResponse
 import com.example.services.model.vendor.VendorListResponse
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonObject
@@ -26,32 +27,44 @@ class VendorsRepository {
         data1 = MutableLiveData()
     }
 
-    fun vendorList(mJsonObject: String, lat: String, longi: String): MutableLiveData<VendorListResponse> {
+    fun vendorList(
+        mJsonObject: String,
+        lat: String,
+        longi: String, vegNonVeg: String
+    ): MutableLiveData<VendorListResponse> {
         if (!TextUtils.isEmpty(mJsonObject)) {
             val mApiService = ApiService<JsonObject>()
             mApiService.get(
-                    object : ApiResponse<JsonObject> {
-                        override fun onResponse(mResponse: Response<JsonObject>) {
-                            val loginResponse = if (mResponse.body() != null)
-                                gson.fromJson<VendorListResponse>(
-                                        "" + mResponse.body(),
-                                        VendorListResponse::class.java
-                                )
-                            else {
-                                gson.fromJson<VendorListResponse>(
-                                        mResponse.errorBody()!!.charStream(),
-                                        VendorListResponse::class.java
-                                )
-                            }
-                            data1!!.postValue(loginResponse)
+                object : ApiResponse<JsonObject> {
+                    override fun onResponse(mResponse: Response<JsonObject>) {
+                        val loginResponse = if (mResponse.body() != null)
+                            gson.fromJson<VendorListResponse>(
+                                "" + mResponse.body(),
+                                VendorListResponse::class.java
+                            )
+                        else {
+                            gson.fromJson<VendorListResponse>(
+                                mResponse.errorBody()!!.charStream(),
+                                VendorListResponse::class.java
+                            )
                         }
+                        data1!!.postValue(loginResponse)
+                    }
 
-                        override fun onError(mKey: String) {
-                            UtilsFunctions.showToastError(MyApplication.instance.getString(R.string.internal_server_error))
-                            data1!!.postValue(null)
-                        }
+                    override fun onError(mKey: String) {
+                        UtilsFunctions.showToastError(MyApplication.instance.getString(R.string.internal_server_error))
+                        data1!!.postValue(null)
+                    }
 
-                    }, ApiClient.getApiInterface().vendorList(mJsonObject, lat, longi)
+                },
+                ApiClient.getApiInterface().vendorList(
+                    mJsonObject,
+                    "1",
+                    "10000",
+                    lat,
+                    longi,
+                    vegNonVeg
+                )
             )
 
         }

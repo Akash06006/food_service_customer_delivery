@@ -82,6 +82,10 @@ class AddRatingReviewsListActivity : BaseActivity(), DialogssInterface {
         }
     }
 
+    override fun onCheckedChanged(p0: CompoundButton?, p1: Boolean) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     override fun initViews() {
 
         reviewsBinding = viewDataBinding as ActivityReviewsListBinding

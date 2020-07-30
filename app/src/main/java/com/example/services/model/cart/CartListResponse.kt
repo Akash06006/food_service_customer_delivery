@@ -57,6 +57,9 @@ class CartListResponse {
         @SerializedName("updated_at")
         @Expose
         var updated_at: String? = null
+        @SerializedName("deliveryType")
+        @Expose
+        var deliveryType: String? = null
     }
 
     inner class Service {

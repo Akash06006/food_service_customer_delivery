@@ -28,7 +28,7 @@ class ServicesViewModel : BaseViewModel() {
 
     init {
         if (UtilsFunctions.isNetworkConnectedWithoutToast()) {
-            servicesList = servicesRepository.getServicesList("")
+            servicesList = servicesRepository.getServicesList("","")
             servicesDetail = servicesRepository.getServiceDetail("")
             carRes = servicesRepository.addCart(null)
             favRes = servicesRepository.addFav(null)
@@ -75,9 +75,9 @@ class ServicesViewModel : BaseViewModel() {
         btnClick.value = v.resources.getResourceName(v.id).split("/")[1]
     }
 
-    fun getServices(mJsonObject: String) {
+    fun getServices(mJsonObject: String,vegNonVeg: String) {
         if (UtilsFunctions.isNetworkConnected()) {
-            servicesList = servicesRepository.getServicesList(mJsonObject)
+            servicesList = servicesRepository.getServicesList(mJsonObject,vegNonVeg)
             mIsUpdating.postValue(true)
         }
     }

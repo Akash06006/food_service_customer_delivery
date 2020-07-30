@@ -31,6 +31,7 @@
                 layout="@layout/common_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_toobar"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -60,12 +61,12 @@
                     android:text="@string/job_requests" />
 
             </com.google.android.material.tabs.TabLayout>
-
+            <!--android:layout_marginTop="@dimen/dp_58"-->
             <FrameLayout
                 android:id="@+id/frame_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="@dimen/dp_58"
+
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -83,7 +84,7 @@
             android:alpha="0.9"
             android:background="@color/colorWhite"
             android:fitsSystemWindows="true"
-            android:visibility="gone"
+            android:visibility="visible"
             app:theme="@style/NavigationViewStyle">
 
             <!-- <android.support.design.widget.NavigationView
@@ -114,7 +115,7 @@
                     android:id="@+id/topBannerLayout"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/nav_header_height"
-
+                    android:background="@drawable/profile_back"
                     android:gravity="bottom"
                     android:orientation="vertical"
                     android:paddingLeft="@dimen/dp_16"
@@ -203,6 +204,7 @@
                             android:textAllCaps="true"
                             android:textColor="@color/colorBlack"
                             android:textSize="@dimen/sp_18"
+                            android:visibility="gone"
                             app:font="@{`semibold`}"
                             tools:ignore="RtlSymmetry" />
 

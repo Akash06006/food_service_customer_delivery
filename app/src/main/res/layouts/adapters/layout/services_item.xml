@@ -118,12 +118,13 @@
                         android:textStyle="bold" />
 
                     <RelativeLayout
+                        android:id="@+id/rlOriginalPrice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignBottom="@+id/tv_offer_price"
                         android:layout_marginLeft="@dimen/dp_5"
-                        android:layout_toRightOf="@+id/tv_offer_price"
-                        android:visibility="gone">
+                        android:layout_toLeftOf="@+id/tv_offer_price"
+                        android:visibility="visible">
 
                         <TextView
                             android:id="@+id/tv_real_price"

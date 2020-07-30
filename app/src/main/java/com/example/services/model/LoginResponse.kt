@@ -68,6 +68,9 @@ class LoginResponse {
         @SerializedName("updatedAt")
         @Expose
         var updatedAt : String? = null
+        @SerializedName("dob")
+        @Expose
+        var dob : String? = null
         /*@SerializedName("user_id")
         @Expose
         var userId : Int? = null

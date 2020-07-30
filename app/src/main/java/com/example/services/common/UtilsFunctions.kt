@@ -33,6 +33,7 @@ import com.google.firebase.database.ValueEventListener
 import com.google.i18n.phonenumbers.PhoneNumberUtil
 import java.text.SimpleDateFormat
 import java.util.*
+
 private val mPhoneList = ArrayList<String>()
 
 object UtilsFunctions {
@@ -53,6 +54,7 @@ object UtilsFunctions {
         toast.view = binding.root
         toast.show()
     }
+
     @JvmStatic
     fun showToastSuccess(message: String) {
         val binding =
@@ -77,7 +79,7 @@ object UtilsFunctions {
     }
 
     @SuppressLint("SimpleDateFormat")
-    fun getParticularDay(amount : Int) : String {
+    fun getParticularDay(amount: Int): String {
         val dateFormat = SimpleDateFormat("MMM dd")
         val calendar = Calendar.getInstance()
         calendar.add(Calendar.DAY_OF_YEAR, amount)
@@ -86,13 +88,13 @@ object UtilsFunctions {
     }
 
     @JvmStatic
-    fun checkObjectNull(obj : Any?) : Boolean {
+    fun checkObjectNull(obj: Any?): Boolean {
         return obj != null
     }
 
     @SuppressLint("HardwareIds")
     @JvmStatic
-    fun getAndroidID() : String {
+    fun getAndroidID(): String {
         return Settings.Secure.getString(
             MyApplication.instance.contentResolver,
             Settings.Secure.ANDROID_ID
@@ -102,10 +104,10 @@ object UtilsFunctions {
 
     @JvmStatic
     @TargetApi(Build.VERSION_CODES.M)
-    fun isNetworkConnected() : Boolean {
+    fun isNetworkConnected(): Boolean {
         val cm = MyApplication.instance.applicationContext
             .getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        var activeNetwork : NetworkInfo? = null
+        var activeNetwork: NetworkInfo? = null
         activeNetwork = cm.activeNetworkInfo
 
         return if (activeNetwork != null && activeNetwork.isConnectedOrConnecting) {
@@ -120,16 +122,16 @@ object UtilsFunctions {
 
     @JvmStatic
     @TargetApi(Build.VERSION_CODES.M)
-    fun isNetworkConnectedWithoutToast() : Boolean {
+    fun isNetworkConnectedWithoutToast(): Boolean {
         val cm = MyApplication.instance.applicationContext
             .getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        var activeNetwork : NetworkInfo? = null
+        var activeNetwork: NetworkInfo? = null
         activeNetwork = cm.activeNetworkInfo
 
         return if (activeNetwork != null && activeNetwork.isConnectedOrConnecting) {
             activeNetwork != null && activeNetwork.isConnectedOrConnecting
         } else {
-           // showToastWarning(MyApplication.instance.getString(R.string.internet_connection))
+            // showToastWarning(MyApplication.instance.getString(R.string.internet_connection))
             // Toast.makeText(MyApplication.getInstance().getApplicationContext(), R.string.internet_connection, Toast.LENGTH_SHORT).show();
             false
         }
@@ -137,10 +139,10 @@ object UtilsFunctions {
 
     @JvmStatic
     @TargetApi(Build.VERSION_CODES.M)
-    fun isNetworkConnectedReturn() : Boolean {
+    fun isNetworkConnectedReturn(): Boolean {
         val cm = MyApplication.instance.applicationContext
             .getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        var activeNetwork : NetworkInfo? = null
+        var activeNetwork: NetworkInfo? = null
         activeNetwork = cm.activeNetworkInfo
 
         return if (activeNetwork != null && activeNetwork.isConnectedOrConnecting) {
@@ -151,10 +153,11 @@ object UtilsFunctions {
     }
 
     @JvmStatic
-    fun showToastWarning(message : String?) {
+    fun showToastWarning(message: String?) {
         if (message == null)
             return
-        val inflater = MyApplication.instance.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val inflater =
+            MyApplication.instance.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val layout = inflater.inflate(com.example.services.R.layout.layout_toast, null)
         val image = layout.findViewById<ImageView>(R.id.image)
         image.setImageResource(R.drawable.ic_warning)
@@ -163,7 +166,12 @@ object UtilsFunctions {
         val toast = Toast(MyApplication.instance)
         toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0)
         toast.duration = LENGTH_SHORT
-        layout.setBackgroundColor(ContextCompat.getColor(MyApplication.instance, R.color.colorOrange))
+        layout.setBackgroundColor(
+            ContextCompat.getColor(
+                MyApplication.instance,
+                R.color.colorOrange
+            )
+        )
         toast.setGravity(Gravity.FILL_HORIZONTAL or Gravity.BOTTOM, 0, 0)
         toast.view = layout
         toast.show()
@@ -172,7 +180,7 @@ object UtilsFunctions {
 
     @JvmStatic
     @SuppressLint("SimpleDateFormat")
-    fun addDatetoCurrentDate(add : Int) : String {
+    fun addDatetoCurrentDate(add: Int): String {
         val dateFormat = SimpleDateFormat("MM/dd/yyyy")
         val c = Calendar.getInstance()
         c.add(Calendar.DATE, add)
@@ -181,14 +189,14 @@ object UtilsFunctions {
     }
 
     @SuppressLint("SimpleDateFormat")
-    fun getTodayDayName() : String {
+    fun getTodayDayName(): String {
         val sdf = SimpleDateFormat("EEE")
         val d = Date()
         val dayOfTheWeek = sdf.format(d)
         return dayOfTheWeek.toLowerCase()
     }
 
-    fun getRandomColor() : String {
+    fun getRandomColor(): String {
         val colors = ArrayList<String>()
 
         colors.add("#F366E0")
@@ -209,14 +217,11 @@ object UtilsFunctions {
     }
 
     @JvmStatic
-    fun hideKeyBoard(view : View) {
+    fun hideKeyBoard(view: View) {
         val imm = MyApplication.instance
             .getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
-
-
-
 
 
 }

@@ -42,12 +42,22 @@
         tools:replace="android:allowBackup"
         tools:targetApi="n">
         <activity
+            android:name=".views.SearchActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".views.profile.DatesActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".views.promocode.PromoCodeActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"></activity>
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".views.favorite.FavoriteListActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".views.vendor.RestaurantsListActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
         <activity
@@ -82,8 +92,6 @@
             android:name=".views.ratingreviews.AddRatingReviewsListActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
-
-
         <activity
             android:name=".views.subcategories.ServicesListActivity"
             android:launchMode="singleTop"
@@ -96,13 +104,10 @@
             android:name=".views.address.AddAddressActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".views.payment.PaymentActivity"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
-
-        <!-- <activity android:name=".views.notifications.NotificationsListActivity"></activity> -->
+            android:screenOrientation="portrait" /> <!-- <activity android:name=".views.notifications.NotificationsListActivity"></activity> -->
         <!-- <activity android:name=".views.home.JobsHistoryActivity" /> -->
         <!-- <activity android:name=".views.services.UpdateServiceActivity" /> -->
         <!-- <activity android:name=".views.services.ServicesListActivity" /> -->
@@ -158,8 +163,6 @@
             android:name=".views.home.LandingMainActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
-
-
         <activity
             android:name=".views.settings.MyAccountsActivity"
             android:launchMode="singleTop"

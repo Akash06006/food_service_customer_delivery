@@ -11,7 +11,9 @@ import com.example.services.common.UtilsFunctions
 import com.example.services.model.CommonModel
 import com.example.services.model.address.AddressListResponse
 import com.example.services.model.address.AddressResponse
+import com.example.services.model.address.DeliveryChargesResponse
 import com.example.services.model.cart.CartListResponse
+import com.example.services.model.cart.DeliveryTipInstructionListResponse
 import com.example.services.model.orders.CreateOrdersResponse
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonObject
@@ -21,6 +23,8 @@ class CartRepository {
 
     private var data2: MutableLiveData<CreateOrdersResponse>? = null
     private var data3: MutableLiveData<CommonModel>? = null
+    private var data4: MutableLiveData<DeliveryChargesResponse>? = null
+    private var data5: MutableLiveData<DeliveryTipInstructionListResponse>? = null
     private var data1: MutableLiveData<CartListResponse>? = null
     private val gson = GsonBuilder().serializeNulls().create()
 
@@ -28,6 +32,8 @@ class CartRepository {
         data1 = MutableLiveData()
         data2 = MutableLiveData()
         data3 = MutableLiveData()
+        data4 = MutableLiveData()
+        data5 = MutableLiveData()
     }
 
     fun cartList(/*mJsonObject : String*/): MutableLiveData<CartListResponse> {
@@ -126,6 +132,75 @@ class CartRepository {
 
         }
         return data3!!
+
+    }
+
+    fun checkDeliveryAddress(mJsonObject: JsonObject?): MutableLiveData<DeliveryChargesResponse> {
+        if (mJsonObject != null) {
+            val mApiService = ApiService<JsonObject>()
+            mApiService.get(
+                object : ApiResponse<JsonObject> {
+                    override fun onResponse(mResponse: Response<JsonObject>) {
+                        val loginResponse = if (mResponse.body() != null)
+                            gson.fromJson<DeliveryChargesResponse>(
+                                "" + mResponse.body(),
+                                DeliveryChargesResponse::class.java
+                            )
+                        else {
+                            gson.fromJson<DeliveryChargesResponse>(
+                                mResponse.errorBody()!!.charStream(),
+                                DeliveryChargesResponse::class.java
+                            )
+                        }
+                        data4!!.postValue(loginResponse)
+                    }
+
+                    override fun onError(mKey: String) {
+                        UtilsFunctions.showToastError(MyApplication.instance.getString(R.string.internal_server_error))
+                        data4!!.postValue(null)
+                    }
+
+                }, ApiClient.getApiInterface().checkDeliveryAddress(mJsonObject)
+            )
+
+        }
+        return data4!!
+
+    }
+
+    fun deliveryInsturcions(
+        companyId: String,
+        deliveryType: String
+    ): MutableLiveData<DeliveryTipInstructionListResponse> {
+        if (!TextUtils.isEmpty(companyId)) {
+            val mApiService = ApiService<JsonObject>()
+            mApiService.get(
+                object : ApiResponse<JsonObject> {
+                    override fun onResponse(mResponse: Response<JsonObject>) {
+                        val loginResponse = if (mResponse.body() != null)
+                            gson.fromJson<DeliveryTipInstructionListResponse>(
+                                "" + mResponse.body(),
+                                DeliveryTipInstructionListResponse::class.java
+                            )
+                        else {
+                            gson.fromJson<DeliveryTipInstructionListResponse>(
+                                mResponse.errorBody()!!.charStream(),
+                                DeliveryTipInstructionListResponse::class.java
+                            )
+                        }
+                        data5!!.postValue(loginResponse)
+                    }
+
+                    override fun onError(mKey: String) {
+                        UtilsFunctions.showToastError(MyApplication.instance.getString(R.string.internal_server_error))
+                        data5!!.postValue(null)
+                    }
+
+                }, ApiClient.getApiInterface().delivetInstuctions(companyId, deliveryType)
+            )
+
+        }
+        return data5!!
 
     }
 

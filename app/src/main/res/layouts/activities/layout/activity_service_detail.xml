@@ -110,9 +110,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignTop="@+id/rBar"
-                            android:onClick="@{(v) -> servicesViewModel.clickListener(v)}"
                             android:layout_alignBottom="@+id/rBar"
-                            />
+                            android:onClick="@{(v) -> servicesViewModel.clickListener(v)}" />
 
                         <ImageView
                             android:id="@+id/img_add_favorite"
@@ -134,8 +133,7 @@
                             android:layout_below="@+id/tv_service_name"
                             android:layout_alignParentRight="true"
                             android:layout_marginRight="@dimen/dp_10"
-                            android:layout_toLeftOf="@+id/rl_real_price"
-                            android:text=""
+                            android:text="Rs.100"
                             android:textColor="@color/colorPrice"
                             android:textStyle="bold" />
 
@@ -143,8 +141,9 @@
                             android:id="@+id/rl_real_price"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:layout_marginLeft="@dimen/dp_5"
+                            android:layout_marginRight="@dimen/dp_5"
+                            android:layout_alignBottom="@+id/tv_offer_price"
+                            android:layout_toLeftOf="@+id/tv_offer_price"
                             android:visibility="gone">
 
                             <TextView

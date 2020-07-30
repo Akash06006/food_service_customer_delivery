@@ -8,7 +8,9 @@ import com.example.services.model.CommonModel
 import com.example.services.model.LoginResponse
 import com.example.services.model.address.AddressListResponse
 import com.example.services.model.address.AddressResponse
+import com.example.services.model.address.DeliveryChargesResponse
 import com.example.services.model.cart.CartListResponse
+import com.example.services.model.cart.DeliveryTipInstructionListResponse
 import com.example.services.model.orders.CreateOrdersResponse
 import com.example.services.repositories.cart.CartRepository
 import com.example.services.viewmodels.BaseViewModel
@@ -20,6 +22,8 @@ class CartViewModel : BaseViewModel() {
     private var deleteAddress = MutableLiveData<CommonModel>()
     private var orderPlace = MutableLiveData<CreateOrdersResponse>()
     private var updatePaymentStatus = MutableLiveData<CommonModel>()
+    private var checkDeliveryAddress = MutableLiveData<DeliveryChargesResponse>()
+    private var deliveryInstuctions = MutableLiveData<DeliveryTipInstructionListResponse>()
 
     private var cartList = MutableLiveData<CartListResponse>()
     private var cartRepository = CartRepository()
@@ -31,12 +35,24 @@ class CartViewModel : BaseViewModel() {
             cartList = cartRepository.cartList()
             orderPlace = cartRepository.orderPlace(null)
             updatePaymentStatus = cartRepository.updatePaymentStatus(null)
+            checkDeliveryAddress = cartRepository.checkDeliveryAddress(null)
+            deliveryInstuctions = cartRepository.deliveryInsturcions("", "")
+
         }
 
     }
 
     fun getCartListRes(): LiveData<CartListResponse> {
         return cartList
+    }
+
+    fun getDeliveryInstructions(): LiveData<DeliveryTipInstructionListResponse> {
+        return deliveryInstuctions
+    }
+
+
+    fun checkDeliveryAddressRes(): LiveData<DeliveryChargesResponse> {
+        return checkDeliveryAddress
     }
 
     fun getOrderPlaceRes(): LiveData<CreateOrdersResponse> {
@@ -72,6 +88,21 @@ class CartViewModel : BaseViewModel() {
             mIsUpdating.postValue(true)
         }
     }
+
+    fun checkDeliveryAddress(mJsonObject: JsonObject) {
+        if (UtilsFunctions.isNetworkConnected()) {
+            checkDeliveryAddress = cartRepository.checkDeliveryAddress(mJsonObject)
+            mIsUpdating.postValue(true)
+        }
+    }
+
+    fun deliveryInstructions(companyId: String, deliveryType: String) {
+        if (UtilsFunctions.isNetworkConnected()) {
+            deliveryInstuctions = cartRepository.deliveryInsturcions(companyId, deliveryType)
+            mIsUpdating.postValue(true)
+        }
+    }
+
 
     fun getCartList() {
         if (UtilsFunctions.isNetworkConnected()) {

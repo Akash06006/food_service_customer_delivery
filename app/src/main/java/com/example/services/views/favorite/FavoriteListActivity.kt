@@ -3,6 +3,7 @@ package com.example.services.views.favorite
 import android.app.Dialog
 import android.content.Intent
 import android.view.View
+import android.widget.CompoundButton
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
@@ -163,6 +164,10 @@ class FavoriteListActivity : BaseActivity(), DialogssInterface {
             "Remove Fav" -> confirmationDialog?.dismiss()
 
         }
+    }
+
+    override fun onCheckedChanged(p0: CompoundButton?, p1: Boolean) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
 }

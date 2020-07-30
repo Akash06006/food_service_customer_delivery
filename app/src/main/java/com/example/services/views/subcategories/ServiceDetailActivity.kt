@@ -7,6 +7,7 @@ import android.graphics.Color
 import android.text.TextUtils
 import android.view.View
 import android.view.animation.AnimationUtils
+import android.widget.CompoundButton
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import androidx.lifecycle.Observer
@@ -87,12 +88,12 @@ class ServiceDetailActivity : BaseActivity(), DialogssInterface {
         serviceDetailBinding.commonToolBar.imgRight.visibility = View.GONE
         serviceDetailBinding.commonToolBar.imgRight.setImageResource(R.drawable.ic_cart)
 
-         applicationType = SharedPrefClass()!!.getPrefValue(
+        applicationType = SharedPrefClass()!!.getPrefValue(
             MyApplication.instance,
             GlobalConstants.PRODUCT_TYPE
         ).toString()
 
-        if (applicationType.equals(GlobalConstants.PRODUCT_DELIVERY)){
+        if (applicationType.equals(GlobalConstants.PRODUCT_DELIVERY)) {
             serviceDetailBinding.commonToolBar.imgToolbarText.text =
                 resources.getString(R.string.products_detail)
         } else if (applicationType.equals(GlobalConstants.PRODUCT_SERVICES)) {
@@ -148,9 +149,15 @@ class ServiceDetailActivity : BaseActivity(), DialogssInterface {
                         response.code == 200 -> {
                             serviceDetailBinding.serviceDetail = response.data
                             var rt = response.data!!.rating
-                            // isfav = response.data!!.favorite!!
-                            // isCart = response.data!!.cart!!
-                            // currency = response.data!!.currency.toString()
+                            if (!TextUtils.isEmpty(response.data!!.offer) && !response.data!!.offer.equals(
+                                    "0"
+                                )
+                            ) {
+                                serviceDetailBinding.rlRealPrice.visibility = View.VISIBLE
+                                serviceDetailBinding.tvRealPrice.setText(GlobalConstants.Currency + " " + response.data!!.originalPrice)
+                            } else {
+                                serviceDetailBinding.rlRealPrice.visibility = View.GONE
+                            }
                             var detailList = ArrayList<DetailModel>()
                             var detail =
                                 DetailModel("Duration", response.data!!.duration.toString())
@@ -158,34 +165,46 @@ class ServiceDetailActivity : BaseActivity(), DialogssInterface {
                             detail = DetailModel("Pricing", response.data!!.type.toString())
                             detailList.add(detail)
 
-                                if (applicationType.equals(GlobalConstants.PRODUCT_DELIVERY)){
-                                    if (!TextUtils.isEmpty(response.data!!.includedServices.toString())) {
-                                        detail = DetailModel("Included Items", response.data!!.includedServices.toString())
-                                        detailList.add(detail)
-                                    }
-
-                                    if (!TextUtils.isEmpty(response.data!!.excludedServices.toString())) {
-                                        detail = DetailModel("Excluded Items", response.data!!.excludedServices.toString())
-                                        detailList.add(detail)
-                                    }
-                                } else if (applicationType.equals(GlobalConstants.PRODUCT_SERVICES)) {
-                                    if (!TextUtils.isEmpty(response.data!!.includedServices.toString())) {
-                                        detail = DetailModel("Included Services", response.data!!.includedServices.toString())
-                                        detailList.add(detail)
-                                    }
-                            if (!TextUtils.isEmpty(response.data!!.includedServices.toString())) {
-                                detail = DetailModel(
-                                    "Included Services",
-                                    response.data!!.includedServices.toString()
-                                )
-                                detailList.add(detail)
-                            }
-
-                                    if (!TextUtils.isEmpty(response.data!!.excludedServices.toString())) {
-                                        detail = DetailModel("Excluded Services", response.data!!.excludedServices.toString())
-                                        detailList.add(detail)
-                                    }
+                            if (applicationType.equals(GlobalConstants.PRODUCT_DELIVERY)) {
+                                if (!TextUtils.isEmpty(response.data!!.includedServices.toString())) {
+                                    detail = DetailModel(
+                                        "Included Items",
+                                        response.data!!.includedServices.toString()
+                                    )
+                                    detailList.add(detail)
                                 }
+
+                                if (!TextUtils.isEmpty(response.data!!.excludedServices.toString())) {
+                                    detail = DetailModel(
+                                        "Excluded Items",
+                                        response.data!!.excludedServices.toString()
+                                    )
+                                    detailList.add(detail)
+                                }
+                            } else if (applicationType.equals(GlobalConstants.PRODUCT_SERVICES)) {
+                                if (!TextUtils.isEmpty(response.data!!.includedServices.toString())) {
+                                    detail = DetailModel(
+                                        "Included Services",
+                                        response.data!!.includedServices.toString()
+                                    )
+                                    detailList.add(detail)
+                                }
+                                if (!TextUtils.isEmpty(response.data!!.includedServices.toString())) {
+                                    detail = DetailModel(
+                                        "Included Services",
+                                        response.data!!.includedServices.toString()
+                                    )
+                                    detailList.add(detail)
+                                }
+
+                                if (!TextUtils.isEmpty(response.data!!.excludedServices.toString())) {
+                                    detail = DetailModel(
+                                        "Excluded Services",
+                                        response.data!!.excludedServices.toString()
+                                    )
+                                    detailList.add(detail)
+                                }
+                            }
 
                             if (!TextUtils.isEmpty(response.data!!.excludedServices.toString())) {
                                 detail = DetailModel(
@@ -439,6 +458,13 @@ class ServiceDetailActivity : BaseActivity(), DialogssInterface {
             cartObject.addProperty(
                 "serviceId", serviceId
             )
+            cartObject.addProperty(
+                "deliveryType", GlobalConstants.DELIVERY_PICKUP_TYPE
+            )
+            cartObject.addProperty(
+                "companyId", GlobalConstants.COMPANY_ID
+            )
+
             /* cartObject.addProperty(
                      "status", isCart
              )*/
@@ -556,6 +582,10 @@ class ServiceDetailActivity : BaseActivity(), DialogssInterface {
             "Remove Cart" -> confirmationDialog?.dismiss()
 
         }
+    }
+
+    override fun onCheckedChanged(p0: CompoundButton?, p1: Boolean) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
 }

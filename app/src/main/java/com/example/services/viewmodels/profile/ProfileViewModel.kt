@@ -8,12 +8,14 @@ import com.example.services.model.CommonModel
 import com.example.services.model.LoginResponse
 import com.example.services.repositories.profile.ProfileRepository
 import com.example.services.viewmodels.BaseViewModel
+import com.google.android.gms.common.internal.service.Common
 import com.google.gson.JsonObject
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 
 class ProfileViewModel : BaseViewModel() {
     private var data = MutableLiveData<LoginResponse>()
+    private var updateDate = MutableLiveData<CommonModel>()
     private var profileDetail = MutableLiveData<LoginResponse>()
     private var profileRepository = ProfileRepository()
     private val mIsUpdating = MutableLiveData<Boolean>()
@@ -23,12 +25,17 @@ class ProfileViewModel : BaseViewModel() {
         if (UtilsFunctions.isNetworkConnectedWithoutToast()) {
             profileDetail = profileRepository.getUserProfile(null)
             data = profileRepository.updateUserProfile(null, null)
+            updateDate=profileRepository.updateDates(null)
         }
 
     }
 
     fun getDetail() : LiveData<LoginResponse> {
         return profileDetail
+    }
+
+    fun updateDatesRes() : LiveData<CommonModel> {
+        return updateDate
     }
 
     fun getUpdateDetail() : LiveData<LoginResponse> {
@@ -62,5 +69,14 @@ class ProfileViewModel : BaseViewModel() {
 
         }
     }
+
+    fun updateDates(mJsonObject : JsonObject) {
+        if (UtilsFunctions.isNetworkConnected()) {
+            updateDate = profileRepository.updateDates(mJsonObject)
+            mIsUpdating.postValue(true)
+
+        }
+    }
+
 
 }

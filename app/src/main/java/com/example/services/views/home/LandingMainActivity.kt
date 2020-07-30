@@ -9,6 +9,7 @@ import android.os.Handler
 import android.text.TextUtils
 import android.view.Gravity
 import android.view.View
+import android.widget.CompoundButton
 import androidx.annotation.RequiresApi
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
@@ -298,8 +299,8 @@ class LandingMainActivity : BaseActivity(),
               activityDashboardBinding!!.tablayout.getTabAt(GlobalConstants.selectedFragment)!!.select()
               GlobalConstants.selectedCheckedFragment = 0
           }*/
-        activityLandingBinding!!.topBannerLayout.setBackgroundColor((Color.parseColor(GlobalConstants.COLOR_CODE)))
-        activityLandingBinding!!.topBannerLayout.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(GlobalConstants.COLOR_CODE))/*mContext.getResources().getColorStateList(R.color.colorOrange)*/)
+       // activityLandingBinding!!.topBannerLayout.setBackgroundColor((Color.parseColor(GlobalConstants.COLOR_CODE)))
+       // activityLandingBinding!!.topBannerLayout.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(GlobalConstants.COLOR_CODE))/*mContext.getResources().getColorStateList(R.color.colorOrange)*/)
         isCart = SharedPrefClass().getPrefValue(
                 MyApplication.instance,
                 GlobalConstants.isCartAdded
@@ -351,6 +352,10 @@ class LandingMainActivity : BaseActivity(),
             "logout" -> confirmationDialog?.dismiss()
             "rating" -> ratingDialog?.dismiss()
         }
+    }
+
+    override fun onCheckedChanged(p0: CompoundButton?, p1: Boolean) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun onBackPressed() {

@@ -125,12 +125,18 @@ object GlobalConstants {
     @JvmStatic
     var Currency = "Rs"
     @JvmStatic
-    var COLOR_CODE = "#F75469"
+    var COLOR_CODE = "#97D729"
     @JvmStatic
     var PRODUCT_DELIVERY = "delivery"
     @JvmStatic
     var PRODUCT_SERVICES = "services"
     @JvmStatic
     val PRODUCT_TYPE = "PRODUCT_TYPE"
+    @JvmStatic
+    var DELIVERY_PICKUP_TYPE = "1"
+    @JvmStatic
+    var CURRENT_LAT = "1"
+    @JvmStatic
+    var CURRENT_LONG = "1"
 
 }

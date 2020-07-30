@@ -3,6 +3,7 @@ package com.example.services.views.orders
 import android.app.Dialog
 import android.content.Intent
 import android.view.View
+import android.widget.CompoundButton
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -218,6 +219,10 @@ class OrdersListActivity : BaseActivity(), DialogssInterface {
             "Complete Order" -> confirmationDialog?.dismiss()
 
         }
+    }
+
+    override fun onCheckedChanged(p0: CompoundButton?, p1: Boolean) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     fun cancelOrder(position: Int) {

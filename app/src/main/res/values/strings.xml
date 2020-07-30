@@ -16,6 +16,7 @@
     <string name="empty">Please Enter</string>
     <string name="invalid">Please Enter Valid</string>
     <string name="home">Home</string>
+    <string name="search">Search</string>
     <string name="email_here">Please Enter Your E-mail address</string>
     <string name="enter_email">Enter your username / email id</string>
     <string name="send_otp">Send OTP</string>
@@ -313,7 +314,7 @@
     <string name="add_a_location">Add new Location</string>
     <string name="most_booked_services_in_this_week">Most booked services in this week</string>
     <string name="most_booked_products_in_this_week">Most booked products in this week</string>
-    <string name="trending_services">Trending Services</string>
+    <string name="trending_services">Trending Items</string>
     <string name="trending_products">Trending Products</string>
     <string name="sub_categories">Sub Categories</string>
     <string name="offers">Offers</string>
@@ -362,7 +363,7 @@
     <string name="txt_product_price">8000</string>
 
 
-    <string name="book">Book</string>
+    <string name="book">Add</string>
     <string name="order">Order</string>
     <string name="current_location">Current Location</string>
     <string name="duration">Duration</string>
@@ -382,5 +383,11 @@
     <string name="done">Done</string>
     <string name="success">Success</string>
     <string name="vendor">Vendors</string>
+    <string name="title_for_dates"> Please Add Birthday ans Anniversary details for getting offers and discount</string>
+    <string name="single"> Single</string>
+    <string name="married"> Married</string>
+    <string name="anniversary_date"> Select Anniversary Date</string>
+    <string name="select_dob">  Select DOB</string>
+
 
 </resources>

@@ -52,6 +52,13 @@ class ServicesListAdapter(
     override fun onBindViewHolder(@NonNull holder: ViewHolder, position: Int) {
         viewHolder = holder
         holder.binding!!.tvCatName.text = addressList[position].name
+        if (!TextUtils.isEmpty(addressList[position].offer) && !addressList[position].offer.equals("0")) {
+            holder.binding.rlOriginalPrice.visibility = View.VISIBLE
+            holder.binding.tvRealPrice.setText(GlobalConstants.Currency + " " + addressList[position].originalPrice)
+        } else {
+            holder.binding.rlOriginalPrice.visibility = View.GONE
+        }
+
         holder.binding!!.tvOfferPrice.text =
             GlobalConstants.Currency + " " + addressList[position].price.toString()
         holder.binding!!.tvDuration.setText(mContext.resources.getString(R.string.duration) + ": " + addressList[position].duration)
@@ -61,7 +68,7 @@ class ServicesListAdapter(
             GlobalConstants.PRODUCT_TYPE
         ).toString()
 
-        if (applicationType.equals(GlobalConstants.PRODUCT_DELIVERY)){
+        if (applicationType.equals(GlobalConstants.PRODUCT_DELIVERY)) {
             holder.binding!!.tvAdd.text = activity.resources.getString(R.string.book)
         } else if (applicationType.equals(GlobalConstants.PRODUCT_SERVICES)) {
             holder.binding!!.tvAdd.text = activity.resources.getString(R.string.order)

@@ -1,0 +1,209 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="com.example.services.common.BindingUtils" />
+
+        <variable
+            name="addressViewModel"
+            type="com.example.services.viewmodels.search.SearchViewModel" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include
+
+            android:id="@+id/toolbarCommon"
+            layout="@layout/common_toolbar_back"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="@{(v) -> addressViewModel.clickListener(v)}"
+            android:visibility="gone" />
+
+        <EditText
+            android:id="@+id/et_house_no"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_5"
+            android:background="@drawable/ic_editttext_bg"
+            android:elevation="@dimen/dp_5"
+            android:focusable="false"
+            android:focusableInTouchMode="true"
+            android:hint="@string/search_saved_locations"
+            android:inputType="text"
+            android:maxLength="30"
+            android:paddingLeft="@dimen/dp_15"
+            android:paddingRight="@dimen/dp_15"
+            android:singleLine="true"
+            android:textColor="@color/colorblack"
+            android:textColorHint="@color/colorGrey"
+            android:textSize="@dimen/sp_14"
+            android:visibility="gone"
+            app:font="@{`regular`}"
+            tools:ignore="MissingConstraints" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_10"
+            android:gravity="center_vertical"
+            android:padding="@dimen/dp_5"
+            android:weightSum="2">
+
+            <RadioGroup
+                android:id="@+id/rgFilter"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="1dp"
+                android:layout_weight="1"
+                android:background="@drawable/del_pickup_back"
+                android:checkedButton="@+id/offer"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/rdRestaurant"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="2dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/round_back_transparent_new"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:text="Restaurant"
+                    android:textColor="@color/colorBlack" />
+
+                <RadioButton
+                    android:id="@+id/rdDish"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginRight="2dp"
+                    android:layout_marginBottom="2dp"
+                    android:layout_weight="1"
+                    android:button="@null"
+                    android:checked="false"
+                    android:gravity="center"
+                    android:text="Dish"
+                    android:textColor="@color/colorBlack" />
+            </RadioGroup>
+
+            <RadioGroup
+                android:id="@+id/delPickup"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="1dp"
+                android:layout_weight="1"
+                android:background="@drawable/del_pickup_back"
+                android:checkedButton="@+id/offer"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/rdDelivery"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="2dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/round_back_transparent_new"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:text="Delivery"
+                    android:textColor="@color/colorBlack" />
+
+                <RadioButton
+                    android:id="@+id/rdPickup"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginRight="2dp"
+                    android:layout_marginBottom="2dp"
+                    android:layout_weight="1"
+                    android:button="@null"
+                    android:checked="false"
+                    android:gravity="center"
+                    android:text="Pickup"
+                    android:textColor="@color/colorBlack" />
+            </RadioGroup>
+
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/searchBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@drawable/round_button_layout_search_back"
+            android:drawableLeft="@drawable/ic_search"
+            android:drawablePadding="10dp"
+            android:inputType="text"
+            android:maxLength="30"
+            android:paddingLeft="@dimen/dp_15"
+            android:paddingRight="@dimen/dp_15"
+            android:singleLine="true"
+            android:hint="Search for restaurant or dish"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:textColor="#D5D5D5"
+            android:textColorHint="#D5D5D5"
+            tools:ignore="HardcodedText" />
+        <!-- <SearchView
+             android:id="@+id/searchBar"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:visibility="visible" />-->
+        <!--<com.mancj.materialsearchbar.MaterialSearchBar
+            android_id="@+id/searchBar1"
+            android_layout_height="wrap_content"
+            android_layout_width="match_parent"
+            app_mt_hint="Search"
+            app_mt_maxSuggestionsCount="5"
+            app_mt_speechMode="true"
+            app_theme="@style/AppTheme.PopupOverlay"
+            android:visibility="gone" />-->
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/dp_5">
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/tv_no_record"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/searcher" />
+
+            <TextView
+                android:id="@+id/tv_no_record1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="@string/no_record_found"
+                android:visibility="gone" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvList"
+                android:layoutAnimation="@anim/layout_animation_from_left"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </RelativeLayout>
+    </LinearLayout>
+</layout>

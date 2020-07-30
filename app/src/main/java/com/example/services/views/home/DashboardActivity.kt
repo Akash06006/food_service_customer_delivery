@@ -7,6 +7,7 @@ import android.os.Handler
 import android.text.TextUtils
 import android.view.Gravity
 import android.view.View
+import android.widget.CompoundButton
 import androidx.annotation.RequiresApi
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
@@ -47,10 +48,8 @@ class DashboardActivity : BaseActivity(),
         return R.layout.activity_dashboard
     }
 
-
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun initViews() {
-
 
         activityDashboardBinding = viewDataBinding as ActivityDashboardBinding
         dashboardViewModel = ViewModelProviders.of(this).get(DashboardViewModel::class.java)
@@ -130,6 +129,10 @@ class DashboardActivity : BaseActivity(),
 
             "rating" -> ratingDialog?.dismiss()
         }
+    }
+
+    override fun onCheckedChanged(p0: CompoundButton?, p1: Boolean) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun onBackPressed() {

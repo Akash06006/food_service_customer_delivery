@@ -59,18 +59,7 @@ class OffersListRecyclerAdapter(
         //holder.binding!!.cardView.setBackgroundColor(color)
         holder.binding!!.cardView.setBackgroundTintList(ColorStateList.valueOf(color)/*mContext.getResources().getColorStateList(R.color.colorOrange)*/)
 
-        // holder.binding!!.cardView.setRadius(10f)
-        //val background: Drawable = (holder.binding!!.toLayout.getBackground() as GradientDrawable).mutate()
-        // (background as GradientDrawable).setColor(color)
-        /* if (background instanceof ShapeDrawable) {
-             ((ShapeDrawable) background!!.mutate()).getPaint().setColor(color)
-         mContext.resources.getDrawable(R.drawable.shape_round_corner_grid).mutate().colorFilter=*/
-        // }
-        // holder.binding!!.catDes.text(categoriesList[position].)
-        /*  Glide.with(mContext)
-              .load(categoriesList[position].icon)
-              .placeholder(R.drawable.ic_category)
-              .into( holder.binding.catImg)*/
+
     }
 
     override fun getItemCount(): Int {

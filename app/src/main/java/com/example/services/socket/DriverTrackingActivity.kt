@@ -30,6 +30,7 @@ import android.provider.Settings
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
+import android.widget.CompoundButton
 import android.widget.Toast
 import androidx.annotation.DrawableRes
 import androidx.annotation.RequiresApi
@@ -72,7 +73,7 @@ import org.json.JSONObject
 import java.security.Provider
 import kotlin.collections.ArrayList
 
-open class DriverTrackingActivity : BaseActivity(), OnMapReadyCallback, LocationListener,
+ open class DriverTrackingActivity : BaseActivity(), OnMapReadyCallback, LocationListener,
     SocketInterface,
     GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks, MapInterface,
     DialogssInterface,
@@ -619,7 +620,11 @@ open class DriverTrackingActivity : BaseActivity(), OnMapReadyCallback, Location
 
     }
 
-    fun checkGPS() {
+     override fun onCheckedChanged(p0: CompoundButton?, p1: Boolean) {
+         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+     }
+
+     fun checkGPS() {
         val mLocationManager =
             mContext!!.getSystemService(Context.LOCATION_SERVICE) as LocationManager
         var gps_enabled = false

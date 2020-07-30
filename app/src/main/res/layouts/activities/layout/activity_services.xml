@@ -43,6 +43,16 @@
                 android:gravity="center"
                 android:padding="@dimen/dp_10" />
 
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/switchMaterial"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rv_subcategories"
+                android:checked="false"
+                android:padding="10dp"
+                android:switchPadding="5dp"
+                android:text="Veg Only  " />
+
             <TextView
                 android:id="@+id/tv_no_record"
                 android:layout_width="wrap_content"
@@ -54,8 +64,9 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_services"
                 android:layout_width="match_parent"
+                android:layoutAnimation="@anim/layout_animation_from_left"
                 android:layout_height="match_parent"
-                android:layout_below="@+id/rv_subcategories"
+                android:layout_below="@+id/switchMaterial"
                 android:layout_marginTop="@dimen/dp_5" />
 
         </RelativeLayout>
