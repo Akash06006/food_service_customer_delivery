@@ -226,6 +226,23 @@
                             tools:ignore="RtlSymmetry" />
 
                         <TextView
+                            android:id="@+id/tv_nav_tiffin"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dp_10"
+                            android:gravity="center_vertical"
+                            android:onClick="@{(v) -> dashboardViewModel.clickListener(v)}"
+                            android:paddingStart="@dimen/dp_10"
+                            android:paddingLeft="@dimen/dp_10"
+                            android:paddingBottom="@dimen/dp_5"
+                            android:text="@string/tiffin"
+                            android:textAllCaps="true"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="@dimen/sp_18"
+                            app:font="@{`semibold`}"
+                            tools:ignore="RtlSymmetry" />
+
+                        <TextView
                             android:id="@+id/tv_nav_order"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"

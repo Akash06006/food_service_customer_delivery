@@ -14,11 +14,7 @@ import com.example.services.views.home.LandingHomeFragment
 import kotlinx.android.synthetic.main.trending_service_item.view.*
 import kotlin.collections.ArrayList
 
-class LandingHomeBannersListAdapter(
-    context: LandingHomeFragment,
-    addressList: ArrayList<LandingResponse.Banners>,
-    var activity: Context
-) : PagerAdapter() {
+class LandingHomeBannersListAdapter(context: LandingHomeFragment, addressList: ArrayList<LandingResponse.Banners>, var activity: Context) : PagerAdapter() {
     private var inflater: LayoutInflater? = null
     // private val images = arrayOf(R.drawable.anton, R.drawable.frankjpg, R.drawable.redcharlie, R.drawable.westboundary)
     private val mContext: LandingHomeFragment

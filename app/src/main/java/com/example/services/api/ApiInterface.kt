@@ -39,6 +39,9 @@ interface ApiInterface {
     @POST("resetpassword/")
     fun resetPassword(@Body mJsonObject: JsonObject): Call<JsonObject>
 
+    @POST("mobile/tiffin/home")
+    fun getTiffinHome(@Body mJsonObject: JsonObject): Call<JsonObject>
+
     //@POST("resetpassword/")
     //fun getProfile(@Body mJsonObject : JsonObject) : Call<JsonObject>
     @POST("users/changepassword/")

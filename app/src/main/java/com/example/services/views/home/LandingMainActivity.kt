@@ -34,8 +34,11 @@ import com.example.services.views.orders.OrdersHistoryListActivity
 import com.example.services.views.orders.OrdersListActivity
 import com.example.services.views.profile.ProfileActivity
 import com.example.services.views.settings.MyAccountsActivity
+import com.example.services.views.tiffin.TiffinListActivity
+import com.example.services.views.tiffin.TiffinViewModel
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.tabs.TabLayout
+import com.google.gson.JsonObject
 
 class LandingMainActivity : BaseActivity(),
         DialogssInterface {
@@ -63,6 +66,8 @@ class LandingMainActivity : BaseActivity(),
         activityLandingBinding!!.dashboardViewModel = dashboardViewModel
         // toolBarText = activityDashboardBinding!!.toolbarCommon.imgToolbarText
         // toolBarImage = activityDashboardBinding!!.toolbarCommon.imgRight
+        var tiffinViewModel: TiffinViewModel? = null
+
         /** Show Rating Dialog here**/
         // checkForRating(0)
         /*****************/
@@ -99,6 +104,10 @@ class LandingMainActivity : BaseActivity(),
             when (it) {
                 "tv_nav_fav" -> {
                     val intent = Intent(this, FavoriteListActivity::class.java)
+                    startActivity(intent)
+                }
+                "tv_nav_tiffin" -> {
+                    val intent = Intent(this, TiffinListActivity::class.java)
                     startActivity(intent)
                 }
                 "tv_nav_notification" -> {

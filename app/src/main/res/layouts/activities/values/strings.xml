@@ -12,6 +12,11 @@
     <string name="enter_promocode_msg">Please enter promocode</string>
     <string name="use_code">Use Code</string>
     <string name="off">Off</string>
+    <string name="tiffin">Tiffin Service</string>
+    <string name="tiffin1">Tiffin 1 Frag</string>
+    <string name="tiffin2">Tiffin 2 Frag</string>
+    <string name="Filters">Filters</string>
+    <string name="filter_popup_title">Selected Options</string>
 
 
     <!-- <string name="api_key">AIzaSyD2-RDPo0jssFqwwTXr6NDpOFzQTcIc3dI</string>-->
