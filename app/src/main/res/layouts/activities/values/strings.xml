@@ -28,6 +28,10 @@
     <string name="filterNew">New</string>
     <string name="applyFilters">Apply Filters</string>
     <string name="clearFilters">Clear Filters</string>
+    <string name="filterPackages">Packages</string>
+    <string name="filterDaily">Daily</string>
+    <string name="filterWeeky">Weekly</string>
+    <string name="filterMonthly">Monthly</string>
 
 
     <!-- <string name="api_key">AIzaSyD2-RDPo0jssFqwwTXr6NDpOFzQTcIc3dI</string>-->

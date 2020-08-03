@@ -48,7 +48,9 @@ class TiffinMainRecyclerAdapter(
         val scrollViewLayout = holder.binding!!.llTiffinTagScroll
         for (i in 0 until list[position]!!.tags!!.size) {
             val tv = TextView(mContext.context)
-            tv.setText(list[position].tags!!.get(i) + ", ")
+            if (i != list[position]!!.tags!!.size - 1){
+            tv.setText(list[position].tags!!.get(i) + ", ")}
+            else{tv.setText(list[position].tags!!.get(i))}
             scrollViewLayout.addView(tv)
             tv.setPadding(5, 5, 5, 5)
         }
