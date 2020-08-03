@@ -5,12 +5,14 @@ import android.content.res.Resources
 import android.graphics.BitmapFactory
 import android.text.TextUtils
 import android.view.View
+import android.widget.ImageButton
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.services.R
+import com.example.services.adapters.tiffinService.PopupFilterAdapter
 import com.example.services.adapters.tiffinService.TiffinMainRecyclerAdapter
 import com.example.services.common.UtilsFunctions
 import com.example.services.constants.GlobalConstants
@@ -42,47 +44,22 @@ class Tiffin1Fragment : com.example.services.utils.BaseFragment() {
         binding = viewDataBinding as FragmentTiffin1Binding
 
         tiffinViewModel  = ViewModelProviders.of(this).get(TiffinViewModel::class.java)
-
+        binding!!.tiffinMainViewModel = tiffinViewModel
 
         val mJsonObject = JsonObject()
         //mJsonObject.addProperty("authorization", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZU51bWJlciI6Ijg4ODQzNDA0MDQiLCJteUNvbXBhbnlJZCI6IjI1Y2JmNThiLTQ2YmEtNGJhMi1iMjVkLThmOGY2NTNlOWYxMyIsInBhcmVudENvbXBhbnkiOiIyNWNiZjU4Yi00NmJhLTRiYTItYjI1ZC04ZjhmNjUzZTlmMTMiLCJjb3VudHJ5Q29kZSI6IjkxIiwidXNlclR5cGUiOjEsImlkIjoiZDBjMGE0NjUtOWRlNi00MjY5LWE5NmYtYzgwNjA4YTUxMmVhIiwiaWF0IjoxNTk2MTk2MzM4LCJleHAiOjE1OTY4MDExMzh9._cE_nzVRAs8wIaEUR7qnQUciqdiTY4XtrdAmr8yv7A4")
+        if (GlobalConstants.selectedFilterCategories != ""){
+            mJsonObject.addProperty("itemType", GlobalConstants.selectedFilterCategories)
+        }
+        if (GlobalConstants.selectedFilterPackages != ""){
+            mJsonObject.addProperty("packages", GlobalConstants.selectedFilterPackages)
+        }
+        /*if (GlobalConstants.selectedFilterCategories != ""){
+            mJsonObject.addProperty("itemType", GlobalConstants.selectedFilterCategories)
+        }*/
         mJsonObject.addProperty("page", 1)
         mJsonObject.addProperty("limit", 10)
         tiffinViewModel!!.hitHomeTiffinApi(mJsonObject)
-
-        /*vendorAvailabilityList = ArrayList()
-
-        vendorAvailabilityList.add("Lunch")
-        vendorAvailabilityList.add("Dinner")
-
-        vendorPackagesList = ArrayList()
-
-        vendorPackagesList.add("Daily")
-        vendorPackagesList.add("Weekly")
-        vendorPackagesList.add("Monthly")
-        vendorPackagesList.add("Quaterly")
-
-        vendorTagList = ArrayList()
-
-        vendorTagList.add("South Indian")
-        vendorTagList.add("North Indian")
-        vendorTagList.add("Chinese")
-
-        list = ArrayList()
-
-        list.add(TiffinMainList(BitmapFactory.decodeResource(getResources(), R.drawable.user_photo),
-            "Qizo",
-            vendorAvailabilityList,
-            vendorPackagesList,
-            vendorTagList,
-            1)
-        )*/
-
-        /*val recyclerView = binding!!.tiffinFrag1Recycler
-        val adapter = TiffinMainRecyclerAdapter(this, tiffinViewModel, activity = activity!!.applicationContext)
-        recyclerView.setHasFixedSize(true)
-        recyclerView.layoutManager = LinearLayoutManager(this.baseActivity)
-        recyclerView.adapter = adapter*/
 
         tiffinViewModel!!.loadVendorData().observe(this,
             Observer<TiffinMainResponse> { response ->
@@ -103,6 +80,19 @@ class Tiffin1Fragment : com.example.services.utils.BaseFragment() {
                     }
                 }
             })
+
+        val popupButton: ImageButton = binding!!.filterButton
+
+        tiffinViewModel!!.isClick().observe(
+            this, Observer<String>(function =
+            fun(it: String?) {
+                when (it) {
+                    "filterButton" -> {
+                        val popUpClass = PopupFilterAdapter()
+                        popUpClass.showPopupWindow(popupButton)
+                    }
+                }
+            }))
 
 
 

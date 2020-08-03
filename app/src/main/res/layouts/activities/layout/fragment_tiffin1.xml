@@ -6,11 +6,9 @@
 
     <data>
 
-        <import type="com.example.services.common.BindingUtils" />
-
         <variable
-            name="homeViewModel"
-            type="com.example.services.viewmodels.home.HomeViewModel" />
+            name="tiffinMainViewModel"
+            type="com.example.services.views.tiffin.TiffinViewModel" />
 
     </data>
 
@@ -18,11 +16,41 @@
 <FrameLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+<HorizontalScrollView
+    android:id="@+id/filterScrollView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/ll_linearFilter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/round_back_transparent"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageButton
+            android:id="@+id/filterButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_marginLeft="@dimen/dp_5"
+            android:src="@drawable/ic_filter"
+            android:background="@color/colorGrey2"
+            android:onClick="@{(v) -> tiffinMainViewModel.clickListener(v)}"
+            android:drawablePadding="@dimen/dp_5"/>
+
+    </LinearLayout>
+
+</HorizontalScrollView>
+
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/tiffinFrag1Recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/dp_10"/>
+        android:layout_marginTop="@dimen/dp_50"/>
 </FrameLayout>
 
 </layout>

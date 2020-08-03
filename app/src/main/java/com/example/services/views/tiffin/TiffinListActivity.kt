@@ -60,19 +60,6 @@ class TiffinListActivity: BaseActivity() {
         })
 
 
-        val popupButton: ImageButton = activityTiffinBinding!!.filterButton
-
-        tiffinViewModel!!.isClick().observe(
-            this, Observer<String>(function =
-            fun(it: String?) {
-                when (it) {
-                    "filterButton" -> {
-                        val popUpClass = PopupFilterAdapter()
-                        popUpClass.showPopupWindow(popupButton)
-                    }
-                }
-            }))
-
     }
 
     override fun getLayoutId(): Int {

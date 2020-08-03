@@ -139,4 +139,12 @@ object GlobalConstants {
     @JvmStatic
     var CURRENT_LONG = "1"
 
+    //Tiffin Filters
+    @JvmStatic
+    var selectedFilterCategories = ""
+    @JvmStatic
+    var selectedFilterPackages = ""
+    @JvmStatic
+    var selectedFilterSortCode = ""
+
 }
