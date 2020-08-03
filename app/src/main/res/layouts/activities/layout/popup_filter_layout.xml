@@ -1,42 +1,196 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="wrap_content"
-    android:layout_height="@dimen/dp_200"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:gravity="left">
 
     <androidx.cardview.widget.CardView
-        android:layout_marginTop="@dimen/dp_100"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/dp_200"
-        app:cardCornerRadius="5dp">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        //app:cardCornerRadius="5dp">
 
-        <LinearLayout
-            android:padding="10dp"
+
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:padding="@dimen/dp_10">
 
             <TextView
                 android:id="@+id/titleText"
                 android:layout_gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Select Filters"
+                android:text="@string/filter_popup_title"
                 android:textSize="20sp"
-                android:textStyle="bold"
-                android:padding="10dp"/>
+                android:layout_marginTop="@dimen/dp_68"
+                android:layout_alignParentTop="true"
+                android:textStyle="bold" />
+
+            <ImageButton
+                android:id="@+id/filterSharpCancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_ic_sharp_cancel"
+                android:scaleX="0.7"
+                android:scaleY="0.7"
+                android:layout_alignParentRight="true"/>
+
+            <TextView
+                android:id="@+id/subTitleText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/sp_18"
+                android:text="@string/filterCategories"
+                android:layout_below="@id/titleText"
+                android:layout_marginTop="@dimen/dp_30"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/filter_veg_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/filterVeg"
+                android:layout_below="@id/subTitleText"
+                android:layout_marginTop="@dimen/dp_14"
+                android:background="@drawable/ic_round_rec_small_grey2"
+                android:paddingLeft="@dimen/dp_15"
+                android:paddingRight="@dimen/dp_15"
+                android:paddingTop="@dimen/dp_8"
+                android:paddingBottom="@dimen/dp_8"
+                android:gravity="center"/>
+
+            <TextView
+                android:id="@+id/filter_non_veg_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/filterNonVeg"
+                android:layout_below="@id/subTitleText"
+                android:layout_toRightOf="@id/filter_veg_tv"
+                android:layout_marginLeft="@dimen/dp_9"
+                android:layout_marginTop="@dimen/dp_14"
+                android:background="@drawable/ic_base_14"
+                android:paddingLeft="@dimen/dp_15"
+                android:paddingRight="@dimen/dp_15"
+                android:paddingTop="@dimen/dp_8"
+                android:paddingBottom="@dimen/dp_8"
+                android:gravity="center"/>
+
+            <TextView
+                android:id="@+id/filter_veg_non_veg_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/filterVegNonVeg"
+                android:layout_below="@id/subTitleText"
+                android:layout_toRightOf="@id/filter_non_veg_tv"
+                android:layout_marginLeft="@dimen/dp_9"
+                android:layout_marginTop="@dimen/dp_14"
+                android:background="@drawable/ic_base_14"
+                android:backgroundTint="@color/colorhiliteGreen"
+                android:textColor="@color/white"
+                android:paddingLeft="@dimen/dp_15"
+                android:paddingRight="@dimen/dp_15"
+                android:paddingTop="@dimen/dp_8"
+                android:paddingBottom="@dimen/dp_8"
+                android:gravity="center"/>
+
+            <TextView
+                android:id="@+id/subTitleText2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/sp_18"
+                android:text="@string/filterSort"
+                android:layout_below="@id/filter_veg_tv"
+                android:layout_marginTop="@dimen/dp_30"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/filter_popularity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/filterPopularity"
+                android:layout_below="@id/subTitleText2"
+                android:layout_marginTop="@dimen/dp_14"
+                android:background="@drawable/ic_base_3"
+                android:textColor="@color/white"
+                android:backgroundTint="@color/colorhiliteGreen"
+                android:paddingLeft="@dimen/dp_15"
+                android:paddingRight="@dimen/dp_15"
+                android:paddingTop="@dimen/dp_8"
+                android:paddingBottom="@dimen/dp_8"
+                android:gravity="center"/>
+
+            <TextView
+                android:id="@+id/filter_high_low"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/filterHighLow"
+                android:layout_below="@id/subTitleText2"
+                android:layout_toRightOf="@id/filter_popularity"
+                android:layout_marginLeft="@dimen/dp_9"
+                android:layout_marginTop="@dimen/dp_14"
+                android:background="@drawable/ic_base_3"
+                android:paddingLeft="@dimen/dp_15"
+                android:paddingRight="@dimen/dp_15"
+                android:paddingTop="@dimen/dp_8"
+                android:paddingBottom="@dimen/dp_8"
+                android:gravity="center"/>
+
+            <TextView
+                android:id="@+id/filter_low_high"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/filterLowHigh"
+                android:layout_below="@id/subTitleText2"
+                android:layout_toRightOf="@id/filter_high_low"
+                android:layout_marginLeft="@dimen/dp_9"
+                android:layout_marginTop="@dimen/dp_14"
+                android:background="@drawable/ic_base_3"
+                android:paddingLeft="@dimen/dp_15"
+                android:paddingRight="@dimen/dp_15"
+                android:paddingTop="@dimen/dp_8"
+                android:paddingBottom="@dimen/dp_8"
+                android:gravity="center"/>
+
+            <TextView
+                android:id="@+id/filter_new"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/filterNew"
+                android:layout_below="@id/filter_popularity"
+                android:layout_marginTop="@dimen/dp_14"
+                android:background="@drawable/ic_round_rec_small_grey2"
+                android:paddingLeft="@dimen/dp_15"
+                android:paddingRight="@dimen/dp_15"
+                android:paddingTop="@dimen/dp_8"
+                android:paddingBottom="@dimen/dp_8"
+                android:gravity="center"/>
 
 
             <Button
-                android:id="@+id/messageButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Veg Only" />
+                android:id="@+id/applyFiltersButton"
+                android:layout_width="@dimen/dp_345"
+                android:layout_height="@dimen/dp_46"
+                android:layout_above="@id/clearFiltersButton"
+                android:layout_centerHorizontal="true"
+                android:text="@string/applyFilters"
+                android:textAllCaps="false"
+                android:backgroundTint="@color/colorhiliteGreen"
+                android:textColor="@color/white"
+                android:background="@drawable/ic_bg"/>
 
-        </LinearLayout>
+            <Button
+                android:id="@+id/clearFiltersButton"
+                android:layout_width="@dimen/dp_345"
+                android:layout_height="@dimen/dp_48"
+                android:layout_marginTop="@dimen/dp_11"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:text="@string/clearFilters"
+                android:textAllCaps="false"
+                android:background="@drawable/ic_bg" />
+
+        </RelativeLayout>
 
     </androidx.cardview.widget.CardView>
 </LinearLayout>

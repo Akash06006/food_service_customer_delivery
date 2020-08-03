@@ -36,17 +36,24 @@ class PopupFilterAdapter {
         val test2 = popupView.findViewById<TextView>(R.id.titleText)
         test2.setText(R.string.filter_popup_title)
         val buttonEdit =
-            popupView.findViewById<Button>(R.id.messageButton)
+            popupView.findViewById<Button>(R.id.applyFiltersButton)
         buttonEdit.setOnClickListener { //As an example, display the message
             Toast.makeText(view.context, "Wow, popup action button", Toast.LENGTH_SHORT)
                 .show()
         }
 
+        val sharpCloseButton = popupView.findViewById<ImageButton>(R.id.filterSharpCancel)
 
-        //Handler for clicking on the inactive zone of the window
-        popupView.setOnTouchListener { v, event -> //Close the window when clicked
+        sharpCloseButton.setOnTouchListener { v, event -> //Close the window when clicked
             popupWindow.dismiss()
             true
         }
+
+
+        /*//Handler for clicking on the inactive zone of the window
+        popupView.setOnTouchListener { v, event -> //Close the window when clicked
+            popupWindow.dismiss()
+            true
+        }*/
     }
 }

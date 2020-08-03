@@ -44,8 +44,8 @@
 
                 <ImageView
                     android:id="@+id/img_tiffin_vendor"
-                    android:layout_width="@dimen/dp_100"
-                    android:layout_height="@dimen/dp_100"
+                    android:layout_width="@dimen/dp_107"
+                    android:layout_height="@dimen/dp_187"
                     android:elevation="@dimen/dp_5"
                     android:scaleType="centerCrop"
                     android:src="@drawable/ic_category" />
@@ -61,12 +61,12 @@
 
                     <TextView
                         android:id="@+id/tv_tiffin_vendor_name"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentTop="true"
-                        android:layout_marginLeft="@dimen/dp_10"
+                        android:layout_marginLeft="@dimen/dp_20"
                         android:layout_marginRight="@dimen/dp_5"
-                        android:layout_toLeftOf="@+id/img_favourite"
+                        android:layout_marginTop="@dimen/dp_5"
                         android:singleLine="true"
                         android:text="Name"
                         android:textAppearance="@style/TextAppearance.AppCompat.Small"
@@ -74,26 +74,26 @@
                         android:textStyle="bold"
                         app:font="@{`bold`}" />
 
-                    <ImageView
+                    <!--<ImageView
                         android:id="@+id/img_favourite"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:padding="@dimen/dp_5"
-                        android:src="@drawable/ic_unfavorite" />
+                        android:src="@drawable/ic_unfavorite" />-->
 
                     <ImageView
                         android:id="@+id/img_veg"
                         android:layout_width="@dimen/dimen_20dp"
                         android:layout_height="@dimen/dimen_20dp"
-                        android:layout_below="@+id/tv_tiffin_vendor_name"
+                        android:layout_alignParentRight="true"
                         android:layout_marginLeft="@dimen/dp_10"
                         android:layout_marginRight="@dimen/dp_5"
                         android:layout_marginTop="@dimen/dp_5"
                         android:singleLine="true"
                         android:src="@drawable/veg" />
 
-                    <TextView
+                    <!--<TextView
                         android:id="@+id/tv_veg"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -106,13 +106,14 @@
                         android:text="Veg"
                         android:textAppearance="@style/TextAppearance.AppCompat.Small"
                         android:textColor="@android:color/black"
-                        app:font="@{`regular`}" />
+                        app:font="@{`regular`}" />-->
 
 
 
                     <HorizontalScrollView
                         android:id="@+id/tiffin_tag_scroll"
                         android:layout_marginTop="@dimen/dp_5"
+                        android:layout_marginLeft="@dimen/dp_20"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/dp_25"
                         android:layout_below="@id/img_veg">
@@ -125,58 +126,60 @@
 
                     </HorizontalScrollView>
 
-                    <RatingBar
-                        android:id="@+id/rBar"
-                        style="@android:style/Widget.Material.RatingBar.Small"
-                        android:layout_width="wrap_content"
+                    <RelativeLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/tv_cat_name"
-                        android:layout_marginLeft="@dimen/dp_10"
-                        android:layout_marginTop="@dimen/dp_5"
-                        android:numStars="5"
-                        android:stepSize="0.5"
-                        android:theme="@style/RatingBar"
-                        android:visibility="gone"/>
+                        android:layout_below="@id/tiffin_tag_scroll">
+
+                        <TextView
+                            android:id="@+id/tv_tiffin_availability"
+                            android:layout_marginTop="@dimen/dp_10"
+                            android:drawableLeft="@drawable/ic_availability"
+                            android:drawablePadding="@dimen/dp_10"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Availability"
+                            android:scaleX="0.7"
+                            android:scaleY="0.7"
+                            android:textColor="@color/colorGrey"
+                            android:textSize="@dimen/sp_20"/>
+                        <TextView
+                            android:id="@+id/availablity_tiffin"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/dp_37"
+                            android:text="Lunch, Dinner"
+                            android:textSize="@dimen/sp_12"
+                            android:layout_below="@id/tv_tiffin_availability"
+                            app:font = "@{`bold`}"/>
+                        <TextView
+                            android:id="@+id/tv_tiffin_packages"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawableLeft="@drawable/ic_packages"
+                            android:drawablePadding="@dimen/dp_10"
+                            android:scaleX="0.7"
+                            android:scaleY="0.7"
+                            android:text="Packages"
+                            android:textColor="@color/colorGrey"
+                            android:textSize="@dimen/sp_20"
+                            android:layout_below="@id/availablity_tiffin" />
+                        <TextView
+                            android:id="@+id/packages_tiffin"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Daily, Weekly, Monthly, Quaterly"
+                            android:layout_marginLeft="@dimen/dp_37"
+                            android:textSize="@dimen/sp_12"
+                            android:layout_below="@id/tv_tiffin_packages"
+                            android:paddingBottom="@dimen/dp_10"
+                            app:font = "@{`bold`}"/>
+                    </RelativeLayout>
 
                 </RelativeLayout>
 
             </LinearLayout>
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/tiffin_main_item">
 
-                <TextView
-                    android:id="@+id/tv_tiffin_availability"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Availability"
-                    android:textColor="@color/colorGrey"
-                    android:textSize="@dimen/sp_18"/>
-                <TextView
-                    android:id="@+id/availablity_tiffin"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Lunch, Dinner"
-                    android:layout_below="@id/tv_tiffin_availability"
-                    app:font = "@{`bold`}"/>
-                <TextView
-                    android:id="@+id/tv_tiffin_packages"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Packages"
-                    android:textColor="@color/colorGrey"
-                    android:textSize="@dimen/sp_18"
-                    android:layout_below="@id/availablity_tiffin" />
-                <TextView
-                    android:id="@+id/packages_tiffin"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Daily, Weekly, Monthly, Quaterly"
-                    android:layout_below="@id/tv_tiffin_packages"
-                    android:paddingBottom="@dimen/dp_10"
-                    app:font = "@{`bold`}"/>
-            </RelativeLayout>
 
             </RelativeLayout>
         </androidx.cardview.widget.CardView>

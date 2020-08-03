@@ -16,7 +16,18 @@
     <string name="tiffin1">Tiffin 1 Frag</string>
     <string name="tiffin2">Tiffin 2 Frag</string>
     <string name="Filters">Filters</string>
-    <string name="filter_popup_title">Selected Options</string>
+    <string name="filter_popup_title">Filter Your Search</string>
+    <string name="filterCategories">Categories</string>
+    <string name="filterVeg">Veg</string>
+    <string name="filterNonVeg">Non - Veg</string>
+    <string name="filterVegNonVeg">Veg/ Non - Veg</string>
+    <string name="filterSort">Sort</string>
+    <string name="filterPopularity">Popularity</string>
+    <string name="filterHighLow">High to Low</string>
+    <string name="filterLowHigh">Low to High</string>
+    <string name="filterNew">New</string>
+    <string name="applyFilters">Apply Filters</string>
+    <string name="clearFilters">Clear Filters</string>
 
 
     <!-- <string name="api_key">AIzaSyD2-RDPo0jssFqwwTXr6NDpOFzQTcIc3dI</string>-->
