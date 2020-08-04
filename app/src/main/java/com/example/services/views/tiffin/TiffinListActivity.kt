@@ -1,16 +1,8 @@
 package com.example.services.views.tiffin
 
-import android.content.Intent
-import android.view.View
-import android.widget.Button
-import android.widget.ImageButton
-import android.widget.RelativeLayout
-import android.widget.TextView
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager.widget.ViewPager
 import com.example.services.R
-import com.example.services.adapters.tiffinService.PopupFilterAdapter
 import com.example.services.adapters.tiffinService.TiffinListAdapter
 import com.example.services.databinding.ActivityTiffinBinding
 import com.example.services.utils.BaseActivity

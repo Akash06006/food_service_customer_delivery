@@ -64,7 +64,7 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:3.0.1'
     //recyclerView
     implementation 'androidx.cardview:cardview:1.0.0'
-    implementation 'androidx.recyclerview:recyclerview:1.2.0-alpha01'
+    implementation 'androidx.recyclerview:recyclerview:1.2.0-alpha05'
 
     //Pinview OTP
     implementation 'com.github.GoodieBag:Pinview:1.4'
@@ -81,7 +81,7 @@ dependencies {
     //Google Dependencies
 
     //noinspection UseOfBundledGooglePlayServices
-    implementation 'com.google.android.gms:play-services-auth:17.0.0'
+    implementation 'com.google.android.gms:play-services-auth:18.1.0'
     implementation 'com.google.android.gms:play-services-gcm:17.0.0'
     implementation 'com.google.firebase:firebase-database:19.2.1'
     implementation 'com.google.firebase:firebase-auth:19.2.0'
