@@ -1,17 +1,10 @@
 package com.example.services.views.tiffin
 
-import android.annotation.SuppressLint
 import android.app.Dialog
-import android.content.Context
 import android.content.Intent
-import android.content.res.Resources
-import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.text.TextUtils
 import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.view.Window
 import android.widget.*
 import androidx.databinding.DataBindingUtil
@@ -26,17 +19,10 @@ import com.example.services.adapters.tiffinService.TiffinPopupAdapter
 import com.example.services.common.UtilsFunctions
 import com.example.services.constants.GlobalConstants
 import com.example.services.databinding.FragmentTiffin1Binding
-import com.example.services.model.home.LandingResponse
-import com.example.services.model.tiffinModel.TiffinMainList
 import com.example.services.model.tiffinModel.TiffinMainResponse
-import com.example.services.sharedpreference.SharedPrefClass
-import com.example.services.viewmodels.home.HomeViewModel
-import com.example.services.views.home.LandingMainActivity
+import com.example.services.viewmodels.tiffinViewModel.TiffinViewModel
 import com.google.gson.JsonObject
-import com.uniongoods.adapters.TopPicksRecyclerAdapter
-import kotlinx.android.synthetic.main.custom_dialog.*
 import kotlinx.android.synthetic.main.popup_filter_layout.*
-import kotlinx.android.synthetic.main.popup_filter_layout.view.*
 
 
 class Tiffin1Fragment : com.example.services.utils.BaseFragment() {
@@ -87,13 +73,14 @@ class Tiffin1Fragment : com.example.services.utils.BaseFragment() {
                 when (it) {
                     "filterButton" -> {
                         val popUpClass = TiffinPopupAdapter(popupButton)
-                        popUpClass.showPopupWindow(popupButton)
+                        popUpClass.showPopupWindow()
                         popUpClass.buttonApply.setOnClickListener{
                             popUpClass.popupWindow.dismiss()
                             this.activity!!.finish()
                             val intent = Intent(this.context, TiffinListActivity::class.java)
                             startActivity(intent)
                         }
+                        //filterDialog()
                     }
                 }
             }))
@@ -148,6 +135,10 @@ class Tiffin1Fragment : com.example.services.utils.BaseFragment() {
                     mJsonObject.addProperty("orderby", "rating")
                     mJsonObject.addProperty("orderType", "DESC")
                 }
+                /*"New" -> {
+                    mJsonObject.addProperty("orderby", "rating")
+                    mJsonObject.addProperty("orderType", "DESC")
+                }*/
             }
         }
         mJsonObject.addProperty("page", 1)
@@ -174,6 +165,48 @@ class Tiffin1Fragment : com.example.services.utils.BaseFragment() {
             }
         })
 
+    }
+
+    fun filterDialog() {
+       var confirmationDialog = Dialog(this.context, R.style.transparent_dialog_borderless)
+        confirmationDialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        val binding =
+            DataBindingUtil.inflate<ViewDataBinding>(
+                LayoutInflater.from(this.context),
+                R.layout.popup_filter_layout,
+                null,
+                false
+            )
+
+        confirmationDialog?.setContentView(binding.root)
+        confirmationDialog?.setCancelable(false)
+
+        confirmationDialog?.window!!.setLayout(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.MATCH_PARENT
+        )
+        confirmationDialog?.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        val buttonClear = confirmationDialog.clearFiltersButton
+        val buttonApply = confirmationDialog.findViewById<Button>(R.id.applyFiltersButton)
+        val filterVegTv = confirmationDialog.filter_veg_tv
+        val filterNonVegTv = confirmationDialog.filter_non_veg_tv
+        val filterVegNonVegTv = confirmationDialog.filter_veg_non_veg_tv
+        val filterDaily = confirmationDialog.filter_daily
+        val filterWeekly = confirmationDialog.filter_weekly
+        val filterMonthly = confirmationDialog.filter_monthly
+        val filterVegTvBackground = filterVegTv.background
+        val filterNonVegTvBackground = filterNonVegTv.background
+        val filterVegNonVegTvBackground = filterVegNonVegTv.background
+        val filterDailyBackground = filterDaily.background
+        val filterWeeklyBackground = filterWeekly.background
+        val filterMonthlyBackground = filterMonthly.background
+
+
+        buttonClear?.setOnClickListener {
+            confirmationDialog?.dismiss()
+        }
+        confirmationDialog?.show()
     }
 
 }

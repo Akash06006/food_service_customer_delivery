@@ -8,7 +8,7 @@
 
         <variable
             name="tiffinMainViewModel"
-            type="com.example.services.views.tiffin.TiffinViewModel" />
+            type="com.example.services.viewmodels.tiffinViewModel.TiffinViewModel" />
 
     </data>
 

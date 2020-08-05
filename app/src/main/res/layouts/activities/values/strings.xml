@@ -32,6 +32,24 @@
     <string name="filterDaily">Daily</string>
     <string name="filterWeeky">Weekly</string>
     <string name="filterMonthly">Monthly</string>
+    <string name="myOrderTitle">My Order</string>
+    <string name="ratings">Ratings</string>
+    <string name="kmAway">km away</string>
+    <string name="addMoreItems">Add More Items</string>
+    <string name="subTotal">Subtotal</string>
+    <string name="promo">Promo</string>
+    <string name="taxes">Taxes</string>
+    <string name="deliveryCost">Delivery Cost</string>
+    <string name="addMore">Add More +</string>
+    <string name="myOrderCheckOut">Check Out</string>
+    <string name="deliveryInstructions">Delivery Instructions</string>
+    <string name="grandTotal">Grand Total</string>
+    <string name="enterCoupon">Enter Coupon</string>
+    <string name="deliveryAddress">Delivery Address</string>
+    <string name="checkoutChange">Change</string>
+    <string name="myCheckoutTitle">Checkout</string>
+    <string name="addPlus">Add+</string>
+    <string name="summayTv">Summary</string>
 
 
     <!-- <string name="api_key">AIzaSyD2-RDPo0jssFqwwTXr6NDpOFzQTcIc3dI</string>-->

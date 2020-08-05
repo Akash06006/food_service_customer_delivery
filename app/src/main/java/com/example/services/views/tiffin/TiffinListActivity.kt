@@ -6,10 +6,8 @@ import com.example.services.R
 import com.example.services.adapters.tiffinService.TiffinListAdapter
 import com.example.services.databinding.ActivityTiffinBinding
 import com.example.services.utils.BaseActivity
-import com.example.services.views.cart.CartListActivity
-import com.example.services.views.home.DashboardViewModel
+import com.example.services.viewmodels.tiffinViewModel.TiffinViewModel
 import com.google.android.material.tabs.TabLayout
-import com.google.gson.JsonObject
 
 
 class TiffinListActivity: BaseActivity() {

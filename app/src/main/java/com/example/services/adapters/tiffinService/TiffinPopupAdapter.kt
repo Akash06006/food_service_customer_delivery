@@ -31,6 +31,7 @@ class TiffinPopupAdapter(view: View) {
     //Make Inactive Items Outside Of PopupWindow
     val focusable = true
 
+    val buttonClear = popupView.clearFiltersButton
     val buttonApply = popupView.findViewById<Button>(R.id.applyFiltersButton)
     val filterVegTv = popupView.filter_veg_tv
     val filterNonVegTv = popupView.filter_non_veg_tv
@@ -38,12 +39,20 @@ class TiffinPopupAdapter(view: View) {
     val filterDaily = popupView.filter_daily
     val filterWeekly = popupView.filter_weekly
     val filterMonthly = popupView.filter_monthly
+    val filterPopularity = popupView.filter_popularity
+    val filterHightoLow = popupView.filter_high_low
+    val filterLowtoHigh = popupView.filter_low_high
+    val filterNew = popupView.filter_new
     val filterVegTvBackground = filterVegTv.background
     val filterNonVegTvBackground = filterNonVegTv.background
     val filterVegNonVegTvBackground = filterVegNonVegTv.background
     val filterDailyBackground = filterDaily.background
     val filterWeeklyBackground = filterWeekly.background
     val filterMonthlyBackground = filterMonthly.background
+    val filterPopularityBackground = filterPopularity.background
+    val filterHightoLowBackground = filterHightoLow.background
+    val filterLowtoHighBackground = filterLowtoHigh.background
+    val filterNewBackground = filterNew.background
 
     val tiffin1FragmentInstance = Tiffin1Fragment()
 
@@ -53,7 +62,7 @@ class TiffinPopupAdapter(view: View) {
 
     //PopupWindow display method
     @SuppressLint("ClickableViewAccessibility")
-    fun showPopupWindow(view: View) {
+    fun showPopupWindow() {
 
 
 
@@ -108,6 +117,30 @@ class TiffinPopupAdapter(view: View) {
             changeButtonColorsAsClick()
         })
 
+        //SortCode
+
+
+        filterPopularity.setOnClickListener(View.OnClickListener {
+            GlobalConstants.selectedFilterSortCode = "Popularity"
+            changeButtonColorsAsClick()
+
+        })
+
+        filterHightoLow.setOnClickListener(View.OnClickListener {
+            GlobalConstants.selectedFilterSortCode = "High to Low"
+            changeButtonColorsAsClick()
+
+        })
+
+        filterLowtoHigh.setOnClickListener(View.OnClickListener {
+            GlobalConstants.selectedFilterSortCode = "Low to high"
+            changeButtonColorsAsClick()
+        })
+
+        filterNew.setOnClickListener(View.OnClickListener {
+            GlobalConstants.selectedFilterSortCode = "New"
+            changeButtonColorsAsClick()
+        })
 
         //////////////////////////////////////////////////////////////
 
@@ -124,13 +157,12 @@ class TiffinPopupAdapter(view: View) {
         }*/
 
 
-        val buttonClear = popupView.clearFiltersButton
         buttonClear.setOnClickListener {
             GlobalConstants.selectedFilterCategories = ""
             GlobalConstants.selectedFilterPackages = ""
             GlobalConstants.selectedFilterSortCode = ""
             changeButtonColorsAsClick()
-            Toast.makeText(view.context, "Clearing Filters", Toast.LENGTH_SHORT)
+            Toast.makeText(popupView.context, "Clearing Filters", Toast.LENGTH_SHORT)
                 .show()
         }
 
@@ -155,50 +187,105 @@ class TiffinPopupAdapter(view: View) {
 
         when (GlobalConstants.selectedFilterCategories) {
             "0" -> {
-                filterVegTv.setBackgroundColor(Color.GREEN)
+                filterVegTv.setBackgroundResource(R.drawable.ic_base_3_2)
+                filterVegTv.setTextColor(Color.WHITE)
                 filterNonVegTv.setBackgroundDrawable(filterNonVegTvBackground)
                 filterVegNonVegTv.setBackgroundDrawable(filterVegNonVegTvBackground)
 
             }
             "1" -> {
-                filterNonVegTv.setBackgroundColor(Color.GREEN)
+                filterNonVegTv.setBackgroundResource(R.drawable.ic_base_10_2)
+                filterNonVegTv.setTextColor(Color.WHITE)
                 filterVegTv.setBackgroundDrawable(filterVegTvBackground)
                 filterVegNonVegTv.setBackgroundDrawable(filterVegNonVegTvBackground)
 
             }
             "2" -> {
-                filterVegNonVegTv.setBackgroundColor(Color.GREEN)
+                filterVegNonVegTv.setBackgroundResource(R.drawable.ic_base_10_2)
+                filterVegNonVegTv.setTextColor(Color.WHITE)
                 filterNonVegTv.setBackgroundDrawable(filterNonVegTvBackground)
                 filterVegTv.setBackgroundDrawable(filterVegTvBackground)
             }
             else -> {
                 filterVegNonVegTv.setBackgroundDrawable(filterVegNonVegTvBackground)
+                filterVegNonVegTv.setTextColor(Color.BLACK)
                 filterNonVegTv.setBackgroundDrawable(filterNonVegTvBackground)
+                filterNonVegTv.setTextColor(Color.BLACK)
                 filterVegTv.setBackgroundDrawable(filterVegTvBackground)
+                filterVegTv.setTextColor(Color.BLACK)
             }
         }
 
 
         when (GlobalConstants.selectedFilterPackages) {
             "Daily" -> {
-                filterDaily.setBackgroundColor(Color.GREEN)
+                filterDaily.setBackgroundResource(R.drawable.ic_base_3_2)
+                filterDaily.setTextColor(Color.WHITE)
                 filterWeekly.setBackgroundDrawable(filterWeeklyBackground)
                 filterMonthly.setBackgroundDrawable(filterMonthlyBackground)
             }
             "Weekly" -> {
-                filterWeekly.setBackgroundColor(Color.GREEN)
+                filterWeekly.setBackgroundResource(R.drawable.ic_base_10_2)
+                filterWeekly.setTextColor(Color.WHITE)
                 filterDaily.setBackgroundDrawable(filterDailyBackground)
                 filterMonthly.setBackgroundDrawable(filterMonthlyBackground)
             }
             "Monthly" -> {
-                filterMonthly.setBackgroundColor(Color.GREEN)
+                filterMonthly.setBackgroundResource(R.drawable.ic_base_10_2)
+                filterMonthly.setTextColor(Color.WHITE)
                 filterWeekly.setBackgroundDrawable(filterWeeklyBackground)
                 filterDaily.setBackgroundDrawable(filterDailyBackground)
             }
             else -> {
                 filterMonthly.setBackgroundDrawable(filterMonthlyBackground)
+                filterMonthly.setTextColor(Color.BLACK)
                 filterWeekly.setBackgroundDrawable(filterWeeklyBackground)
+                filterWeekly.setTextColor(Color.BLACK)
                 filterDaily.setBackgroundDrawable(filterDailyBackground)
+                filterDaily.setTextColor(Color.BLACK)
+            }
+        }
+
+        when (GlobalConstants.selectedFilterSortCode) {
+            "Popularity" -> {
+                filterPopularity.setBackgroundResource(R.drawable.ic_base_3_2)
+                filterPopularity.setTextColor(Color.WHITE)
+                filterHightoLow.setBackgroundDrawable(filterHightoLowBackground)
+                filterLowtoHigh.setBackgroundDrawable(filterLowtoHighBackground)
+                filterNew.setBackgroundDrawable(filterNewBackground)
+
+            }
+            "High to Low" -> {
+                filterHightoLow.setBackgroundResource(R.drawable.ic_base_10_2)
+                filterHightoLow.setTextColor(Color.WHITE)
+                filterPopularity.setBackgroundDrawable(filterPopularityBackground)
+                filterLowtoHigh.setBackgroundDrawable(filterLowtoHighBackground)
+                filterNew.setBackgroundDrawable(filterNewBackground)
+
+            }
+            "Low to High" -> {
+                filterLowtoHigh.setBackgroundResource(R.drawable.ic_base_10_2)
+                filterLowtoHigh.setTextColor(Color.WHITE)
+                filterHightoLow.setBackgroundDrawable(filterHightoLowBackground)
+                filterPopularity.setBackgroundDrawable(filterPopularityBackground)
+                filterNew.setBackgroundDrawable(filterNewBackground)
+            }
+            "New" -> {
+                filterNew.setBackgroundResource(R.drawable.ic_base_3_2)
+                filterNew.setTextColor(Color.WHITE)
+                filterHightoLow.setBackgroundDrawable(filterHightoLowBackground)
+                filterPopularity.setBackgroundDrawable(filterPopularityBackground)
+                filterLowtoHigh.setBackgroundDrawable(filterLowtoHighBackground)
+            }
+            else -> {
+                filterHightoLow.setBackgroundDrawable(filterHightoLowBackground)
+                filterHightoLow.setTextColor(Color.BLACK)
+                filterPopularity.setBackgroundDrawable(filterPopularityBackground)
+                filterPopularity.setTextColor(Color.BLACK)
+                filterLowtoHigh.setBackgroundDrawable(filterLowtoHighBackground)
+                filterLowtoHigh.setTextColor(Color.BLACK)
+                filterNew.setBackgroundDrawable(filterNewBackground)
+                filterNew.setTextColor(Color.BLACK)
             }
         }
     }

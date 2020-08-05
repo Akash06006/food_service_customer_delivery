@@ -2,8 +2,6 @@ package com.example.services.views.home
 
 import android.app.Dialog
 import android.content.Intent
-import android.content.res.ColorStateList
-import android.graphics.Color
 import android.os.Build
 import android.os.Handler
 import android.text.TextUtils
@@ -35,10 +33,9 @@ import com.example.services.views.orders.OrdersListActivity
 import com.example.services.views.profile.ProfileActivity
 import com.example.services.views.settings.MyAccountsActivity
 import com.example.services.views.tiffin.TiffinListActivity
-import com.example.services.views.tiffin.TiffinViewModel
+import com.example.services.viewmodels.tiffinViewModel.TiffinViewModel
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.tabs.TabLayout
-import com.google.gson.JsonObject
 
 class LandingMainActivity : BaseActivity(),
         DialogssInterface {
