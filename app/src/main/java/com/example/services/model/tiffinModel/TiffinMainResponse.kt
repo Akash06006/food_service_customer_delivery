@@ -61,6 +61,10 @@ class TiffinMainResponse {
         @Expose
         var itemType: String? = null
 
+        /*@SerializedName("orderByInfo")
+        @Expose
+        var orderByInfo: HashMap<String, String>? = null*/
+
         @SerializedName("companyId")
         @Expose
         var companyId: String? = null

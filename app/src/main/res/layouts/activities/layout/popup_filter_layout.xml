@@ -46,12 +46,17 @@
                 android:layout_marginTop="@dimen/dp_30"
                 android:textStyle="bold"/>
 
+            <LinearLayout
+                android:id="@+id/llCategories"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/subTitleText"
+                android:orientation="horizontal">
             <TextView
                 android:id="@+id/filter_veg_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/filterVeg"
-                android:layout_below="@id/subTitleText"
                 android:layout_marginTop="@dimen/dp_14"
                 android:background="@drawable/ic_round_rec_small_grey2"
                 android:paddingLeft="@dimen/dp_15"
@@ -65,7 +70,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/filterNonVeg"
-                android:layout_below="@id/subTitleText"
                 android:layout_toRightOf="@id/filter_veg_tv"
                 android:layout_marginLeft="@dimen/dp_9"
                 android:layout_marginTop="@dimen/dp_14"
@@ -81,7 +85,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/filterVegNonVeg"
-                android:layout_below="@id/subTitleText"
                 android:layout_toRightOf="@id/filter_non_veg_tv"
                 android:layout_marginLeft="@dimen/dp_9"
                 android:layout_marginTop="@dimen/dp_14"
@@ -91,6 +94,7 @@
                 android:paddingTop="@dimen/dp_8"
                 android:paddingBottom="@dimen/dp_8"
                 android:gravity="center"/>
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/subTitleText3"
@@ -98,16 +102,22 @@
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/sp_18"
                 android:text="@string/filterPackages"
-                android:layout_below="@id/filter_veg_tv"
+                android:layout_below="@id/llCategories"
                 android:layout_marginTop="@dimen/dp_30"
                 android:textStyle="bold"/>
+
+            <LinearLayout
+                android:id="@+id/llPackages"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/subTitleText3"
+                android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/filter_daily"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/filterDaily"
-                android:layout_below="@id/subTitleText3"
                 android:layout_marginTop="@dimen/dp_14"
                 android:background="@drawable/ic_base_3"
                 android:paddingLeft="@dimen/dp_15"
@@ -121,7 +131,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/filterWeeky"
-                android:layout_below="@id/subTitleText3"
                 android:layout_toRightOf="@id/filter_daily"
                 android:layout_marginLeft="@dimen/dp_9"
                 android:layout_marginTop="@dimen/dp_14"
@@ -137,7 +146,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/filterMonthly"
-                android:layout_below="@id/subTitleText3"
                 android:layout_toRightOf="@id/filter_weekly"
                 android:layout_marginLeft="@dimen/dp_9"
                 android:layout_marginTop="@dimen/dp_14"
@@ -148,15 +156,26 @@
                 android:paddingBottom="@dimen/dp_8"
                 android:gravity="center"/>
 
+            </LinearLayout>
+
+
             <TextView
                 android:id="@+id/subTitleText2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/sp_18"
                 android:text="@string/filterSort"
-                android:layout_below="@id/filter_daily"
+                android:layout_below="@id/llPackages"
                 android:layout_marginTop="@dimen/dp_30"
                 android:textStyle="bold"/>
+
+
+            <LinearLayout
+                android:id="@+id/llSortCode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/subTitleText2"
+                android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/filter_popularity"
@@ -204,12 +223,20 @@
                 android:paddingBottom="@dimen/dp_8"
                 android:gravity="center"/>
 
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_below="@id/llSortCode">
+
             <TextView
                 android:id="@+id/filter_new"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/filterNew"
-                android:layout_below="@id/filter_popularity"
+                android:layout_below="@id/llSortCode"
                 android:layout_marginTop="@dimen/dp_14"
                 android:background="@drawable/ic_round_rec_small_grey2"
                 android:paddingLeft="@dimen/dp_15"
@@ -217,6 +244,9 @@
                 android:paddingTop="@dimen/dp_8"
                 android:paddingBottom="@dimen/dp_8"
                 android:gravity="center"/>
+
+            </LinearLayout>
+
 
 
             <Button

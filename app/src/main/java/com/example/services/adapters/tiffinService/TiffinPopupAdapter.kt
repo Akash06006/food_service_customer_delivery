@@ -65,9 +65,6 @@ class TiffinPopupAdapter(view: View) {
     fun showPopupWindow() {
 
 
-
-
-
         //Set the location of the window on the screen
         popupWindow.showAtLocation(popupView, Gravity.NO_GRAVITY, 0 , 0)
 
@@ -133,7 +130,7 @@ class TiffinPopupAdapter(view: View) {
         })
 
         filterLowtoHigh.setOnClickListener(View.OnClickListener {
-            GlobalConstants.selectedFilterSortCode = "Low to high"
+            GlobalConstants.selectedFilterSortCode = "Low to High"
             changeButtonColorsAsClick()
         })
 
@@ -190,21 +187,27 @@ class TiffinPopupAdapter(view: View) {
                 filterVegTv.setBackgroundResource(R.drawable.ic_base_3_2)
                 filterVegTv.setTextColor(Color.WHITE)
                 filterNonVegTv.setBackgroundDrawable(filterNonVegTvBackground)
+                filterNonVegTv.setTextColor(Color.BLACK)
                 filterVegNonVegTv.setBackgroundDrawable(filterVegNonVegTvBackground)
+                filterVegNonVegTv.setTextColor(Color.BLACK)
 
             }
             "1" -> {
                 filterNonVegTv.setBackgroundResource(R.drawable.ic_base_10_2)
                 filterNonVegTv.setTextColor(Color.WHITE)
                 filterVegTv.setBackgroundDrawable(filterVegTvBackground)
+                filterVegTv.setTextColor(Color.BLACK)
                 filterVegNonVegTv.setBackgroundDrawable(filterVegNonVegTvBackground)
+                filterVegNonVegTv.setTextColor(Color.BLACK)
 
             }
             "2" -> {
                 filterVegNonVegTv.setBackgroundResource(R.drawable.ic_base_10_2)
                 filterVegNonVegTv.setTextColor(Color.WHITE)
                 filterNonVegTv.setBackgroundDrawable(filterNonVegTvBackground)
+                filterNonVegTv.setTextColor(Color.BLACK)
                 filterVegTv.setBackgroundDrawable(filterVegTvBackground)
+                filterVegTv.setTextColor(Color.BLACK)
             }
             else -> {
                 filterVegNonVegTv.setBackgroundDrawable(filterVegNonVegTvBackground)
@@ -222,19 +225,25 @@ class TiffinPopupAdapter(view: View) {
                 filterDaily.setBackgroundResource(R.drawable.ic_base_3_2)
                 filterDaily.setTextColor(Color.WHITE)
                 filterWeekly.setBackgroundDrawable(filterWeeklyBackground)
+                filterWeekly.setTextColor(Color.BLACK)
                 filterMonthly.setBackgroundDrawable(filterMonthlyBackground)
+                filterMonthly.setTextColor(Color.BLACK)
             }
             "Weekly" -> {
                 filterWeekly.setBackgroundResource(R.drawable.ic_base_10_2)
                 filterWeekly.setTextColor(Color.WHITE)
                 filterDaily.setBackgroundDrawable(filterDailyBackground)
+                filterDaily.setTextColor(Color.BLACK)
                 filterMonthly.setBackgroundDrawable(filterMonthlyBackground)
+                filterMonthly.setTextColor(Color.BLACK)
             }
             "Monthly" -> {
                 filterMonthly.setBackgroundResource(R.drawable.ic_base_10_2)
                 filterMonthly.setTextColor(Color.WHITE)
                 filterWeekly.setBackgroundDrawable(filterWeeklyBackground)
+                filterWeekly.setTextColor(Color.BLACK)
                 filterDaily.setBackgroundDrawable(filterDailyBackground)
+                filterDaily.setTextColor(Color.BLACK)
             }
             else -> {
                 filterMonthly.setBackgroundDrawable(filterMonthlyBackground)
@@ -251,31 +260,43 @@ class TiffinPopupAdapter(view: View) {
                 filterPopularity.setBackgroundResource(R.drawable.ic_base_3_2)
                 filterPopularity.setTextColor(Color.WHITE)
                 filterHightoLow.setBackgroundDrawable(filterHightoLowBackground)
+                filterHightoLow.setTextColor(Color.BLACK)
                 filterLowtoHigh.setBackgroundDrawable(filterLowtoHighBackground)
+                filterLowtoHigh.setTextColor(Color.BLACK)
                 filterNew.setBackgroundDrawable(filterNewBackground)
+                filterNew.setTextColor(Color.BLACK)
 
             }
             "High to Low" -> {
                 filterHightoLow.setBackgroundResource(R.drawable.ic_base_10_2)
                 filterHightoLow.setTextColor(Color.WHITE)
                 filterPopularity.setBackgroundDrawable(filterPopularityBackground)
+                filterPopularity.setTextColor(Color.BLACK)
                 filterLowtoHigh.setBackgroundDrawable(filterLowtoHighBackground)
+                filterLowtoHigh.setTextColor(Color.BLACK)
                 filterNew.setBackgroundDrawable(filterNewBackground)
+                filterNew.setTextColor(Color.BLACK)
 
             }
             "Low to High" -> {
                 filterLowtoHigh.setBackgroundResource(R.drawable.ic_base_10_2)
                 filterLowtoHigh.setTextColor(Color.WHITE)
                 filterHightoLow.setBackgroundDrawable(filterHightoLowBackground)
+                filterHightoLow.setTextColor(Color.BLACK)
                 filterPopularity.setBackgroundDrawable(filterPopularityBackground)
+                filterPopularity.setTextColor(Color.BLACK)
                 filterNew.setBackgroundDrawable(filterNewBackground)
+                filterNew.setTextColor(Color.BLACK)
             }
             "New" -> {
                 filterNew.setBackgroundResource(R.drawable.ic_base_3_2)
                 filterNew.setTextColor(Color.WHITE)
                 filterHightoLow.setBackgroundDrawable(filterHightoLowBackground)
+                filterHightoLow.setTextColor(Color.BLACK)
                 filterPopularity.setBackgroundDrawable(filterPopularityBackground)
+                filterPopularity.setTextColor(Color.BLACK)
                 filterLowtoHigh.setBackgroundDrawable(filterLowtoHighBackground)
+                filterLowtoHigh.setTextColor(Color.BLACK)
             }
             else -> {
                 filterHightoLow.setBackgroundDrawable(filterHightoLowBackground)

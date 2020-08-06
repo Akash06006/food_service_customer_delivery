@@ -4,8 +4,8 @@ package com.example.services.views.tiffin
 import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager.widget.ViewPager
 import com.example.services.R
-import com.example.services.adapters.tiffinService.TiffinListAdapter
 import com.example.services.databinding.ActivityTiffinBinding
+import com.example.services.databinding.ActivityTiffinDetailsBinding
 import com.example.services.utils.BaseActivity
 import com.example.services.viewmodels.tiffinViewModel.TiffinViewModel
 import com.google.android.material.tabs.TabLayout
@@ -13,7 +13,7 @@ import com.google.android.material.tabs.TabLayout
 
 class TiffinDetailsActivity: BaseActivity() {
 
-    var activityTiffinBinding: ActivityTiffinBinding? = null
+    var activityTiffinDetailsBinding: ActivityTiffinDetailsBinding? = null
     var tabLayout: TabLayout? = null
     var viewPager: ViewPager? = null
     private var tiffinViewModel: TiffinViewModel? = null
@@ -21,10 +21,10 @@ class TiffinDetailsActivity: BaseActivity() {
 
     override fun initViews() {
 
-        activityTiffinBinding = viewDataBinding as ActivityTiffinBinding
+        activityTiffinDetailsBinding = viewDataBinding as ActivityTiffinDetailsBinding
 
         tiffinViewModel = ViewModelProviders.of(this).get(TiffinViewModel::class.java)
-        activityTiffinBinding!!.tiffinMainViewModel = tiffinViewModel
+        activityTiffinDetailsBinding!!.tiffinMainViewModel = tiffinViewModel
 
 
 

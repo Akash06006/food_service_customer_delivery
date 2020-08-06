@@ -28,14 +28,14 @@
         android:layout_height="wrap_content"
         android:background="@drawable/round_back_transparent"
         android:gravity="center"
-        android:orientation="vertical">
+        android:orientation="horizontal">
 
         <ImageButton
             android:id="@+id/filterButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_10"
             android:layout_marginLeft="@dimen/dp_5"
+            android:gravity="center"
             android:src="@drawable/ic_filter"
             android:background="@color/colorGrey2"
             android:onClick="@{(v) -> tiffinMainViewModel.clickListener(v)}"

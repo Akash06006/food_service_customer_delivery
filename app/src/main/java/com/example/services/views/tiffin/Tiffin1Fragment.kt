@@ -21,8 +21,11 @@ import com.example.services.constants.GlobalConstants
 import com.example.services.databinding.FragmentTiffin1Binding
 import com.example.services.model.tiffinModel.TiffinMainResponse
 import com.example.services.viewmodels.tiffinViewModel.TiffinViewModel
+import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import kotlinx.android.synthetic.main.popup_filter_layout.*
+import org.json.JSONArray
+import org.json.JSONObject
 
 
 class Tiffin1Fragment : com.example.services.utils.BaseFragment() {
@@ -34,22 +37,6 @@ class Tiffin1Fragment : com.example.services.utils.BaseFragment() {
         return R.layout.fragment_tiffin1
     }
 
-    override fun onResume() {
-        super.onResume()
-
-        /*viewDataBinding = DataBindingUtil.inflate(context!!.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater, R.layout.fragment_tiffin1,
-            binding!!.root.parent as ViewGroup?, false)
-
-        binding = viewDataBinding as FragmentTiffin1Binding
-
-        tiffinViewModel  = ViewModelProviders.of(this).get(TiffinViewModel::class.java)
-        binding!!.tiffinMainViewModel = tiffinViewModel*/
-
-        //tiffinRecyclerView()
-        //hitHomeTiffinApi()
-        //loadVendorData()
-//        binding!!.tiffinFrag1Recycler.adapter!!.notifyDataSetChanged()
-    }
 
 
     override fun initView() {
@@ -65,6 +52,9 @@ class Tiffin1Fragment : com.example.services.utils.BaseFragment() {
 
         loadVendorData()
 
+        loadSelectedFilters()
+
+
         val popupButton: ImageButton = binding!!.filterButton
 
         tiffinViewModel!!.isClick().observe(
@@ -77,7 +67,7 @@ class Tiffin1Fragment : com.example.services.utils.BaseFragment() {
                         popUpClass.buttonApply.setOnClickListener{
                             popUpClass.popupWindow.dismiss()
                             this.activity!!.finish()
-                            val intent = Intent(this.context, TiffinListActivity::class.java)
+                            val intent = Intent(this.context, TiffinDetailsActivity::class.java)
                             startActivity(intent)
                         }
                         //filterDialog()
@@ -85,6 +75,37 @@ class Tiffin1Fragment : com.example.services.utils.BaseFragment() {
                 }
             }))
 
+    }
+
+    private fun loadSelectedFilters() {
+        val scrollViewLayout = binding!!.llLinearFilter
+        //for (i in 0 until 3) {
+        val tv1 = TextView(context)
+        val tv2 = TextView(context)
+        val tv3 = TextView(context)
+        if(GlobalConstants.selectedFilterCategories != ""){
+            when (GlobalConstants.selectedFilterCategories) {
+                "0" -> {
+                    tv1.setText("Veg")}
+                "1" -> {
+                    tv1.setText("Non Veg")}
+                "2" -> {
+                    tv1.setText("Veg/ Non Veg")}
+            }
+            scrollViewLayout.addView(tv1)
+            tv1.setPadding(5, 5, 5, 5)
+            tv1.setBackgroundResource(R.drawable.ic_round_rec_small_grey2)}
+        if(GlobalConstants.selectedFilterPackages != ""){
+            tv2.setText(GlobalConstants.selectedFilterPackages)
+            scrollViewLayout.addView(tv2)
+            tv2.setPadding(5, 5, 5, 5)
+            tv2.setBackgroundResource(R.drawable.ic_round_rec_small_grey2)}
+        if(GlobalConstants.selectedFilterSortCode != ""){
+            tv3.setText(GlobalConstants.selectedFilterSortCode)
+            scrollViewLayout.addView(tv3)
+            tv3.setPadding(5, 5, 5, 5)
+            tv3.setBackgroundResource(R.drawable.ic_round_rec_small_grey2)}
+        //}
     }
 
     private fun loadVendorData() {
@@ -122,23 +143,34 @@ class Tiffin1Fragment : com.example.services.utils.BaseFragment() {
             mJsonObject.addProperty("packages", GlobalConstants.selectedFilterPackages)
         }
         if (GlobalConstants.selectedFilterSortCode != ""){
+            var orderByInfo = JsonObject()
+            var nJsonObject = JsonObject()
+            var nJsonArray = JsonArray()
             when (GlobalConstants.selectedFilterSortCode) {
                 "Popularity" -> {
-                    mJsonObject.addProperty("orderby", "pop")
-                    mJsonObject.addProperty("orderType", "DESC")
+                    orderByInfo!!.addProperty("orderby", "pop")
+                    orderByInfo!!.addProperty("orderType", "DESC")
+                    nJsonArray.add(orderByInfo)
+                    mJsonObject.add("orderByInfo", nJsonObject)
                 }
                 "Low to High" -> {
-                    mJsonObject.addProperty("orderby", "rating")
-                    mJsonObject.addProperty("orderType", "ASC")
+                    orderByInfo!!.addProperty("orderby", "rating")
+                    orderByInfo!!.addProperty("orderType", "ASC")
+                    nJsonArray.add(orderByInfo)
+                    mJsonObject.add("orderByInfo", orderByInfo)
                 }
                 "High to Low" -> {
-                    mJsonObject.addProperty("orderby", "rating")
-                    mJsonObject.addProperty("orderType", "DESC")
+                    nJsonObject!!.addProperty("orderby", "rating")
+                    nJsonObject!!.addProperty("orderType", "DESC")
+                    nJsonArray.add(orderByInfo)
+                    mJsonObject.add("orderByInfo", orderByInfo)
                 }
-                /*"New" -> {
-                    mJsonObject.addProperty("orderby", "rating")
+                "New" -> {
+                    mJsonObject.addProperty("orderby", "name")
                     mJsonObject.addProperty("orderType", "DESC")
-                }*/
+                    nJsonArray.add(orderByInfo)
+                    mJsonObject.add("orderByInfo", orderByInfo)
+                }
             }
         }
         mJsonObject.addProperty("page", 1)

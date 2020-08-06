@@ -13,9 +13,9 @@ class MyApplication : MultiDexApplication() {
         instance = this
         MultiDex.install(this)
         customFontFamily = FontStyle.instance
-        customFontFamily!!.addFont("regular", "Montserrat-Regular_0.ttf")
-        customFontFamily!!.addFont("semibold", "Montserrat-Medium_0.ttf")
-        customFontFamily!!.addFont("bold", "Montserrat-SemiBold_0.ttf")
+        customFontFamily!!.addFont("regular", "Poppins-Black.ttf")
+        customFontFamily!!.addFont("semibold", "Poppins-Medium.ttf")
+        customFontFamily!!.addFont("bold", "Poppins-Bold.ttf")
     }
 
 
