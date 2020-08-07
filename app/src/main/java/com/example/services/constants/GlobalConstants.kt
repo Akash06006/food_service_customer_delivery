@@ -147,4 +147,28 @@ object GlobalConstants {
     @JvmStatic
     var selectedFilterSortCode = ""
 
+    //Tiffins Details ID for Details Activity
+    @JvmStatic
+    var selectedVendorId = ""
+
+    //Tiffin Add To Cart Details
+    @JvmStatic
+    var selectedOrderPrice = ""
+    @JvmStatic
+    var selectedTotalPrice = ""
+    @JvmStatic
+    var selectedCompanyId = ""
+    @JvmStatic
+    var selectedQuantity = ""
+    @JvmStatic
+    var selectedFromDate = ""
+    @JvmStatic
+    var selectedPackage = ""
+    @JvmStatic
+    var selectedexcPrice = ""
+    @JvmStatic
+    var selectedexcAvailability = ""
+    @JvmStatic
+    var selectedexcDays = ""
+
 }

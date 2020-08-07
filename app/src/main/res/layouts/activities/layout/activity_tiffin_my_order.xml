@@ -1,9 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+
+        <variable
+            name="tiffinMainViewModel"
+            type="com.example.services.viewmodels.tiffinViewModel.TiffinViewModel" />
+
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+<RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/dp_18"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:paddingLeft="@dimen/dp_18"
+    android:paddingRight="@dimen/dp_18">
 
     <TextView
         android:id="@+id/myOrderTitle"
@@ -30,7 +46,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_below="@id/myOrderTitle"
-        android:layout_marginTop="@dimen/dp_32">
+        android:layout_marginTop="@dimen/dp_25">
 
         <ImageView
             android:id="@+id/img_tiffin_myOrder"
@@ -372,6 +388,7 @@
     </RelativeLayout>
 
     <Button
+        android:id="@+id/myOrderCheckOutBtn"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/dp_46"
         android:src="@drawable/ic_bg_2"
@@ -383,3 +400,7 @@
         android:layout_alignParentBottom="true"/>
 
 </RelativeLayout>
+
+    </ScrollView>
+
+</layout>

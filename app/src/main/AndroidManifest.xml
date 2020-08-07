@@ -65,6 +65,18 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".views.tiffin.TiffinMyOrder"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".views.tiffin.TiffinCheckOut"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".views.tiffin.TiffinOrdersActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".views.vendor.RestaurantsListActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />

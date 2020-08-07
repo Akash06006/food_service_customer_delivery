@@ -56,16 +56,19 @@
                     android:id="@+id/detailsItemTypeImage"
                     android:layout_width="@dimen/dimen_24dp"
                     android:layout_height="@dimen/dimen_24dp"
-                    android:src="@drawable/ic_combined_shape"
+                    android:layout_marginLeft="@dimen/dp_13"
                     android:layout_toRightOf="@id/tv_detailsTiffinName"
-                    android:layout_marginLeft="@dimen/dp_13"/>
+                    android:src="@drawable/ic_combined_shape"
+                    android:visibility="gone"/>
 
                 <ImageView
+                    android:id="@+id/detailsItemTypeImage2"
                     android:layout_width="@dimen/dimen_24dp"
                     android:layout_height="@dimen/dimen_24dp"
                     android:src="@drawable/ic_combined_shape_2"
                     android:layout_toRightOf="@id/detailsItemTypeImage"
-                    android:layout_marginLeft="@dimen/dp_5"/>
+                    android:layout_marginLeft="@dimen/dp_5"
+                    android:visibility="gone"/>
 
                 <TextView
                     android:id="@+id/detailsTvPackages"
@@ -537,6 +540,7 @@
 
 
             <Button
+                android:id="@+id/detailsProceedButton"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/dp_46"
                 android:src="@drawable/ic_bg_2"

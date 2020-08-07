@@ -38,7 +38,6 @@ class Tiffin1Fragment : com.example.services.utils.BaseFragment() {
     }
 
 
-
     override fun initView() {
 
         binding = viewDataBinding as FragmentTiffin1Binding
@@ -67,9 +66,10 @@ class Tiffin1Fragment : com.example.services.utils.BaseFragment() {
                         popUpClass.buttonApply.setOnClickListener{
                             popUpClass.popupWindow.dismiss()
                             this.activity!!.finish()
-                            val intent = Intent(this.context, TiffinDetailsActivity::class.java)
+                            val intent = Intent(this.context, TiffinListActivity::class.java)
                             startActivity(intent)
                         }
+
                         //filterDialog()
                     }
                 }
@@ -190,6 +190,7 @@ class Tiffin1Fragment : com.example.services.utils.BaseFragment() {
         linearLayoutManager.orientation = RecyclerView.VERTICAL
         binding!!.tiffinFrag1Recycler.layoutManager = linearLayoutManager
         binding!!.tiffinFrag1Recycler.adapter = list
+
         binding!!.tiffinFrag1Recycler.addOnScrollListener(object :
             RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {

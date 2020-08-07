@@ -42,6 +42,12 @@ interface ApiInterface {
     @POST("mobile/tiffin/home")
     fun getTiffinHome(@Body mJsonObject: JsonObject?): Call<JsonObject>
 
+    @GET("mobile/tiffin/detail")
+    fun getTiffinDetail(@Query("tiffinId") tiffinId: String): Call<JsonObject>
+
+    @POST("mobile/tiffin/cart/add")
+    fun addTiffinCart(@Body mJsonObject: JsonObject?): Call<JsonObject>
+
     //@POST("resetpassword/")
     //fun getProfile(@Body mJsonObject : JsonObject) : Call<JsonObject>
     @POST("users/changepassword/")

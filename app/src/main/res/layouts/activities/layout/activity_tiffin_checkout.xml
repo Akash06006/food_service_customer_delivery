@@ -1,9 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+
+        <variable
+            name="tiffinMainViewModel"
+            type="com.example.services.viewmodels.tiffinViewModel.TiffinViewModel" />
+
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+<RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/dp_18"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:padding="@dimen/dp_18">
 
     <TextView
         android:id="@+id/myCheckoutTitle"
@@ -319,6 +333,7 @@
     </RelativeLayout>
 
     <Button
+        android:id="@+id/checkOutPlaceOrderBtn"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/dp_46"
         android:src="@drawable/ic_bg_2"
@@ -330,3 +345,8 @@
         android:layout_alignParentBottom="true"/>
 
 </RelativeLayout>
+
+    </ScrollView>
+
+
+</layout>

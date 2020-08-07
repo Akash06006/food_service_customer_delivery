@@ -1,19 +1,24 @@
 package com.example.services.adapters.tiffinService
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.annotation.NonNull
+import androidx.core.content.ContextCompat.startActivity
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.services.R
+import com.example.services.constants.GlobalConstants
 import com.example.services.databinding.TiffinMainItemBinding
 import com.example.services.model.tiffinModel.TiffinMainResponse
 import com.example.services.model.tiffinModel.TiffinMainResponse.Body
 import com.example.services.views.tiffin.Tiffin1Fragment
+import com.example.services.views.tiffin.TiffinDetailsActivity
+import com.example.services.views.tiffin.TiffinListActivity
 import kotlinx.android.synthetic.main.trending_service_item.view.*
 
 
@@ -48,9 +53,11 @@ class TiffinMainRecyclerAdapter(
         val scrollViewLayout = holder.binding!!.llTiffinTagScroll
         for (i in 0 until list[position]!!.tags!!.size) {
             val tv = TextView(mContext.context)
-            if (i != list[position]!!.tags!!.size - 1){
-            tv.setText(list[position].tags!!.get(i) + ", ")}
-            else{tv.setText(list[position].tags!!.get(i))}
+            if (i != list[position]!!.tags!!.size - 1) {
+                tv.setText(list[position].tags!!.get(i) + ", ")
+            } else {
+                tv.setText(list[position].tags!!.get(i))
+            }
             scrollViewLayout.addView(tv)
             tv.setPadding(5, 5, 5, 5)
         }
@@ -61,11 +68,12 @@ class TiffinMainRecyclerAdapter(
             // .apply(RequestOptions.bitmapTransform(RoundedCorners(20)))
             .placeholder(R.drawable.ic_category)
             .into(holder.binding.imgTiffinVendor!!)
-        if(list[position].itemType == "0"){
-        holder.binding!!.imgVeg.setImageResource(R.drawable.ic_combined_shape)}
-        else if (list[position].itemType == "1"){
-            holder.binding!!.imgVeg.setImageResource(R.drawable.ic_combined_shape_2)}
-        else {holder.binding!!.imgVeg.setImageResource(R.drawable.non_veg)
+        if (list[position].itemType == "0") {
+            holder.binding!!.imgVeg.setImageResource(R.drawable.ic_combined_shape)
+        } else if (list[position].itemType == "1") {
+            holder.binding!!.imgVeg.setImageResource(R.drawable.ic_combined_shape_2)
+        } else {
+            holder.binding!!.imgVeg.setImageResource(R.drawable.non_veg)
         }
         holder.binding!!.availablityTiffin.setText((list[position].availability).toString())
         holder.binding!!.packagesTiffin.setText((list[position].packages).toString())
@@ -78,7 +86,20 @@ class TiffinMainRecyclerAdapter(
     }
 
     inner class ViewHolder//This constructor would switch what to findViewBy according to the type of viewType
-        (v: View, val viewType: Int, val binding: TiffinMainItemBinding?, mContext: Tiffin1Fragment, addressList: ArrayList<TiffinMainResponse.Body>) : RecyclerView.ViewHolder(v) {
+        (
+        v: View,
+        val viewType: Int,
+        val binding: TiffinMainItemBinding?,
+        mContext: Tiffin1Fragment,
+        addressList: ArrayList<TiffinMainResponse.Body>
+    ) : RecyclerView.ViewHolder(v) {
+        init {
+            itemView.setOnClickListener {
+                GlobalConstants.selectedVendorId = list.get(position).id.toString()
+                mContext.context!!.startActivity(Intent(mContext.context, TiffinDetailsActivity::class.java))
+            }
 
+        }
     }
+
 }
