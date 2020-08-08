@@ -61,6 +61,16 @@
     <string name="tiffinFor">Tiffin For</string>
     <string name="startDate">Start Date</string>
     <string name="dinnerTime">07:00 AM - 10:00 PM</string>
+    <string name="excludedDays">Excluded Days</string>
+    <string name="endDate">End Date</string>
+    <string name="changeAddress">Change Address</string>
+    <string name="selected_address">Selected Address</string>
+    <string name="excludedPrice">Excluded Price</string>
+    <string name="monday">Monday</string>
+    <string name="friday">Friday</string>
+    <string name="thursday">Thursday</string>
+    <string name="wednesday">Wednesday</string>
+    <string name="tuesday">Tuesday</string>
 
 
     <!-- <string name="api_key">AIzaSyD2-RDPo0jssFqwwTXr6NDpOFzQTcIc3dI</string>-->

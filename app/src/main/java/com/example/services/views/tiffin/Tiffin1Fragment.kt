@@ -1,12 +1,18 @@
 package com.example.services.views.tiffin
 
 import android.app.Dialog
-import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.os.Build
+import android.view.Gravity
 import android.view.LayoutInflater
+import android.view.View
 import android.view.Window
-import android.widget.*
+import android.widget.Button
+import android.widget.ImageButton
+import android.widget.LinearLayout
+import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
@@ -24,8 +30,6 @@ import com.example.services.viewmodels.tiffinViewModel.TiffinViewModel
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import kotlinx.android.synthetic.main.popup_filter_layout.*
-import org.json.JSONArray
-import org.json.JSONObject
 
 
 class Tiffin1Fragment : com.example.services.utils.BaseFragment() {
@@ -51,13 +55,14 @@ class Tiffin1Fragment : com.example.services.utils.BaseFragment() {
 
         loadVendorData()
 
-        loadSelectedFilters()
-
 
         val popupButton: ImageButton = binding!!.filterButton
 
+        loadSelectedFilters()
+
         tiffinViewModel!!.isClick().observe(
             this, Observer<String>(function =
+            @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
             fun(it: String?) {
                 when (it) {
                     "filterButton" -> {
@@ -65,9 +70,12 @@ class Tiffin1Fragment : com.example.services.utils.BaseFragment() {
                         popUpClass.showPopupWindow()
                         popUpClass.buttonApply.setOnClickListener{
                             popUpClass.popupWindow.dismiss()
-                            this.activity!!.finish()
+                            hitHomeTiffinApi()
+                            loadVendorData()
+                            loadSelectedFilters()
+                            /*this.activity!!.finish()
                             val intent = Intent(this.context, TiffinListActivity::class.java)
-                            startActivity(intent)
+                            startActivity(intent)*/
                         }
 
                         //filterDialog()
@@ -79,10 +87,19 @@ class Tiffin1Fragment : com.example.services.utils.BaseFragment() {
 
     private fun loadSelectedFilters() {
         val scrollViewLayout = binding!!.llLinearFilter
+
+        binding!!.llLinearFilter.removeAllViews()
+
         //for (i in 0 until 3) {
         val tv1 = TextView(context)
         val tv2 = TextView(context)
         val tv3 = TextView(context)
+
+        val params: LinearLayout.LayoutParams =
+            LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+        params.setMargins(20, 0, 0, 20)
+        params.apply{Gravity.CENTER}
+
         if(GlobalConstants.selectedFilterCategories != ""){
             when (GlobalConstants.selectedFilterCategories) {
                 "0" -> {
@@ -93,18 +110,21 @@ class Tiffin1Fragment : com.example.services.utils.BaseFragment() {
                     tv1.setText("Veg/ Non Veg")}
             }
             scrollViewLayout.addView(tv1)
-            tv1.setPadding(5, 5, 5, 5)
-            tv1.setBackgroundResource(R.drawable.ic_round_rec_small_grey2)}
+            tv1.setPadding(10, 10, 10, 10)
+            tv1.setBackgroundResource(R.drawable.ic_round_rec_small_grey2)
+            tv1.layoutParams = params }
         if(GlobalConstants.selectedFilterPackages != ""){
             tv2.setText(GlobalConstants.selectedFilterPackages)
             scrollViewLayout.addView(tv2)
-            tv2.setPadding(5, 5, 5, 5)
-            tv2.setBackgroundResource(R.drawable.ic_round_rec_small_grey2)}
+            tv2.setPadding(10, 10, 10, 10)
+            tv2.setBackgroundResource(R.drawable.ic_round_rec_small_grey2)
+            tv2.layoutParams = params }
         if(GlobalConstants.selectedFilterSortCode != ""){
             tv3.setText(GlobalConstants.selectedFilterSortCode)
             scrollViewLayout.addView(tv3)
-            tv3.setPadding(5, 5, 5, 5)
-            tv3.setBackgroundResource(R.drawable.ic_round_rec_small_grey2)}
+            tv3.setPadding(10, 10, 10, 10)
+            tv3.setBackgroundResource(R.drawable.ic_round_rec_small_grey2)
+            tv3.layoutParams = params }
         //}
     }
 
@@ -120,13 +140,12 @@ class Tiffin1Fragment : com.example.services.utils.BaseFragment() {
 
                             list.clear()
                             list.addAll(response.body!!)
-                            tiffinRecyclerView()
-                            //binding!!.tiffinFrag1Recycler.adapter!!.notifyDataSetChanged()
+                            //tiffinRecyclerView()
+                            binding!!.tiffinFrag1Recycler.adapter!!.notifyDataSetChanged()
 
                         }
                         else -> message?.let {
                             UtilsFunctions.showToastError(it)
-                            //fragmentHomeBinding.gvServices.visibility = View.GONE
                         }
                     }
                 }

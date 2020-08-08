@@ -127,6 +127,10 @@ object GlobalConstants {
     @JvmStatic
     var COLOR_CODE = "#97D729"
     @JvmStatic
+    var COLOR_GREY2 = "#EAEAEB"
+    @JvmStatic
+    var COLOR_GREEN2 = "#00CB2C"
+    @JvmStatic
     var PRODUCT_DELIVERY = "delivery"
     @JvmStatic
     var PRODUCT_SERVICES = "services"
@@ -155,11 +159,11 @@ object GlobalConstants {
     @JvmStatic
     var selectedOrderPrice = ""
     @JvmStatic
-    var selectedTotalPrice = ""
+    var selectedTotalPrice = selectedOrderPrice
     @JvmStatic
     var selectedCompanyId = ""
     @JvmStatic
-    var selectedQuantity = ""
+    var selectedQuantity = 1
     @JvmStatic
     var selectedFromDate = ""
     @JvmStatic

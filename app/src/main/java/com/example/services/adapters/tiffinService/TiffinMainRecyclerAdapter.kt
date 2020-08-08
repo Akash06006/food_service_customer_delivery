@@ -30,6 +30,7 @@ class TiffinMainRecyclerAdapter(
     private val mContext: Tiffin1Fragment
     private var viewHolder: ViewHolder? = null
     private var list: ArrayList<TiffinMainResponse.Body>
+    var j = 0
 
     init {
         this.mContext = context
@@ -51,15 +52,18 @@ class TiffinMainRecyclerAdapter(
         viewHolder = holder
 
         val scrollViewLayout = holder.binding!!.llTiffinTagScroll
-        for (i in 0 until list[position]!!.tags!!.size) {
-            val tv = TextView(mContext.context)
-            if (i != list[position]!!.tags!!.size - 1) {
-                tv.setText(list[position].tags!!.get(i) + ", ")
-            } else {
-                tv.setText(list[position].tags!!.get(i))
+        if(list[position].tags!!.isNotEmpty() && j < 1) {
+            list[position]!!.tags!!.indices.forEach { i ->
+                val tv = TextView(mContext.context)
+                if (i != list[position]!!.tags!!.size - 1) {
+                    tv.setText(list[position].tags!!.get(i) + ", ")
+                } else {
+                    tv.setText(list[position].tags!!.get(i))
+                }
+                scrollViewLayout.addView(tv)
+                tv.setPadding(5, 5, 5, 5)
+                j++
             }
-            scrollViewLayout.addView(tv)
-            tv.setPadding(5, 5, 5, 5)
         }
 
         holder.binding!!.tvTiffinVendorName.setText(list[position].name)
@@ -95,7 +99,8 @@ class TiffinMainRecyclerAdapter(
     ) : RecyclerView.ViewHolder(v) {
         init {
             itemView.setOnClickListener {
-                GlobalConstants.selectedVendorId = list.get(position).id.toString()
+                GlobalConstants.selectedVendorId = list[position].id.toString()
+                GlobalConstants.selectedCompanyId = list[position].companyId.toString()
                 mContext.context!!.startActivity(Intent(mContext.context, TiffinDetailsActivity::class.java))
             }
 

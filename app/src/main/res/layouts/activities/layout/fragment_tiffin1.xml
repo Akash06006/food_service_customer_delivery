@@ -17,29 +17,36 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <ImageButton
+        android:id="@+id/filterButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_5"
+        android:layout_marginTop="@dimen/dp_15"
+        android:gravity="center"
+        android:src="@drawable/ic_filter_icon"
+        android:background="@drawable/ic_filter_icon_bg"
+        android:onClick="@{(v) -> tiffinMainViewModel.clickListener(v)}" />
+
 <HorizontalScrollView
     android:id="@+id/filterScrollView"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/dp_5"
+    android:layout_marginTop="@dimen/dp_15"
+    android:layout_toRightOf="@id/filterButton">
 
     <LinearLayout
         android:id="@+id/ll_linearFilter"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/round_back_transparent"
-        android:gravity="center"
         android:orientation="horizontal">
 
-        <ImageButton
-            android:id="@+id/filterButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dp_5"
-            android:gravity="center"
-            android:src="@drawable/ic_filter"
-            android:background="@color/colorGrey2"
-            android:onClick="@{(v) -> tiffinMainViewModel.clickListener(v)}"
-            android:drawablePadding="@dimen/dp_5"/>
 
     </LinearLayout>
 
@@ -51,6 +58,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="@dimen/dp_50"/>
+
+    </RelativeLayout>
+
 </FrameLayout>
 
 </layout>

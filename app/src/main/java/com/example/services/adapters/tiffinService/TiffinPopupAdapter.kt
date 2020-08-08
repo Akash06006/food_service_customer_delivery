@@ -3,11 +3,15 @@ package com.example.services.adapters.tiffinService
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.graphics.Color
+import android.os.Build
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
+import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.startActivity
 import com.example.services.R
 import com.example.services.constants.GlobalConstants
@@ -43,7 +47,7 @@ class TiffinPopupAdapter(view: View) {
     val filterHightoLow = popupView.filter_high_low
     val filterLowtoHigh = popupView.filter_low_high
     val filterNew = popupView.filter_new
-    val filterVegTvBackground = filterVegTv.background
+    /*val filterVegTvBackground = filterVegTv.background
     val filterNonVegTvBackground = filterNonVegTv.background
     val filterVegNonVegTvBackground = filterVegNonVegTv.background
     val filterDailyBackground = filterDaily.background
@@ -52,7 +56,7 @@ class TiffinPopupAdapter(view: View) {
     val filterPopularityBackground = filterPopularity.background
     val filterHightoLowBackground = filterHightoLow.background
     val filterLowtoHighBackground = filterLowtoHigh.background
-    val filterNewBackground = filterNew.background
+    val filterNewBackground = filterNew.background*/
 
     val tiffin1FragmentInstance = Tiffin1Fragment()
 
@@ -61,6 +65,7 @@ class TiffinPopupAdapter(view: View) {
 
 
     //PopupWindow display method
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     @SuppressLint("ClickableViewAccessibility")
     fun showPopupWindow() {
 
@@ -71,6 +76,7 @@ class TiffinPopupAdapter(view: View) {
         //Initialize the elements of our window, install the handler
         val popupTitle = popupView.titleText
         popupTitle.setText(R.string.filter_popup_title)
+
 
         //Selecting Items from filter popupWindow in Global Constants
 
@@ -178,43 +184,116 @@ class TiffinPopupAdapter(view: View) {
         }*/
     }
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     private fun changeButtonColorsAsClick(){
 
         // Change Buttons colors on Click from Global Constant Value !
 
         when (GlobalConstants.selectedFilterCategories) {
             "0" -> {
-                filterVegTv.setBackgroundResource(R.drawable.ic_base_3_2)
+                filterVegTv.setBackgroundTintList(
+                    ColorStateList.valueOf(
+                        Color.parseColor(
+                            GlobalConstants.COLOR_GREEN2
+                        )
+                    )
+                )
                 filterVegTv.setTextColor(Color.WHITE)
-                filterNonVegTv.setBackgroundDrawable(filterNonVegTvBackground)
+                filterNonVegTv.setBackgroundTintList(
+                    ColorStateList.valueOf(
+                        Color.parseColor(
+                            GlobalConstants.COLOR_GREY2
+                        )
+                    )
+                )
                 filterNonVegTv.setTextColor(Color.BLACK)
-                filterVegNonVegTv.setBackgroundDrawable(filterVegNonVegTvBackground)
+                filterVegNonVegTv.setBackgroundTintList(
+                    ColorStateList.valueOf(
+                        Color.parseColor(
+                            GlobalConstants.COLOR_GREY2
+                        )
+                    )
+                )
                 filterVegNonVegTv.setTextColor(Color.BLACK)
 
             }
             "1" -> {
-                filterNonVegTv.setBackgroundResource(R.drawable.ic_base_10_2)
+                filterNonVegTv.setBackgroundTintList(
+                    ColorStateList.valueOf(
+                        Color.parseColor(
+                            GlobalConstants.COLOR_GREEN2
+                        )
+                    )
+                )
                 filterNonVegTv.setTextColor(Color.WHITE)
-                filterVegTv.setBackgroundDrawable(filterVegTvBackground)
+                filterVegTv.setBackgroundTintList(
+                    ColorStateList.valueOf(
+                        Color.parseColor(
+                            GlobalConstants.COLOR_GREY2
+                        )
+                    )
+                )
                 filterVegTv.setTextColor(Color.BLACK)
-                filterVegNonVegTv.setBackgroundDrawable(filterVegNonVegTvBackground)
+                filterVegNonVegTv.setBackgroundTintList(
+                    ColorStateList.valueOf(
+                        Color.parseColor(
+                            GlobalConstants.COLOR_GREY2
+                        )
+                    )
+                )
                 filterVegNonVegTv.setTextColor(Color.BLACK)
 
             }
             "2" -> {
-                filterVegNonVegTv.setBackgroundResource(R.drawable.ic_base_10_2)
+                filterVegNonVegTv.setBackgroundTintList(
+                    ColorStateList.valueOf(
+                        Color.parseColor(
+                            GlobalConstants.COLOR_GREEN2
+                        )
+                    )
+                )
                 filterVegNonVegTv.setTextColor(Color.WHITE)
-                filterNonVegTv.setBackgroundDrawable(filterNonVegTvBackground)
+                filterNonVegTv.setBackgroundTintList(
+                    ColorStateList.valueOf(
+                        Color.parseColor(
+                            GlobalConstants.COLOR_GREY2
+                        )
+                    )
+                )
                 filterNonVegTv.setTextColor(Color.BLACK)
-                filterVegTv.setBackgroundDrawable(filterVegTvBackground)
+                filterVegTv.setBackgroundTintList(
+                    ColorStateList.valueOf(
+                        Color.parseColor(
+                            GlobalConstants.COLOR_GREY2
+                        )
+                    )
+                )
                 filterVegTv.setTextColor(Color.BLACK)
             }
             else -> {
-                filterVegNonVegTv.setBackgroundDrawable(filterVegNonVegTvBackground)
+                filterVegNonVegTv.setBackgroundTintList(
+                    ColorStateList.valueOf(
+                        Color.parseColor(
+                            GlobalConstants.COLOR_GREY2
+                        )
+                    )
+                )
                 filterVegNonVegTv.setTextColor(Color.BLACK)
-                filterNonVegTv.setBackgroundDrawable(filterNonVegTvBackground)
+                filterNonVegTv.setBackgroundTintList(
+                    ColorStateList.valueOf(
+                        Color.parseColor(
+                            GlobalConstants.COLOR_GREY2
+                        )
+                    )
+                )
                 filterNonVegTv.setTextColor(Color.BLACK)
-                filterVegTv.setBackgroundDrawable(filterVegTvBackground)
+                filterVegTv.setBackgroundTintList(
+                    ColorStateList.valueOf(
+                        Color.parseColor(
+                            GlobalConstants.COLOR_GREY2
+                        )
+                    )
+                )
                 filterVegTv.setTextColor(Color.BLACK)
             }
         }
@@ -222,90 +301,282 @@ class TiffinPopupAdapter(view: View) {
 
         when (GlobalConstants.selectedFilterPackages) {
             "Daily" -> {
-                filterDaily.setBackgroundResource(R.drawable.ic_base_3_2)
+                filterDaily.setBackgroundTintList(
+                    ColorStateList.valueOf(
+                        Color.parseColor(
+                            GlobalConstants.COLOR_GREEN2
+                        )
+                    )
+                )
                 filterDaily.setTextColor(Color.WHITE)
-                filterWeekly.setBackgroundDrawable(filterWeeklyBackground)
+                filterWeekly.setBackgroundTintList(
+                    ColorStateList.valueOf(
+                        Color.parseColor(
+                            GlobalConstants.COLOR_GREY2
+                        )
+                    )
+                )
                 filterWeekly.setTextColor(Color.BLACK)
-                filterMonthly.setBackgroundDrawable(filterMonthlyBackground)
+                filterMonthly.setBackgroundTintList(
+                    ColorStateList.valueOf(
+                        Color.parseColor(
+                            GlobalConstants.COLOR_GREY2
+                        )
+                    )
+                )
                 filterMonthly.setTextColor(Color.BLACK)
             }
             "Weekly" -> {
-                filterWeekly.setBackgroundResource(R.drawable.ic_base_10_2)
+                filterWeekly.setBackgroundTintList(
+                    ColorStateList.valueOf(
+                        Color.parseColor(
+                            GlobalConstants.COLOR_GREEN2
+                        )
+                    )
+                )
                 filterWeekly.setTextColor(Color.WHITE)
-                filterDaily.setBackgroundDrawable(filterDailyBackground)
+                filterDaily.setBackgroundTintList(
+                    ColorStateList.valueOf(
+                        Color.parseColor(
+                            GlobalConstants.COLOR_GREY2
+                        )
+                    )
+                )
                 filterDaily.setTextColor(Color.BLACK)
-                filterMonthly.setBackgroundDrawable(filterMonthlyBackground)
+                filterMonthly.setBackgroundTintList(
+                    ColorStateList.valueOf(
+                        Color.parseColor(
+                            GlobalConstants.COLOR_GREY2
+                        )
+                    )
+                )
                 filterMonthly.setTextColor(Color.BLACK)
             }
             "Monthly" -> {
-                filterMonthly.setBackgroundResource(R.drawable.ic_base_10_2)
+                filterMonthly.setBackgroundTintList(
+                    ColorStateList.valueOf(
+                        Color.parseColor(
+                            GlobalConstants.COLOR_GREEN2
+                        )
+                    )
+                )
                 filterMonthly.setTextColor(Color.WHITE)
-                filterWeekly.setBackgroundDrawable(filterWeeklyBackground)
+                filterWeekly.setBackgroundTintList(
+                    ColorStateList.valueOf(
+                        Color.parseColor(
+                            GlobalConstants.COLOR_GREY2
+                        )
+                    )
+                )
                 filterWeekly.setTextColor(Color.BLACK)
-                filterDaily.setBackgroundDrawable(filterDailyBackground)
+                filterDaily.setBackgroundTintList(
+                    ColorStateList.valueOf(
+                        Color.parseColor(
+                            GlobalConstants.COLOR_GREY2
+                        )
+                    )
+                )
                 filterDaily.setTextColor(Color.BLACK)
             }
             else -> {
-                filterMonthly.setBackgroundDrawable(filterMonthlyBackground)
+                filterMonthly.setBackgroundTintList(
+                    ColorStateList.valueOf(
+                        Color.parseColor(
+                            GlobalConstants.COLOR_GREY2
+                        )
+                    )
+                )
                 filterMonthly.setTextColor(Color.BLACK)
-                filterWeekly.setBackgroundDrawable(filterWeeklyBackground)
+                filterWeekly.setBackgroundTintList(
+                    ColorStateList.valueOf(
+                        Color.parseColor(
+                            GlobalConstants.COLOR_GREY2
+                        )
+                    )
+                )
                 filterWeekly.setTextColor(Color.BLACK)
-                filterDaily.setBackgroundDrawable(filterDailyBackground)
+                filterDaily.setBackgroundTintList(
+                    ColorStateList.valueOf(
+                        Color.parseColor(
+                            GlobalConstants.COLOR_GREY2
+                        )
+                    )
+                )
                 filterDaily.setTextColor(Color.BLACK)
             }
         }
 
         when (GlobalConstants.selectedFilterSortCode) {
             "Popularity" -> {
-                filterPopularity.setBackgroundResource(R.drawable.ic_base_3_2)
+                filterPopularity.setBackgroundTintList(
+                    ColorStateList.valueOf(
+                        Color.parseColor(
+                            GlobalConstants.COLOR_GREEN2
+                        )
+                    )
+                )
                 filterPopularity.setTextColor(Color.WHITE)
-                filterHightoLow.setBackgroundDrawable(filterHightoLowBackground)
+                filterHightoLow.setBackgroundTintList(
+                    ColorStateList.valueOf(
+                        Color.parseColor(
+                            GlobalConstants.COLOR_GREY2
+                        )
+                    )
+                )
                 filterHightoLow.setTextColor(Color.BLACK)
-                filterLowtoHigh.setBackgroundDrawable(filterLowtoHighBackground)
+                filterLowtoHigh.setBackgroundTintList(
+                    ColorStateList.valueOf(
+                        Color.parseColor(
+                            GlobalConstants.COLOR_GREY2
+                        )
+                    )
+                )
                 filterLowtoHigh.setTextColor(Color.BLACK)
-                filterNew.setBackgroundDrawable(filterNewBackground)
+                filterNew.setBackgroundTintList(
+                    ColorStateList.valueOf(
+                        Color.parseColor(
+                            GlobalConstants.COLOR_GREY2
+                        )
+                    )
+                )
                 filterNew.setTextColor(Color.BLACK)
 
             }
             "High to Low" -> {
-                filterHightoLow.setBackgroundResource(R.drawable.ic_base_10_2)
+                filterHightoLow.setBackgroundTintList(
+                    ColorStateList.valueOf(
+                        Color.parseColor(
+                            GlobalConstants.COLOR_GREEN2
+                        )
+                    )
+                )
                 filterHightoLow.setTextColor(Color.WHITE)
-                filterPopularity.setBackgroundDrawable(filterPopularityBackground)
+                filterPopularity.setBackgroundTintList(
+                    ColorStateList.valueOf(
+                        Color.parseColor(
+                            GlobalConstants.COLOR_GREY2
+                        )
+                    )
+                )
                 filterPopularity.setTextColor(Color.BLACK)
-                filterLowtoHigh.setBackgroundDrawable(filterLowtoHighBackground)
+                filterLowtoHigh.setBackgroundTintList(
+                    ColorStateList.valueOf(
+                        Color.parseColor(
+                            GlobalConstants.COLOR_GREY2
+                        )
+                    )
+                )
                 filterLowtoHigh.setTextColor(Color.BLACK)
-                filterNew.setBackgroundDrawable(filterNewBackground)
+                filterNew.setBackgroundTintList(
+                    ColorStateList.valueOf(
+                        Color.parseColor(
+                            GlobalConstants.COLOR_GREY2
+                        )
+                    )
+                )
                 filterNew.setTextColor(Color.BLACK)
 
             }
             "Low to High" -> {
-                filterLowtoHigh.setBackgroundResource(R.drawable.ic_base_10_2)
-                filterLowtoHigh.setTextColor(Color.WHITE)
-                filterHightoLow.setBackgroundDrawable(filterHightoLowBackground)
+                filterLowtoHigh.setBackgroundTintList(
+                    ColorStateList.valueOf(
+                        Color.parseColor(
+                            GlobalConstants.COLOR_GREEN2
+                        )
+                    )
+                )
+                filterLowtoHigh!!.setTextColor(Color.WHITE)
+                filterHightoLow.setBackgroundTintList(
+                    ColorStateList.valueOf(
+                        Color.parseColor(
+                            GlobalConstants.COLOR_GREY2
+                        )
+                    )
+                )
                 filterHightoLow.setTextColor(Color.BLACK)
-                filterPopularity.setBackgroundDrawable(filterPopularityBackground)
+                filterPopularity.setBackgroundTintList(
+                    ColorStateList.valueOf(
+                        Color.parseColor(
+                            GlobalConstants.COLOR_GREY2
+                        )
+                    )
+                )
                 filterPopularity.setTextColor(Color.BLACK)
-                filterNew.setBackgroundDrawable(filterNewBackground)
+                filterNew.setBackgroundTintList(
+                    ColorStateList.valueOf(
+                        Color.parseColor(
+                            GlobalConstants.COLOR_GREY2
+                        )
+                    )
+                )
                 filterNew.setTextColor(Color.BLACK)
             }
             "New" -> {
-                filterNew.setBackgroundResource(R.drawable.ic_base_3_2)
+                filterNew.setBackgroundTintList(
+                    ColorStateList.valueOf(
+                        Color.parseColor(
+                            GlobalConstants.COLOR_GREEN2
+                        )
+                    )
+                )
                 filterNew.setTextColor(Color.WHITE)
-                filterHightoLow.setBackgroundDrawable(filterHightoLowBackground)
+                filterHightoLow.setBackgroundTintList(
+                    ColorStateList.valueOf(
+                        Color.parseColor(
+                            GlobalConstants.COLOR_GREY2
+                        )
+                    )
+                )
                 filterHightoLow.setTextColor(Color.BLACK)
-                filterPopularity.setBackgroundDrawable(filterPopularityBackground)
+                filterPopularity.setBackgroundTintList(
+                    ColorStateList.valueOf(
+                        Color.parseColor(
+                            GlobalConstants.COLOR_GREY2
+                        )
+                    )
+                )
                 filterPopularity.setTextColor(Color.BLACK)
-                filterLowtoHigh.setBackgroundDrawable(filterLowtoHighBackground)
+                filterLowtoHigh.setBackgroundTintList(
+                    ColorStateList.valueOf(
+                        Color.parseColor(
+                            GlobalConstants.COLOR_GREY2
+                        )
+                    )
+                )
                 filterLowtoHigh.setTextColor(Color.BLACK)
             }
             else -> {
-                filterHightoLow.setBackgroundDrawable(filterHightoLowBackground)
+                filterHightoLow.setBackgroundTintList(
+                    ColorStateList.valueOf(
+                        Color.parseColor(
+                            GlobalConstants.COLOR_GREY2
+                        )
+                    )
+                )
                 filterHightoLow.setTextColor(Color.BLACK)
-                filterPopularity.setBackgroundDrawable(filterPopularityBackground)
+                filterPopularity.setBackgroundTintList(
+                    ColorStateList.valueOf(
+                        Color.parseColor(
+                            GlobalConstants.COLOR_GREY2
+                        )
+                    )
+                )
                 filterPopularity.setTextColor(Color.BLACK)
-                filterLowtoHigh.setBackgroundDrawable(filterLowtoHighBackground)
+                filterLowtoHigh.setBackgroundTintList(
+                    ColorStateList.valueOf(
+                        Color.parseColor(
+                            GlobalConstants.COLOR_GREY2
+                        )
+                    )
+                )
                 filterLowtoHigh.setTextColor(Color.BLACK)
-                filterNew.setBackgroundDrawable(filterNewBackground)
+                filterNew.setBackgroundTintList(
+                    ColorStateList.valueOf(
+                        Color.parseColor(
+                            GlobalConstants.COLOR_GREY2
+                        )
+                    )
+                )
                 filterNew.setTextColor(Color.BLACK)
             }
         }
