@@ -69,6 +69,9 @@ class TiffinDetailsActivity: BaseActivity(), CompoundButton.OnCheckedChangeListe
         initializeAllFormData()
 
         activityTiffinDetailsBinding!!.detailsProceedButton.setOnClickListener{
+
+            GlobalConstants.selectedFromDate = activityTiffinDetailsBinding!!.detailsDate.text.toString()
+
             startActivity(Intent(this, TiffinMyOrder::class.java))
         }
 
@@ -84,6 +87,7 @@ class TiffinDetailsActivity: BaseActivity(), CompoundButton.OnCheckedChangeListe
                     val message = response.message
                     when {
                         response!!.code == 200 -> {
+
 
                             activityTiffinDetailsBinding!!.tvDetailsTiffinName.setText(response.body!!.info!!.name)
 
@@ -159,23 +163,30 @@ class TiffinDetailsActivity: BaseActivity(), CompoundButton.OnCheckedChangeListe
                                     activityTiffinDetailsBinding!!.radioButton1.isChecked -> {
                                         GlobalConstants.selectedOrderPrice =
                                             packagesList[0].price.toString()
+                                        GlobalConstants.selectedTotalPrice = GlobalConstants.selectedOrderPrice
+                                        GlobalConstants.selectedPackage = "Daily"
                                     }
                                     activityTiffinDetailsBinding!!.radioButton2.isChecked -> {
                                         GlobalConstants.selectedOrderPrice =
                                             packagesList[1].price.toString()
+                                        GlobalConstants.selectedTotalPrice = GlobalConstants.selectedOrderPrice
+                                        GlobalConstants.selectedPackage = "Weekly"
+
                                     }
                                     activityTiffinDetailsBinding!!.radioButton3.isChecked -> {
                                         GlobalConstants.selectedOrderPrice =
                                             packagesList[2].price.toString()
+                                        GlobalConstants.selectedTotalPrice = GlobalConstants.selectedOrderPrice
+                                        GlobalConstants.selectedPackage = "Monthly"
+
                                     }
                                 }
 
 
 
                             activityTiffinDetailsBinding!!.detailsOrderPrice.setText(GlobalConstants.selectedOrderPrice)
-                            activityTiffinDetailsBinding!!.detailsDate.setText(GlobalConstants.selectedFromDate)
+                            //activityTiffinDetailsBinding!!.detailsDate.setText(GlobalConstants.selectedFromDate)
 
-                            GlobalConstants.selectedFromDate = activityTiffinDetailsBinding!!.detailsDate.text.toString()
 
 
 
@@ -197,6 +208,7 @@ class TiffinDetailsActivity: BaseActivity(), CompoundButton.OnCheckedChangeListe
             if (buttonView!!.getId() == R.id.radioButton1) {
                 activityTiffinDetailsBinding!!.radioButton2.setChecked(false)
                 activityTiffinDetailsBinding!!.radioButton3.setChecked(false)
+                preferredDetailsDays.visibility = View.GONE
                 initializeAllFormData()
 
 
@@ -204,12 +216,14 @@ class TiffinDetailsActivity: BaseActivity(), CompoundButton.OnCheckedChangeListe
             if (buttonView!!.getId() == R.id.radioButton2) {
                 activityTiffinDetailsBinding!!.radioButton1.setChecked(false)
                 activityTiffinDetailsBinding!!.radioButton3.setChecked(false)
+                preferredDetailsDays.visibility = View.GONE
                 initializeAllFormData()
 
             }
             if (buttonView!!.getId() == R.id.radioButton3) {
                 activityTiffinDetailsBinding!!.radioButton1.setChecked(false)
                 activityTiffinDetailsBinding!!.radioButton2.setChecked(false)
+                preferredDetailsDays.visibility = View.VISIBLE
                 initializeAllFormData()
 
 

@@ -1279,15 +1279,150 @@
             </LinearLayout>
 
 
+            <RelativeLayout
+                android:id="@+id/preferredDetailsDays"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ll_details_final_parent"
+                android:visibility="gone">
 
 
+                <TextView
+                    android:id="@+id/preferredDaysTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/prefferedDaysTv"
+                    android:textStyle="bold"
+                    android:layout_marginTop="@dimen/dp_20"
+                    android:padding="@dimen/dp_5"
+                    android:textSize="@dimen/sp_14"/>
+
+                <com.google.android.flexbox.FlexboxLayout
+                    android:id="@+id/flexBox_pref"
+                    android:layout_below="@id/preferredDaysTv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:flexWrap="wrap"
+                    app:alignItems="stretch"
+                    app:alignContent="stretch">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <CheckBox
+                            android:id="@+id/preferredchkBoxm"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dp_10"
+                            android:checked="true"/>
+
+                        <TextView
+                            android:id="@+id/preferredchkBoxmonday"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/monday"
+                            android:layout_marginTop="@dimen/dp_10"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <CheckBox
+                            android:id="@+id/preferredchkBoxt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dp_10"
+                            android:checked="true"/>
+
+                        <TextView
+                            android:id="@+id/preferredchkBoxtuesday"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/tuesday"
+                            android:layout_marginTop="@dimen/dp_10"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <CheckBox
+                            android:id="@+id/preferredchkBoxw"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dp_10"
+                            android:checked="true"/>
+
+                        <TextView
+                            android:id="@+id/preferredchkBoxwednesday"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/wednesday"
+                            android:layout_marginTop="@dimen/dp_10"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <CheckBox
+                            android:id="@+id/preferredchkBoxth"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dp_10"
+                            android:checked="true"/>
+
+                        <TextView
+                            android:id="@+id/preferredchkBoxthursday"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/thursday"
+                            android:layout_marginTop="@dimen/dp_10"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <CheckBox
+                            android:id="@+id/preferredchkBoxf"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dp_10"
+                            android:checked="true"/>
+
+                        <TextView
+                            android:id="@+id/preferredchkBoxfriday"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/friday"
+                            android:layout_marginTop="@dimen/dp_10"/>
+
+                    </LinearLayout>
+
+
+                </com.google.android.flexbox.FlexboxLayout>
+
+
+            </RelativeLayout>
 
             <LinearLayout
                 android:id="@+id/ll_start_date_price"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/dp_80"
                 android:orientation="vertical"
-                android:layout_below="@id/ll_details_final_parent"
+                android:layout_below="@id/preferredDetailsDays"
                 android:layout_marginTop="@dimen/dp_20">
 
                 <TextView
@@ -1319,7 +1454,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/dp_80"
                 android:orientation="vertical"
-                android:layout_below="@id/ll_details_final_parent"
+                android:layout_below="@id/preferredDetailsDays"
                 android:layout_toRightOf="@id/ll_start_date_price"
                 android:layout_marginTop="@dimen/dp_20"
                 android:layout_marginLeft="@dimen/dp_20">

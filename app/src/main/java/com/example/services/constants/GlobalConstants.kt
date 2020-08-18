@@ -159,7 +159,7 @@ object GlobalConstants {
     @JvmStatic
     var selectedOrderPrice = ""
     @JvmStatic
-    var selectedTotalPrice = selectedOrderPrice
+    var selectedTotalPrice = ""
     @JvmStatic
     var selectedCompanyId = ""
     @JvmStatic

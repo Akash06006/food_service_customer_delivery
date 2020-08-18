@@ -3,6 +3,8 @@ package com.example.services.views.tiffin
 import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager.widget.ViewPager
 import com.example.services.R
+import com.example.services.adapters.tiffinService.TiffinList2Adapter
+import com.example.services.adapters.tiffinService.TiffinListAdapter
 import com.example.services.databinding.ActivityOrderListBinding
 import com.example.services.databinding.ActivityTiffinBinding
 import com.example.services.databinding.ActivityTiffinOrdersBinding
@@ -13,6 +15,8 @@ import com.google.android.material.tabs.TabLayout
 class TiffinOrdersActivity: BaseActivity() {
 
     var activityTiffinOrdersBinding: ActivityTiffinOrdersBinding? = null
+    var tabLayout: TabLayout? = null
+    var viewPager: ViewPager? = null
     private var tiffinViewModel: TiffinViewModel? = null
 
 
@@ -23,6 +27,29 @@ class TiffinOrdersActivity: BaseActivity() {
         tiffinViewModel = ViewModelProviders.of(this).get(TiffinViewModel::class.java)
         activityTiffinOrdersBinding!!.tiffinMainViewModel = tiffinViewModel
 
+        tabLayout = findViewById<TabLayout>(R.id.tab_layout2)
+        viewPager = findViewById<ViewPager>(R.id.pager2)
+
+        tabLayout!!.addTab(tabLayout!!.newTab().setText("Orders"))
+        tabLayout!!.addTab(tabLayout!!.newTab().setText("History"))
+        tabLayout!!.tabGravity = TabLayout.GRAVITY_FILL
+
+        val adapter = TiffinList2Adapter(this, supportFragmentManager, tabLayout!!.tabCount)
+        viewPager!!.adapter = adapter
+
+        viewPager!!.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabLayout))
+
+        tabLayout!!.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab) {
+                viewPager!!.currentItem = tab.position
+            }
+            override fun onTabUnselected(tab: TabLayout.Tab) {
+
+            }
+            override fun onTabReselected(tab: TabLayout.Tab) {
+
+            }
+        })
 
 
     }
