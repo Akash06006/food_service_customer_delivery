@@ -1,36 +1,34 @@
 package com.example.services.model.tiffinModel
 
 import android.graphics.Bitmap
-import android.media.Image
-import android.widget.ImageView
 
 class TiffinMainList{
 
-    var tiffanVendorImage: Bitmap? = null
+    var tiffanOrderImage: Bitmap? = null
 
-    var tiffanVendorName: String? = null
+    var tiffanOrderName: String? = null
 
-    var tiffanVendorAvailability: List<String>? = null
+    var tiffanOrderDate: String? = null
 
-    var tiffanVendorPackages: List<String>? = null
+    var tiffanOrderPrice: String? = null
 
-    var tiffanVendorTags: List<String>? = null
+    var tiffanOrderDistance: String? = null
 
-    var tiffinVegNonVeg: Int? = null
+    var tiffinOrderNoOfItems: String? = null
 
     constructor(
-        tiffanVendorImage: Bitmap?,
-        tiffanVendorName: String?,
-        tiffanVendorAvailability: List<String>?,
-        tiffanVendorPackages: List<String>?,
-        tiffanVendorTags: List<String>?,
-        tiffinVegNonVeg: Int?
+        tiffanOrderImage: Bitmap?,
+        tiffanOrderName: String?,
+        tiffanOrderDate: String?,
+        tiffanOrderPrice: String?,
+        tiffanOrderDistance: String?,
+        tiffinOrderNoOfItems: String?
     ) {
-        this.tiffanVendorImage = tiffanVendorImage
-        this.tiffanVendorName = tiffanVendorName
-        this.tiffanVendorAvailability = tiffanVendorAvailability
-        this.tiffanVendorPackages = tiffanVendorPackages
-        this.tiffanVendorTags = tiffanVendorTags
-        this.tiffinVegNonVeg = tiffinVegNonVeg
+        this.tiffanOrderImage = tiffanOrderImage
+        this.tiffanOrderName = tiffanOrderName
+        this.tiffanOrderDate = tiffanOrderDate
+        this.tiffanOrderPrice = tiffanOrderPrice
+        this.tiffanOrderDistance = tiffanOrderDistance
+        this.tiffinOrderNoOfItems = tiffinOrderNoOfItems
     }
 }

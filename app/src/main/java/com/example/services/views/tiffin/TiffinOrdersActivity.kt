@@ -1,5 +1,6 @@
 package com.example.services.views.tiffin
 
+import android.graphics.Color
 import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager.widget.ViewPager
 import com.example.services.R
@@ -30,9 +31,13 @@ class TiffinOrdersActivity: BaseActivity() {
         tabLayout = findViewById<TabLayout>(R.id.tab_layout2)
         viewPager = findViewById<ViewPager>(R.id.pager2)
 
-        tabLayout!!.addTab(tabLayout!!.newTab().setText("Orders"))
+        tabLayout!!.addTab(tabLayout!!.newTab().setText("Ongoing"))
         tabLayout!!.addTab(tabLayout!!.newTab().setText("History"))
         tabLayout!!.tabGravity = TabLayout.GRAVITY_FILL
+
+        //tabLayout!!.setSelectedTabIndicatorColor(Color.parseColor(R.color.colorhiliteGreen.toString()));
+        //tabLayout!!.setSelectedTabIndicatorHeight((Int) (5 * getResources().getDisplayMetrics().density));
+        //tabLayout!!.setTabTextColors(Color.parseColor("#727272"), Color.parseColor("#ffffff"));
 
         val adapter = TiffinList2Adapter(this, supportFragmentManager, tabLayout!!.tabCount)
         viewPager!!.adapter = adapter

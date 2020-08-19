@@ -159,28 +159,31 @@ class TiffinDetailsActivity: BaseActivity(), CompoundButton.OnCheckedChangeListe
 
                             packagesList = response.body.packages!!
 
-                                when {
-                                    activityTiffinDetailsBinding!!.radioButton1.isChecked -> {
-                                        GlobalConstants.selectedOrderPrice =
-                                            packagesList[0].price.toString()
-                                        GlobalConstants.selectedTotalPrice = GlobalConstants.selectedOrderPrice
-                                        GlobalConstants.selectedPackage = "Daily"
-                                    }
-                                    activityTiffinDetailsBinding!!.radioButton2.isChecked -> {
-                                        GlobalConstants.selectedOrderPrice =
-                                            packagesList[1].price.toString()
-                                        GlobalConstants.selectedTotalPrice = GlobalConstants.selectedOrderPrice
-                                        GlobalConstants.selectedPackage = "Weekly"
-
-                                    }
-                                    activityTiffinDetailsBinding!!.radioButton3.isChecked -> {
-                                        GlobalConstants.selectedOrderPrice =
-                                            packagesList[2].price.toString()
-                                        GlobalConstants.selectedTotalPrice = GlobalConstants.selectedOrderPrice
-                                        GlobalConstants.selectedPackage = "Monthly"
-
-                                    }
+                            when {
+                                activityTiffinDetailsBinding!!.radioButton1.isChecked -> {
+                                    GlobalConstants.selectedOrderPrice =
+                                        packagesList[0].price.toString()
+                                    GlobalConstants.selectedTotalPrice =
+                                        GlobalConstants.selectedOrderPrice
+                                    GlobalConstants.selectedPackage = "Daily"
                                 }
+                                activityTiffinDetailsBinding!!.radioButton2.isChecked -> {
+                                    GlobalConstants.selectedOrderPrice =
+                                        packagesList[1].price.toString()
+                                    GlobalConstants.selectedTotalPrice =
+                                        GlobalConstants.selectedOrderPrice
+                                    GlobalConstants.selectedPackage = "Weekly"
+
+                                }
+                                activityTiffinDetailsBinding!!.radioButton3.isChecked -> {
+                                    GlobalConstants.selectedOrderPrice =
+                                        packagesList[2].price.toString()
+                                    GlobalConstants.selectedTotalPrice =
+                                        GlobalConstants.selectedOrderPrice
+                                    GlobalConstants.selectedPackage = "Monthly"
+
+                                }
+                            }
 
 
 

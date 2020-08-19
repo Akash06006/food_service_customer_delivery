@@ -67,7 +67,9 @@ class Tiffin1Fragment : com.example.services.utils.BaseFragment() {
                 when (it) {
                     "filterButton" -> {
                         val popUpClass = TiffinPopupAdapter(popupButton)
-                        popUpClass.showPopupWindow()
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            popUpClass.showPopupWindow()
+                        }
                         popUpClass.buttonApply.setOnClickListener{
                             popUpClass.popupWindow.dismiss()
                             hitHomeTiffinApi()
@@ -97,32 +99,36 @@ class Tiffin1Fragment : com.example.services.utils.BaseFragment() {
 
         val params: LinearLayout.LayoutParams =
             LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT)
-        params.setMargins(20, 0, 0, 20)
-        params.apply{Gravity.CENTER}
+        params.setMargins(30, 10, 0, 10)
+        params.gravity = Gravity.CENTER
+        params.apply {
+            weight = 1.0f
+            gravity = Gravity.CENTER
+        }
 
         if(GlobalConstants.selectedFilterCategories != ""){
             when (GlobalConstants.selectedFilterCategories) {
                 "0" -> {
-                    tv1.setText("Veg")}
+                    tv1.setText("  Veg")}
                 "1" -> {
                     tv1.setText("Non Veg")}
                 "2" -> {
                     tv1.setText("Veg/ Non Veg")}
             }
             scrollViewLayout.addView(tv1)
-            tv1.setPadding(10, 10, 10, 10)
+            tv1.setPadding(20, 20, 20, 20)
             tv1.setBackgroundResource(R.drawable.ic_round_rec_small_grey2)
             tv1.layoutParams = params }
         if(GlobalConstants.selectedFilterPackages != ""){
             tv2.setText(GlobalConstants.selectedFilterPackages)
             scrollViewLayout.addView(tv2)
-            tv2.setPadding(10, 10, 10, 10)
+            tv2.setPadding(20, 20, 20, 20)
             tv2.setBackgroundResource(R.drawable.ic_round_rec_small_grey2)
             tv2.layoutParams = params }
         if(GlobalConstants.selectedFilterSortCode != ""){
             tv3.setText(GlobalConstants.selectedFilterSortCode)
             scrollViewLayout.addView(tv3)
-            tv3.setPadding(10, 10, 10, 10)
+            tv3.setPadding(20, 20, 20, 20)
             tv3.setBackgroundResource(R.drawable.ic_round_rec_small_grey2)
             tv3.layoutParams = params }
         //}

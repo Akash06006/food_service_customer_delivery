@@ -1,42 +1,21 @@
 package com.example.services.views.tiffin
 
-import android.app.Dialog
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
-import android.os.Build
-import android.view.Gravity
-import android.view.LayoutInflater
-import android.view.View
-import android.view.Window
-import android.widget.Button
-import android.widget.ImageButton
-import android.widget.LinearLayout
-import android.widget.TextView
-import androidx.annotation.RequiresApi
-import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
-import androidx.lifecycle.Observer
+import android.graphics.BitmapFactory
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.services.R
-import com.example.services.adapters.tiffinService.TiffinMainRecyclerAdapter
-import com.example.services.adapters.tiffinService.TiffinPopupAdapter
-import com.example.services.common.UtilsFunctions
-import com.example.services.constants.GlobalConstants
-import com.example.services.databinding.FragmentTiffin1Binding
-import com.example.services.databinding.FragmentTiffinOrders1Binding
+import com.example.services.adapters.tiffinService.TiffinOrdersRecyclerAdapter
 import com.example.services.databinding.FragmentTiffinOrders2Binding
-import com.example.services.model.tiffinModel.TiffinMainResponse
+import com.example.services.model.tiffinModel.TiffinMainList
 import com.example.services.viewmodels.tiffinViewModel.TiffinViewModel
-import com.google.gson.JsonArray
-import com.google.gson.JsonObject
-import kotlinx.android.synthetic.main.popup_filter_layout.*
 
 
 class Tiffin2OrdersFragment : com.example.services.utils.BaseFragment() {
     var binding: FragmentTiffinOrders2Binding?=null
     private var tiffinViewModel: TiffinViewModel? = null
+    private var list = ArrayList<TiffinMainList>()
+
 
     override fun getLayoutResId(): Int {
         return R.layout.fragment_tiffin_orders2
@@ -49,6 +28,33 @@ class Tiffin2OrdersFragment : com.example.services.utils.BaseFragment() {
 
         tiffinViewModel = ViewModelProviders.of(this).get(TiffinViewModel::class.java)
         binding!!.tiffinMainViewModel = tiffinViewModel
+
+        list.add(
+            TiffinMainList(BitmapFactory.decodeResource(context!!.getResources(), R.drawable.image), "Salad", "Ordered On 30 July 2020", "Rs. 500", "2 Km Away", "2 Items")
+        )
+
+        tiffinRecyclerView()
+
+    }
+
+    private fun tiffinRecyclerView() {
+        val list =
+            TiffinOrdersRecyclerAdapter(
+                this@Tiffin2OrdersFragment,
+                list,
+                activity!!
+            )
+        val linearLayoutManager = LinearLayoutManager(this.baseActivity)
+        linearLayoutManager.orientation = RecyclerView.VERTICAL
+        binding!!.tiffinOrders2Recycler.layoutManager = linearLayoutManager
+        binding!!.tiffinOrders2Recycler.adapter = list
+
+        binding!!.tiffinOrders2Recycler.addOnScrollListener(object :
+            RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+
+            }
+        })
 
     }
 }

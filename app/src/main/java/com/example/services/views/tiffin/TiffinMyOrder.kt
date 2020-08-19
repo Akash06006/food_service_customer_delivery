@@ -29,7 +29,7 @@ class TiffinMyOrder: BaseActivity() {
         tiffinViewModel = ViewModelProviders.of(this).get(TiffinViewModel::class.java)
         activityTiffinMyOrderBinding!!.tiffinMainViewModel = tiffinViewModel
 
-        hitHomeTiffinApi()
+        hitMyOrderTiffinApi()
         loadTiffinCartData()
 
         activityTiffinMyOrderBinding!!.myOrderCheckOutBtn.setOnClickListener {
@@ -47,6 +47,8 @@ class TiffinMyOrder: BaseActivity() {
                     val message = response.message
                     when {
                         response.code == 200 -> {
+
+                            GlobalConstants.selectedOrderId = response.body!!.id.toString()
 
                             orderItem1Detail.setText(response.body!!._package)
 /*
@@ -72,7 +74,7 @@ class TiffinMyOrder: BaseActivity() {
             })
     }
 
-    fun hitHomeTiffinApi() {
+    fun hitMyOrderTiffinApi() {
         val mJsonObject = JsonObject()
 
         //mJsonObject.addProperty("authorization", GlobalConstants.SESSION_TOKEN)

@@ -159,6 +159,8 @@ object GlobalConstants {
     @JvmStatic
     var selectedOrderPrice = ""
     @JvmStatic
+    var selectedOrderId = ""
+    @JvmStatic
     var selectedTotalPrice = ""
     @JvmStatic
     var selectedCompanyId = ""

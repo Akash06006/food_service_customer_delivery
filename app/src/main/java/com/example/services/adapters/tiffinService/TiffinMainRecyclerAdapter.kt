@@ -52,7 +52,8 @@ class TiffinMainRecyclerAdapter(
         viewHolder = holder
 
         val scrollViewLayout = holder.binding!!.llTiffinTagScroll
-        if(list[position].tags!!.isNotEmpty() && j < 1) {
+        scrollViewLayout.removeAllViews()
+      //  if(list[position].tags!!.isNotEmpty() && j < 1) {
             list[position]!!.tags!!.indices.forEach { i ->
                 val tv = TextView(mContext.context)
                 if (i != list[position]!!.tags!!.size - 1) {
@@ -64,7 +65,7 @@ class TiffinMainRecyclerAdapter(
                 tv.setPadding(5, 5, 5, 5)
                 j++
             }
-        }
+     //   }
 
         holder.binding!!.tvTiffinVendorName.setText(list[position].name)
         Glide.with(mContext)
