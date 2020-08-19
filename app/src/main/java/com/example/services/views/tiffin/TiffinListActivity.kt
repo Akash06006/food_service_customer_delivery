@@ -28,8 +28,8 @@ class TiffinListActivity: BaseActivity() {
         tabLayout = findViewById<TabLayout>(R.id.tabLayout)
         viewPager = findViewById<ViewPager>(R.id.viewPager)
 
-        tabLayout!!.addTab(tabLayout!!.newTab().setText("Tiffin1"))
-        tabLayout!!.addTab(tabLayout!!.newTab().setText("Tiffin2"))
+        tabLayout!!.addTab(tabLayout!!.newTab().setIcon(R.drawable.ic_order_1))
+        tabLayout!!.addTab(tabLayout!!.newTab().setIcon(R.drawable.ic_order_2))
         tabLayout!!.tabGravity = TabLayout.GRAVITY_FILL
 
         val adapter = TiffinListAdapter(this, supportFragmentManager, tabLayout!!.tabCount)

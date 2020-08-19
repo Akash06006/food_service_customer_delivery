@@ -163,6 +163,28 @@ object GlobalConstants {
     @JvmStatic
     var selectedTotalPrice = ""
     @JvmStatic
+    var selectedDeductedPrice = "0"
+    @JvmStatic
+    var mondayDeductedPrice = "0"
+    @JvmStatic
+    var tuesdayDeductedPrice = "0"
+    @JvmStatic
+    var wednesdayDeductedPrice = "0"
+    @JvmStatic
+    var thursdayDeductedPrice = "0"
+    @JvmStatic
+    var fridayDeductedPrice = "0"
+    @JvmStatic
+    var breakfastDeductedPrice = "0"
+    @JvmStatic
+    var lunchDeductedPrice = "0"
+    @JvmStatic
+    var dinnerDeductedPrice = "0"
+    @JvmStatic
+    var singleItemPrice = "0"
+    @JvmStatic
+    var singleDayPrice = "0"
+    @JvmStatic
     var selectedCompanyId = ""
     @JvmStatic
     var selectedQuantity = 1

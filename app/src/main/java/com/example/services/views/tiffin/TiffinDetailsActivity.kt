@@ -3,6 +3,7 @@ package com.example.services.views.tiffin
 
 import android.content.Intent
 import android.view.View
+import android.widget.CheckBox
 import android.widget.CompoundButton
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -159,35 +160,42 @@ class TiffinDetailsActivity: BaseActivity(), CompoundButton.OnCheckedChangeListe
 
                             packagesList = response.body.packages!!
 
-                            when {
-                                activityTiffinDetailsBinding!!.radioButton1.isChecked -> {
-                                    GlobalConstants.selectedOrderPrice =
-                                        packagesList[0].price.toString()
-                                    GlobalConstants.selectedTotalPrice =
-                                        GlobalConstants.selectedOrderPrice
-                                    GlobalConstants.selectedPackage = "Daily"
-                                }
-                                activityTiffinDetailsBinding!!.radioButton2.isChecked -> {
-                                    GlobalConstants.selectedOrderPrice =
-                                        packagesList[1].price.toString()
-                                    GlobalConstants.selectedTotalPrice =
-                                        GlobalConstants.selectedOrderPrice
-                                    GlobalConstants.selectedPackage = "Weekly"
+                            GlobalConstants.singleDayPrice = packagesList[0].price.toString()
+                            GlobalConstants.singleItemPrice = (GlobalConstants.singleDayPrice.toInt()/3).toString()
 
-                                }
-                                activityTiffinDetailsBinding!!.radioButton3.isChecked -> {
-                                    GlobalConstants.selectedOrderPrice =
-                                        packagesList[2].price.toString()
-                                    GlobalConstants.selectedTotalPrice =
-                                        GlobalConstants.selectedOrderPrice
-                                    GlobalConstants.selectedPackage = "Monthly"
+                            if (packagesList.isNotEmpty()) {
 
+                                when {
+                                    activityTiffinDetailsBinding!!.radioButton1.isChecked -> {
+                                        GlobalConstants.selectedOrderPrice =
+                                            packagesList[0].price.toString()
+                                        GlobalConstants.selectedTotalPrice =
+                                            (GlobalConstants.selectedOrderPrice.toInt() - GlobalConstants.selectedDeductedPrice.toInt()).toString()
+                                        GlobalConstants.selectedPackage = "Daily"
+                                    }
+                                    activityTiffinDetailsBinding!!.radioButton2.isChecked -> {
+                                        GlobalConstants.selectedOrderPrice =
+                                            packagesList[1].price.toString()
+                                        GlobalConstants.selectedTotalPrice =
+                                            (GlobalConstants.selectedOrderPrice.toInt() - GlobalConstants.selectedDeductedPrice.toInt()).toString()
+                                        GlobalConstants.selectedPackage = "Weekly"
+
+                                    }
+                                    activityTiffinDetailsBinding!!.radioButton3.isChecked -> {
+                                        GlobalConstants.selectedOrderPrice =
+                                            packagesList[2].price.toString()
+                                        GlobalConstants.selectedTotalPrice =
+                                            (GlobalConstants.selectedOrderPrice.toInt() - GlobalConstants.selectedDeductedPrice.toInt()).toString()
+                                        GlobalConstants.selectedPackage = "Monthly"
+
+                                    }
                                 }
+
                             }
 
 
 
-                            activityTiffinDetailsBinding!!.detailsOrderPrice.setText(GlobalConstants.selectedOrderPrice)
+                            activityTiffinDetailsBinding!!.detailsOrderPrice.setText(GlobalConstants.selectedTotalPrice)
                             //activityTiffinDetailsBinding!!.detailsDate.setText(GlobalConstants.selectedFromDate)
 
 
@@ -229,7 +237,148 @@ class TiffinDetailsActivity: BaseActivity(), CompoundButton.OnCheckedChangeListe
                 preferredDetailsDays.visibility = View.VISIBLE
                 initializeAllFormData()
 
+            }
 
+        }
+    }
+
+    fun onPrefMealCheckboxClicked(view: View) {
+        if (view is CheckBox) {
+            val checked: Boolean = view.isChecked
+
+            when (view.id) {
+                R.id.chkBtnBreakfast -> {
+                    if (checked) {
+                        GlobalConstants.breakfastDeductedPrice = "0"
+                        GlobalConstants.selectedDeductedPrice = (GlobalConstants.mondayDeductedPrice.toInt() + GlobalConstants.tuesdayDeductedPrice.toInt() + GlobalConstants.wednesdayDeductedPrice.toInt()+ GlobalConstants.thursdayDeductedPrice.toInt()+ GlobalConstants.fridayDeductedPrice.toInt() + GlobalConstants.breakfastDeductedPrice.toInt() + GlobalConstants.lunchDeductedPrice.toInt() + GlobalConstants.dinnerDeductedPrice.toInt()).toString()
+                        GlobalConstants.selectedTotalPrice = (GlobalConstants.selectedOrderPrice.toInt() - GlobalConstants.selectedDeductedPrice.toInt()).toString()
+                        activityTiffinDetailsBinding!!.detailsOrderPrice.setText(GlobalConstants.selectedTotalPrice)
+
+                    } else {
+                        GlobalConstants.mondayDeductedPrice = GlobalConstants.singleItemPrice
+                        GlobalConstants.selectedDeductedPrice = (GlobalConstants.mondayDeductedPrice.toInt() + GlobalConstants.tuesdayDeductedPrice.toInt() + GlobalConstants.wednesdayDeductedPrice.toInt()+ GlobalConstants.thursdayDeductedPrice.toInt()+ GlobalConstants.fridayDeductedPrice.toInt() + GlobalConstants.breakfastDeductedPrice.toInt() + GlobalConstants.lunchDeductedPrice.toInt() + GlobalConstants.dinnerDeductedPrice.toInt()).toString()
+                        GlobalConstants.selectedTotalPrice = (GlobalConstants.selectedOrderPrice.toInt() - GlobalConstants.selectedDeductedPrice.toInt()).toString()
+                        activityTiffinDetailsBinding!!.detailsOrderPrice.setText(GlobalConstants.selectedTotalPrice)
+
+                    }
+                }
+                R.id.chkBtnLunch -> {
+                    if (checked) {
+                        GlobalConstants.tuesdayDeductedPrice = "0"
+                        GlobalConstants.selectedDeductedPrice = (GlobalConstants.mondayDeductedPrice.toInt() + GlobalConstants.tuesdayDeductedPrice.toInt() + GlobalConstants.wednesdayDeductedPrice.toInt()+ GlobalConstants.thursdayDeductedPrice.toInt()+ GlobalConstants.fridayDeductedPrice.toInt() + GlobalConstants.breakfastDeductedPrice.toInt() + GlobalConstants.lunchDeductedPrice.toInt() + GlobalConstants.dinnerDeductedPrice.toInt()).toString()
+                        GlobalConstants.selectedTotalPrice = (GlobalConstants.selectedOrderPrice.toInt() - GlobalConstants.selectedDeductedPrice.toInt()).toString()
+                        activityTiffinDetailsBinding!!.detailsOrderPrice.setText(GlobalConstants.selectedTotalPrice)
+
+                    } else {
+                        GlobalConstants.tuesdayDeductedPrice = GlobalConstants.singleItemPrice
+                        GlobalConstants.selectedDeductedPrice = (GlobalConstants.mondayDeductedPrice.toInt() + GlobalConstants.tuesdayDeductedPrice.toInt() + GlobalConstants.wednesdayDeductedPrice.toInt()+ GlobalConstants.thursdayDeductedPrice.toInt()+ GlobalConstants.fridayDeductedPrice.toInt() + GlobalConstants.breakfastDeductedPrice.toInt() + GlobalConstants.lunchDeductedPrice.toInt() + GlobalConstants.dinnerDeductedPrice.toInt()).toString()
+                        GlobalConstants.selectedTotalPrice = (GlobalConstants.selectedOrderPrice.toInt() - GlobalConstants.selectedDeductedPrice.toInt()).toString()
+                        activityTiffinDetailsBinding!!.detailsOrderPrice.setText(GlobalConstants.selectedTotalPrice)
+
+                    }
+                }
+                R.id.chkBtnDinner -> {
+                    if (checked) {
+                        GlobalConstants.wednesdayDeductedPrice = "0"
+                        GlobalConstants.selectedDeductedPrice = (GlobalConstants.mondayDeductedPrice.toInt() + GlobalConstants.tuesdayDeductedPrice.toInt() + GlobalConstants.wednesdayDeductedPrice.toInt()+ GlobalConstants.thursdayDeductedPrice.toInt()+ GlobalConstants.fridayDeductedPrice.toInt() + GlobalConstants.breakfastDeductedPrice.toInt() + GlobalConstants.lunchDeductedPrice.toInt() + GlobalConstants.dinnerDeductedPrice.toInt()).toString()
+                        GlobalConstants.selectedTotalPrice = (GlobalConstants.selectedOrderPrice.toInt() - GlobalConstants.selectedDeductedPrice.toInt()).toString()
+                        activityTiffinDetailsBinding!!.detailsOrderPrice.setText(GlobalConstants.selectedTotalPrice)
+
+                    } else {
+                        GlobalConstants.wednesdayDeductedPrice = GlobalConstants.singleItemPrice
+                        GlobalConstants.selectedDeductedPrice = (GlobalConstants.mondayDeductedPrice.toInt() + GlobalConstants.tuesdayDeductedPrice.toInt() + GlobalConstants.wednesdayDeductedPrice.toInt()+ GlobalConstants.thursdayDeductedPrice.toInt()+ GlobalConstants.fridayDeductedPrice.toInt() + GlobalConstants.breakfastDeductedPrice.toInt() + GlobalConstants.lunchDeductedPrice.toInt() + GlobalConstants.dinnerDeductedPrice.toInt()).toString()
+                        GlobalConstants.selectedTotalPrice = (GlobalConstants.selectedOrderPrice.toInt() - GlobalConstants.selectedDeductedPrice.toInt()).toString()
+                        activityTiffinDetailsBinding!!.detailsOrderPrice.setText(GlobalConstants.selectedTotalPrice)
+
+                    }
+                }
+
+                // TODO: Veggie sandwich
+            }
+        }
+    }
+
+    fun onPrefDaysCheckboxClicked(view: View) {
+        if (view is CheckBox) {
+            val checked: Boolean = view.isChecked
+
+            when (view.id) {
+                R.id.preferredchkBoxm -> {
+                    if (checked) {
+                        GlobalConstants.mondayDeductedPrice = "0"
+                        GlobalConstants.selectedDeductedPrice = (GlobalConstants.mondayDeductedPrice.toInt() + GlobalConstants.tuesdayDeductedPrice.toInt() + GlobalConstants.wednesdayDeductedPrice.toInt()+ GlobalConstants.thursdayDeductedPrice.toInt()+ GlobalConstants.fridayDeductedPrice.toInt() + GlobalConstants.breakfastDeductedPrice.toInt() + GlobalConstants.lunchDeductedPrice.toInt() + GlobalConstants.dinnerDeductedPrice.toInt()).toString()
+                        GlobalConstants.selectedTotalPrice = (GlobalConstants.selectedOrderPrice.toInt() - GlobalConstants.selectedDeductedPrice.toInt()).toString()
+                        activityTiffinDetailsBinding!!.detailsOrderPrice.setText(GlobalConstants.selectedTotalPrice)
+
+                    } else {
+                        GlobalConstants.mondayDeductedPrice = GlobalConstants.singleDayPrice
+                        GlobalConstants.selectedDeductedPrice = (GlobalConstants.mondayDeductedPrice.toInt() + GlobalConstants.tuesdayDeductedPrice.toInt() + GlobalConstants.wednesdayDeductedPrice.toInt()+ GlobalConstants.thursdayDeductedPrice.toInt()+ GlobalConstants.fridayDeductedPrice.toInt() + GlobalConstants.breakfastDeductedPrice.toInt() + GlobalConstants.lunchDeductedPrice.toInt() + GlobalConstants.dinnerDeductedPrice.toInt()).toString()
+                        GlobalConstants.selectedTotalPrice = (GlobalConstants.selectedOrderPrice.toInt() - GlobalConstants.selectedDeductedPrice.toInt()).toString()
+                        activityTiffinDetailsBinding!!.detailsOrderPrice.setText(GlobalConstants.selectedTotalPrice)
+
+                    }
+                }
+                R.id.preferredchkBoxt -> {
+                    if (checked) {
+                        GlobalConstants.tuesdayDeductedPrice = "0"
+                        GlobalConstants.selectedDeductedPrice = (GlobalConstants.mondayDeductedPrice.toInt() + GlobalConstants.tuesdayDeductedPrice.toInt() + GlobalConstants.wednesdayDeductedPrice.toInt()+ GlobalConstants.thursdayDeductedPrice.toInt()+ GlobalConstants.fridayDeductedPrice.toInt() + GlobalConstants.breakfastDeductedPrice.toInt() + GlobalConstants.lunchDeductedPrice.toInt() + GlobalConstants.dinnerDeductedPrice.toInt()).toString()
+                        GlobalConstants.selectedTotalPrice = (GlobalConstants.selectedOrderPrice.toInt() - GlobalConstants.selectedDeductedPrice.toInt()).toString()
+                        activityTiffinDetailsBinding!!.detailsOrderPrice.setText(GlobalConstants.selectedTotalPrice)
+
+                    } else {
+                        GlobalConstants.tuesdayDeductedPrice = GlobalConstants.singleDayPrice
+                        GlobalConstants.selectedDeductedPrice = (GlobalConstants.mondayDeductedPrice.toInt() + GlobalConstants.tuesdayDeductedPrice.toInt() + GlobalConstants.wednesdayDeductedPrice.toInt()+ GlobalConstants.thursdayDeductedPrice.toInt()+ GlobalConstants.fridayDeductedPrice.toInt() + GlobalConstants.breakfastDeductedPrice.toInt() + GlobalConstants.lunchDeductedPrice.toInt() + GlobalConstants.dinnerDeductedPrice.toInt()).toString()
+                        GlobalConstants.selectedTotalPrice = (GlobalConstants.selectedOrderPrice.toInt() - GlobalConstants.selectedDeductedPrice.toInt()).toString()
+                        activityTiffinDetailsBinding!!.detailsOrderPrice.setText(GlobalConstants.selectedTotalPrice)
+
+                    }
+                }
+                R.id.preferredchkBoxw -> {
+                    if (checked) {
+                        GlobalConstants.wednesdayDeductedPrice = "0"
+                        GlobalConstants.selectedDeductedPrice = (GlobalConstants.mondayDeductedPrice.toInt() + GlobalConstants.tuesdayDeductedPrice.toInt() + GlobalConstants.wednesdayDeductedPrice.toInt()+ GlobalConstants.thursdayDeductedPrice.toInt()+ GlobalConstants.fridayDeductedPrice.toInt() + GlobalConstants.breakfastDeductedPrice.toInt() + GlobalConstants.lunchDeductedPrice.toInt() + GlobalConstants.dinnerDeductedPrice.toInt()).toString()
+                        GlobalConstants.selectedTotalPrice = (GlobalConstants.selectedOrderPrice.toInt() - GlobalConstants.selectedDeductedPrice.toInt()).toString()
+                        activityTiffinDetailsBinding!!.detailsOrderPrice.setText(GlobalConstants.selectedTotalPrice)
+
+                    } else {
+                        GlobalConstants.wednesdayDeductedPrice = GlobalConstants.singleDayPrice
+                        GlobalConstants.selectedDeductedPrice = (GlobalConstants.mondayDeductedPrice.toInt() + GlobalConstants.tuesdayDeductedPrice.toInt() + GlobalConstants.wednesdayDeductedPrice.toInt()+ GlobalConstants.thursdayDeductedPrice.toInt()+ GlobalConstants.fridayDeductedPrice.toInt() + GlobalConstants.breakfastDeductedPrice.toInt() + GlobalConstants.lunchDeductedPrice.toInt() + GlobalConstants.dinnerDeductedPrice.toInt()).toString()
+                        GlobalConstants.selectedTotalPrice = (GlobalConstants.selectedOrderPrice.toInt() - GlobalConstants.selectedDeductedPrice.toInt()).toString()
+                        activityTiffinDetailsBinding!!.detailsOrderPrice.setText(GlobalConstants.selectedTotalPrice)
+
+                    }
+                }
+                R.id.preferredchkBoxth -> {
+                    if (checked) {
+                        GlobalConstants.thursdayDeductedPrice = "0"
+                        GlobalConstants.selectedDeductedPrice = (GlobalConstants.mondayDeductedPrice.toInt() + GlobalConstants.tuesdayDeductedPrice.toInt() + GlobalConstants.wednesdayDeductedPrice.toInt()+ GlobalConstants.thursdayDeductedPrice.toInt()+ GlobalConstants.fridayDeductedPrice.toInt() + GlobalConstants.breakfastDeductedPrice.toInt() + GlobalConstants.lunchDeductedPrice.toInt() + GlobalConstants.dinnerDeductedPrice.toInt()).toString()
+                        GlobalConstants.selectedTotalPrice = (GlobalConstants.selectedOrderPrice.toInt() - GlobalConstants.selectedDeductedPrice.toInt()).toString()
+                        activityTiffinDetailsBinding!!.detailsOrderPrice.setText(GlobalConstants.selectedTotalPrice)
+
+                    } else {
+                        GlobalConstants.thursdayDeductedPrice = GlobalConstants.singleDayPrice
+                        GlobalConstants.selectedDeductedPrice = (GlobalConstants.mondayDeductedPrice.toInt() + GlobalConstants.tuesdayDeductedPrice.toInt() + GlobalConstants.wednesdayDeductedPrice.toInt()+ GlobalConstants.thursdayDeductedPrice.toInt()+ GlobalConstants.fridayDeductedPrice.toInt() + GlobalConstants.breakfastDeductedPrice.toInt() + GlobalConstants.lunchDeductedPrice.toInt() + GlobalConstants.dinnerDeductedPrice.toInt()).toString()
+                        GlobalConstants.selectedTotalPrice = (GlobalConstants.selectedOrderPrice.toInt() - GlobalConstants.selectedDeductedPrice.toInt()).toString()
+                        activityTiffinDetailsBinding!!.detailsOrderPrice.setText(GlobalConstants.selectedTotalPrice)
+
+                    }
+                }
+                R.id.preferredchkBoxf -> {
+                    if (checked) {
+                        GlobalConstants.fridayDeductedPrice = "0"
+                        GlobalConstants.selectedDeductedPrice = (GlobalConstants.mondayDeductedPrice.toInt() + GlobalConstants.tuesdayDeductedPrice.toInt() + GlobalConstants.wednesdayDeductedPrice.toInt()+ GlobalConstants.thursdayDeductedPrice.toInt()+ GlobalConstants.fridayDeductedPrice.toInt() + GlobalConstants.breakfastDeductedPrice.toInt() + GlobalConstants.lunchDeductedPrice.toInt() + GlobalConstants.dinnerDeductedPrice.toInt()).toString()
+                        GlobalConstants.selectedTotalPrice = (GlobalConstants.selectedOrderPrice.toInt() - GlobalConstants.selectedDeductedPrice.toInt()).toString()
+                        activityTiffinDetailsBinding!!.detailsOrderPrice.setText(GlobalConstants.selectedTotalPrice)
+
+                    } else {
+                        GlobalConstants.fridayDeductedPrice = GlobalConstants.singleDayPrice
+                        GlobalConstants.selectedDeductedPrice = (GlobalConstants.mondayDeductedPrice.toInt() + GlobalConstants.tuesdayDeductedPrice.toInt() + GlobalConstants.wednesdayDeductedPrice.toInt()+ GlobalConstants.thursdayDeductedPrice.toInt()+ GlobalConstants.fridayDeductedPrice.toInt() + GlobalConstants.breakfastDeductedPrice.toInt() + GlobalConstants.lunchDeductedPrice.toInt() + GlobalConstants.dinnerDeductedPrice.toInt()).toString()
+                        GlobalConstants.selectedTotalPrice = (GlobalConstants.selectedOrderPrice.toInt() - GlobalConstants.selectedDeductedPrice.toInt()).toString()
+                        activityTiffinDetailsBinding!!.detailsOrderPrice.setText(GlobalConstants.selectedTotalPrice)
+
+                    }
+                }
+                // TODO: Veggie sandwich
             }
         }
     }

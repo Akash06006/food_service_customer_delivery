@@ -1149,9 +1149,10 @@
                     android:layout_weight="1">
 
                     <CheckBox
-                        android:id="@+id/chkBtndetailsTiffin1"
+                        android:id="@+id/chkBtnBreakfast"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:onClick="onPrefMealCheckboxClicked"
                         android:layout_marginTop="@dimen/dp_10"
                         android:checked="true"/>
 
@@ -1203,10 +1204,10 @@
                     >
 
                     <CheckBox
-                        android:id="@+id/chkBtndetailsTiffin2"
+                        android:id="@+id/chkBtnLunch"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-
+                        android:onClick="onPrefMealCheckboxClicked"
                         android:checked="true"/>
 
                     <TextView
@@ -1261,9 +1262,10 @@
                     android:orientation="horizontal">
 
                     <CheckBox
-                        android:id="@+id/chkBtndetailsTiffin3"
+                        android:id="@+id/chkBtnDinner"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:onClick="onPrefMealCheckboxClicked"
                         android:checked="true"/>
 
                     <TextView
@@ -1315,6 +1317,7 @@
                             android:id="@+id/preferredchkBoxm"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:onClick="onPrefDaysCheckboxClicked"
                             android:layout_marginTop="@dimen/dp_10"
                             android:checked="true"/>
 
@@ -1336,6 +1339,7 @@
                             android:id="@+id/preferredchkBoxt"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:onClick="onPrefDaysCheckboxClicked"
                             android:layout_marginTop="@dimen/dp_10"
                             android:checked="true"/>
 
@@ -1357,6 +1361,7 @@
                             android:id="@+id/preferredchkBoxw"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:onClick="onPrefDaysCheckboxClicked"
                             android:layout_marginTop="@dimen/dp_10"
                             android:checked="true"/>
 
@@ -1378,6 +1383,7 @@
                             android:id="@+id/preferredchkBoxth"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:onClick="onPrefDaysCheckboxClicked"
                             android:layout_marginTop="@dimen/dp_10"
                             android:checked="true"/>
 
@@ -1399,6 +1405,7 @@
                             android:id="@+id/preferredchkBoxf"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:onClick="onPrefDaysCheckboxClicked"
                             android:layout_marginTop="@dimen/dp_10"
                             android:checked="true"/>
 
