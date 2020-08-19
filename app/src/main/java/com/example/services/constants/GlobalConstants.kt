@@ -181,6 +181,12 @@ object GlobalConstants {
     @JvmStatic
     var dinnerDeductedPrice = "0"
     @JvmStatic
+    var breakfastPrice = "0"
+    @JvmStatic
+    var lunchPrice = "0"
+    @JvmStatic
+    var dinnerPrice = "0"
+    @JvmStatic
     var singleItemPrice = "0"
     @JvmStatic
     var singleDayPrice = "0"
