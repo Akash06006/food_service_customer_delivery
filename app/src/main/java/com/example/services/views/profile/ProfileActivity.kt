@@ -32,6 +32,8 @@ import com.example.services.utils.*
 import com.example.services.viewmodels.profile.ProfileViewModel
 import com.example.services.views.address.AddAddressActivity
 import com.example.services.views.authentication.OTPVerificationActivity
+import com.example.services.views.orders.OrdersHistoryListActivity
+import com.example.services.views.orders.OrdersListActivity
 import com.google.gson.JsonObject
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -42,16 +44,17 @@ import java.util.*
 import kotlin.collections.HashMap
 
 class ProfileActivity : BaseActivity(), ChoiceCallBack {
-    private lateinit var profileBinding : ActivityProfileBinding
-    private lateinit var profieViewModel : ProfileViewModel
-    private var sharedPrefClass : SharedPrefClass? = null
-    private var confirmationDialog : Dialog? = null
+    private lateinit var profileBinding: ActivityProfileBinding
+    private lateinit var profieViewModel: ProfileViewModel
+    private var sharedPrefClass: SharedPrefClass? = null
+    private var confirmationDialog: Dialog? = null
     private var mDialogClass = DialogClass()
     private val mJsonObject = JsonObject()
     private val RESULT_LOAD_IMAGE = 100
     private val CAMERA_REQUEST = 1888
     private var profileImage = ""
-    override fun getLayoutId() : Int {
+    var maritalStatus = "single"
+    override fun getLayoutId(): Int {
         return R.layout.activity_profile
     }
 
@@ -63,7 +66,13 @@ class ProfileActivity : BaseActivity(), ChoiceCallBack {
         profileBinding.commonToolBar.imgRight.setImageResource(R.drawable.ic_nav_edit_icon)
         profileBinding.commonToolBar.imgToolbarText.text =
             resources.getString(R.string.view_profile)
-        profileBinding.btnSubmit.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(GlobalConstants.COLOR_CODE))/*mContext.getResources().getColorStateList(R.color.colorOrange)*/)
+        profileBinding.btnSubmit.setBackgroundTintList(
+            ColorStateList.valueOf(
+                Color.parseColor(
+                    GlobalConstants.COLOR_CODE
+                )
+            )/*mContext.getResources().getColorStateList(R.color.colorOrange)*/
+        )
 
         val name = SharedPrefClass().getPrefValue(
             MyApplication.instance.applicationContext,
@@ -89,13 +98,16 @@ class ProfileActivity : BaseActivity(), ChoiceCallBack {
 
 
         profieViewModel.getDetail().observe(this,
-            Observer<LoginResponse> { response->
+            Observer<LoginResponse> { response ->
                 stopProgressDialog()
                 if (response != null) {
                     val message = response.message
                     when {
                         response.code == 200 -> {
                             profileBinding.profileModel = response.data
+                            maritalStatus = response.data?.maritalStatus!!
+                            profileBinding.tvName.setText(response.data?.firstName + " " + response.data?.lastName)
+                            profileBinding.tvPoints.setText("My loyalty points: " + response.data?.lPoints)
                         }
                         else -> showToastError(message)
                     }
@@ -103,7 +115,7 @@ class ProfileActivity : BaseActivity(), ChoiceCallBack {
             })
 
         profieViewModel.getUpdateDetail().observe(this,
-            Observer<LoginResponse> { response->
+            Observer<LoginResponse> { response ->
                 stopProgressDialog()
                 if (response != null) {
                     val message = response.message
@@ -133,8 +145,17 @@ class ProfileActivity : BaseActivity(), ChoiceCallBack {
 
         profieViewModel.isClick().observe(
             this, Observer<String>(function =
-            fun(it : String?) {
+            fun(it: String?) {
                 when (it) {
+
+                    "myOrders" -> {
+                        val intent = Intent(this, OrdersListActivity::class.java)
+                        startActivity(intent)
+                    }
+                    "myOrdersHistory" -> {
+                        val intent = Intent(this, OrdersHistoryListActivity::class.java)
+                        startActivity(intent)
+                    }
                     "iv_edit" -> {
                         // editImage = 0
                         //  showPictureDialog()
@@ -211,8 +232,9 @@ class ProfileActivity : BaseActivity(), ChoiceCallBack {
                                       ) as String
                                   )*/
                                 mHashMap["email"] = Utils(this).createPartFromString(email)
-                                //  mHashMap["password"] = Utils(this).createPartFromString(password)
-                                var userImage : MultipartBody.Part? = null
+                                mHashMap["maritalStatus"] =
+                                    Utils(this).createPartFromString(maritalStatus)
+                                var userImage: MultipartBody.Part? = null
                                 if (!profileImage.isEmpty()) {
                                     val f1 = File(profileImage)
                                     userImage = Utils(this).prepareFilePart("profileImage", f1)
@@ -232,7 +254,7 @@ class ProfileActivity : BaseActivity(), ChoiceCallBack {
 
     }
 
-    private fun makeEnableDisableViews(isEnable : Boolean) {
+    private fun makeEnableDisableViews(isEnable: Boolean) {
         profileBinding.etFirstname.isEnabled = isEnable
         profileBinding.etLastname.isEnabled = isEnable
         profileBinding.etEmail.isEnabled = isEnable
@@ -250,25 +272,25 @@ class ProfileActivity : BaseActivity(), ChoiceCallBack {
 
     }
 
-    private fun showError(textView : TextView, error : String) {
+    private fun showError(textView: TextView, error: String) {
         textView.requestFocus()
         textView.error = error
     }
 
-    override fun photoFromCamera(mKey : String) {
-        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent->
+    override fun photoFromCamera(mKey: String) {
+        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
             // Ensure that there's a camera activity to handle the intent
             takePictureIntent.resolveActivity(packageManager)?.also {
                 // Create the File where the photo should go
-                val photoFile : File? = try {
+                val photoFile: File? = try {
                     createImageFile()
-                } catch (ex : IOException) {
+                } catch (ex: IOException) {
                     // Error occurred while creating the File
                     null
                 }
                 // Continue only if the File was successfully created
                 photoFile?.also {
-                    val photoURI : Uri =
+                    val photoURI: Uri =
                         FileProvider.getUriForFile(this, packageName + ".fileprovider", it)
                     takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
                     startActivityForResult(takePictureIntent, CAMERA_REQUEST)
@@ -277,10 +299,10 @@ class ProfileActivity : BaseActivity(), ChoiceCallBack {
         }
     }
 
-    private fun createImageFile() : File {
+    private fun createImageFile(): File {
         // Create an image file name
-        val timeStamp : String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
-        val storageDir : File = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+        val storageDir: File = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
         //currentPhotoPath = File(baseActivity?.cacheDir, fileName)
         return File.createTempFile(
             "JPEG_${timeStamp}_", /* prefix */
@@ -292,7 +314,7 @@ class ProfileActivity : BaseActivity(), ChoiceCallBack {
         }
     }
 
-    override fun photoFromGallery(mKey : String) {
+    override fun photoFromGallery(mKey: String) {
         val i = Intent(
             Intent.ACTION_PICK,
             android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI
@@ -300,15 +322,15 @@ class ProfileActivity : BaseActivity(), ChoiceCallBack {
         startActivityForResult(i, RESULT_LOAD_IMAGE)
     }
 
-    override fun videoFromCamera(mKey : String) {
+    override fun videoFromCamera(mKey: String) {
         //("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun videoFromGallery(mKey : String) {
+    override fun videoFromGallery(mKey: String) {
         //("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun onActivityResult(requestCode : Int, resultCode : Int, data : Intent?) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
             val selectedImage = data.data
@@ -328,7 +350,7 @@ class ProfileActivity : BaseActivity(), ChoiceCallBack {
 
     }
 
-    private fun setImage(path : String) {
+    private fun setImage(path: String) {
         Glide.with(this)
             .load(path)
             .placeholder(R.drawable.user)

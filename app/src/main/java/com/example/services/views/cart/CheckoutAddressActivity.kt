@@ -15,9 +15,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.Window
-import android.widget.Button
-import android.widget.CompoundButton
-import android.widget.LinearLayout
+import android.view.animation.AnimationUtils
+import android.widget.*
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
@@ -52,6 +51,8 @@ import com.example.services.views.address.AddAddressActivity
 import com.example.services.views.home.LandingMainActivity
 import com.example.services.views.payment.PaymentActivity
 import com.example.services.views.promocode.PromoCodeActivity
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.gson.JsonObject
 import com.uniongoods.adapters.*
 import org.json.JSONObject
@@ -92,6 +93,12 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
     private var addressesList = ArrayList<AddressListResponse.Body>()
     var instructionResponse: DeliveryTipInstructionListResponse.Body? = null
     var addressId = ""
+    var strCookingInstructions = ""
+    var points = ""
+    var singlePointValue = 0
+    var totalPoints = 0
+    var maxRangePoints = 0
+
     // var addressType = ""
     lateinit var servicesViewModel: ServicesViewModel
     lateinit var promcodeViewModel: PromoCodeViewModel
@@ -120,6 +127,10 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
         cartBinding.commonToolBar.imgToolbarText.text =
             resources.getString(R.string.checkout)
 
+
+        /* val bottomSheetBehavior = BottomSheetBehavior.from(cartBinding.bottomLayout)
+
+         bottomSheetBehavior.state == BottomSheetBehavior.STATE_COLLAPSED*/
 
         val applicationType = SharedPrefClass()!!.getPrefValue(
             MyApplication.instance,
@@ -183,6 +194,14 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
                     when {
                         response.code == 200 -> {
                             cartList.addAll(response.body!!.data!!)
+                            points = response.body?.lPoints?.maxRange.toString()
+                            /*singlePointValue = response.body?.lPoints?.onePointValue!!.toDouble()
+                            if (points!!.toDouble() > 0) {
+                                cartBinding.rlLoyalty.visibility = View.VISIBLE
+                                maxRangePoints = response.body?.lPoints?.maxRange!!.toDouble()
+                            } else {
+                                cartBinding.rlLoyalty.visibility = View.GONE
+                            }*/
                             payableAmount = response.body?.sum.toString()
                             cartBinding.tvTotalItems.setText(cartList.size.toString())
                             var total =
@@ -425,8 +444,12 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
                                 payableAmount =
                                     (payableAmount.toDouble().minus(deliveryCharges)).toString()
                                 deliveryCharges = response.data?.shipment?.toDouble()!!
+                                /* payableAmount =
+                                     payableAmount.toDouble().minus(totalPoints).toString()
+ */
                                 val totalCharges =
                                     deliveryCharges?.plus(payableAmount.toDouble())
+
                                 payableAmount = totalCharges.toString()
                                 cartBinding.tvDelCharges.setText(GlobalConstants.Currency + " " + response.data?.shipment)
                                 cartBinding.tvOfferPrice.setText(GlobalConstants.Currency + " " + totalCharges)
@@ -470,6 +493,7 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
                 }
             })
 
+
         cartViewModel.isClick().observe(
             this, Observer<String>(function =
             fun(it: String?) {
@@ -497,6 +521,11 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
                             addressDialog()
                         }
 
+                    }
+
+                    "tvCookingInstructions" -> {
+
+                        showAddCookingInstructionDialog()
                     }
                     "btnCheckout" -> {
 
@@ -546,13 +575,19 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
                                 "serviceCharges", deliveryCharges.toString()
                             )
                             addressObject.addProperty(
+                                "usedLPoints", "0"
+                            )
+                            addressObject.addProperty(
+                                "LPointsPrice", "0"/*totalPoints*/
+                            )
+                            addressObject.addProperty(
                                 "promoCode", couponCodeId
                             )
                             addressObject.addProperty(
                                 "companyId", GlobalConstants.COMPANY_ID
                             )
                             addressObject.addProperty(
-                                "cookingInstructions", "Testing"
+                                "cookingInstructions", strCookingInstructions
                             )
                             addressObject.addProperty(
                                 "pickupInstructions", pickupInstruction
@@ -564,8 +599,6 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
                                 "tip", tipSelected.toString()
                             )
 
-
-
                             cartViewModel.orderPlace(addressObject)
 
                         }
@@ -573,6 +606,27 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
                 }
             })
         )
+
+        cartBinding!!.chkLoyalty.setOnClickListener(View.OnClickListener {
+            if (cartBinding!!.chkLoyalty.isChecked) {
+                cartBinding!!.llLoyalityPoints.visibility = View.VISIBLE
+                totalPoints = (singlePointValue * maxRangePoints)
+                cartBinding.tvLoyalityPoints.setText(totalPoints.toString())
+                payableAmount =
+                    payableAmount.toDouble().minus(totalPoints).toString()
+                cartBinding.tvOfferPrice.setText(GlobalConstants.Currency + " " + payableAmount)
+            } else {
+                totalPoints = (singlePointValue * maxRangePoints)
+                cartBinding.tvLoyalityPoints.setText(totalPoints.toString())
+                payableAmount =
+                    payableAmount.toDouble().plus(totalPoints).toString()
+                totalPoints = 0
+                cartBinding.tvOfferPrice.setText(GlobalConstants.Currency + " " + payableAmount)
+                cartBinding!!.llLoyalityPoints.visibility = View.GONE
+                cartBinding.tvLoyalityPoints.setText("")
+            }
+        })
+
     }
 
     private fun callCheckDelivery() {
@@ -800,6 +854,47 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
         confirmationDialog?.show()
     }
 
+    private fun showAddCookingInstructionDialog() {
+        var confirmationDialog = Dialog(this, R.style.dialogAnimation_animation)
+        confirmationDialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        val binding =
+            DataBindingUtil.inflate<ViewDataBinding>(
+                LayoutInflater.from(this),
+                R.layout.layout_bottom_sheet,
+                null,
+                false
+            )
+
+        confirmationDialog?.setContentView(binding.root)
+        confirmationDialog?.setCancelable(false)
+
+        confirmationDialog?.window!!.setLayout(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.MATCH_PARENT
+        )
+        confirmationDialog?.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        val cancel = confirmationDialog?.findViewById<Button>(R.id.btnCookingSubmit)
+        val etInstruction = confirmationDialog?.findViewById<EditText>(R.id.etInstruction)
+        val imgCross = confirmationDialog?.findViewById<ImageView>(R.id.img_cross)
+
+        etInstruction.setText(cartBinding.tvCookingInstructions.text.toString())
+
+        imgCross?.setOnClickListener {
+            confirmationDialog?.dismiss()
+        }
+        cancel?.setOnClickListener {
+            confirmationDialog?.dismiss()
+            if (TextUtils.isEmpty(etInstruction.text.toString())) {
+                showToastError("Please enter cookings instructions")
+            } else {
+                strCookingInstructions = etInstruction.text.toString()
+                cartBinding.tvCookingInstructions.setText(etInstruction.text.toString())
+            }
+        }
+
+        confirmationDialog?.show()
+    }
+
     // This method is called when the second activity finishes
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -822,6 +917,7 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
 
                 payableAmount = (deliveryCharges?.plus(payableAmount.toDouble())).toString()
                 payableAmount = (payableAmount.toDouble().plus(tipSelected.toDouble())).toString()
+                //payableAmount = payableAmount.toDouble().minus(totalPoints).toString()
                 cartBinding.tvOfferPrice.setText(
                     GlobalConstants.Currency + " " +
                             payableAmount
@@ -870,7 +966,7 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
                         "paymentMode", "Net Banking"
                     )
                     addressObject.addProperty(
-                        "status", "2"
+                        "status", "1"
                     )
                     addressObject.addProperty(
                         "orderId", orderId
@@ -924,6 +1020,7 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
             tipSelected = tipList[position].tips!!
             // payableAmount = (deliveryCharges?.plus(payableAmount.toDouble())).toString()
             payableAmount = (payableAmount.toDouble().plus(tipSelected.toDouble())).toString()
+            //payableAmount = payableAmount.toDouble().minus(totalPoints).toString()
             cartBinding.tvOfferPrice.setText(
                 GlobalConstants.Currency + " " +
                         payableAmount
@@ -931,6 +1028,7 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
             )
         } else {
             payableAmount = (payableAmount.toDouble().minus(tipSelected.toDouble())).toString()
+            // payableAmount = payableAmount.toDouble().minus(totalPoints).toString()
             cartBinding.tvOfferPrice.setText(
                 GlobalConstants.Currency + " " +
                         payableAmount

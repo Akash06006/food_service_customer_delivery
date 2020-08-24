@@ -51,7 +51,8 @@
                 android:textAllCaps="false"
                 android:textColor="@color/colorPrimary"
                 android:textSize="@dimen/sp_16"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/txtCode"
@@ -68,7 +69,8 @@
                 android:textAllCaps="false"
                 android:textColor="#ffffff"
                 android:textSize="@dimen/sp_16"
-                android:textStyle="bold|italic" />
+                android:textStyle="bold|italic"
+                android:visibility="gone" />
             <!---->
             <!--@color/colorLightBlue-->
 

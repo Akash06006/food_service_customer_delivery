@@ -42,7 +42,7 @@ import java.util.HashMap
  * Created by Saira on 2018-12-9.
  */
 abstract class BaseActivity : AppCompatActivity() {
-    private var colorRes: Res? = null
+    //private var colorRes: Res? = null
     protected var viewDataBinding: ViewDataBinding? = null
     private var utils: Utils? = null
     private var inputMethodManager: InputMethodManager? = null
@@ -55,8 +55,8 @@ abstract class BaseActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         this@BaseActivity.overridePendingTransition(
-                R.anim.slide_in,
-                R.anim.slide_out
+            R.anim.slide_in,
+            R.anim.slide_out
         )
 
 
@@ -64,7 +64,7 @@ abstract class BaseActivity : AppCompatActivity() {
         //  mtoolbar = findViewById(R.id.toolbar);
         //        retrofitClient = (ApiService) RetrofitClient.with(this).getClient(Constants.API_BASE_URL, false, this).create(ApiService.class);
         inputMethodManager = this
-                .getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+            .getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
         //store = new PrefStore(this);
         //    public ApiService retrofitClient;
         strictModeThread()
@@ -77,8 +77,8 @@ abstract class BaseActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        colorRes = null
-        getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimary))
+       // colorRes = null
+       // getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimary))
     }
 
     protected abstract fun initViews()
@@ -86,17 +86,17 @@ abstract class BaseActivity : AppCompatActivity() {
 
     private fun strictModeThread() {
         StrictMode.setThreadPolicy(
-                StrictMode.ThreadPolicy.Builder()
-                        .permitAll().build()
+            StrictMode.ThreadPolicy.Builder()
+                .permitAll().build()
         )
     }
 
-    override fun getResources(): Resources {
-        if (colorRes == null) {
-            colorRes = Res(super.getResources(), getRequiredColor())
-        }
-        return colorRes!!
-    }
+    /*override fun getResources(): Resources {
+        //if (colorRes == null) {
+            //colorRes = Res(super.getResources(), getRequiredColor())
+       // }
+       // return colorRes!!
+    }*/
 
     fun getRequiredColor(): Int? {
         return Color.parseColor(GlobalConstants.COLOR_CODE)
@@ -148,12 +148,12 @@ abstract class BaseActivity : AppCompatActivity() {
 
     fun showAlert(activity: Activity, message1: String) {
         val binding =
-                DataBindingUtil.inflate<ViewDataBinding>(
-                        LayoutInflater.from(activity),
-                        R.layout.layout_custom_alert,
-                        null,
-                        false
-                )
+            DataBindingUtil.inflate<ViewDataBinding>(
+                LayoutInflater.from(activity),
+                R.layout.layout_custom_alert,
+                null,
+                false
+            )
 
         val dialog = Dialog(this)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -179,12 +179,12 @@ abstract class BaseActivity : AppCompatActivity() {
     private fun initializeProgressDialog() {
         progressDialog = Dialog(this, R.style.transparent_dialog_borderless)
         val binding = DataBindingUtil.inflate<ViewDataBinding>(
-                LayoutInflater.from(this),
-                R.layout.progress_dialog,
-                null,
-                false
+            LayoutInflater.from(this),
+            R.layout.progress_dialog,
+            null,
+            false
         )
-       // binding.loader.setColor(Color.parseColor(GlobalConstants.COLOR_CODE))
+        // binding.loader.setColor(Color.parseColor(GlobalConstants.COLOR_CODE))
         progressDialog!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
         progressDialog!!.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         progressDialog!!.setContentView(binding.root)
@@ -245,17 +245,20 @@ abstract class BaseActivity : AppCompatActivity() {
 
 
     fun callFragments(
-            fragment: androidx.fragment.app.Fragment?,
-            mFragmentManager: androidx.fragment.app.FragmentManager,
-            mSendDataCheck: Boolean,
-            key: String?,
-            mObject: Any
+        fragment: androidx.fragment.app.Fragment?,
+        mFragmentManager: androidx.fragment.app.FragmentManager,
+        mSendDataCheck: Boolean,
+        key: String?,
+        mObject: Any
     ) {
         val mFragmentTransaction = mFragmentManager.beginTransaction()
         if (fragment != null) {
             if (mSendDataCheck && key != null) {
                 when (key) {
-                    "deleteAll" -> mFragmentManager.popBackStack(null, androidx.fragment.app.FragmentManager.POP_BACK_STACK_INCLUSIVE)
+                    "deleteAll" -> mFragmentManager.popBackStack(
+                        null,
+                        androidx.fragment.app.FragmentManager.POP_BACK_STACK_INCLUSIVE
+                    )
                     "send_data" -> {
                         val mBundle = Bundle()
                         mBundle.putString(GlobalConstants.SEND_DATA, gson.toJson(mObject))
@@ -271,18 +274,21 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     fun callFragmentsContainer(
-            fragment: androidx.fragment.app.Fragment?,
-            mFragmentManager: androidx.fragment.app.FragmentManager,
-            mSendDataCheck: Boolean,
-            key: String?,
-            mObject: Any,
-            id: Int
+        fragment: androidx.fragment.app.Fragment?,
+        mFragmentManager: androidx.fragment.app.FragmentManager,
+        mSendDataCheck: Boolean,
+        key: String?,
+        mObject: Any,
+        id: Int
     ) {
         val mFragmentTransaction = mFragmentManager.beginTransaction()
         if (fragment != null) {
             if (mSendDataCheck && key != null) {
                 when (key) {
-                    "deleteAll" -> mFragmentManager.popBackStack(null, androidx.fragment.app.FragmentManager.POP_BACK_STACK_INCLUSIVE)
+                    "deleteAll" -> mFragmentManager.popBackStack(
+                        null,
+                        androidx.fragment.app.FragmentManager.POP_BACK_STACK_INCLUSIVE
+                    )
                     "send_data" -> {
                         val mBundle = Bundle()
                         mBundle.putString(GlobalConstants.SEND_DATA, gson.toJson(mObject))
@@ -303,8 +309,10 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
 
-    override fun onRequestPermissionsResult(requestCode: Int,
-                                            permissions: Array<String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>, grantResults: IntArray
+    ) {
 
         when (requestCode) {
             REQUEST_ID_MULTIPLE_PERMISSIONS -> {
@@ -312,7 +320,8 @@ abstract class BaseActivity : AppCompatActivity() {
                 val perms = HashMap<String, Int>()
                 // Initialize the map with both permissions
                 perms[Manifest.permission.CAMERA] = PackageManager.PERMISSION_GRANTED
-                perms[Manifest.permission.WRITE_EXTERNAL_STORAGE] = PackageManager.PERMISSION_GRANTED
+                perms[Manifest.permission.WRITE_EXTERNAL_STORAGE] =
+                    PackageManager.PERMISSION_GRANTED
                 perms[Manifest.permission.ACCESS_FINE_LOCATION] = PackageManager.PERMISSION_GRANTED
                 perms[Manifest.permission.RECORD_AUDIO] = PackageManager.PERMISSION_GRANTED
                 // Fill with actual results from user
@@ -321,28 +330,42 @@ abstract class BaseActivity : AppCompatActivity() {
                         perms[permissions[i]] = grantResults[i]
                     // Check for both permissions
                     if (perms[Manifest.permission.CAMERA] == PackageManager.PERMISSION_GRANTED
-                            && perms[Manifest.permission.WRITE_EXTERNAL_STORAGE] == PackageManager.PERMISSION_GRANTED
-                            && perms[Manifest.permission.ACCESS_FINE_LOCATION] == PackageManager.PERMISSION_GRANTED
-                            && perms[Manifest.permission.RECORD_AUDIO] == PackageManager.PERMISSION_GRANTED) {
+                        && perms[Manifest.permission.WRITE_EXTERNAL_STORAGE] == PackageManager.PERMISSION_GRANTED
+                        && perms[Manifest.permission.ACCESS_FINE_LOCATION] == PackageManager.PERMISSION_GRANTED
+                        && perms[Manifest.permission.RECORD_AUDIO] == PackageManager.PERMISSION_GRANTED
+                    ) {
                         // process the normal flow
                         //else any one or both the permissions are not granted
                     } else {
                         //permission is denied (this is the first time, when "never ask again" is not checked) so ask again explaining the usage of permission
                         //                        // shouldShowRequestPermissionRationale will return true
                         //show the dialog or snackbar saying its necessary and try again otherwise proceed with setup.
-                        if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)
-                                || ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                                || ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                                || ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.RECORD_AUDIO)) {
+                        if (ActivityCompat.shouldShowRequestPermissionRationale(
+                                this,
+                                Manifest.permission.CAMERA
+                            )
+                            || ActivityCompat.shouldShowRequestPermissionRationale(
+                                this,
+                                Manifest.permission.WRITE_EXTERNAL_STORAGE
+                            )
+                            || ActivityCompat.shouldShowRequestPermissionRationale(
+                                this,
+                                Manifest.permission.ACCESS_FINE_LOCATION
+                            )
+                            || ActivityCompat.shouldShowRequestPermissionRationale(
+                                this,
+                                Manifest.permission.RECORD_AUDIO
+                            )
+                        ) {
                             showDialogOK("Service Permissions are required for this app",
-                                    DialogInterface.OnClickListener { dialog, which ->
-                                        when (which) {
-                                            DialogInterface.BUTTON_POSITIVE -> checkAndRequestPermissions()
-                                            DialogInterface.BUTTON_NEGATIVE ->
-                                                // proceed with logic by disabling the related features or quit the app.
-                                                finish()
-                                        }
-                                    })
+                                DialogInterface.OnClickListener { dialog, which ->
+                                    when (which) {
+                                        DialogInterface.BUTTON_POSITIVE -> checkAndRequestPermissions()
+                                        DialogInterface.BUTTON_NEGATIVE ->
+                                            // proceed with logic by disabling the related features or quit the app.
+                                            finish()
+                                    }
+                                })
                         } else {
                             explain("You need to give some mandatory permissions to continue. Do you want to go to app settings?")
                             //                            //proceed with logic by disabling the related features or quit the app.
@@ -356,29 +379,37 @@ abstract class BaseActivity : AppCompatActivity() {
 
     private fun showDialogOK(message: String, okListener: DialogInterface.OnClickListener) {
         AlertDialog.Builder(this)
-                .setMessage(message)
-                .setPositiveButton("OK", okListener)
-                .setNegativeButton("Cancel", okListener)
-                .create()
-                .show()
+            .setMessage(message)
+            .setPositiveButton("OK", okListener)
+            .setNegativeButton("Cancel", okListener)
+            .create()
+            .show()
     }
 
     private fun explain(msg: String) {
         val dialog = AlertDialog.Builder(this)
         dialog.setMessage(msg)
-                .setPositiveButton("Yes") { paramDialogInterface, paramInt ->
-                    //  permissionsclass.requestPermission(type,code);
-                    startActivity(Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:com.uniongoods")))
-                }
-                .setNegativeButton("Cancel") { paramDialogInterface, paramInt -> finish() }
+            .setPositiveButton("Yes") { paramDialogInterface, paramInt ->
+                //  permissionsclass.requestPermission(type,code);
+                startActivity(
+                    Intent(
+                        android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                        Uri.parse("package:com.uniongoods")
+                    )
+                )
+            }
+            .setNegativeButton("Cancel") { paramDialogInterface, paramInt -> finish() }
         dialog.show()
     }
 
     public fun checkAndRequestPermissions(): Boolean {
         val camerapermission = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
-        val writepermission = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-        val permissionLocation = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-        val permissionRecordAudio = ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
+        val writepermission =
+            ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        val permissionLocation =
+            ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+        val permissionRecordAudio =
+            ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
 
 
         val listPermissionsNeeded = ArrayList<String>()
@@ -395,8 +426,15 @@ abstract class BaseActivity : AppCompatActivity() {
         if (permissionRecordAudio != PackageManager.PERMISSION_GRANTED) {
             listPermissionsNeeded.add(Manifest.permission.RECORD_AUDIO)
         }
+        if (permissionRecordAudio != PackageManager.PERMISSION_GRANTED) {
+            listPermissionsNeeded.add(Manifest.permission.CALL_PHONE)
+        }
         if (!listPermissionsNeeded.isEmpty()) {
-            ActivityCompat.requestPermissions(this, listPermissionsNeeded.toTypedArray(), REQUEST_ID_MULTIPLE_PERMISSIONS)
+            ActivityCompat.requestPermissions(
+                this,
+                listPermissionsNeeded.toTypedArray(),
+                REQUEST_ID_MULTIPLE_PERMISSIONS
+            )
             return false
         }
         return true

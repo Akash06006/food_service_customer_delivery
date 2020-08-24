@@ -57,7 +57,7 @@ interface ApiInterface {
     fun getFuelEntryList(): Call<JsonObject>
 
     @GET("notification/driver/getList")
-    fun getNotificationList(): Call<JsonObject>
+    fun getNotificationList1(): Call<JsonObject>
 
     @DELETE("mobile/address/delete")
     fun deleteAddress(@Query("addressId") addressId: String): Call<JsonObject>
@@ -79,7 +79,7 @@ interface ApiInterface {
     fun clearCart(): Call<JsonObject>
 
     @GET("mobile/services/getSubcat")
-    fun getSubServices(@Query("category") id: String,@Query("itemType") itemType: String): Call<JsonObject>
+    fun getSubServices(@Query("category") id: String, @Query("itemType") itemType: String): Call<JsonObject>
 
     @GET("mobile/services/getServices")//{id}/{itemType}
     fun getServices(@Query("category") id: String, @Query("itemType") itemType: String): Call<JsonObject>
@@ -87,9 +87,11 @@ interface ApiInterface {
     @POST("job/driver/changeJobStatus")
     fun startCompleteJob(@Body mJsonObject: JsonObject): Call<JsonObject>
 
-
     @POST("mobile/address/add")
     fun addAddress(@Body mJsonObject: JsonObject): Call<JsonObject>
+
+    @POST("mobile/rating/addCompanyRating")
+    fun addCompanyRating(@Body mJsonObject: JsonObject): Call<JsonObject>
 
     @POST("/api/mobile/services/search")
     fun searchResult(@Body mJsonObject: JsonObject): Call<JsonObject>
@@ -194,7 +196,7 @@ interface ApiInterface {
     fun getServiceDetail(@Query("serviceId") addressId: String): Call<JsonObject>
 
     @GET("mobile/orders/instructions")
-    fun delivetInstuctions(@Query("companyId") companyId: String,@Query("deliveryType") deliveryType: String): Call<JsonObject>
+    fun delivetInstuctions(@Query("companyId") companyId: String, @Query("deliveryType") deliveryType: String): Call<JsonObject>
 
     @GET("mobile/orders/list")
     fun orderList(@Query("progressStatus") progressStatus: String): Call<JsonObject>
@@ -205,4 +207,15 @@ interface ApiInterface {
     @POST("mobile/profile/updateDatesInfo")
     fun updateDates(@Body mJsonObject: JsonObject): Call<JsonObject>
 
+    @GET("mobile/notification")
+    fun getNotificationList(): Call<JsonObject>
+
+    /*@Path("id") id: String*/
+    @DELETE("/mobile/notification/clearAll")
+    fun clearAllNotification(): Call<JsonObject>
+/*@Path("id") id: String*/
+
+
+    @GET("mobile/getFaq")
+    fun getFAQList(@Query("limit") limit: String, @Query("page") page: String): Call<JsonObject>
 }

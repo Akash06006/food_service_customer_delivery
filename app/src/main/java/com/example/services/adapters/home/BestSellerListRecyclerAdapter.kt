@@ -2,15 +2,19 @@ package com.uniongoods.adapters
 
 import android.content.Context
 import android.content.Intent
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.annotation.NonNull
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.services.R
+import com.example.services.common.UtilsFunctions
 import com.example.services.constants.GlobalConstants
 import com.example.services.databinding.VendorListItemBinding
 import com.example.services.model.home.LandingResponse
@@ -51,11 +55,41 @@ class BestSellerListRecyclerAdapter(
 
         holder.binding!!.txtRestName.setText(bestSellerList[position].companyName)
         holder.binding!!.txtAddress.setText(bestSellerList[position].address1)
+        holder.binding!!.txtTotalOrders.setText("Orders in past 24hrs: " + bestSellerList[position].totalOrders)
         //holder.binding!!.txtTime.setText(bestSellerList[position].companyName)
         holder.binding!!.rBar.setRating(bestSellerList[position].rating!!.toFloat())
         //ratingBar!!.setRating(ratingData.ratingData.get(position).rating!!.toFloat())
+        val marquee = AnimationUtils.loadAnimation(activity, R.anim.marquee);
+        holder.binding!!.txtMarqueText.visibility = View.VISIBLE
+        var marqText = ""
+        for (item in bestSellerList[position].tags!!) {
+            if (TextUtils.isEmpty(marqText)) {
+                marqText = "#" + item
+            } else {
+                marqText = marqText + "   #" + item
+            }
 
+        }
 
+        holder.binding!!.txtMarqueText.setText(marqText)
+        holder.binding!!.txtMarqueText.startAnimation(marquee);
+
+        val rnd = Random();
+        val color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
+        if (!color.equals(mContext.resources.getColor(R.color.colorWhite))) {
+            //mContext.baseActivity.showToastError("black")
+            holder.binding!!.txtMarqueText.setTextColor(
+                ColorStateList.valueOf(Color.parseColor(UtilsFunctions.getRandomColor()))/*color*/
+            )/*color*/
+        } else {
+            // mContext.baseActivity.showToastError("other")
+
+        }
+        if (!TextUtils.isEmpty(marqText)) {
+            holder.binding!!.txtMarqueText.visibility = View.VISIBLE
+        } else {
+            holder.binding!!.txtMarqueText.visibility = View.GONE
+        }
         if (TextUtils.isEmpty(bestSellerList[position].startTime) || bestSellerList[position].startTime.equals(
                 "null"
             )

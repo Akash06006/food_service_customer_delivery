@@ -43,7 +43,7 @@ class LoginActivity : BaseActivity() {
                     val message = response.message
                     when {
                         response.code == 200 -> {
-                          FirebaseFunctions.sendOTP("login", mJsonObject, this)
+                            // FirebaseFunctions.sendOTP("login", mJsonObject, this)
                             mJsonObject.addProperty("phoneNumber", response.data?.phoneNumber)
                             mJsonObject.addProperty("countryCode", response.data?.countryCode)
 
@@ -114,8 +114,8 @@ class LoginActivity : BaseActivity() {
                                 true
                             )
 
-                           // val intent = Intent(this, LandingMainActivity::class.java)
-                            val intent = Intent(this, OTPVerificationActivity::class.java)
+                            val intent = Intent(this, LandingMainActivity::class.java)
+                            //val intent = Intent(this, OTPVerificationActivity::class.java)
                             intent.flags =
                                 Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                             intent.putExtra("data", mJsonObject.toString())
@@ -168,7 +168,7 @@ class LoginActivity : BaseActivity() {
                                 )
                                 mJsonObject.addProperty(
                                     "companyId",
-                                    "b21a7c8f-078f-4323-b914-8f59054c4467"
+                                    "25cbf58b-46ba-4ba2-b25d-8f8f653e9f13"
                                 )
                                 mJsonObject.addProperty("device_id", androidId)
                                 mJsonObject.addProperty("app-version", versionName)

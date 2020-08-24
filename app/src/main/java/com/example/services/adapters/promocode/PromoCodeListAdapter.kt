@@ -3,6 +3,7 @@ package com.uniongoods.adapters
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,11 +22,11 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class PromoCodeListAdapter(
-        context: PromoCodeActivity,
-        addressList: ArrayList<PromoCodeListResponse.Body>,
-        var activity: Context
+    context: PromoCodeActivity,
+    addressList: ArrayList<PromoCodeListResponse.Body>,
+    var activity: Context
 ) :
-        RecyclerView.Adapter<PromoCodeListAdapter.ViewHolder>() {
+    RecyclerView.Adapter<PromoCodeListAdapter.ViewHolder>() {
     private val mContext: PromoCodeActivity
     private var viewHolder: ViewHolder? = null
     private var addressList: ArrayList<PromoCodeListResponse.Body>
@@ -38,10 +39,10 @@ class PromoCodeListAdapter(
     @NonNull
     override fun onCreateViewHolder(@NonNull parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = DataBindingUtil.inflate(
-                LayoutInflater.from(parent.context),
-                R.layout.promo_code_item,
-                parent,
-                false
+            LayoutInflater.from(parent.context),
+            R.layout.promo_code_item,
+            parent,
+            false
         ) as PromoCodeItemBinding
         return ViewHolder(binding.root, viewType, binding, mContext, addressList)
     }
@@ -57,7 +58,11 @@ class PromoCodeListAdapter(
         if (color.equals(mContext.resources.getColor(R.color.colorBlack))) {
             //mContext.baseActivity.showToastError("black")
             holder.binding!!.tvDiscount.setTextColor(Color.WHITE)
-            holder.binding!!.tvDiscount.setBackgroundTintList(mContext.getResources().getColorStateList(R.color.colorWhite))
+            holder.binding!!.tvDiscount.setBackgroundTintList(
+                mContext.getResources().getColorStateList(
+                    R.color.colorWhite
+                )
+            )
 
             holder.binding!!.tvDiscount.setTextColor(Color.WHITE)
         } else {
@@ -67,18 +72,29 @@ class PromoCodeListAdapter(
         }
         //holder.binding!!.tvDiscount.setBackgroundColor(color)
 
-        holder.binding!!.tvPromoDesc.setText(
+        if (addressList[position].description!!.contains("div")) {
+            holder.binding!!.tvPromoDesc.setText(Html.fromHtml(addressList[position].description.toString()))
+        } else {
+            holder.binding!!.tvPromoDesc.setText(
                 addressList[position].description
-        )
+            )
+        }
+
 
         //holder.binding!!.rBar.setRating(addressList[position].rating?.toFloat())
         Glide.with(mContext)
-                .load(addressList[position].icon)
-                .apply(RequestOptions.bitmapTransform(RoundedCorners(20)))
-                .placeholder(R.drawable.ic_category)
-                .into(holder.binding.imgPromo)
+            .load(addressList[position].icon)
+            .apply(RequestOptions.bitmapTransform(RoundedCorners(20)))
+            .placeholder(R.drawable.ic_category)
+            .into(holder.binding.imgPromo)
 
-        holder.binding!!.btnApply.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(GlobalConstants.COLOR_CODE))/*mContext.getResources().getColorStateList(R.color.colorOrange)*/)
+        holder.binding!!.btnApply.setBackgroundTintList(
+            ColorStateList.valueOf(
+                Color.parseColor(
+                    GlobalConstants.COLOR_CODE
+                )
+            )/*mContext.getResources().getColorStateList(R.color.colorOrange)*/
+        )
 
         holder.binding!!.btnApply.setOnClickListener {
             mContext.callApplyCouponApi(addressList[position].code!!)
@@ -92,11 +108,11 @@ class PromoCodeListAdapter(
     }
 
     inner class ViewHolder//This constructor would switch what to findViewBy according to the type of viewType
-    (
-            v: View, val viewType: Int, //These are the general elements in the RecyclerView
-            val binding: PromoCodeItemBinding?,
-            mContext: PromoCodeActivity,
-            addressList: ArrayList<PromoCodeListResponse.Body>?
+        (
+        v: View, val viewType: Int, //These are the general elements in the RecyclerView
+        val binding: PromoCodeItemBinding?,
+        mContext: PromoCodeActivity,
+        addressList: ArrayList<PromoCodeListResponse.Body>?
     ) : RecyclerView.ViewHolder(v) {
         /*init {
             binding.linAddress.setOnClickListener {

@@ -30,7 +30,7 @@ class RatingReviewsViewModel : BaseViewModel() {
         if (UtilsFunctions.isNetworkConnectedWithoutToast()) {
             reviewsList = ratingReviewsRepository.reviewsListList("", "")
             orderDetail = ratingReviewsRepository.getOrderDetail("")
-            ratingReview= ratingReviewsRepository.addRatings(null)
+            ratingReview = ratingReviewsRepository.addRatings(null)
 
         }
 
@@ -43,6 +43,7 @@ class RatingReviewsViewModel : BaseViewModel() {
     fun getOrderDetail(): LiveData<OrdersDetailResponse> {
         return orderDetail
     }
+
     fun getRatingRes(): LiveData<CommonModel> {
         return ratingReview
     }

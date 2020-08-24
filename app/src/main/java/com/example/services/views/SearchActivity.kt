@@ -148,10 +148,10 @@ class SearchActivity : BaseActivity() {
             "limit", "1000"
         )
         searchObject.addProperty(
-            "lat", ""
+            "lat", GlobalConstants.CURRENT_LAT
         )
         searchObject.addProperty(
-            "lng", ""
+            "lng", GlobalConstants.CURRENT_LONG
         )
         searchViewModel.updateAddressDetail(searchObject)
 

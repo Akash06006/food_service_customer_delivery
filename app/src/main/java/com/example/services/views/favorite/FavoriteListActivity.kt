@@ -48,58 +48,60 @@ class FavoriteListActivity : BaseActivity(), DialogssInterface {
         servicesViewModel = ViewModelProviders.of(this).get(ServicesViewModel::class.java)
 
         favoriteBinding.commonToolBar.imgRight.visibility = View.GONE
+        favoriteBinding.switchMaterial.visibility = View.GONE
+
         favoriteBinding.commonToolBar.imgRight.setImageResource(R.drawable.ic_cart)
         favoriteBinding.commonToolBar.imgToolbarText.text =
-                resources.getString(R.string.favorite)
+            resources.getString(R.string.favorite)
         val userId = SharedPrefClass()!!.getPrefValue(
-                MyApplication.instance,
-                GlobalConstants.USERID
+            MyApplication.instance,
+            GlobalConstants.USERID
         ).toString()
         if (UtilsFunctions.isNetworkConnected()) {
             startProgressDialog()
             //cartViewModel.getcartList(userId)
         }
         favoriteViewModel.getFavListRes().observe(this,
-                Observer<FavListResponse> { response ->
-                    stopProgressDialog()
-                    if (response != null) {
-                        val message = response.message
-                        when {
-                            response.code == 200 -> {
-                                cartList.addAll(response.body!!)
-                                favoriteBinding.rvFavorite.visibility = View.VISIBLE
-                                favoriteBinding.tvNoRecord.visibility = View.GONE
-                                initRecyclerView()
-                            }
-                            else -> message?.let {
-                                UtilsFunctions.showToastError(it)
-                                favoriteBinding.rvFavorite.visibility = View.GONE
-                                favoriteBinding.tvNoRecord.visibility = View.VISIBLE
-                            }
+            Observer<FavListResponse> { response ->
+                stopProgressDialog()
+                if (response != null) {
+                    val message = response.message
+                    when {
+                        response.code == 200 -> {
+                            cartList.addAll(response.body!!)
+                            favoriteBinding.rvFavorite.visibility = View.VISIBLE
+                            favoriteBinding.tvNoRecord.visibility = View.GONE
+                            initRecyclerView()
                         }
-
+                        else -> message?.let {
+                            UtilsFunctions.showToastError(it)
+                            favoriteBinding.rvFavorite.visibility = View.GONE
+                            favoriteBinding.tvNoRecord.visibility = View.VISIBLE
+                        }
                     }
-                })
+
+                }
+            })
 
         servicesViewModel.addRemovefavRes().observe(this,
-                Observer<CommonModel> { response ->
-                    stopProgressDialog()
-                    if (response != null) {
-                        val message = response.message
-                        when {
-                            response.code == 200 -> {
-                                //cartViewModel.getcartList(userId)
-                                //cartList.removeAt(pos)
-                                // favoriteListAdapter?.notifyDataSetChanged()
-                                favoriteViewModel.getFavList()
-                            }
-                            else -> message?.let {
-                                UtilsFunctions.showToastError(it)
-                            }
+            Observer<CommonModel> { response ->
+                stopProgressDialog()
+                if (response != null) {
+                    val message = response.message
+                    when {
+                        response.code == 200 -> {
+                            //cartViewModel.getcartList(userId)
+                            //cartList.removeAt(pos)
+                            // favoriteListAdapter?.notifyDataSetChanged()
+                            favoriteViewModel.getFavList()
                         }
-
+                        else -> message?.let {
+                            UtilsFunctions.showToastError(it)
+                        }
                     }
-                })
+
+                }
+            })
 
     }
 
@@ -114,7 +116,7 @@ class FavoriteListActivity : BaseActivity(), DialogssInterface {
         // favoriteBinding.rvFavorite.layoutManager = linearLayoutManager
         favoriteBinding.rvFavorite.adapter = favoriteListAdapter
         favoriteBinding.rvFavorite.addOnScrollListener(object :
-                RecyclerView.OnScrollListener() {
+            RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
 
             }
@@ -125,16 +127,16 @@ class FavoriteListActivity : BaseActivity(), DialogssInterface {
         pos = position
 
         cartObject.addProperty(
-                "serviceId", cartList[position].serviceId
+            "serviceId", cartList[position].serviceId
         )
         cartObject.addProperty(
-                "status", "false"
+            "status", "false"
         )
         confirmationDialog = mDialogClass.setDefaultDialog(
-                this,
-                this,
-                "Remove Fav",
-                getString(R.string.warning_remove_fav)
+            this,
+            this,
+            "Remove Fav",
+            getString(R.string.warning_remove_fav)
         )
         confirmationDialog?.show()
 

@@ -55,6 +55,12 @@ class FavoriteListAdapter(
         holder.binding!!.tvDuration.setText(mContext.resources.getString(R.string.duration) + ": " + addressList[position].service?.duration)
         holder.binding!!.tvAdd.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(GlobalConstants.COLOR_CODE))/*mContext.getResources().getColorStateList(R.color.colorOrange)*/)
 
+        if (addressList[position].service?.itemType.equals("0")) {
+            holder.binding!!.imgVegNonVeg.setImageResource(R.drawable.veg)
+        } else {
+            holder.binding!!.imgVegNonVeg.setImageResource(R.drawable.nonveg)
+        }
+
         val applicationType = SharedPrefClass()!!.getPrefValue(
             MyApplication.instance,
             GlobalConstants.PRODUCT_TYPE
@@ -62,7 +68,7 @@ class FavoriteListAdapter(
 
         if (applicationType.equals(GlobalConstants.PRODUCT_DELIVERY)){
             holder.binding!!.tvAdd.text =
-                activity.resources.getString(R.string.order)
+                  activity.resources.getString(R.string.order)
         } else if (applicationType.equals(GlobalConstants.PRODUCT_SERVICES)) {
             holder.binding!!.tvAdd.text =
                 activity.resources.getString(R.string.book)

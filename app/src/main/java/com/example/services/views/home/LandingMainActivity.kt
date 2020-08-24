@@ -30,15 +30,17 @@ import com.example.services.views.address.AddressListActivity
 import com.example.services.views.authentication.LoginActivity
 import com.example.services.views.cart.CartListActivity
 import com.example.services.views.favorite.FavoriteListActivity
+import com.example.services.views.notifications.NotificationsListActivity
 import com.example.services.views.orders.OrdersHistoryListActivity
 import com.example.services.views.orders.OrdersListActivity
 import com.example.services.views.profile.ProfileActivity
 import com.example.services.views.settings.MyAccountsActivity
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.tabs.TabLayout
+import drift.com.drift.Drift
 
 class LandingMainActivity : BaseActivity(),
-        DialogssInterface {
+    DialogssInterface {
     var activityLandingBinding: ActivityLandingBinding? = null
     private var navigationView: NavigationView? = null
     private var drawer: DrawerLayout? = null
@@ -73,17 +75,22 @@ class LandingMainActivity : BaseActivity(),
 //        activityDashboardBinding!!.toolbarCommon.rlTop.setBackgroundColor(resources.getColor(R.color.orange_transparent))
 
         val image = SharedPrefClass().getPrefValue(
-                MyApplication.instance.applicationContext,
-                GlobalConstants.USER_IAMGE
+            MyApplication.instance.applicationContext,
+            GlobalConstants.USER_IAMGE
         )
         // ic_profile
+
+        val userId = SharedPrefClass().getPrefValue(
+            MyApplication.instance.applicationContext,
+            GlobalConstants.USERID
+        )
         Glide.with(this)
-                .load(image)
-                .placeholder(R.drawable.user)
-                .into(activityLandingBinding!!.icProfile)
+            .load(image)
+            .placeholder(R.drawable.user)
+            .into(activityLandingBinding!!.icProfile)
         val name = SharedPrefClass().getPrefValue(
-                MyApplication.instance.applicationContext,
-                getString(R.string.first_name)
+            MyApplication.instance.applicationContext,
+            getString(R.string.first_name)
         )
         if (TextUtils.isEmpty(name.toString()) || name.toString().equals("null")) {
             activityLandingBinding!!.tvName.text = getString(R.string.create_profile)
@@ -91,149 +98,157 @@ class LandingMainActivity : BaseActivity(),
             activityLandingBinding!!.tvName.text = name.toString()
         }
 
+        Drift.registerUser(userId.toString(), name.toString())
+
         fragment = LandingHomeFragment()
         callFragments(fragment, supportFragmentManager, false, "send_data", "")
         dashboardViewModel!!.isClick().observe(
-                this, Observer<String>(function =
-        fun(it: String?) {
-            when (it) {
-                "tv_nav_fav" -> {
-                    val intent = Intent(this, FavoriteListActivity::class.java)
-                    startActivity(intent)
-                }
-                "tv_nav_notification" -> {
-                    /*   val intent = Intent(this, NotificationsListActivity::class.java)
-                       startActivity(intent)*/
-                }
-                "tv_nav_address" -> {
-                    val intent = Intent(this, AddressListActivity::class.java)
-                    startActivity(intent)
-                }
-                "tv_nav_cart" -> {
-                    val intent = Intent(this, CartListActivity::class.java)
-                    startActivity(intent)
-                }
-                "img_right" -> {
-                    val intent = Intent(this, CartListActivity::class.java)
-                    startActivity(intent)
-                }
-                "tv_nav_home" -> {
-                    activityLandingBinding!!.toolbarCommon.imgRight.visibility = View.VISIBLE
-                    activityLandingBinding!!.toolbarCommon.imgRight.setImageDrawable(
+            this, Observer<String>(function =
+            fun(it: String?) {
+                when (it) {
+                    "tv_nav_fav" -> {
+                        val intent = Intent(this, FavoriteListActivity::class.java)
+                        startActivity(intent)
+                    }
+                    "tv_nav_notification" -> {
+                        val intent = Intent(this, NotificationsListActivity::class.java)
+                        startActivity(intent)
+                        // showToastSuccess("Coming Soon")
+                    }
+                    "tv_nav_address" -> {
+                        val intent = Intent(this, AddressListActivity::class.java)
+                        startActivity(intent)
+                    }
+                    "tv_nav_cart" -> {
+                        val intent = Intent(this, CartListActivity::class.java)
+                        startActivity(intent)
+                    }
+                    "img_right" -> {
+                        val intent = Intent(this, CartListActivity::class.java)
+                        startActivity(intent)
+                    }
+                    "tv_nav_home" -> {
+                        activityLandingBinding!!.toolbarCommon.imgRight.visibility = View.VISIBLE
+                        activityLandingBinding!!.toolbarCommon.imgRight.setImageDrawable(
                             getDrawable(R.drawable.ic_notifications)
-                    )
-                    val fragment = LandingHomeFragment()
-                    // activityDashboardBinding!!.toolbarCommon.imgToolbarText.setText("")
-                    /*   activityDashboardBinding!!.toolbarCommon.imgToolbarText.text =
-                           getString(R.string.home)*/
-                    activityLandingBinding!!.drawerLayout.closeDrawers()
-                    this.callFragments(
+                        )
+                        val fragment = LandingHomeFragment()
+                        // activityDashboardBinding!!.toolbarCommon.imgToolbarText.setText("")
+                        /*   activityDashboardBinding!!.toolbarCommon.imgToolbarText.text =
+                               getString(R.string.home)*/
+                        activityLandingBinding!!.drawerLayout.closeDrawers()
+                        this.callFragments(
                             fragment,
                             supportFragmentManager,
                             false,
                             "send_data",
                             ""
-                    )
-                    activityLandingBinding!!.tablayout.getTabAt(0)?.select()
-                    activityLandingBinding!!.drawerLayout.closeDrawers()
+                        )
+                        activityLandingBinding!!.tablayout.getTabAt(0)?.select()
+                        activityLandingBinding!!.drawerLayout.closeDrawers()
 
-                }
-                "tv_nav_order" -> {
-                    val intent = Intent(this, OrdersListActivity::class.java)
-                    startActivity(intent)
-                }
-                "tv_nav_order_history" -> {
-                    val intent = Intent(this, OrdersHistoryListActivity::class.java)
-                    startActivity(intent)
-                }
-                "tv_nav_terms" -> {
-                    /* val intent = Intent(this, OrdersHistoryListActivity::class.java)
-                     startActivity(intent)*/
-                }
+                    }
+                    "tv_nav_order" -> {
+                        val intent = Intent(this, OrdersListActivity::class.java)
+                        startActivity(intent)
+                    }
+                    "tv_nav_order_history" -> {
+                        val intent = Intent(this, OrdersHistoryListActivity::class.java)
+                        startActivity(intent)
+                    }
+                    "tv_nav_terms" -> {
+                        showToastSuccess("Coming Soon")
+                        /* val intent = Intent(this, OrdersHistoryListActivity::class.java)
+                         startActivity(intent)*/
+                    }
 
-                "ic_profile" -> {
-                    val intent = Intent(this, ProfileActivity::class.java)
-                    startActivity(intent)
-                }
-                "tv_nav_account" -> {
-                    val intent = Intent(this, MyAccountsActivity::class.java)
-                    startActivity(intent)
-                }
-                "img_nav_cancel" -> {
-                    activityLandingBinding!!.drawerLayout.closeDrawers()
-                }
-                "tv_nav_logout" -> {
-                    confirmationDialog = mDialogClass.setDefaultDialog(
+                    "ic_profile" -> {
+                        val intent = Intent(this, ProfileActivity::class.java)
+                        startActivity(intent)
+                    }
+                    "tv_nav_setting" -> {
+                        val intent = Intent(this, MyAccountsActivity::class.java)
+                        startActivity(intent)
+                    }
+                    "img_nav_cancel" -> {
+                        activityLandingBinding!!.drawerLayout.closeDrawers()
+                    }
+                    "tv_nav_chat" -> {
+                        Drift.showCreateConversationActivity(this)
+                    }
+
+                    "tv_nav_logout" -> {
+                        confirmationDialog = mDialogClass.setDefaultDialog(
                             this,
                             this,
                             "logout",
                             "Do you really want to logout?"
-                    )
-                    confirmationDialog?.show()
+                        )
+                        confirmationDialog?.show()
 
-                }
-                "toolbar" -> {
-                    val image = SharedPrefClass().getPrefValue(
+                    }
+                    "toolbar" -> {
+                        val image = SharedPrefClass().getPrefValue(
                             MyApplication.instance.applicationContext,
                             GlobalConstants.USER_IAMGE
-                    )
-                    // ic_profile
-                    Glide.with(this)
+                        )
+                        // ic_profile
+                        Glide.with(this)
                             .load(image)
                             .placeholder(R.drawable.user)
                             .into(activityLandingBinding!!.icProfile)
 
-                    if (drawer!!.isDrawerOpen(GravityCompat.START)) {
-                        drawer!!.closeDrawer(Gravity.LEFT) //CLOSE Nav Drawer!
-                    } else {
-                        drawer!!.openDrawer(Gravity.LEFT)
-                    }
-                    val fragmentType =
-                            supportFragmentManager.findFragmentById(R.id.frame_layout)
-                    /*when (fragmentType) {
-                        is HomeFragment -> {
-                            activityDashboardBinding!!.toolbarCommon.imgRight.visibility =
-                                View.GONE
+                        if (drawer!!.isDrawerOpen(GravityCompat.START)) {
+                            drawer!!.closeDrawer(Gravity.LEFT) //CLOSE Nav Drawer!
+                        } else {
+                            drawer!!.openDrawer(Gravity.LEFT)
                         }
-                    }*/
+                        val fragmentType =
+                            supportFragmentManager.findFragmentById(R.id.frame_layout)
+                        /*when (fragmentType) {
+                            is HomeFragment -> {
+                                activityDashboardBinding!!.toolbarCommon.imgRight.visibility =
+                                    View.GONE
+                            }
+                        }*/
+                    }
                 }
-            }
-        })
+            })
         )
 
         dashboardViewModel!!.getLogoutReposne.observe(this,
-                Observer<CommonModel> { logoutResponse ->
-                    this.stopProgressDialog()
+            Observer<CommonModel> { logoutResponse ->
+                this.stopProgressDialog()
 
-                    if (logoutResponse != null) {
-                        val message = logoutResponse.message
+                if (logoutResponse != null) {
+                    val message = logoutResponse.message
 
-                        if (logoutResponse.code == 200) {
-                            SharedPrefClass().putObject(
-                                    this,
-                                    "isLogin",
-                                    false
-                            )
-                            SharedPrefClass().putObject(
-                                    this,
-                                    GlobalConstants.SelectedAddressType,
-                                    "null"
-                            )
-                            SharedPrefClass().putObject(
-                                    this,
-                                    GlobalConstants.USER_IAMGE,
-                                    "null"
-                            )
-                            showToastSuccess(getString(R.string.logout_msg))
-                            val intent1 = Intent(this, LoginActivity::class.java)
-                            startActivity(intent1)
-                            finish()
+                    if (logoutResponse.code == 200) {
+                        SharedPrefClass().putObject(
+                            this,
+                            "isLogin",
+                            false
+                        )
+                        SharedPrefClass().putObject(
+                            this,
+                            GlobalConstants.SelectedAddressType,
+                            "null"
+                        )
+                        SharedPrefClass().putObject(
+                            this,
+                            GlobalConstants.USER_IAMGE,
+                            "null"
+                        )
+                        showToastSuccess(getString(R.string.logout_msg))
+                        val intent1 = Intent(this, LoginActivity::class.java)
+                        startActivity(intent1)
+                        finish()
 
-                        } else {
-                            showToastError(message)
-                        }
+                    } else {
+                        showToastError(message)
                     }
-                })
+                }
+            })
 
         dashboardViewModel!!.isLoading().observe(this, Observer<Boolean> { aBoolean ->
             if (aBoolean!!) {
@@ -244,7 +259,7 @@ class LandingMainActivity : BaseActivity(),
         })
 
         activityLandingBinding!!.tablayout.addOnTabSelectedListener(object :
-                TabLayout.OnTabSelectedListener {
+            TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 var fragment: Fragment? = null
                 //   activityDashboardBinding!!.toolbarCommon.imgRight.visibility = View.GONE
@@ -299,11 +314,11 @@ class LandingMainActivity : BaseActivity(),
               activityDashboardBinding!!.tablayout.getTabAt(GlobalConstants.selectedFragment)!!.select()
               GlobalConstants.selectedCheckedFragment = 0
           }*/
-       // activityLandingBinding!!.topBannerLayout.setBackgroundColor((Color.parseColor(GlobalConstants.COLOR_CODE)))
-       // activityLandingBinding!!.topBannerLayout.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(GlobalConstants.COLOR_CODE))/*mContext.getResources().getColorStateList(R.color.colorOrange)*/)
+        // activityLandingBinding!!.topBannerLayout.setBackgroundColor((Color.parseColor(GlobalConstants.COLOR_CODE)))
+        // activityLandingBinding!!.topBannerLayout.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(GlobalConstants.COLOR_CODE))/*mContext.getResources().getColorStateList(R.color.colorOrange)*/)
         isCart = SharedPrefClass().getPrefValue(
-                MyApplication.instance,
-                GlobalConstants.isCartAdded
+            MyApplication.instance,
+            GlobalConstants.isCartAdded
         ).toString()
         if (isCart.equals("true")) {
             activityLandingBinding!!.toolbarCommon.imgRight.visibility = View.VISIBLE
@@ -312,18 +327,18 @@ class LandingMainActivity : BaseActivity(),
         }
 
         val image = SharedPrefClass().getPrefValue(
-                MyApplication.instance.applicationContext,
-                GlobalConstants.USER_IAMGE
+            MyApplication.instance.applicationContext,
+            GlobalConstants.USER_IAMGE
         )
         // ic_profile
         Glide.with(this)
-                .load(image)
-                .placeholder(R.drawable.user)
-                .into(activityLandingBinding!!.icProfile)
+            .load(image)
+            .placeholder(R.drawable.user)
+            .into(activityLandingBinding!!.icProfile)
 
         val name = SharedPrefClass().getPrefValue(
-                MyApplication.instance.applicationContext,
-                getString(R.string.first_name)
+            MyApplication.instance.applicationContext,
+            getString(R.string.first_name)
         )
         if (TextUtils.isEmpty(name.toString().trim()) || name.toString().trim().equals("null")) {
             activityLandingBinding!!.tvName.text = getString(R.string.create_profile)

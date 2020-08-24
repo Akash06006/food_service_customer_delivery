@@ -83,7 +83,9 @@ class FavListResponse {
         @SerializedName("status")
         @Expose
         var status: String? = null
-
+        @SerializedName("itemType")
+        @Expose
+        var itemType: String? = null
 
     }
 }

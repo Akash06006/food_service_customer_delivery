@@ -57,7 +57,7 @@ class OrdersRepository {
                         data1!!.postValue(null)
                     }
 
-                }, ApiClient.getApiInterface().orderList("0,1,3")
+                }, ApiClient.getApiInterface().orderList("0,1,3,6,7,8,9,10")
         )
 
         //}

@@ -144,6 +144,11 @@ class SearchListAdapter(
                 intent.putExtra("serviceId", vendorList[position].id)
                 mContext.startActivity(intent)
             }
+            if (vendorList[position].itemType.equals("0")) {
+                holder.binding!!.imgVegNonVeg.setImageResource(R.drawable.veg)
+            } else {
+                holder.binding!!.imgVegNonVeg.setImageResource(R.drawable.nonveg)
+            }
 
         }
 

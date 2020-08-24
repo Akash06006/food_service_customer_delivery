@@ -2,20 +2,25 @@ package com.uniongoods.adapters
 
 import android.content.Context
 import android.content.Intent
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.annotation.NonNull
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.services.R
+import com.example.services.common.UtilsFunctions
 import com.example.services.constants.GlobalConstants
 import com.example.services.databinding.VendorListItemBinding
 import com.example.services.model.home.LandingResponse
 import com.example.services.views.home.DashboardActivity
 import com.example.services.views.home.LandingHomeFragment
+import java.util.*
 import kotlin.collections.ArrayList
 
 
@@ -50,7 +55,45 @@ class VendorListRecyclerAdapter(
 
         holder.binding!!.txtRestName.setText(vendorList[position].companyName)
         holder.binding!!.txtAddress.setText(vendorList[position].address1)
-        holder.binding!!.txtDistance.setText(vendorList[position].distance + " KM")
+        holder.binding!!.txtTotalOrders.setText("Orders in past 24hrs: " + vendorList[position].totalOrders)
+        val marquee = AnimationUtils.loadAnimation(activity, R.anim.marquee)
+        holder.binding!!.txtMarqueText.visibility = View.VISIBLE
+        var marqText = ""
+        for (item in vendorList[position].tags!!) {
+            if (TextUtils.isEmpty(marqText)) {
+                marqText = "#" + item
+            } else {
+                marqText = marqText + "   #" + item
+            }
+        }
+        holder.binding!!.txtMarqueText.setText(marqText)
+        holder.binding!!.txtMarqueText.startAnimation(marquee);
+//        addressBinding.tvAddAddress.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(GlobalConstants.COLOR_CODE))/*mContext.getResources().getColorStateList(R.color.colorOrange)*/)
+        val rnd = Random();
+        val color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
+        if (!color.equals(mContext.resources.getColor(R.color.colorWhite))) {
+            //mContext.baseActivity.showToastError("black")
+            holder.binding!!.txtMarqueText.setTextColor(ColorStateList.valueOf(Color.parseColor(UtilsFunctions.getRandomColor()))/*color*/)
+        } else {
+            // mContext.baseActivity.showToastError("other")
+
+        }
+        if (!TextUtils.isEmpty(marqText)) {
+            holder.binding!!.txtMarqueText.visibility = View.VISIBLE
+        }else{
+            holder.binding!!.txtMarqueText.visibility = View.GONE
+        }
+        if (vendorList[position].distance?.length!! > 5) {
+            holder.binding!!.txtDistance.setText(
+                vendorList[position].distance?.substring(
+                    0,
+                    4
+                ) + " KM"
+            )
+        } else {
+            holder.binding!!.txtDistance.setText(vendorList[position].distance + " KM")
+        }
+
         if (TextUtils.isEmpty(vendorList[position].startTime) || vendorList[position].startTime.equals(
                 "null"
             )
@@ -63,8 +106,9 @@ class VendorListRecyclerAdapter(
         //holder.binding!!.rBar.setRating(vendorList[position].rating!!.toFloat())
 
         if (vendorList[position].rating?.toDouble()!! > 0) {
-            holder.binding!!.rBar.setRating(1f)
+            holder.binding!!.rBar.setRating(vendorList[position].rating!!.toFloat())
             holder.binding!!.txtRating.text = vendorList[position].rating.toString()
+            holder.binding!!.txtRating.visibility = View.GONE
         }
 
         Glide.with(mContext).load(vendorList[position].logo1)

@@ -42,6 +42,13 @@ class VendorListResponse {
         @SerializedName("rating")
         @Expose
         var rating: String? = null
+        @SerializedName("tags")
+        @Expose
+        var tags: ArrayList<String>? = null
+        @SerializedName("totalOrders24")
+        @Expose
+        var totalOrders: String? = null
+
     }
 
     inner class Coupon {

@@ -37,6 +37,9 @@ class SearchResponse {
         @SerializedName("id")
         @Expose
         var id: String? = null
+        @SerializedName("itemType")
+        @Expose
+        var itemType: String? = null
         @SerializedName("companyName")
         @Expose
         var companyName: String? = null

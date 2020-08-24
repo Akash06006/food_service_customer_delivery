@@ -54,9 +54,9 @@ class OrdersListResponse {
         @SerializedName("userId")
         @Expose
         var userId: String? = null
-        @SerializedName("progressStatus")
+        /*@SerializedName("progressStatus")
         @Expose
-        var progressStatus: String? = null
+        var progressStatus: String? = null*/
         @SerializedName("trackStatus")
         @Expose
         var trackStatus: String? = null
@@ -92,6 +92,19 @@ class OrdersListResponse {
         @Expose
         var companyAddress: CompanyAddress? = null
 
+        @SerializedName("orderStatus")
+        @Expose
+        var orderStatus: OrderStatus? = null
+
+    }
+
+    inner class OrderStatus {
+        @SerializedName("statusName")
+        @Expose
+        var statusName: String? = null
+        @SerializedName("id")
+        @Expose
+        var id: String? = null
     }
 
     inner class CompanyAddress {

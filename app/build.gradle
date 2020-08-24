@@ -119,6 +119,13 @@ dependencies {
     implementation "com.airbnb.android:lottie:$lottieVersion"
 
     implementation 'com.github.mancj:MaterialSearchBar:0.7.1'
+    implementation 'org.jsoup:jsoup:1.11.2'
+
+    compile 'com.github.sujithkanna:smileyrating:2.0.0'
+
+    implementation ('com.github.driftt:drift-sdk-android:v1.2.10'){
+        exclude module: 'joda-time'
+    }
 
 }
 apply plugin: 'com.google.gms.google-services'

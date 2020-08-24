@@ -14,6 +14,13 @@
         <item name="android:layout_margin">20dp</item>
         <item name="android:padding">0dp</item>
         <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:windowEnterAnimation">@anim/slide_in</item>
+        <item name="android:windowExitAnimation">@anim/slide_out</item>
+    </style>
+
+    <style name="dialogAnimation_animation">
+        <item name="android:windowEnterAnimation">@anim/slide_in</item>
+        <item name="android:windowExitAnimation">@anim/slide_out</item>
     </style>
 
     <style name="transparent_dialog" parent="Theme.AppCompat.Dialog">
@@ -31,6 +38,13 @@
     <style name="RatingBar" parent="Theme.AppCompat">
         <item name="colorControlNormal">@color/colorGrey</item>
         <item name="colorControlActivated">@color/colorOrange</item>
+    </style>
+
+    <style name="foodRatingBar" parent="@android:style/Widget.RatingBar">
+        <item name="colorControlNormal">@color/colorGrey</item>
+        <item name="colorControlActivated">@color/colorOrange</item>
+        <item name="android:minHeight">22dip</item>
+        <item name="android:maxHeight">22dip</item>
     </style>
 
     <style name="AppTheme.NoActionBar">

@@ -70,7 +70,7 @@ class OrderListAdapter(
             GlobalConstants.PRODUCT_TYPE
         ).toString()
 
-        if (applicationType.equals(GlobalConstants.PRODUCT_DELIVERY)){
+        if (applicationType.equals(GlobalConstants.PRODUCT_DELIVERY)) {
             holder.binding!!.tvCatName.text =
                 mContext.resources.getString(R.string.products)
             holder.binding!!.tvServiceDate.text =
@@ -79,22 +79,33 @@ class OrderListAdapter(
                 mContext.resources.getString(R.string.ordered_on)
         } else if (applicationType.equals(GlobalConstants.PRODUCT_SERVICES)) {
             holder.binding!!.tvCatName.text =
-            mContext.resources.getString(R.string.services)
+                mContext.resources.getString(R.string.services)
             holder.binding!!.tvServiceDate.text =
                 mContext.resources.getString(R.string.service_date)
             holder.binding!!.tvBookedOn.text =
                 mContext.resources.getString(R.string.booked_on)
         }
 
-        holder.binding!!.tvTotal.setText(addressList[position].totalOrderPrice)
+        holder.binding!!.tvTotal.setText(GlobalConstants.Currency + " " + addressList[position].totalOrderPrice)
 ////0-Pending/Not Confirmed, 1-> Confirmed , 2->Cancelled , 3->Processing,4//cancelled by company, 5->Completed
         if (addressList[position].cancellable.equals("true")) {
             holder.binding!!.tvCancel.setText("Cancel Order"/*addressList[position].progressStatus*/)
             holder.binding!!.tvCancel.isEnabled = true
         } else {
+            //if () {
+            holder.binding!!.tvCancel.setText(addressList[position].orderStatus?.statusName)
+            holder.binding!!.tvCancel.isEnabled = true
+            holder.binding!!.tvCancel.setBackgroundTintList(
+                mContext.getResources().getColorStateList(
+                    R.color.colorStatus
+                )
+            )
 
-            if (addressList[position].progressStatus.equals("0")) {
-                holder.binding!!.tvCancel.setText("Pending"/*addressList[position].progressStatus*/)
+            // }
+
+
+            /*if (addressList[position].progressStatus.equals("0")) {
+                holder.binding!!.tvCancel.setText("Pending"*//*addressList[position].progressStatus*//*)
                 holder.binding!!.tvCancel.isEnabled = true
                 holder.binding!!.tvCancel.setBackgroundTintList(
                     mContext.getResources().getColorStateList(
@@ -103,7 +114,7 @@ class OrderListAdapter(
                 )
 
             } else if (addressList[position].progressStatus.equals("1")) {
-                holder.binding!!.tvCancel.setText("Confirmed"/*addressList[position].progressStatus*/)
+                holder.binding!!.tvCancel.setText("Confirmed"*//*addressList[position].progressStatus*//*)
                 holder.binding!!.tvCancel.isEnabled = true
                 holder.binding!!.tvCancel.setBackgroundTintList(
                     mContext.getResources().getColorStateList(
@@ -112,7 +123,7 @@ class OrderListAdapter(
                 )
 
             } else if (addressList[position].progressStatus.equals("2")) {
-                holder.binding!!.tvCancel.setText("Cancelled"/*addressList[position].progressStatus*/)
+                holder.binding!!.tvCancel.setText("Cancelled"*//*addressList[position].progressStatus*//*)
                 holder.binding!!.tvCancel.isEnabled = false
             } else if (addressList[position].progressStatus.equals("3")) {
                 holder.binding!!.tvCancel.isEnabled = true
@@ -122,61 +133,73 @@ class OrderListAdapter(
                     )
                 )
 
-                holder.binding!!.tvCancel.setText("Processing"/*addressList[position].progressStatus*/)
+                holder.binding!!.tvCancel.setText("Processing"*//*addressList[position].progressStatus*//*)
             } else if (addressList[position].progressStatus.equals("4")) {
                 holder.binding!!.tvCancel.isEnabled = false
-                holder.binding!!.tvCancel.setText("Cancelled by company"/*addressList[position].progressStatus*/)
+                holder.binding!!.tvCancel.setText("Cancelled by company"*//*addressList[position].progressStatus*//*)
             } else if (addressList[position].progressStatus.equals("5")) {
                 holder.binding!!.tvCancel.isEnabled = false
-                holder.binding!!.tvCancel.setText("Completed"/*addressList[position].progressStatus*/)
+                holder.binding!!.tvCancel.setText("Completed"*//*addressList[position].progressStatus*//*)
                 holder.binding!!.tvCancel.setBackgroundTintList(
                     mContext.getResources().getColorStateList(
                         R.color.colorSuccess
                     )
                 )
 
-            }
+            }*/
         }
 
+
+
+        holder.binding!!.serviceItem.setOnClickListener {
+            if (orderListActivity != null) {
+                orderListActivity.callDetailActivity(position)
+            }
+
+
+        }
         holder.binding!!.tvCancel.setOnClickListener {
             if (orderListActivity != null) {
 
+                if (addressList[position].cancellable.equals("true")) {
+                    if (orderListActivity != null)
+                        orderListActivity.cancelOrder(position)
+                } else {
+                    if (orderListActivity != null)
+                        orderListActivity!!.completeOrder(position)
+                }
+
+                /*val mJsonObjectStartJob = JsonObject()
+                mJsonObjectStartJob.addProperty(
+                    "orderId", addressList[position].id
+                )
+                mJsonObjectStartJob.addProperty(
+                    "lat", addressList[position].address?.latitude
+                )
+                mJsonObjectStartJob.addProperty(
+                    "lng", addressList[position].address?.longitude
+                )
+                mJsonObjectStartJob.addProperty(
+                    "destLat", addressList[position].companyAddress?.lat
+                )
+                mJsonObjectStartJob.addProperty(
+                    "destLong", addressList[position].companyAddress?.long
+                )
+
+                val intent = Intent(mContext, DriverTrackingActivity::class.java)
+                intent.putExtra("data", mJsonObjectStartJob.toString())
+                mContext.startActivity(intent)*/
             }
-            val mJsonObjectStartJob = JsonObject()
-            mJsonObjectStartJob.addProperty(
-                "orderId", addressList[position].id
-            )
-            mJsonObjectStartJob.addProperty(
-                "lat", addressList[position].address?.latitude
-            )
-            mJsonObjectStartJob.addProperty(
-                "lng", addressList[position].address?.longitude
-            )
-            mJsonObjectStartJob.addProperty(
-                "destLat", addressList[position].companyAddress?.lat
-            )
-            mJsonObjectStartJob.addProperty(
-                "destLong", addressList[position].companyAddress?.long
-            )
 
-            val intent = Intent(mContext, DriverTrackingActivity::class.java)
-            intent.putExtra("data", mJsonObjectStartJob.toString())
-            mContext.startActivity(intent)
 
-            /* if (addressList[position].cancellable.equals("true")) {
-                 if (orderListActivity != null)
-                     orderListActivity.cancelOrder(position)
-             } else {
-                 orderListActivity!!.completeOrder(position)
-             }*/
         }
 
 
-        /* if (orderListActivity == null) {
-             holder.binding!!.tvCancel.visibility = View.GONE
-         } else {
-             holder.binding!!.tvCancel.visibility = View.VISIBLE
-         }*/
+        if (orderListActivity == null) {
+            holder.binding!!.tvCancel.visibility = View.GONE
+        } else {
+            holder.binding!!.tvCancel.visibility = View.VISIBLE
+        }
         val orderListAdapter =
             OrderServicesListAdapter(mContext, addressList[position].suborders, mContext)
         val linearLayoutManager = LinearLayoutManager(mContext)

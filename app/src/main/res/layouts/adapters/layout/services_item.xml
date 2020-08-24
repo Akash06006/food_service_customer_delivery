@@ -62,7 +62,7 @@
                         android:layout_alignParentTop="true"
                         android:layout_marginLeft="@dimen/dp_10"
                         android:layout_marginRight="@dimen/dp_5"
-                        android:layout_toLeftOf="@+id/img_favourite"
+                        android:layout_toLeftOf="@+id/imgVegNonVeg"
                         android:singleLine="true"
                         android:text="Name"
                         android:textAppearance="@style/TextAppearance.AppCompat.Small"
@@ -71,12 +71,13 @@
                         app:font="@{`bold`}" />
 
                     <ImageView
-                        android:id="@+id/img_favourite"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:id="@+id/imgVegNonVeg"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_alignTop="@+id/tv_cat_name"
                         android:layout_alignParentRight="true"
-                        android:padding="@dimen/dp_5"
-                        android:src="@drawable/ic_unfavorite" />
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/veg" />
 
                     <TextView
                         android:id="@+id/tv_duration"
@@ -84,12 +85,23 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/tv_cat_name"
                         android:layout_marginLeft="@dimen/dp_10"
+                        android:layout_marginTop="@dimen/dp_10"
                         android:layout_marginRight="@dimen/dp_5"
+                        android:layout_toLeftOf="@+id/img_favourite"
                         android:singleLine="true"
                         android:text="Duration: 2 hrs"
                         android:textAppearance="@style/TextAppearance.AppCompat.Small"
                         android:textColor="@android:color/black"
                         app:font="@{`regular`}" />
+
+                    <ImageView
+                        android:id="@+id/img_favourite"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@+id/tv_duration"
+                        android:layout_alignRight="@+id/imgVegNonVeg"
+                        android:layout_alignParentRight="true"
+                        android:src="@drawable/ic_unfavorite" />
 
                     <RatingBar
                         android:id="@+id/rBar"
@@ -147,12 +159,13 @@
 
                     <TextView
                         android:id="@+id/tv_add"
-                        android:layout_width="wrap_content"
+                        android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
                         android:layout_alignParentBottom="true"
                         android:layout_margin="@dimen/dp_5"
                         android:background="@drawable/btn_bg_shape_colored"
+                        android:gravity="center"
                         android:paddingLeft="@dimen/dp_20"
                         android:paddingTop="@dimen/dp_5"
                         android:paddingRight="@dimen/dp_20"

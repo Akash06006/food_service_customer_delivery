@@ -41,8 +41,39 @@ class LandingResponse {
         @SerializedName("trending")
         @Expose
         var trending: ArrayList<Trending>? = null
+        @SerializedName("recentOrder")
+        @Expose
+        var recentOrder: RecentOrder? = null
+
+
     }
 
+    inner class RecentOrder {
+        @SerializedName("orderNo")
+        @Expose
+        var orderNo: String? = null
+        @SerializedName("id")
+        @Expose
+        var id: String? = null
+        @SerializedName("progressStatus")
+        @Expose
+        var progressStatus: String? = null
+        @SerializedName("totalOrderPrice")
+        @Expose
+        var totalOrderPrice: String? = null
+        @SerializedName("orderStatus")
+        @Expose
+        var orderStatus: OrderStatus? = null
+    }
+
+    inner class OrderStatus {
+        @SerializedName("statusName")
+        @Expose
+        var statusName: String? = null
+        @SerializedName("status")
+        @Expose
+        var status: String? = null
+    }
 
     inner class Offers {
         @SerializedName("icon")
@@ -111,7 +142,9 @@ class LandingResponse {
     }
 
     inner class Vendors {
-
+        @SerializedName("totalOrders24")
+        @Expose
+        var totalOrders: String? = null
         @SerializedName("startTime")
         @Expose
         var startTime: String? = null
@@ -139,6 +172,10 @@ class LandingResponse {
         @SerializedName("coupan")
         @Expose
         var coupan: Coupon? = null
+        @SerializedName("tags")
+        @Expose
+        var tags: ArrayList<String>? = null
+
 
     }
 
@@ -185,6 +222,12 @@ class LandingResponse {
         @SerializedName("rating")
         @Expose
         var rating: String? = null
+        @SerializedName("tags")
+        @Expose
+        var tags: ArrayList<String>? = null
+        @SerializedName("totalOrders24")
+        @Expose
+        var totalOrders: String? = null
 
     }
 

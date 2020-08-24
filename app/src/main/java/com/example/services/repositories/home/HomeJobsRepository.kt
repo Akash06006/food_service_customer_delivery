@@ -143,4 +143,38 @@ class HomeJobsRepository {
         return data1!!
     }
 
+    fun addComapnyRating(mJsonObject: JsonObject?): MutableLiveData<CommonModel> {
+        if (mJsonObject != null) {
+            val mApiService = ApiService<JsonObject>()
+            mApiService.get(
+                object : ApiResponse<JsonObject> {
+                    override fun onResponse(mResponse: Response<JsonObject>) {
+                        val loginResponse = if (mResponse.body() != null)
+                            gson.fromJson<CommonModel>(
+                                "" + mResponse.body(),
+                                CommonModel::class.java
+                            )
+                        else {
+                            gson.fromJson<CommonModel>(
+                                mResponse.errorBody()!!.charStream(),
+                                CommonModel::class.java
+                            )
+                        }
+
+                        data1!!.postValue(loginResponse)
+
+                    }
+
+                    override fun onError(mKey: String) {
+                        UtilsFunctions.showToastError(MyApplication.instance.getString(R.string.internal_server_error))
+                        data1!!.postValue(null)
+
+                    }
+
+                }, ApiClient.getApiInterface().addCompanyRating(mJsonObject)
+            )
+        }
+        return data1!!
+    }
+
 }

@@ -1,5 +1,6 @@
 package com.uniongoods.adapters
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
@@ -48,6 +49,7 @@ class ServicesListAdapter(
         return ViewHolder(binding.root, viewType, binding, mContext, addressList)
     }
 
+    @SuppressLint("NewApi")
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onBindViewHolder(@NonNull holder: ViewHolder, position: Int) {
         viewHolder = holder
@@ -108,6 +110,45 @@ class ServicesListAdapter(
             mContext.addRemovefav(position, addressList[position].favourite)
 
         }
+        if (TextUtils.isEmpty(addressList[position].cart)) {
+            holder.binding!!.tvAdd.setText("Add")
+            holder.binding!!.tvAdd.setBackgroundTintList(
+                ColorStateList.valueOf(
+                    Color.parseColor(
+                        GlobalConstants.COLOR_CODE
+                    )
+                )/*mContext.getResources().getColorStateList(R.color.colorOrange)*/
+            )
+        } else {
+            holder.binding!!.tvAdd.setText("Remove")
+            holder.binding!!.tvAdd.setBackgroundTintList(
+                ColorStateList.valueOf(
+                    mContext.getColor(R.color.red)
+                    /*Color.parseColor(
+                        GlobalConstants.COLOR_CODE
+                    )*/
+                )/*mContext.getResources().getColorStateList(R.color.colorOrange)*/
+            )
+        }
+
+        if (addressList[position].itemType.equals("0")) {
+            holder.binding!!.imgVegNonVeg.setImageResource(R.drawable.veg)
+        } else {
+            holder.binding!!.imgVegNonVeg.setImageResource(R.drawable.nonveg)
+        }
+
+
+        holder.binding!!.tvAdd.setOnClickListener {
+            //  addressList[position].
+            if (TextUtils.isEmpty(addressList[position].cart)) {
+                mContext.showAddToCartDialog(position, false)
+            } else {
+                mContext.showRemoveCartDialog(position, addressList[position].cart)
+            }
+
+        }
+
+
     }
 
     override fun getItemCount(): Int {

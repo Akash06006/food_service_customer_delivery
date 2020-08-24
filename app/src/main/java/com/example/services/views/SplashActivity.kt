@@ -39,16 +39,15 @@ class SplashActivity : BaseActivity() {
         mActivitySplashBinding = DataBindingUtil.setContentView(this, R.layout.activity_splash)
 
         sharedPrefClass = SharedPrefClass()
-        val token: String? = "sd"
+        /*val token: String? = "sd"
 
-        if (token != null) {
-            sharedPrefClass!!.putObject(
-                applicationContext,
-                GlobalConstants.NOTIFICATION_TOKEN,
-                token
-            )
-        }
-
+          if (token != null) {
+              sharedPrefClass!!.putObject(
+                  applicationContext,
+                  GlobalConstants.NOTIFICATION_TOKEN,
+                  token
+              )
+          }*/
         Timer().schedule(object : TimerTask() {
             override fun run() {
                 runOnUiThread {

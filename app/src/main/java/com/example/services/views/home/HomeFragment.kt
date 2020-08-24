@@ -6,21 +6,34 @@ import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.content.res.ColorStateList
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.location.Location
 import android.location.LocationManager
+import android.net.Uri
+import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.view.View
-import android.widget.Toast
 import android.provider.Settings
+import android.text.Html
+import android.text.TextUtils
+import android.view.LayoutInflater
+import android.view.Window
 import android.view.animation.AnimationUtils
-import android.widget.AdapterView
+import android.widget.*
+import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.services.R
 import com.example.services.application.MyApplication
 import com.example.services.common.UtilsFunctions
@@ -28,19 +41,22 @@ import com.example.services.common.UtilsFunctions.showToastError
 import com.example.services.constants.GlobalConstants
 import com.example.services.databinding.FragmentHomeBinding
 import com.example.services.maps.FusedLocationClass
+import com.example.services.model.CommonModel
 import com.example.services.sharedpreference.SharedPrefClass
 import com.example.services.socket.SocketClass
 import com.example.services.socket.SocketInterface
 import com.example.services.utils.BaseFragment
 import com.example.services.utils.DialogClass
-import com.example.services.viewmodels.home.Banners
-import com.example.services.viewmodels.home.CategoriesListResponse
-import com.example.services.viewmodels.home.HomeViewModel
-import com.example.services.viewmodels.home.Subcat
+import com.example.services.viewmodels.home.*
+import com.example.services.views.SearchActivity
+import com.example.services.views.cart.CartListActivity
+import com.example.services.views.orders.OrdersDetailActivity
 import com.example.services.views.subcategories.ServicesListActivity
+import com.example.services.views.vendor.RestaurantsListActivity
 import com.google.android.gms.location.*
 import com.google.gson.JsonObject
 import com.uniongoods.adapters.*
+import kotlinx.android.synthetic.main.fragment_home.view.*
 import org.json.JSONObject
 
 class
@@ -48,6 +64,7 @@ HomeFragment : BaseFragment(), SocketInterface {
     private var mFusedLocationClass: FusedLocationClass? = null
     private var socket = SocketClass.socket
     private var categoriesList = ArrayList<Subcat>()
+    private var details: Details? = null
     private var bannersList = ArrayList<Banners>()
     private var trendingServiceList =
         ArrayList<com.example.services.viewmodels.home.Trending>()
@@ -56,14 +73,17 @@ HomeFragment : BaseFragment(), SocketInterface {
     private var myJobsListAdapter: CategoriesListAdapter? = null
     private lateinit var fragmentHomeBinding: FragmentHomeBinding
     private lateinit var homeViewModel: HomeViewModel
-    private val mJsonObject = JsonObject()
+    private var mJsonObject = JsonObject()
     val PERMISSION_ID = 42
     lateinit var mFusedLocationClient: FusedLocationProviderClient
     var currentLat = ""
     var currentLong = ""
+    var comapnyName = ""
+    var companyAddress = ""
     var mJsonObjectStartJob = JsonObject()
     private var confirmationDialog: Dialog? = null
     private var mDialogClass = DialogClass()
+    var phoneNumber = ""
     //var categoriesList = null
     override fun getLayoutResId(): Int {
         return R.layout.fragment_home
@@ -112,7 +132,10 @@ HomeFragment : BaseFragment(), SocketInterface {
         // initRecyclerView()
 
         if (UtilsFunctions.isNetworkConnected()) {
-            homeViewModel.getSubServices("b21a7c8f-078f-4323-b914-8f59054c4467",""/*GlobalConstants.CATEGORY_SELECTED*/)
+            homeViewModel.getSubServices(
+                "b21a7c8f-078f-4323-b914-8f59054c4467",
+                ""/*GlobalConstants.CATEGORY_SELECTED*/
+            )
             baseActivity.startProgressDialog()
         }
         homeViewModel.getGetSubServices().observe(this,
@@ -122,11 +145,117 @@ HomeFragment : BaseFragment(), SocketInterface {
                     val message = response.message
                     when {
                         response.code == 200 -> {
+                            //  details = Details()
+                            details = response.body.details
+                            categoriesList.clear()
+                            trendingServiceList.clear()
+                            offersList.clear()
+                            bannersList.clear()
                             categoriesList.addAll(response.body.subcat)
                             trendingServiceList.addAll(response.body.trending)
                             offersList.addAll(response.body.offers)
                             bannersList.addAll(response.body.banners)
                             fragmentHomeBinding.rvJobs.visibility = View.VISIBLE
+                            //Vendor Detail
+                            if (!TextUtils.isEmpty(details?.logo1)) {
+                                Glide.with(activity!!).load(details?.logo1)
+                                    .into(fragmentHomeBinding.imgVendorImage)
+                            } else {
+                                fragmentHomeBinding.imgVendorImage.visibility = View.GONE
+                            }
+                            phoneNumber = "+" + details?.countryCode + "" + details?.phoneNumber
+                            fragmentHomeBinding.txtMobNumber.setText(details?.countryCode + "-" + details?.phoneNumber)
+                            fragmentHomeBinding.txtEmail.setText(details?.email)
+                            fragmentHomeBinding.txtAddress.setText(details?.address1)
+
+                            comapnyName = details?.companyName!!
+                            companyAddress = details?.address1!!
+
+                            if (TextUtils.isEmpty(details?.startTime) || details?.startTime.equals(
+                                    "null"
+                                )
+                            ) {
+                                fragmentHomeBinding.txtTime.visibility = View.GONE
+                                fragmentHomeBinding.llTime.visibility = View.GONE
+                            } else {
+                                fragmentHomeBinding.txtTime.setText(details?.startTime + " - " + details?.endTime)
+                            }
+                            if (details?.rating?.toDouble()!! > 0) {
+                                fragmentHomeBinding.rBar.setRating(1f)
+                                if (details?.rating?.length!!
+                                    > 3
+                                ) {
+                                    var rating = details?.rating?.substring(
+                                        0,
+                                        3
+                                    )
+                                    fragmentHomeBinding.txtRating.setText(rating + " Ratings (" + details?.totalRatings + " Votes)")
+                                } else {
+                                    fragmentHomeBinding.txtRating.setText(details?.rating + " Ratings (" + details?.totalRatings + " Votes)")
+                                }
+
+                            }
+                            if (!TextUtils.isEmpty(details?.foodQualityRating) && details?.foodQualityRating!!.contains(
+                                    "."
+                                )
+                            ) {
+                                var quality = details?.foodQualityRating?.split(".")
+                                var qua = quality!![0].toInt()
+                                fragmentHomeBinding.rbQuality.setRating(
+                                    qua,
+                                    true
+                                )
+                            } else {
+                                if (details?.foodQualityRating!!.toInt() > 0) {
+                                    fragmentHomeBinding.rbQuality.setRating(
+                                        details?.foodQualityRating!!.toInt(),
+                                        true
+                                    )
+                                }
+                            }
+
+
+                            if (!TextUtils.isEmpty(details?.packingPresRating) && details?.packingPresRating!!.contains(
+                                    "."
+                                )
+                            ) {
+                                var quality = details?.packingPresRating?.split(".")
+                                var qua = quality!![0].toInt()
+                                fragmentHomeBinding.rbPacking.setRating(
+                                    qua,
+                                    true
+                                )
+                            } else {
+                                if (details?.packingPresRating!!.toInt() > 0) {
+                                    fragmentHomeBinding.rbPacking.setRating(
+                                        details?.packingPresRating!!.toInt(),
+                                        true
+                                    )
+                                }
+
+                            }
+
+
+                            if (!TextUtils.isEmpty(details?.foodQuantityRating) && details?.foodQuantityRating!!.contains(
+                                    "."
+                                )
+                            ) {
+                                var quality = details?.foodQuantityRating?.split(".")
+                                var qua = quality!![0].toInt()
+                                fragmentHomeBinding.rbQunatity.setRating(
+                                    qua,
+                                    true
+                                )
+                            } else {
+                                if (details?.foodQuantityRating!!.toInt() > 0) {
+                                    fragmentHomeBinding.rbQunatity.setRating(
+                                        details?.foodQuantityRating!!.toInt(),
+                                        true
+                                    )
+                                }
+
+
+                            }
 
                             initRecyclerView()
                             if (bannersList.size > 0) {
@@ -159,6 +288,32 @@ HomeFragment : BaseFragment(), SocketInterface {
                 }
             })
 
+
+        homeViewModel.getComapnyRatingRes().observe(this,
+            Observer<CommonModel> { response ->
+                baseActivity.stopProgressDialog()
+                if (response != null) {
+                    val message = response.message
+                    when {
+                        response.code == 200 -> {
+
+                            if (UtilsFunctions.isNetworkConnected()) {
+                                homeViewModel.getSubServices(
+                                    "b21a7c8f-078f-4323-b914-8f59054c4467",
+                                    ""/*GlobalConstants.CATEGORY_SELECTED*/
+                                )
+                                baseActivity.startProgressDialog()
+                            }
+                        }
+                        else -> message?.let {
+                            showToastError(it)
+                            fragmentHomeBinding.rvJobs.visibility = View.GONE
+                        }
+                    }
+
+                }
+            })
+
         fragmentHomeBinding.gridview.onItemClickListener =
             AdapterView.OnItemClickListener { parent, v, position, id ->
                 //showToastSuccess(" Clicked Position: " + (position + 1))
@@ -172,6 +327,20 @@ HomeFragment : BaseFragment(), SocketInterface {
                      startActivity(intent)
                  }*/
             }
+
+        homeViewModel.isClick().observe(
+            this, Observer<String>(function =
+            fun(it: String?) {
+                when (it) {
+                    "txtAddRating" -> {
+                        addRating()
+                    }
+                    "txtMobNumber" -> {
+                        checkPermission()
+                    }
+                }
+            })
+        )
     }
 
     private fun callSocketMethods(methodName: String) {
@@ -377,4 +546,169 @@ HomeFragment : BaseFragment(), SocketInterface {
         }
     }
 
+    public fun showOfferInformation(pos: Int) {
+        var confirmationDialog = Dialog(activity, R.style.dialogAnimation_animation)
+        confirmationDialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        val binding =
+            DataBindingUtil.inflate<ViewDataBinding>(
+                LayoutInflater.from(activity),
+                R.layout.layout_offer_dialog,
+                null,
+                false
+            )
+
+        confirmationDialog?.setContentView(binding.root)
+        confirmationDialog?.setCancelable(false)
+
+        confirmationDialog?.window!!.setLayout(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.MATCH_PARENT
+        )
+        confirmationDialog?.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        val btnSubmit = confirmationDialog?.findViewById<Button>(R.id.btnSubmit)
+        val imgOffer = confirmationDialog?.findViewById<ImageView>(R.id.imgOffer)
+        val txtCouponName = confirmationDialog?.findViewById<TextView>(R.id.txtCouponName)
+        val txtCouponCode = confirmationDialog?.findViewById<TextView>(R.id.txtCouponCode)
+        val txtCouponDiscount = confirmationDialog?.findViewById<TextView>(R.id.txtCouponDiscount)
+        val txtCouponDesc = confirmationDialog?.findViewById<TextView>(R.id.txtCouponDesc)
+
+        txtCouponName.setText("Offer Name: " + offersList[pos].name)
+        txtCouponCode.setText(offersList[pos].code)
+        txtCouponDesc.setText(offersList[pos].description)
+        txtCouponDesc.setText(Html.fromHtml(offersList[pos].description).toString())
+        txtCouponDiscount.setText(offersList[pos].discount + "% OFF")
+
+        Glide.with(activity!!).load(offersList[pos].thumbnail).into(imgOffer)
+        btnSubmit?.setOnClickListener {
+            confirmationDialog?.dismiss()
+        }
+
+        confirmationDialog?.show()
+    }
+
+
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    fun addRating() {
+        val confirmationDialog = Dialog(activity, R.style.transparent_dialog)
+        confirmationDialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        val binding =
+            DataBindingUtil.inflate<ViewDataBinding>(
+                LayoutInflater.from(activity),
+                R.layout.add_company_rating_dialog,
+                null,
+                false
+            )
+
+        confirmationDialog?.setContentView(binding.root)
+        confirmationDialog?.setCancelable(true)
+
+        confirmationDialog?.window!!.setLayout(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.MATCH_PARENT
+        )
+        confirmationDialog?.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        val txtCompanyName = confirmationDialog?.findViewById<TextView>(R.id.txtCompanyName)
+        val txtAddress = confirmationDialog?.findViewById<TextView>(R.id.txtAddress)
+        val rbQuality = confirmationDialog?.findViewById<RatingBar>(R.id.rbQuality)
+        val rbPacking = confirmationDialog?.findViewById<RatingBar>(R.id.rbPacking)
+        val rbQuantity = confirmationDialog?.findViewById<RatingBar>(R.id.rbQunatity)
+        val rbRatings = confirmationDialog?.findViewById<RatingBar>(R.id.rb_ratings)
+
+        val etReview = confirmationDialog?.findViewById<EditText>(R.id.et_review)
+        val btnSubmit = confirmationDialog?.findViewById<Button>(R.id.btnSubmit)
+
+        txtCompanyName?.setText(comapnyName)
+        txtAddress?.setText(companyAddress)
+        /*
+       Glide.with(this)
+           .load(ratingData.ratingData.get(position).icon)
+           //.apply(RequestOptions.bitmapTransform(RoundedCorners(20)))
+           .placeholder(R.drawable.ic_category)
+           .into(serviceImage!!)*/
+        btnSubmit?.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(GlobalConstants.COLOR_CODE))/*mContext.getResources().getColorStateList(R.color.colorOrange)*/)
+
+        btnSubmit?.setOnClickListener {
+            mJsonObject = JsonObject()
+            mJsonObject.addProperty(
+                "companyId", GlobalConstants.COMPANY_ID
+            )
+            mJsonObject.addProperty(
+                "rating", rbRatings.getRating()
+            )
+            mJsonObject.addProperty(
+                "review", etReview.getText().toString()
+            )
+            mJsonObject.addProperty(
+                "foodQuantity", rbQuantity.getRating()
+            )
+            mJsonObject.addProperty(
+                "foodQuality", rbQuality.getRating()
+            )
+            mJsonObject.addProperty(
+                "packingPres", rbPacking.getRating()
+            )
+            homeViewModel.addComapnyRating(mJsonObject)
+
+            confirmationDialog?.dismiss()
+        }
+
+        confirmationDialog?.show()
+    }
+
+    //region CALL FUNCTIONALITY
+    fun checkPermission() {
+        if (ContextCompat.checkSelfPermission(
+                activity!!,
+                Manifest.permission.CALL_PHONE
+            )
+            != PackageManager.PERMISSION_GRANTED
+        ) {
+
+            // Permission is not granted
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(
+                    activity!!,
+                    Manifest.permission.CALL_PHONE
+                )
+            ) {
+                // Show an explanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+            } else {
+                // No explanation needed, we can request the permission.
+                ActivityCompat.requestPermissions(
+                    activity!!,
+                    arrayOf(Manifest.permission.CALL_PHONE),
+                    42
+                )
+            }
+        } else {
+            // Permission has already been granted
+            callPhone()
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>, grantResults: IntArray
+    ) {
+        if (requestCode == 42) {
+            // If request is cancelled, the result arrays are empty.
+            if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                // permission was granted, yay!
+                callPhone()
+            } else {
+                checkPermission()
+                // permission denied, boo! Disable the
+                // functionality
+            }
+            return
+        }
+    }
+
+    fun callPhone() {
+        val intent = Intent(Intent.ACTION_CALL, Uri.parse("tel:" + phoneNumber))
+        startActivity(intent)
+    }
+    //endregion
 }

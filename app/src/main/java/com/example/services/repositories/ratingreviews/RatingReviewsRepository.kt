@@ -37,28 +37,28 @@ class RatingReviewsRepository {
         if (!TextUtils.isEmpty(id)) {
             val mApiService = ApiService<JsonObject>()
             mApiService.get(
-                    object : ApiResponse<JsonObject> {
-                        override fun onResponse(mResponse: Response<JsonObject>) {
-                            val loginResponse = if (mResponse.body() != null)
-                                gson.fromJson<ReviewsListResponse>(
-                                        "" + mResponse.body(),
-                                        ReviewsListResponse::class.java
-                                )
-                            else {
-                                gson.fromJson<ReviewsListResponse>(
-                                        mResponse.errorBody()!!.charStream(),
-                                        ReviewsListResponse::class.java
-                                )
-                            }
-                            data1!!.postValue(loginResponse)
+                object : ApiResponse<JsonObject> {
+                    override fun onResponse(mResponse: Response<JsonObject>) {
+                        val loginResponse = if (mResponse.body() != null)
+                            gson.fromJson<ReviewsListResponse>(
+                                "" + mResponse.body(),
+                                ReviewsListResponse::class.java
+                            )
+                        else {
+                            gson.fromJson<ReviewsListResponse>(
+                                mResponse.errorBody()!!.charStream(),
+                                ReviewsListResponse::class.java
+                            )
                         }
+                        data1!!.postValue(loginResponse)
+                    }
 
-                        override fun onError(mKey: String) {
-                            UtilsFunctions.showToastError(MyApplication.instance.getString(R.string.internal_server_error))
-                            data1!!.postValue(null)
-                        }
+                    override fun onError(mKey: String) {
+                        UtilsFunctions.showToastError(MyApplication.instance.getString(R.string.internal_server_error))
+                        data1!!.postValue(null)
+                    }
 
-                    }, ApiClient.getApiInterface().ratingRaviewsList(id, "1", "100")
+                }, ApiClient.getApiInterface().ratingRaviewsList(id, "1", "100")
             )
 
         }
@@ -70,28 +70,28 @@ class RatingReviewsRepository {
         if (!TextUtils.isEmpty(id)) {
             val mApiService = ApiService<JsonObject>()
             mApiService.get(
-                    object : ApiResponse<JsonObject> {
-                        override fun onResponse(mResponse: Response<JsonObject>) {
-                            val loginResponse = if (mResponse.body() != null)
-                                gson.fromJson<OrdersDetailResponse>(
-                                        "" + mResponse.body(),
-                                        OrdersDetailResponse::class.java
-                                )
-                            else {
-                                gson.fromJson<OrdersDetailResponse>(
-                                        mResponse.errorBody()!!.charStream(),
-                                        OrdersDetailResponse::class.java
-                                )
-                            }
-                            data2!!.postValue(loginResponse)
+                object : ApiResponse<JsonObject> {
+                    override fun onResponse(mResponse: Response<JsonObject>) {
+                        val loginResponse = if (mResponse.body() != null)
+                            gson.fromJson<OrdersDetailResponse>(
+                                "" + mResponse.body(),
+                                OrdersDetailResponse::class.java
+                            )
+                        else {
+                            gson.fromJson<OrdersDetailResponse>(
+                                mResponse.errorBody()!!.charStream(),
+                                OrdersDetailResponse::class.java
+                            )
                         }
+                        data2!!.postValue(loginResponse)
+                    }
 
-                        override fun onError(mKey: String) {
-                            UtilsFunctions.showToastError(MyApplication.instance.getString(R.string.internal_server_error))
-                            data2!!.postValue(null)
-                        }
+                    override fun onError(mKey: String) {
+                        UtilsFunctions.showToastError(MyApplication.instance.getString(R.string.internal_server_error))
+                        data2!!.postValue(null)
+                    }
 
-                    }, ApiClient.getApiInterface().orderDetail(id)
+                }, ApiClient.getApiInterface().orderDetail(id)
             )
 
         }
@@ -103,28 +103,28 @@ class RatingReviewsRepository {
         if (id != null) {
             val mApiService = ApiService<JsonObject>()
             mApiService.get(
-                    object : ApiResponse<JsonObject> {
-                        override fun onResponse(mResponse: Response<JsonObject>) {
-                            val loginResponse = if (mResponse.body() != null)
-                                gson.fromJson<CommonModel>(
-                                        "" + mResponse.body(),
-                                        CommonModel::class.java
-                                )
-                            else {
-                                gson.fromJson<CommonModel>(
-                                        mResponse.errorBody()!!.charStream(),
-                                        CommonModel::class.java
-                                )
-                            }
-                            data3!!.postValue(loginResponse)
+                object : ApiResponse<JsonObject> {
+                    override fun onResponse(mResponse: Response<JsonObject>) {
+                        val loginResponse = if (mResponse.body() != null)
+                            gson.fromJson<CommonModel>(
+                                "" + mResponse.body(),
+                                CommonModel::class.java
+                            )
+                        else {
+                            gson.fromJson<CommonModel>(
+                                mResponse.errorBody()!!.charStream(),
+                                CommonModel::class.java
+                            )
                         }
+                        data3!!.postValue(loginResponse)
+                    }
 
-                        override fun onError(mKey: String) {
-                            UtilsFunctions.showToastError(MyApplication.instance.getString(R.string.internal_server_error))
-                            data3!!.postValue(null)
-                        }
+                    override fun onError(mKey: String) {
+                        UtilsFunctions.showToastError(MyApplication.instance.getString(R.string.internal_server_error))
+                        data3!!.postValue(null)
+                    }
 
-                    }, ApiClient.getApiInterface().addRatings(id)
+                }, ApiClient.getApiInterface().addRatings(id)
             )
 
         }

@@ -1,10 +1,20 @@
 package com.example.services.views.subcategories
 
+import android.app.Dialog
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
+import android.os.Build
+import android.os.Handler
 import android.text.TextUtils
+import android.view.LayoutInflater
 import android.view.View
+import android.view.Window
 import android.view.animation.AnimationUtils
-import android.widget.CompoundButton
+import android.widget.*
+import androidx.annotation.RequiresApi
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
@@ -17,31 +27,52 @@ import com.example.services.constants.GlobalConstants
 import com.example.services.utils.BaseActivity
 import com.example.services.databinding.ActivityServicesBinding
 import com.example.services.model.CommonModel
+import com.example.services.model.cart.AddCartResponse
 import com.example.services.model.services.Headers
 import com.example.services.model.services.Services
 import com.example.services.model.services.ServicesListResponse
 import com.example.services.sharedpreference.SharedPrefClass
+import com.example.services.utils.DialogClass
+import com.example.services.utils.DialogssInterface
+import com.example.services.viewmodels.home.HomeViewModel
 import com.example.services.viewmodels.services.ServicesViewModel
 import com.example.services.views.cart.CartListActivity
 import com.google.gson.JsonObject
 import com.uniongoods.adapters.ServicesListAdapter
 import com.uniongoods.adapters.SubCategoriesFilterListAdapter
 
-class ServicesListActivity : BaseActivity(), CompoundButton.OnCheckedChangeListener {
+class ServicesListActivity : BaseActivity(), CompoundButton.OnCheckedChangeListener,
+    DialogssInterface {
+    var quantityCount = 0
+    var price = 0
+    var priceAmount = 0
+    var position = 0
     lateinit var servicesBinding: ActivityServicesBinding
     lateinit var servicesViewModel: ServicesViewModel
     private var serVicesList = ArrayList<Services>()
     private var subCategoryList = ArrayList<Headers>()
     var selectedPos = 0
     var catId = ""
+    var cartId = ""
+    lateinit var homeViewModel: HomeViewModel
     var subCatId = ""
     var vegOnly = ""
     var pos = 0
-
+    private var confirmationDialog: Dialog? = null
+    private var mDialogClass = DialogClass()
     var servicesListAdapter: ServicesListAdapter? = null
     var subcatFilterAdapter: SubCategoriesFilterListAdapter? = null
     var isCart = ""
+    var cartCount = "0"
+    var cartCategory = ""
+
+    var isFirstTime = false
+    var serviceId = ""
     val serviceObject = JsonObject()
+
+    var animationView: View? = null
+    var imgCross: View? = null
+
     override fun getLayoutId(): Int {
         return R.layout.activity_services
     }
@@ -52,18 +83,37 @@ class ServicesListActivity : BaseActivity(), CompoundButton.OnCheckedChangeListe
             MyApplication.instance,
             GlobalConstants.isCartAdded
         ).toString()
+        cartCount = SharedPrefClass().getPrefValue(
+            MyApplication.instance,
+            GlobalConstants.cartCount
+        ).toString()
+
+        cartCategory = SharedPrefClass().getPrefValue(
+            MyApplication.instance,
+            GlobalConstants.cartCategory
+        ).toString()
+
         if (isCart.equals("true")) {
+            servicesBinding.commonToolBar.txtCount.visibility = View.VISIBLE
             servicesBinding.commonToolBar.imgRight.visibility = View.VISIBLE
+            servicesBinding.commonToolBar.txtCount.setText(cartCount)
         } else {
+            cartCount = "0"
             servicesBinding.commonToolBar.imgRight.visibility = View.GONE
+            servicesBinding.commonToolBar.txtCount.visibility = View.GONE
+        }
+        if (UtilsFunctions.isNetworkConnected()) {
+            servicesViewModel.getServices(catId, vegOnly)
+            startProgressDialog()
         }
     }
 
     override fun initViews() {
+        isFirstTime = true
         // setTheme(R.style.ThemeSalon)
         servicesBinding = viewDataBinding as ActivityServicesBinding
         servicesViewModel = ViewModelProviders.of(this).get(ServicesViewModel::class.java)
-
+        homeViewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
         servicesBinding.commonToolBar.imgRight.setImageResource(R.drawable.ic_cart)
 
         val applicationType = SharedPrefClass()!!.getPrefValue(
@@ -92,10 +142,10 @@ class ServicesListActivity : BaseActivity(), CompoundButton.OnCheckedChangeListe
         serviceObject.addProperty(
             "subcategory", "0"
         )
-        if (UtilsFunctions.isNetworkConnected()) {
-            servicesViewModel.getServices(catId, vegOnly)
-            startProgressDialog()
-        }
+        /* if (UtilsFunctions.isNetworkConnected()) {
+             servicesViewModel.getServices(catId, vegOnly)
+             startProgressDialog()
+         }*/
 
         val subcat = Headers("0", "", catId, "All", "All", "true")
         subCategoryList.add(subcat)
@@ -153,13 +203,37 @@ class ServicesListActivity : BaseActivity(), CompoundButton.OnCheckedChangeListe
             })
 
         servicesViewModel.addRemoveCartRes().observe(this,
-            Observer<CommonModel> { response ->
+            Observer<AddCartResponse> { response ->
                 stopProgressDialog()
                 if (response != null) {
                     val message = response.message
                     when {
                         response.code == 200 -> {
-                            servicesViewModel.getServices(catId,vegOnly)
+                            val id = response.body?.id
+                            serVicesList[position].cart = id.toString()
+                            servicesListAdapter?.notifyDataSetChanged()
+                            imgCross?.visibility = View.GONE
+                            animationView?.visibility = View.VISIBLE
+                            Handler().postDelayed({
+                                confirmationDialog?.dismiss()
+                            }, 2000)
+
+                            servicesBinding.commonToolBar.imgRight.visibility = View.VISIBLE
+                            SharedPrefClass().putObject(
+                                this,
+                                GlobalConstants.isCartAdded,
+                                "true"
+                            )
+                            cartCount = cartCount.toInt().plus(1).toString()
+                            servicesBinding.commonToolBar.txtCount.setText(cartCount)
+                            servicesBinding.commonToolBar.txtCount.visibility = View.VISIBLE
+                            SharedPrefClass().putObject(
+                                this,
+                                GlobalConstants.cartCount,
+                                cartCount
+                            )
+
+//                            servicesViewModel.getServices(catId, vegOnly)
                         }
                         else -> message?.let {
                             UtilsFunctions.showToastError(it)
@@ -176,13 +250,53 @@ class ServicesListActivity : BaseActivity(), CompoundButton.OnCheckedChangeListe
                     val message = response.message
                     when {
                         response.code == 200 -> {
-                            /*if (serVicesList[pos].favourite.equals("false")) {
-                                serVicesList[pos].favourite = "true"
-                            } else {
-                                serVicesList[pos].favourite = "false"
+                            servicesViewModel.getServices(catId, vegOnly)
+                        }
+                        else -> message?.let {
+                            UtilsFunctions.showToastError(it)
+                        }
+                    }
+
+                }
+            })
+
+        servicesViewModel.removeCartRes().observe(this,
+            Observer<CommonModel> { response ->
+                stopProgressDialog()
+                if (response != null) {
+                    val message = response.message
+                    when {
+                        response.code == 200 -> {
+                            var iscart = false
+                            serVicesList[position].cart = ""
+                            servicesListAdapter?.notifyDataSetChanged()
+
+                            cartCount = cartCount.toInt().minus(1).toString()
+                            SharedPrefClass().putObject(
+                                this,
+                                GlobalConstants.cartCount,
+                                cartCount
+                            )
+                            for (item in serVicesList) {
+                                if (!TextUtils.isEmpty(item.cart)) {
+                                    iscart = true
+                                }
                             }
-                            servicesListAdapter?.notifyDataSetChanged()*/
-                            servicesViewModel.getServices(catId,vegOnly)
+                            if (iscart) {
+                                servicesBinding.commonToolBar.imgRight.visibility = View.VISIBLE
+                                SharedPrefClass().putObject(
+                                    this,
+                                    GlobalConstants.isCartAdded,
+                                    "true"
+                                )
+                                if (cartCount.toInt() > 0) {
+                                    servicesBinding.commonToolBar.txtCount.visibility = View.VISIBLE
+                                    servicesBinding.commonToolBar.txtCount.setText(cartCount)
+                                }
+                            } else {
+                                servicesBinding.commonToolBar.imgRight.visibility = View.GONE
+                                servicesBinding.commonToolBar.txtCount.visibility = View.GONE
+                            }
                         }
                         else -> message?.let {
                             UtilsFunctions.showToastError(it)
@@ -204,6 +318,44 @@ class ServicesListActivity : BaseActivity(), CompoundButton.OnCheckedChangeListe
                 }
             })
         )
+
+        homeViewModel.getClearCartRes().observe(this,
+            Observer<CommonModel> { response ->
+                stopProgressDialog()
+                if (response != null) {
+                    val message = response.message
+                    when {
+                        response.code == 200 -> {
+                            //cartCategoryTypeId = ""
+
+                            SharedPrefClass().putObject(
+                                this, GlobalConstants.isCartAdded,
+                                "false"
+                            )
+                            SharedPrefClass().putObject(
+                                this,
+                                GlobalConstants.cartCategory,
+                                ""
+                            )
+                            SharedPrefClass().putObject(
+                                this,
+                                GlobalConstants.cartCount,
+                                "0"
+                            )
+                            cartCategory = ""
+                            cartCount = "0"
+                            servicesBinding.commonToolBar.imgRight.visibility = View.GONE
+                            servicesBinding.commonToolBar.txtCount.visibility = View.GONE
+                            // (activity as LandingMainActivity).onResumedForFragment()
+
+
+                        }
+                        else -> message?.let {
+                            UtilsFunctions.showToastError(it)
+                        }
+                    }
+                }
+            })
 
     }
 
@@ -231,10 +383,14 @@ class ServicesListActivity : BaseActivity(), CompoundButton.OnCheckedChangeListe
     private fun initRecyclerView() {
         servicesListAdapter = ServicesListAdapter(this, serVicesList, this)
         val gridLayoutManager = GridLayoutManager(this, 1)
-        val controller =
-            AnimationUtils.loadLayoutAnimation(this, R.anim.layout_animation_from_left)
-        servicesBinding.rvServices.setLayoutAnimation(controller);
-        servicesBinding.rvServices.scheduleLayoutAnimation();
+        if (isFirstTime) {
+            isFirstTime = false
+            val controller =
+                AnimationUtils.loadLayoutAnimation(this, R.anim.layout_animation_from_left)
+            servicesBinding.rvServices.setLayoutAnimation(controller);
+            servicesBinding.rvServices.scheduleLayoutAnimation();
+        }
+
         servicesBinding.rvServices.layoutManager = gridLayoutManager
         servicesBinding.rvServices.setHasFixedSize(true)
         servicesBinding.rvServices.adapter = servicesListAdapter
@@ -331,6 +487,195 @@ class ServicesListActivity : BaseActivity(), CompoundButton.OnCheckedChangeListe
         val intent = Intent(this, ServiceDetailActivity::class.java)
         intent.putExtra("serviceId", serviceId)
         startActivity(intent)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    public fun showAddToCartDialog(pos: Int, isCart: Boolean) {
+
+        if (TextUtils.isEmpty(cartCategory)) {
+            showCartInfoLayout(pos)
+        } else {
+            if (cartCategory.equals(GlobalConstants.COMPANY_ID)) {
+                showCartInfoLayout(pos)
+            } else {
+                showClearCartDialog()
+            }
+        }
+
+
+    }
+
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    private fun showClearCartDialog() {
+        confirmationDialog = mDialogClass.setDefaultDialog(
+            this,
+            this,
+            "Clear Cart",
+            getString(R.string.warning_clear_cart)
+        )
+        confirmationDialog?.show()
+    }
+
+    private fun showCartInfoLayout(pos: Int) {
+        position = pos
+        quantityCount = 0
+        confirmationDialog = Dialog(this, R.style.dialogAnimation_animation)
+        confirmationDialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        val binding =
+            DataBindingUtil.inflate<ViewDataBinding>(
+                LayoutInflater.from(this),
+                R.layout.layout_cart_dialog,
+                null,
+                false
+            )
+
+        confirmationDialog?.setContentView(binding.root)
+        confirmationDialog?.setCancelable(false)
+
+        confirmationDialog?.window!!.setLayout(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.MATCH_PARENT
+        )
+        confirmationDialog?.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+
+        val btnSubmit = confirmationDialog?.findViewById<Button>(R.id.btnSubmit)
+        val tvTotalPrice = confirmationDialog?.findViewById<TextView>(R.id.tvTotalPrice)
+        val tvQuantity = confirmationDialog?.findViewById<TextView>(R.id.tv_quantity)
+        val imgMinus = confirmationDialog?.findViewById<ImageView>(R.id.imgMinus)
+        val imgPlus = confirmationDialog?.findViewById<ImageView>(R.id.imgPlus)
+        imgCross = confirmationDialog?.findViewById<ImageView>(R.id.img_cross)
+        animationView = confirmationDialog?.findViewById<View>(R.id.animationView)
+        val llSlots = confirmationDialog?.findViewById<LinearLayout>(R.id.ll_slots)
+        llSlots?.visibility = View.VISIBLE
+        val animation = AnimationUtils.loadAnimation(this, R.anim.anim)
+        animation.setDuration(500)
+        llSlots?.setAnimation(animation)
+        llSlots?.animate()
+        animation.start()
+        priceAmount = serVicesList[this.pos].price.toInt()
+        serviceId = serVicesList[pos].id
+        imgMinus?.setOnClickListener {
+            if (quantityCount > 0) {
+                quantityCount--
+                price = quantityCount * serVicesList[this.pos].price.toInt()
+                tvTotalPrice?.setText(GlobalConstants.Currency + " " + price.toString())
+                //callGetTimeSlotsApi()
+            }
+            if (quantityCount == 0) {
+                tvTotalPrice?.setText("0")
+            }
+            tvQuantity?.setText(quantityCount.toString())
+        }
+        imgPlus?.setOnClickListener {
+
+            if (quantityCount <= 5) {
+                quantityCount++
+                // serviceDetailBinding.btnSubmit.isEnabled = false
+                tvQuantity?.setText(quantityCount.toString())
+                //   serviceDetailBinding.btnSubmit.visibility = View.VISIBLE
+                //callGetTimeSlotsApi()
+                price = quantityCount * serVicesList[this.pos].price.toInt()
+                tvTotalPrice?.setText(GlobalConstants.Currency + " " + price.toString())
+            }
+        }
+        btnSubmit?.setOnClickListener {
+
+            if (quantityCount == 0) {
+                showToastError(getString(R.string.select_quantity_msg))
+            } else {
+                callAddRemoveCartApi(true,serviceId)
+            }
+            // confirmationDialog?.dismiss()
+
+        }
+        imgCross?.setOnClickListener {
+            quantityCount = 0;
+            confirmationDialog?.dismiss()
+
+        }
+
+
+        confirmationDialog?.show()
+
+    }
+
+    override fun onDialogConfirmAction(mView: View?, mKey: String) {
+        when (mKey) {
+            "Remove Cart" -> {
+                confirmationDialog?.dismiss()
+                callAddRemoveCartApi(false,"")
+            }
+            "Clear Cart" -> {
+                confirmationDialog?.dismiss()
+                if (UtilsFunctions.isNetworkConnected()) {
+                    /* servicesViewModel.removeCart(pos)
+                     startProgressDialog()*/
+                    homeViewModel.clearCart("clear")
+                }
+
+            }
+
+        }
+    }
+
+    override fun onDialogCancelAction(mView: View?, mKey: String) {
+        when (mKey) {
+            "Remove Cart" -> confirmationDialog?.dismiss()
+            "Clear Cart" -> confirmationDialog?.dismiss()
+        }
+    }
+
+    fun callAddRemoveCartApi(isAdd:Boolean,serviceId: String) {
+        if (isAdd) {
+            var cartObject = JsonObject()
+            cartObject.addProperty(
+                "serviceId", serviceId
+            )
+            cartObject.addProperty(
+                "deliveryType", GlobalConstants.DELIVERY_PICKUP_TYPE
+            )
+            cartObject.addProperty(
+                "companyId", GlobalConstants.COMPANY_ID
+            )
+
+            /* cartObject.addProperty(
+                     "status", isCart
+             )*/
+            cartObject.addProperty(
+                "orderPrice", priceAmount
+            )
+            cartObject.addProperty(
+                "orderTotalPrice", price
+            )
+            cartObject.addProperty(
+                "quantity", quantityCount
+            )
+
+            if (UtilsFunctions.isNetworkConnected()) {
+                servicesViewModel.addCart(cartObject)
+                startProgressDialog()
+            }
+        } else {
+            if (UtilsFunctions.isNetworkConnected()) {
+                servicesViewModel.removeCart(cartId)
+                startProgressDialog()
+            }
+        }
+
+    }
+
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    fun showRemoveCartDialog(pos: Int, cartid: String) {
+        position = pos
+        cartId = cartid
+        confirmationDialog = mDialogClass.setDefaultDialog(
+            this,
+            this,
+            "Remove Cart",
+            getString(R.string.warning_remove_cart)
+        )
+        confirmationDialog?.show()
     }
 
 }

@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.location.Geocoder
 import android.location.Location
 import android.location.LocationManager
@@ -14,19 +15,26 @@ import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.provider.Settings
+import android.text.Html
 import android.text.TextUtils
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.Window
 import android.view.animation.AnimationUtils
 import android.view.animation.LayoutAnimationController
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.services.R
+import com.example.services.application.MyApplication
 import com.example.services.common.UtilsFunctions
 import com.example.services.common.UtilsFunctions.showToastError
 import com.example.services.constants.GlobalConstants
@@ -43,6 +51,8 @@ import com.example.services.utils.DialogssInterface
 import com.example.services.viewmodels.home.HomeViewModel
 import com.example.services.viewmodels.home.Services
 import com.example.services.views.SearchActivity
+import com.example.services.views.cart.CartListActivity
+import com.example.services.views.orders.OrdersDetailActivity
 import com.example.services.views.vendor.RestaurantsListActivity
 import com.example.services.views.vendor.VendorsListActivity
 import com.google.android.gms.location.*
@@ -51,6 +61,8 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.gson.JsonObject
 import com.uniongoods.adapters.*
 import kotlinx.android.synthetic.main.fragment_home_landing.*
+import org.w3c.dom.Document
+import java.io.IOException
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -81,6 +93,7 @@ LandingHomeFragment : BaseFragment(), DialogssInterface, CompoundButton.OnChecke
         ArrayList<LandingResponse.Deal>()
     private var confirmationDialog: Dialog? = null
     private var mDialogClass = DialogClass()
+    var orderId = ""
     override fun getLayoutResId(): Int {
         return R.layout.fragment_home_landing
     }
@@ -91,6 +104,26 @@ LandingHomeFragment : BaseFragment(), DialogssInterface, CompoundButton.OnChecke
         mFusedLocationClass = FusedLocationClass(activity)
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(activity!!)
         getLastLocation()
+
+        val isCart = SharedPrefClass().getPrefValue(
+            MyApplication.instance,
+            GlobalConstants.isCartAdded
+        ).toString()
+        val cartCount = SharedPrefClass().getPrefValue(
+            MyApplication.instance,
+            GlobalConstants.cartCount
+        ).toString()
+        if (isCart.equals("true")) {
+            fragmentHomeBinding.imgCart.visibility = View.VISIBLE
+            if (!TextUtils.isEmpty(cartCount)) {
+                fragmentHomeBinding.txtCount.setText(cartCount)
+                fragmentHomeBinding.txtCount.visibility = View.VISIBLE
+            }
+
+        } else {
+            fragmentHomeBinding.txtCount.visibility = View.GONE
+            fragmentHomeBinding.imgCart.visibility = View.GONE
+        }
 
     }
 
@@ -110,6 +143,9 @@ LandingHomeFragment : BaseFragment(), DialogssInterface, CompoundButton.OnChecke
             baseActivity.startProgressDialog()
         }
 
+        val marquee = AnimationUtils.loadAnimation(activity!!, R.anim.marquee);
+        fragmentHomeBinding.textMarquee.startAnimation(marquee);
+
         homeViewModel.getJobs().observe(this,
             Observer<LandingResponse> { response ->
                 baseActivity.stopProgressDialog()
@@ -117,6 +153,7 @@ LandingHomeFragment : BaseFragment(), DialogssInterface, CompoundButton.OnChecke
                     val message = response.message
                     when {
                         response.code == 200 -> {
+                            // fragmentHomeBinding.textMarquee.isSelected = true
                             // GlobalConstants.Currency = response.body.currency
                             cartCategoryTypeId = response.data?.cartCompanyType
                             if (TextUtils.isEmpty(cartCategoryTypeId)) {
@@ -125,6 +162,11 @@ LandingHomeFragment : BaseFragment(), DialogssInterface, CompoundButton.OnChecke
                                     GlobalConstants.isCartAdded,
                                     "false"
                                 )
+                                SharedPrefClass().putObject(
+                                    activity!!,
+                                    GlobalConstants.cartCategory,
+                                    ""
+                                )
                                 (activity as LandingMainActivity).onResumedForFragment()
                             } else {
                                 SharedPrefClass().putObject(
@@ -132,8 +174,26 @@ LandingHomeFragment : BaseFragment(), DialogssInterface, CompoundButton.OnChecke
                                     GlobalConstants.isCartAdded,
                                     "true"
                                 )
+                                SharedPrefClass().putObject(
+                                    activity!!,
+                                    GlobalConstants.cartCategory,
+                                    cartCategoryTypeId.toString()
+                                )
                                 (activity as LandingMainActivity).onResumedForFragment()
                             }
+
+                            if (response.data?.recentOrder != null/*!TextUtils.isEmpty("")*/) {
+                                orderId = response.data?.recentOrder?.id.toString()
+                                fragmentHomeBinding.llOrderStatus.visibility = View.VISIBLE
+                                fragmentHomeBinding.txtOrderStatus.setText("Your order is " + response.data?.recentOrder?.orderStatus?.statusName)
+                                fragmentHomeBinding.txtOrderDes.setText("Sit back & relax as your order is " + response.data?.recentOrder?.orderStatus?.statusName)
+                                fragmentHomeBinding.txtOrderNumber.setText("Order No: " + response.data?.recentOrder?.orderNo)
+                                fragmentHomeBinding.txtPrice.setText("Amount: " + response.data?.recentOrder?.totalOrderPrice)
+                            } else {
+                                fragmentHomeBinding.llOrderStatus.visibility = View.GONE
+                            }
+
+                            GlobalConstants.COMPANY_ID = cartCategoryTypeId.toString()
                             bannerList.clear()
                             bannerList.addAll(response.data?.banners!!)
 
@@ -208,6 +268,16 @@ LandingHomeFragment : BaseFragment(), DialogssInterface, CompoundButton.OnChecke
                                 GlobalConstants.isCartAdded,
                                 "false"
                             )
+                            SharedPrefClass().putObject(
+                                activity!!,
+                                GlobalConstants.cartCategory,
+                                ""
+                            )
+                            SharedPrefClass().putObject(
+                                activity!!,
+                                GlobalConstants.cartCount,
+                                "0"
+                            )
                             (activity as LandingMainActivity).onResumedForFragment()
 
 
@@ -275,7 +345,7 @@ LandingHomeFragment : BaseFragment(), DialogssInterface, CompoundButton.OnChecke
                         categoriesList[position].id
                     )
                 ) {
-                    showToastError("Clear Cart message")
+                    // showToastError("Clear Cart message")
                     showClearCartDialog()
                 } else {
                     GlobalConstants.COLOR_CODE =
@@ -291,6 +361,12 @@ LandingHomeFragment : BaseFragment(), DialogssInterface, CompoundButton.OnChecke
 
                 // }
             }
+/*
+        fragmentHomeBinding.offersViewpager.onItemClickListener =
+            AdapterView.OnItemClickListener { parent, v, position, id ->
+                showOfferInformation(position)
+            }*/
+
 
 
         homeViewModel.isClick().observe(
@@ -299,12 +375,19 @@ LandingHomeFragment : BaseFragment(), DialogssInterface, CompoundButton.OnChecke
                 when (it) {
                     "txtSeeAll" -> {
                         val intent = Intent(activity, RestaurantsListActivity::class.java)
-                        //intent.putExtra("serviceId", serviceId)
                         startActivity(intent)
                     }
-                    "imgSearch" -> {
+                    "etSearch" -> {
                         val intent = Intent(activity, SearchActivity::class.java)
-                        //intent.putExtra("serviceId", serviceId)
+                        startActivity(intent)
+                    }
+                    "imgCart" -> {
+                        val intent = Intent(activity, CartListActivity::class.java)
+                        startActivity(intent)
+                    }
+                    "llOrderStatus" -> {
+                        val intent = Intent(activity, OrdersDetailActivity::class.java)
+                        intent.putExtra("orderId", orderId)
                         startActivity(intent)
                     }
                 }
@@ -380,9 +463,6 @@ LandingHomeFragment : BaseFragment(), DialogssInterface, CompoundButton.OnChecke
 
             }
         })
-        /* val adapter = OffersListAdapter(this@HomeFragment, offersList, activity!!)
-         fragmentHomeBinding.offersViewpager.adapter = adapter
- */
     }
 
     private fun vendorListRecyclerView() {
@@ -407,9 +487,6 @@ LandingHomeFragment : BaseFragment(), DialogssInterface, CompoundButton.OnChecke
 
             }
         })
-        /* val adapter = OffersListAdapter(this@HomeFragment, offersList, activity!!)
-         fragmentHomeBinding.offersViewpager.adapter = adapter
- */
     }
 
     private fun bestSellerRecyclerView() {
@@ -433,12 +510,10 @@ LandingHomeFragment : BaseFragment(), DialogssInterface, CompoundButton.OnChecke
 
             }
         })
-        /* val adapter = OffersListAdapter(this@HomeFragment, offersList, activity!!)
-         fragmentHomeBinding.offersViewpager.adapter = adapter
- */
     }
 
     private fun bannerListViewPager() {
+
         val adapter =
             LandingHomeBannersListAdapter(this@LandingHomeFragment, bannerList, activity!!)
         fragmentHomeBinding.bannersViewpager.adapter = adapter
@@ -618,10 +693,59 @@ LandingHomeFragment : BaseFragment(), DialogssInterface, CompoundButton.OnChecke
             var country = addresses.get(0).getCountryName()
             var postalCode = addresses.get(0).getPostalCode()
             var knownName = addresses.get(0).getFeatureName()
-            fragmentHomeBinding.etLocation.setText(address)
+            fragmentHomeBinding.txtLoc.setText(address)
             // addressBinding.tvAddress.setText(address)
         }
     }
     //endregion
+
+
+    public fun showOfferInformation(pos: Int) {
+        var confirmationDialog = Dialog(activity, R.style.dialogAnimation_animation)
+        confirmationDialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        val binding =
+            DataBindingUtil.inflate<ViewDataBinding>(
+                LayoutInflater.from(activity),
+                R.layout.layout_offer_dialog,
+                null,
+                false
+            )
+
+        confirmationDialog?.setContentView(binding.root)
+        confirmationDialog?.setCancelable(false)
+
+        confirmationDialog?.window!!.setLayout(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.MATCH_PARENT
+        )
+        confirmationDialog?.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        val btnSubmit = confirmationDialog?.findViewById<Button>(R.id.btnSubmit)
+        val imgOffer = confirmationDialog?.findViewById<ImageView>(R.id.imgOffer)
+        val txtCouponName = confirmationDialog?.findViewById<TextView>(R.id.txtCouponName)
+        val txtCouponCode = confirmationDialog?.findViewById<TextView>(R.id.txtCouponCode)
+        val txtCouponDiscount = confirmationDialog?.findViewById<TextView>(R.id.txtCouponDiscount)
+        val txtCouponDesc = confirmationDialog?.findViewById<TextView>(R.id.txtCouponDesc)
+        val layoutBottomSheet =
+            confirmationDialog?.findViewById<RelativeLayout>(R.id.layoutBottomSheet)
+
+
+        val animation = AnimationUtils.loadAnimation(activity!!, R.anim.anim)
+        animation.setDuration(500)
+        layoutBottomSheet?.setAnimation(animation)
+        layoutBottomSheet?.animate()
+        animation.start()
+
+        txtCouponName.setText("Offer Name: " + offersList[pos].name)
+        txtCouponCode.setText(offersList[pos].code)
+        txtCouponDesc.setText(Html.fromHtml(offersList[pos].description).toString())
+        txtCouponDiscount.setText(offersList[pos].discount + "% OFF")
+
+        Glide.with(activity!!).load(offersList[pos].thumbnail).into(imgOffer)
+        btnSubmit?.setOnClickListener {
+            confirmationDialog?.dismiss()
+        }
+
+        confirmationDialog?.show()
+    }
 
 }

@@ -134,13 +134,22 @@
 
                     <TextView
                         android:id="@+id/tv_name"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
                         android:layout_marginTop="@dimen/dp_4"
+                        android:background="@drawable/text_back"
                         android:gravity="center_horizontal"
                         android:onClick="@{(v) -> dashboardViewModel.clickListener(v)}"
+                        android:paddingLeft="10dp"
+                        android:paddingTop="5dp"
+                        android:paddingRight="10dp"
+                        android:paddingBottom="5dp"
                         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                        android:textColor="@color/colorWhite" />
+                        android:textColor="@color/colorWhite"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        tools:text="Akash" />
 
                 </LinearLayout>
 
@@ -290,8 +299,28 @@
                             android:textAllCaps="true"
                             android:textColor="@color/colorBlack"
                             android:textSize="@dimen/sp_18"
+                            android:visibility="visible"
                             app:font="@{`semibold`}"
                             tools:ignore="RtlSymmetry" />
+
+                        <TextView
+                            android:id="@+id/tv_nav_chat"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dp_10"
+                            android:gravity="center_vertical"
+                            android:onClick="@{(v) -> dashboardViewModel.clickListener(v)}"
+                            android:paddingStart="@dimen/dp_10"
+                            android:paddingLeft="@dimen/dp_10"
+                            android:paddingBottom="@dimen/dp_5"
+                            android:text="@string/chat_support"
+                            android:textAllCaps="true"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="@dimen/sp_18"
+                            android:visibility="visible"
+                            app:font="@{`semibold`}"
+                            tools:ignore="RtlSymmetry" />
+
 
                         <TextView
                             android:id="@+id/tv_nav_account"
@@ -341,6 +370,7 @@
                             android:paddingLeft="@dimen/dp_10"
                             android:paddingTop="@dimen/dp_12"
                             android:paddingBottom="@dimen/dp_5"
+                            android:visibility="gone"
                             android:text="@string/terms_condition"
                             android:textAllCaps="true"
                             android:textColor="@color/colorBlack"

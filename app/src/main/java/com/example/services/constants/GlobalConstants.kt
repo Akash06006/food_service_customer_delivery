@@ -65,6 +65,10 @@ object GlobalConstants {
     @JvmStatic
     val isCartAdded = "isCartAdded"
     @JvmStatic
+    val cartCategory = "cartCategory"
+    @JvmStatic
+    val cartCount = "cartCount"
+    @JvmStatic
     val USERID = "USERID"
     @JvmStatic
     var COMPANY_ID = ""
@@ -92,7 +96,7 @@ object GlobalConstants {
     /* @JvmStatic
      val SOCKET_URL = "http://10.8.23.202:9062"*/
     @JvmStatic
-    val SOCKET_URL = "http://51.79.40.224:9062/"
+    val SOCKET_URL = "http://51.79.40.224:9075/"
     const val PLATFORM = "android"
     @JvmStatic
     var LOGIN = "every"
@@ -125,7 +129,7 @@ object GlobalConstants {
     @JvmStatic
     var Currency = "Rs"
     @JvmStatic
-    var COLOR_CODE = "#97D729"
+    var COLOR_CODE = "#DC143C"
     @JvmStatic
     var PRODUCT_DELIVERY = "delivery"
     @JvmStatic
