@@ -17,7 +17,10 @@ import com.example.services.model.cart.DeliveryTipInstructionListResponse
 import com.example.services.model.orders.CreateOrdersResponse
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonObject
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Response
+import java.util.HashMap
 
 class CartRepository {
 
@@ -69,7 +72,7 @@ class CartRepository {
 
     }
 
-    fun orderPlace(mJsonObject: JsonObject?): MutableLiveData<CreateOrdersResponse> {
+    fun orderPlace(mJsonObject: HashMap<String, RequestBody>?,audio: MultipartBody.Part?): MutableLiveData<CreateOrdersResponse> {
         if (mJsonObject != null) {
             val mApiService = ApiService<JsonObject>()
             mApiService.get(
@@ -94,12 +97,13 @@ class CartRepository {
                         data2!!.postValue(null)
                     }
 
-                }, ApiClient.getApiInterface().ordePlace(mJsonObject)
+                },
+              //  ApiClient.getApiInterface().ordePlace()
+                ApiClient.getApiInterface().ordePlace(mJsonObject,audio)
             )
 
         }
         return data2!!
-
     }
 
     fun updatePaymentStatus(mJsonObject: JsonObject?): MutableLiveData<CommonModel> {

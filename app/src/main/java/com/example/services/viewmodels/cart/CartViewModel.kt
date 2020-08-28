@@ -15,6 +15,9 @@ import com.example.services.model.orders.CreateOrdersResponse
 import com.example.services.repositories.cart.CartRepository
 import com.example.services.viewmodels.BaseViewModel
 import com.google.gson.JsonObject
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import java.util.HashMap
 
 class CartViewModel : BaseViewModel() {
     private var data: MutableLiveData<LoginResponse>? = null
@@ -33,7 +36,7 @@ class CartViewModel : BaseViewModel() {
     init {
         if (UtilsFunctions.isNetworkConnectedWithoutToast()) {
             cartList = cartRepository.cartList()
-            orderPlace = cartRepository.orderPlace(null)
+            orderPlace = cartRepository.orderPlace(null,null)
             updatePaymentStatus = cartRepository.updatePaymentStatus(null)
             checkDeliveryAddress = cartRepository.checkDeliveryAddress(null)
             deliveryInstuctions = cartRepository.deliveryInsturcions("", "")
@@ -75,9 +78,9 @@ class CartViewModel : BaseViewModel() {
         btnClick.value = v.resources.getResourceName(v.id).split("/")[1]
     }
 
-    fun orderPlace(mJsonObject: JsonObject) {
+    fun orderPlace(mJsonObject: HashMap<String, RequestBody>,audio: MultipartBody.Part?) {
         if (UtilsFunctions.isNetworkConnected()) {
-            orderPlace = cartRepository.orderPlace(mJsonObject)
+            orderPlace = cartRepository.orderPlace(mJsonObject,audio)
             mIsUpdating.postValue(true)
         }
     }

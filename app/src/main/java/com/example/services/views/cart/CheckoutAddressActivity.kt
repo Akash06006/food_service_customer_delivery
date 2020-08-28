@@ -12,10 +12,7 @@ import android.text.TextUtils
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.Window
-import android.view.animation.AnimationUtils
+import android.view.*
 import android.widget.*
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
@@ -28,8 +25,6 @@ import com.example.services.R
 import com.example.services.application.MyApplication
 import com.example.services.common.UtilsFunctions
 import com.example.services.constants.GlobalConstants
-import com.example.services.utils.BaseActivity
-import com.example.services.viewmodels.cart.CartViewModel
 import com.example.services.databinding.ActivityCheckoutAddressBinding
 import com.example.services.model.CommonModel
 import com.example.services.model.address.AddressListResponse
@@ -41,21 +36,27 @@ import com.example.services.model.orders.CreateOrdersResponse
 import com.example.services.model.services.DateSlotsResponse
 import com.example.services.model.services.TimeSlotsResponse
 import com.example.services.sharedpreference.SharedPrefClass
+import com.example.services.utils.BaseActivity
 import com.example.services.utils.DialogClass
 import com.example.services.utils.DialogssInterface
 import com.example.services.utils.Utils
 import com.example.services.viewmodels.address.AddressViewModel
+import com.example.services.viewmodels.cart.CartViewModel
 import com.example.services.viewmodels.promocode.PromoCodeViewModel
 import com.example.services.viewmodels.services.ServicesViewModel
 import com.example.services.views.address.AddAddressActivity
+import com.example.services.views.audio.RecordAudioActivity
 import com.example.services.views.home.LandingMainActivity
 import com.example.services.views.payment.PaymentActivity
 import com.example.services.views.promocode.PromoCodeActivity
-import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.gson.JsonObject
 import com.uniongoods.adapters.*
+import kotlinx.android.synthetic.main.upload_document_dialog.*
+import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import org.json.JSONObject
+import java.io.File
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -86,7 +87,9 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
     var price = 0
     var payableAmount = ""
     var orderNo = ""
+    var paymentStatus = ""
     var orderId = ""
+    var file: File? = null
     var selectedDeliveryInstructionsList = ArrayList<String>()
     var selectedPickupInstructionsList = ArrayList<String>()
     lateinit var addressViewModel: AddressViewModel
@@ -205,9 +208,13 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
                             payableAmount = response.body?.sum.toString()
                             cartBinding.tvTotalItems.setText(cartList.size.toString())
                             var total =
-                                deliveryCharges?.plus(payableAmount.toDouble().plus(tipSelected.toDouble()))
+                                deliveryCharges?.plus(
+                                    payableAmount.toDouble().plus(tipSelected.toDouble())
+                                )
                             payableAmount =
-                                (deliveryCharges?.plus(payableAmount.toDouble().plus(tipSelected.toDouble()))).toString()
+                                (deliveryCharges?.plus(
+                                    payableAmount.toDouble().plus(tipSelected.toDouble())
+                                )).toString()
                             cartBinding.tvOfferPrice.setText(GlobalConstants.Currency + " " + total/*response.body?.sum*/)
                             cartBinding.tvPromo.setText(getString(R.string.apply_coupon))
                             cartBinding.rlRealPrice.visibility = View.GONE
@@ -353,11 +360,17 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
                             // showPaymentSuccessDialog()
                             orderId = response.data?.id!!
                             orderNo = response.data?.orderNo!!
-                            val intent = Intent(this, PaymentActivity::class.java)
-                            intent.putExtra("amount", payableAmount)
-                            intent.putExtra("currency", GlobalConstants.Currency)
-                            intent.putExtra("totalItems", cartList.size.toString())
-                            startActivityForResult(intent, 200)
+
+                            if(paymentStatus.equals("1")){
+                                val intent = Intent(this, PaymentActivity::class.java)
+                                intent.putExtra("amount", payableAmount)
+                                intent.putExtra("currency", GlobalConstants.Currency)
+                                intent.putExtra("totalItems", cartList.size.toString())
+                                startActivityForResult(intent, 200)
+                            } else{
+
+                                showPaymentSuccessDialog()
+                            }
 
                         }
                         else -> message?.let {
@@ -499,7 +512,9 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
             fun(it: String?) {
                 when (it) {
                     "tvPromo" -> {
-                        if (cartBinding.tvPromo.getText().toString().equals(getString(R.string.apply_coupon))) {
+                        if (cartBinding.tvPromo.getText().toString()
+                                .equals(getString(R.string.apply_coupon))
+                        ) {
                             val intent = Intent(this, PromoCodeActivity::class.java)
                             startActivityForResult(intent, SECOND_ACTIVITY_REQUEST_CODE)
                         } else {
@@ -514,7 +529,9 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
                         }
                     }
                     "tvChange" -> {
-                        if (cartBinding.tvChange.getText().toString().equals(getString(R.string.add_address))) {
+                        if (cartBinding.tvChange.getText().toString()
+                                .equals(getString(R.string.add_address))
+                        ) {
                             val intent = Intent(this, AddAddressActivity::class.java)
                             startActivity(intent)
                         } else {
@@ -524,10 +541,23 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
                     }
 
                     "tvCookingInstructions" -> {
-
                         showAddCookingInstructionDialog()
                     }
+                    "tvAddAudio" -> {
+                        recordAudio()
+                    }
+                    "icCross" -> {
+                        if (!cartBinding.tvAddAudio.text.equals("Add Audio")) {
+                            cartBinding.tvAddAudio.setText("Add Audio")
+                            cartBinding.icCross.visibility = View.GONE
+                            file = null
+                        }
+
+
+                    }
+
                     "btnCheckout" -> {
+
 
                         if (TextUtils.isEmpty(selectedDate)) {
                             showToastError("Please Select Date For The Service")
@@ -539,67 +569,8 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
                         ) {
                             showToastError("Please Select Address")
                         } else {
-                            var deliveryInstruction = ""
-                            var pickupInstruction = ""
-                            for (item in selectedDeliveryInstructionsList) {
-                                if (TextUtils.isEmpty(deliveryInstruction)) {
-                                    deliveryInstruction = item.toString()
-                                } else {
-                                    deliveryInstruction =
-                                        deliveryInstruction + "," + item.toString()
-                                }
-                            }
-                            for (item in selectedPickupInstructionsList) {
-                                if (TextUtils.isEmpty(deliveryInstruction)) {
-                                    pickupInstruction = item
-                                } else {
-                                    pickupInstruction =
-                                        pickupInstruction + "," + item
-                                }
-                            }
 
-                            val addressObject = JsonObject()
-                            addressObject.addProperty(
-                                "addressId", addressId
-                            )
-                            addressObject.addProperty(
-                                "deliveryType", DELIVERY_PICKUP_TYPE
-                            )
-                            addressObject.addProperty(
-                                "serviceDateTime", selectedDate + " " + selectedTime
-                            )
-                            addressObject.addProperty(
-                                "orderPrice", payableAmount
-                            )
-                            addressObject.addProperty(
-                                "serviceCharges", deliveryCharges.toString()
-                            )
-                            addressObject.addProperty(
-                                "usedLPoints", "0"
-                            )
-                            addressObject.addProperty(
-                                "LPointsPrice", "0"/*totalPoints*/
-                            )
-                            addressObject.addProperty(
-                                "promoCode", couponCodeId
-                            )
-                            addressObject.addProperty(
-                                "companyId", GlobalConstants.COMPANY_ID
-                            )
-                            addressObject.addProperty(
-                                "cookingInstructions", strCookingInstructions
-                            )
-                            addressObject.addProperty(
-                                "pickupInstructions", pickupInstruction
-                            )
-                            addressObject.addProperty(
-                                "deliveryInstructions", deliveryInstruction
-                            )
-                            addressObject.addProperty(
-                                "tip", tipSelected.toString()
-                            )
-
-                            cartViewModel.orderPlace(addressObject)
+                            payDialog()
 
                         }
                     }
@@ -628,6 +599,14 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
         })
 
     }
+
+    fun recordAudio() {
+
+        var intent = Intent(this@CheckoutAddressActivity, RecordAudioActivity::class.java)
+        startActivityForResult(intent, 1)
+
+    }
+
 
     private fun callCheckDelivery() {
         Log.e("address", "Method Enter")
@@ -914,7 +893,6 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
                 // couponCode = response.coupanDetails?.coupanCode.toString()
                 cartBinding.tvPromo.setText(dis + "% " + "Discount coupon applied. Remove?")
                 cartBinding.rlRealPrice.visibility = View.VISIBLE
-
                 payableAmount = (deliveryCharges?.plus(payableAmount.toDouble())).toString()
                 payableAmount = (payableAmount.toDouble().plus(tipSelected.toDouble())).toString()
                 //payableAmount = payableAmount.toDouble().minus(totalPoints).toString()
@@ -982,8 +960,20 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
                 } else {
                     showToastError("Something went wrong.")
                 }
+            } else if (requestCode == 1 && resultCode == RESULT_OK) {
+
+                if (data != null) {
+                    val bundle = data!!.getExtras();
+                    var fileUri = bundle!!.getString("data")!!
+                    file = File(fileUri)
+                    var calendar = Calendar.getInstance();
+                    var timeMilli2 = calendar.getTimeInMillis();
+                    cartBinding!!.tvAddAudio.setText("Audio_" + timeMilli2)
+                    cartBinding!!.icCross.visibility = View.VISIBLE
+                }
             }
         }
+
     }
 
     private fun initTipsRecyclerView() {
@@ -1074,6 +1064,94 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
         instructionAdapter?.notifyDataSetChanged()
 
     }
+
+
+    private fun payDialog() {
+        val uploadImage = Dialog(this, R.style.Theme_Dialog);
+        uploadImage.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        uploadImage.setContentView(R.layout.upload_document_dialog)
+        uploadImage.window!!.setLayout(
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.WRAP_CONTENT
+        )
+        uploadImage.setCancelable(true)
+        uploadImage.setCanceledOnTouchOutside(true)
+        uploadImage.window!!.setGravity(Gravity.BOTTOM)
+        uploadImage.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        uploadImage.tvCashDelivery.setOnClickListener {
+            uploadImage.dismiss()
+            paymentStatus="2"
+            payNow()
+        }
+        uploadImage.tvPayNow.setOnClickListener {
+            uploadImage.dismiss()
+            payNow()
+            paymentStatus="1"
+        }
+        uploadImage.tv_cancel.setOnClickListener {
+            uploadImage.dismiss()
+        }
+        uploadImage.show()
+    }
+
+    fun payNow() {
+        var deliveryInstruction = ""
+        var pickupInstruction = ""
+        for (item in selectedDeliveryInstructionsList) {
+            if (TextUtils.isEmpty(deliveryInstruction)) {
+                deliveryInstruction = item.toString()
+            } else {
+                deliveryInstruction =
+                    deliveryInstruction + "," + item.toString()
+            }
+        }
+        for (item in selectedPickupInstructionsList) {
+            if (TextUtils.isEmpty(deliveryInstruction)) {
+                pickupInstruction = item
+            } else {
+                pickupInstruction =
+                    pickupInstruction + "," + item
+            }
+        }
+//        val addressObj
+
+        val mHashMap = HashMap<String, RequestBody>()
+        mHashMap["addressId"] = Utils(this).createPartFromString(addressId)
+        mHashMap["deliveryType"] = Utils(this).createPartFromString(DELIVERY_PICKUP_TYPE)
+        mHashMap["serviceDateTime"] = Utils(this).createPartFromString(selectedDate + " " + selectedTime)
+        mHashMap["orderPrice"] = Utils(this).createPartFromString(payableAmount)
+        mHashMap["serviceCharges"] = Utils(this).createPartFromString(deliveryCharges.toString())
+        mHashMap["usedLPoints"] = Utils(this).createPartFromString("0")
+        mHashMap["LPointsPrice"] = Utils(this).createPartFromString("0")
+        mHashMap["promoCode"] = Utils(this).createPartFromString(couponCodeId)
+        mHashMap["companyId"] = Utils(this).createPartFromString(GlobalConstants.COMPANY_ID)
+        mHashMap["cookingInstructions"] = Utils(this).createPartFromString(strCookingInstructions)
+        mHashMap["pickupInstructions"] = Utils(this).createPartFromString(pickupInstruction)
+        mHashMap["deliveryInstructions"] = Utils(this).createPartFromString(deliveryInstruction)
+        mHashMap["tip"] = Utils(this).createPartFromString(tipSelected.toString())
+        mHashMap["paymentType"] = Utils(this).createPartFromString(paymentStatus)
+
+
+      var audio: MultipartBody.Part?=null
+        var IMAGE_EXTENSION = "audio/*"
+        if(file!=null){
+
+         //   audio= Utils(this).prepareFilePart("cookingInstMedia",file!!)
+
+            audio = MultipartBody.Part.createFormData(
+                "cookingInstMedia", file!!.name,
+                RequestBody.create(MediaType.parse("audio/*"), file!!))
+
+        } else{
+            audio = MultipartBody.Part.createFormData(
+                "cookingInstMedia", "",
+                RequestBody.create(MediaType.parse("audio/*"), ""))
+
+        }
+
+        cartViewModel.orderPlace(mHashMap,audio)
+    }
+
 }
 
 

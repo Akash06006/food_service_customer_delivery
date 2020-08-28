@@ -8,6 +8,7 @@ import com.example.services.model.CommonModel
 import com.example.services.model.LoginResponse
 import com.example.services.model.address.AddressResponse
 import com.example.services.model.orders.OrdersListResponse
+import com.example.services.model.orders.ReorderResponse
 import com.example.services.repositories.orders.OrdersRepository
 import com.example.services.viewmodels.BaseViewModel
 import com.google.gson.JsonObject
@@ -17,6 +18,7 @@ class OrdersViewModel : BaseViewModel() {
     private var addressDetail = MutableLiveData<AddressResponse>()
     private var deleteAddress = MutableLiveData<CommonModel>()
     private var cancelOrder = MutableLiveData<CommonModel>()
+    private var reOrder = MutableLiveData<ReorderResponse>()
     private var completeOrder = MutableLiveData<CommonModel>()
     private var ordersList = MutableLiveData<OrdersListResponse>()
     private var ordersHistoryList = MutableLiveData<OrdersListResponse>()
@@ -46,6 +48,10 @@ class OrdersViewModel : BaseViewModel() {
         return cancelOrder
     }
 
+    fun getReOrderRes(): LiveData<ReorderResponse> {
+        return reOrder
+    }
+
     fun getCompleteOrderRes(): LiveData<CommonModel> {
         return completeOrder
     }
@@ -72,6 +78,13 @@ class OrdersViewModel : BaseViewModel() {
     fun completeOrder(mJsonObject: JsonObject) {
         if (UtilsFunctions.isNetworkConnected()) {
             cancelOrder = ordersRepository.completeOrder(mJsonObject)
+            mIsUpdating.postValue(true)
+        }
+    }
+
+    fun reOrder(mJsonObject: JsonObject) {
+        if (UtilsFunctions.isNetworkConnected()) {
+            reOrder = ordersRepository.reOrder(mJsonObject)
             mIsUpdating.postValue(true)
         }
     }

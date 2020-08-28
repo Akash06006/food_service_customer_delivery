@@ -19,6 +19,7 @@ import com.example.services.sharedpreference.SharedPrefClass
 import com.example.services.socket.DriverTrackingActivity
 import com.example.services.utils.BaseActivity
 import com.example.services.utils.Utils
+import com.example.services.views.orders.OrdersDetailActivity
 import com.example.services.views.orders.OrdersListActivity
 import com.google.gson.JsonObject
 import java.util.*
@@ -101,6 +102,8 @@ class OrderListAdapter(
                 )
             )
 
+
+
             // }
 
 
@@ -147,17 +150,24 @@ class OrderListAdapter(
                 )
 
             }*/
+
+
+
+
         }
 
 
 
         holder.binding!!.serviceItem.setOnClickListener {
-            if (orderListActivity != null) {
-                orderListActivity.callDetailActivity(position)
-            }
-
-
+//            if (orderListActivity != null) {
+//                orderListActivity.callDetailActivity(position)
+//            }
+            addressList[position].id.toString()
+            val intent = Intent(mContext, OrdersDetailActivity::class.java)
+            intent.putExtra("orderId", addressList[position].id.toString())
+            mContext.startActivity(intent)
         }
+
         holder.binding!!.tvCancel.setOnClickListener {
             if (orderListActivity != null) {
 

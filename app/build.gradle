@@ -123,9 +123,15 @@ dependencies {
 
     compile 'com.github.sujithkanna:smileyrating:2.0.0'
 
+    compile 'com.github.adrielcafe:AndroidAudioRecorder:0.3.0'
+
+
     implementation ('com.github.driftt:drift-sdk-android:v1.2.10'){
         exclude module: 'joda-time'
     }
+
+    implementation 'com.makeramen:roundedimageview:2.3.0'
+
 
 }
 apply plugin: 'com.google.gms.google-services'

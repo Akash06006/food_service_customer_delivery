@@ -5,8 +5,10 @@ import android.app.Dialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import android.view.View
 import android.widget.CompoundButton
+import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
@@ -24,6 +26,7 @@ import com.example.services.databinding.ActivityOrderDetailBinding
 import com.example.services.model.CommonModel
 import com.example.services.model.orders.OrdersDetailResponse
 import com.example.services.model.orders.OrdersListResponse
+import com.example.services.model.orders.ReorderResponse
 import com.example.services.sharedpreference.SharedPrefClass
 import com.example.services.socket.DriverTrackingActivity
 import com.example.services.utils.BaseActivity
@@ -32,26 +35,31 @@ import com.example.services.utils.DialogssInterface
 import com.example.services.utils.Utils
 import com.example.services.viewmodels.orders.OrdersViewModel
 import com.example.services.viewmodels.ratingreviews.RatingReviewsViewModel
+import com.example.services.views.audio.RecordAudioActivity
+import com.example.services.views.cart.CartListActivity
 import com.example.services.views.ratingreviews.AddRatingReviewsListActivity
 import com.google.gson.JsonObject
 import com.uniongoods.adapters.OrderDetailListAdapter
-import com.uniongoods.adapters.OrderListAdapter
-import kotlinx.android.synthetic.main.activity_order_detail.view.*
+import java.io.File
+import java.util.*
+import kotlin.collections.ArrayList
+
 
 class OrdersDetailActivity : BaseActivity(), DialogssInterface {
     lateinit var orderBinding: ActivityOrderDetailBinding
     lateinit var ordersViewModel: OrdersViewModel
     var orderList = ArrayList<OrdersListResponse.Body>()
-    var orderListAdapter: OrderListAdapter? = null
     private var confirmationDialog: Dialog? = null
     private var mDialogClass = DialogClass()
     var cancelOrderObject = JsonObject()
+    var reOrderObject = JsonObject()
     var completeOrderObject = JsonObject()
     lateinit var reviewsViewModel: RatingReviewsViewModel
     var pos = 0
     var orderId = ""
     var addressType = ""
     var phoneNUmber = ""
+    var orderStatus = ""
 
     var sourceLat = ""
     var sourceLong = ""
@@ -71,6 +79,10 @@ class OrdersDetailActivity : BaseActivity(), DialogssInterface {
             ordersViewModel.getOrderList()
         }
     }
+
+
+
+
 
     override fun initViews() {
         orderBinding = viewDataBinding as ActivityOrderDetailBinding
@@ -107,6 +119,7 @@ class OrdersDetailActivity : BaseActivity(), DialogssInterface {
                         response.code == 200 -> {
                             //0: pending, 1: confirmed, 2:cancelled, 6:processing, 7 : packed, 8:out for delivery
 
+//                            orderStatus=response.data?.orderStatus?.status!!
                             when (response.data?.orderStatus?.status) {
                                 "0" -> {
                                     orderBinding.animationPending.visibility = View.VISIBLE
@@ -119,6 +132,7 @@ class OrdersDetailActivity : BaseActivity(), DialogssInterface {
                                 "5" -> {
                                     orderBinding.animationConfirmed.visibility = View.VISIBLE
                                     orderBinding.txtCurrentStatus.setTextColor(resources.getColor(R.color.colorSuccess))
+                                    orderBinding.btnReorder.visibility = View.VISIBLE
                                 }
                                 "2" -> {
                                     orderBinding.animationCancelled.visibility = View.VISIBLE
@@ -279,6 +293,10 @@ class OrdersDetailActivity : BaseActivity(), DialogssInterface {
                     "txtPhone" -> {
                         checkPermission()
                     }
+
+                    "btnReorder" -> {
+                        reOrder()
+                    }
                     "txtTrackOrder" -> {
                         val mJsonObjectStartJob = JsonObject()
                         mJsonObjectStartJob.addProperty(
@@ -309,6 +327,35 @@ class OrdersDetailActivity : BaseActivity(), DialogssInterface {
     }
 
 
+    fun reOrder() {
+
+        reOrderObject.addProperty(
+            "orderId", orderId
+        )
+        startProgressDialog()
+        ordersViewModel.reOrder(reOrderObject)
+        ordersViewModel.getReOrderRes().observe(this,
+            Observer<ReorderResponse> { response ->
+                stopProgressDialog()
+                if (response != null) {
+                    val message = response.message
+                    when {
+                        response.code == 200 -> {
+                            val intent = Intent(this, CartListActivity::class.java)
+                            startActivity(intent)
+                            showToastSuccess(message)
+                            finish()
+                        }
+                        else -> message?.let {
+                            UtilsFunctions.showToastError(it)
+                        }
+                    }
+
+                }
+            })
+    }
+
+
     private fun initRecyclerView() {
         var orderListAdapter = OrderDetailListAdapter(this, suborders, this)
         val linearLayoutManager = LinearLayoutManager(this)
@@ -326,6 +373,7 @@ class OrdersDetailActivity : BaseActivity(), DialogssInterface {
         })
     }
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     fun callRatingReviewsActivity(orderID: String) {
         orderId = orderID
         confirmationDialog = mDialogClass.setDefaultDialog(

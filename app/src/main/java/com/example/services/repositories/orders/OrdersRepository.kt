@@ -13,6 +13,7 @@ import com.example.services.model.address.AddressListResponse
 import com.example.services.model.address.AddressResponse
 import com.example.services.model.cart.CartListResponse
 import com.example.services.model.orders.OrdersListResponse
+import com.example.services.model.orders.ReorderResponse
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonObject
 import retrofit2.Response
@@ -23,6 +24,7 @@ class OrdersRepository {
     private var data1: MutableLiveData<OrdersListResponse>? = null
     private var data3: MutableLiveData<OrdersListResponse>? = null
     private var data4: MutableLiveData<CommonModel>? = null
+    private var reOrder: MutableLiveData<ReorderResponse>? = null
     private val gson = GsonBuilder().serializeNulls().create()
 
     init {
@@ -30,6 +32,7 @@ class OrdersRepository {
         data3 = MutableLiveData()
         data2 = MutableLiveData()
         data4 = MutableLiveData()
+        reOrder = MutableLiveData()
     }
 
     fun orderList(/*mJsonObject : String*/): MutableLiveData<OrdersListResponse> {
@@ -163,5 +166,42 @@ class OrdersRepository {
         return data4!!
 
     }
+
+
+
+    fun reOrder(mJsonObject: JsonObject?): MutableLiveData<ReorderResponse> {
+        if (mJsonObject != null) {
+            val mApiService = ApiService<JsonObject>()
+            mApiService.get(
+                object : ApiResponse<JsonObject> {
+                    override fun onResponse(mResponse: Response<JsonObject>) {
+                        val loginResponse = if (mResponse.body() != null)
+                            gson.fromJson<ReorderResponse>(
+                                "" + mResponse.body(),
+                                ReorderResponse::class.java
+                            )
+                        else {
+                            gson.fromJson<ReorderResponse>(
+                                mResponse.errorBody()!!.charStream(),
+                                ReorderResponse::class.java
+                            )
+                        }
+                        reOrder!!.postValue(loginResponse)
+                    }
+
+                    override fun onError(mKey: String) {
+                        UtilsFunctions.showToastError(MyApplication.instance.getString(R.string.internal_server_error))
+                        reOrder!!.postValue(null)
+                    }
+
+                }, ApiClient.getApiInterface().reOrder(mJsonObject)
+            )
+
+        }
+        return reOrder!!
+
+    }
+
+
 
 }

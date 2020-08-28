@@ -176,8 +176,16 @@ interface ApiInterface {
     @POST("mobile/coupan/removeCoupan")
     fun removeCoupon(@Body mJsonObject: JsonObject): Call<JsonObject>
 
+    @Multipart
     @POST("mobile/orders/create")
-    fun ordePlace(@Body mJsonObject: JsonObject): Call<JsonObject>
+    fun ordePlace(@PartMap mJsonObject:  HashMap<String, RequestBody>,@Part audio: MultipartBody.Part?): Call<JsonObject>
+
+
+//    @Multipart
+//    @POST("mobile/orders/create")
+//    fun ordePlace(): Call<JsonObject>
+
+
 
     @POST("mobile/orders/paymentStatus")
     fun updatePaymentSuccess(@Body mJsonObject: JsonObject): Call<JsonObject>
@@ -191,6 +199,9 @@ interface ApiInterface {
 
     @POST("mobile/orders/status")
     fun completeOrder(@Body mJsonObject: JsonObject): Call<JsonObject>
+
+    @POST("mobile/orders/reorder")
+    fun reOrder(@Body mJsonObject: JsonObject): Call<JsonObject>
 
     @GET("mobile/services/detail")
     fun getServiceDetail(@Query("serviceId") addressId: String): Call<JsonObject>

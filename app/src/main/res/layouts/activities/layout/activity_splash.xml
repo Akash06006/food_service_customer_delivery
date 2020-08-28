@@ -41,6 +41,17 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/fm_home_services" />
         </LinearLayout>
+        <ImageView
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/dp_30"
+          android:src="@drawable/ic_app_name"
+            android:visibility="visible"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="140dp"
+            android:layout_alignParentBottom="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
 
     </RelativeLayout>
 

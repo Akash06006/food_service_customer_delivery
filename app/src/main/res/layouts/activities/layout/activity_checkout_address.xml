@@ -389,6 +389,47 @@
                             app:font="@{`bold`}"
                             tools:ignore="AllCaps" />
 
+
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+
+                        <TextView
+                            android:layout_centerVertical="true"
+
+                            android:id="@+id/tvAddAudio"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="@dimen/dp_10"
+                            android:layout_marginTop="@dimen/dp_10"
+                            android:layout_marginRight="@dimen/dp_10"
+                            android:layout_marginBottom="@dimen/dp_12"
+                            android:hint="Add Audio"
+                            android:onClick="@{(v) -> cartViewModel.clickListener(v)}"
+                            android:singleLine="true"
+                            android:textAllCaps="false"
+                            android:textColor="#F75469"
+                            android:textColorHint="#F75469"
+                            android:visibility="visible"
+                            app:font="@{`bold`}"
+                            tools:ignore="AllCaps" />
+
+                        <ImageView
+                            android:layout_centerVertical="true"
+                            android:id="@+id/icCross"
+                            android:visibility="gone"
+                            android:onClick="@{(v) -> cartViewModel.clickListener(v)}"
+                            android:tint="@color/colorPrimary"
+                            android:layout_marginLeft="@dimen/dp_5"
+                            android:layout_toRightOf="@+id/tvAddAudio"
+                            android:src="@drawable/ic_cross"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+                        </RelativeLayout>
+
+
                     </LinearLayout>
 
                     <LinearLayout

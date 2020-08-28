@@ -290,7 +290,7 @@
     <string name="your_mobile_number">Your Mobile Number</string>
     <string name="verification_code">Verification Code</string>
     <string name="verification_code_msg">Please enter the code that has been sent to you at</string>
-    <string name="otp_not_received_text">Didn\'t Received Code?</string>
+    <string name="otp_not_received_text">Didn\'t get OTP? </string>
     <string name="resend">Resend</string>
 
     <string name="create_profile">Create Profile</string>

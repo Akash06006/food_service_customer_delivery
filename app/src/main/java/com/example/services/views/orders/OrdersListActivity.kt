@@ -16,6 +16,7 @@ import com.example.services.utils.BaseActivity
 import com.example.services.databinding.ActivityOrderListBinding
 import com.example.services.model.CommonModel
 import com.example.services.model.orders.OrdersListResponse
+import com.example.services.model.orders.ReorderResponse
 import com.example.services.sharedpreference.SharedPrefClass
 import com.example.services.utils.DialogClass
 import com.example.services.utils.DialogssInterface
@@ -118,6 +119,7 @@ class OrdersListActivity : BaseActivity(), DialogssInterface {
 
                 }
             })
+
 
         ordersViewModel.getCompleteOrderRes().observe(this,
             Observer<CommonModel> { response ->

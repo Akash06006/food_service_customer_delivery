@@ -31,6 +31,7 @@
             android:orientation="vertical">
 
             <RelativeLayout
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -295,15 +296,10 @@
                             android:textColor="@color/colorBlack" />
                     </RadioGroup>
 
-                    <androidx.viewpager.widget.ViewPager
-                        android:id="@+id/bannersViewpager"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/dp_150"
-                        android:layout_margin="@dimen/dp_5"
-                        android:elevation="@dimen/dp_20"
-                        tools:ignore="UnusedAttribute" />
+
 
                     <RelativeLayout
+                        android:layout_marginTop="@dimen/dp_5"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
 
@@ -340,6 +336,14 @@
                         android:layout_marginBottom="@dimen/dp_5"
                         android:padding="@dimen/dp_5"
                         android:visibility="visible" />
+
+                    <androidx.viewpager.widget.ViewPager
+                        android:id="@+id/bannersViewpager"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_150"
+                        android:layout_margin="@dimen/dp_5"
+                        android:elevation="@dimen/dp_20"
+                        tools:ignore="UnusedAttribute" />
 
                     <RelativeLayout
                         android:layout_width="match_parent"

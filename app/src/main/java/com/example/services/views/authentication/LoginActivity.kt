@@ -122,8 +122,10 @@ class LoginActivity : BaseActivity() {
                             startActivity(intent)
                             finish()
 
+                         //   FirebaseFunctions.sendOTP("login", mJsonObject, this)
+
                         }
-                        /* response.code == 204 -> {
+                       /*  response.code == 204 -> {
                              FirebaseFunctions.sendOTP("signup", mJsonObject, this)
                          }*/
                         else -> showToastError(message)
