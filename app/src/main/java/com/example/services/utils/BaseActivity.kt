@@ -42,7 +42,7 @@ import java.util.HashMap
  * Created by Saira on 2018-12-9.
  */
 abstract class BaseActivity : AppCompatActivity() {
-    //private var colorRes: Res? = null
+    private var colorRes: Res? = null
     protected var viewDataBinding: ViewDataBinding? = null
     private var utils: Utils? = null
     private var inputMethodManager: InputMethodManager? = null
@@ -77,8 +77,8 @@ abstract class BaseActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-       // colorRes = null
-       // getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimary))
+        colorRes = null
+        getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimary))
     }
 
     protected abstract fun initViews()

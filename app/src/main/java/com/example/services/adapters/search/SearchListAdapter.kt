@@ -16,6 +16,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.example.services.R
 import com.example.services.application.MyApplication
+import com.example.services.common.UtilsFunctions
 import com.example.services.constants.GlobalConstants
 import com.example.services.databinding.VendorListItemBinding
 import com.example.services.model.cart.CartListResponse
@@ -59,13 +60,38 @@ class SearchListAdapter(
 
     override fun onBindViewHolder(@NonNull holder: ViewHolder, position: Int) {
         viewHolder = holder
-
+        GlobalConstants.RANDOM_COLOR = UtilsFunctions.getRandomColor()
         if (TextUtils.isEmpty(vendorList[position].duration.toString()) || vendorList[position].duration == null) {
             holder.binding!!.serviceItem.visibility = View.GONE
             holder.binding!!.llVendor.visibility = View.VISIBLE
             holder.binding!!.txtRestName.setText(vendorList[position].companyName)
+            holder.binding!!.txtRestName.setTextColor(
+                ColorStateList.valueOf(
+                    Color.parseColor(
+                        GlobalConstants.RANDOM_COLOR
+                        // UtilsFunctions.getRandomColor()
+                    )
+                )
+            )
             holder.binding!!.txtAddress.setText(vendorList[position].address1)
-            holder.binding!!.txtDistance.setText(vendorList[position].distance + " KM")
+            //holder.binding!!.txtDistance.setText(vendorList[position].distance + " KM")
+            if (vendorList[position].distance!!.contains(".")) {
+                var span = vendorList[position].distance!!.split(".")
+                val ditance = span[0]
+                holder.binding!!.txtDistance.setText(callTimeCalculate(ditance.toInt()).toString() + " Mins")
+            } else {
+                holder.binding!!.txtDistance.setText(callTimeCalculate(vendorList[position].distance!!.toInt()).toString() + " Mins")
+            }
+            holder.binding!!.txtTotalOrders.visibility=View.GONE
+            holder.binding!!.txtTotal.visibility=View.GONE
+            /*holder.binding!!.txtTotalOrders.setBackgroundTintList(
+                ColorStateList.valueOf(
+                    Color.parseColor(
+                        GlobalConstants.RANDOM_COLOR
+                        // UtilsFunctions.getRandomColor()
+                    )
+                )
+            )*/
             if (TextUtils.isEmpty(vendorList[position].startTime) || vendorList[position].startTime.equals(
                     "null"
                 )
@@ -152,6 +178,13 @@ class SearchListAdapter(
 
         }
 
+    }
+
+    private fun callTimeCalculate(distance: Int): Any {
+        val pits = distance / 10
+        val time = (pits * 5).toInt()
+        //val actualTime = time / 60
+        return time
     }
 
     override fun getItemCount(): Int {

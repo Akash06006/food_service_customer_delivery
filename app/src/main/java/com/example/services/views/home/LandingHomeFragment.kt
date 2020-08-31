@@ -199,9 +199,9 @@ LandingHomeFragment : BaseFragment(), DialogssInterface, CompoundButton.OnChecke
 
                             if (bannerList.size > 0) {
                                 bannerListViewPager()
-                                fragmentHomeBinding.offersViewpager.visibility = View.VISIBLE
+                                fragmentHomeBinding.bannersViewpager.visibility = View.GONE
                             } else {
-                                fragmentHomeBinding.offersViewpager.visibility = View.GONE
+                                fragmentHomeBinding.bannersViewpager.visibility = View.GONE
                             }
 
                             offersList.clear()
@@ -214,7 +214,7 @@ LandingHomeFragment : BaseFragment(), DialogssInterface, CompoundButton.OnChecke
                             }
                             trendingList.clear()
                             trendingList.addAll(response.data?.trending!!)
-                            if (offersList.size > 0) {
+                            if (trendingList.size > 0) {
                                 trendingListViewPager()
                                 fragmentHomeBinding.trendingLayout.visibility = View.VISIBLE
                             } else {
@@ -224,7 +224,7 @@ LandingHomeFragment : BaseFragment(), DialogssInterface, CompoundButton.OnChecke
                             dealsList.addAll(response.data?.deals!!)
                             if (dealsList.size > 0) {
                                 dealsListViewPager()
-                                fragmentHomeBinding.dealsViewPager.visibility = View.VISIBLE
+                                fragmentHomeBinding.dealsViewPager.visibility = View.GONE
                             } else {
                                 fragmentHomeBinding.dealsViewPager.visibility = View.GONE
                             }
@@ -447,6 +447,7 @@ LandingHomeFragment : BaseFragment(), DialogssInterface, CompoundButton.OnChecke
 
 
     private fun topPicksRecyclerView() {
+        couponListRecyclerView()
         val topPicks =
             TopPicksRecyclerAdapter(
                 this@LandingHomeFragment,
@@ -458,6 +459,25 @@ LandingHomeFragment : BaseFragment(), DialogssInterface, CompoundButton.OnChecke
         fragmentHomeBinding.rvTopPicks.layoutManager = linearLayoutManager
         fragmentHomeBinding.rvTopPicks.adapter = topPicks
         fragmentHomeBinding.rvTopPicks.addOnScrollListener(object :
+            RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+
+            }
+        })
+    }
+
+    private fun couponListRecyclerView() {
+        val topPicks =
+            CouponsRecyclerAdapter(
+                this@LandingHomeFragment,
+                topPicksList/*offersList*/,
+                activity!!
+            )
+        val linearLayoutManager = LinearLayoutManager(this.baseActivity)
+        linearLayoutManager.orientation = RecyclerView.HORIZONTAL
+        fragmentHomeBinding.rvCouponsList.layoutManager = linearLayoutManager
+        fragmentHomeBinding.rvCouponsList.adapter = topPicks
+        fragmentHomeBinding.rvCouponsList.addOnScrollListener(object :
             RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
 

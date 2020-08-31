@@ -13,6 +13,7 @@ import android.view.Window
 import android.view.animation.AnimationUtils
 import android.widget.*
 import androidx.annotation.RequiresApi
+import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
@@ -72,7 +73,7 @@ class ServicesListActivity : BaseActivity(), CompoundButton.OnCheckedChangeListe
 
     var animationView: View? = null
     var imgCross: View? = null
-
+    var llCartDetail: LinearLayout? = null
     override fun getLayoutId(): Int {
         return R.layout.activity_services
     }
@@ -214,9 +215,10 @@ class ServicesListActivity : BaseActivity(), CompoundButton.OnCheckedChangeListe
                             servicesListAdapter?.notifyDataSetChanged()
                             imgCross?.visibility = View.GONE
                             animationView?.visibility = View.VISIBLE
+                            llCartDetail?.visibility = View.GONE
                             Handler().postDelayed({
                                 confirmationDialog?.dismiss()
-                            }, 2000)
+                            }, 3500)
 
                             servicesBinding.commonToolBar.imgRight.visibility = View.VISIBLE
                             SharedPrefClass().putObject(
@@ -542,12 +544,16 @@ class ServicesListActivity : BaseActivity(), CompoundButton.OnCheckedChangeListe
         val btnSubmit = confirmationDialog?.findViewById<Button>(R.id.btnSubmit)
         val tvTotalPrice = confirmationDialog?.findViewById<TextView>(R.id.tvTotalPrice)
         val tvQuantity = confirmationDialog?.findViewById<TextView>(R.id.tv_quantity)
+
         val imgMinus = confirmationDialog?.findViewById<ImageView>(R.id.imgMinus)
         val imgPlus = confirmationDialog?.findViewById<ImageView>(R.id.imgPlus)
         imgCross = confirmationDialog?.findViewById<ImageView>(R.id.img_cross)
         animationView = confirmationDialog?.findViewById<View>(R.id.animationView)
-        val llSlots = confirmationDialog?.findViewById<LinearLayout>(R.id.ll_slots)
+        llCartDetail = confirmationDialog?.findViewById<LinearLayout>(R.id.llCartDetail)
+        val llSlots = confirmationDialog?.findViewById<RelativeLayout>(R.id.ll_slots)
         llSlots?.visibility = View.VISIBLE
+        val txtQuote = confirmationDialog?.findViewById<TextView>(R.id.txtQuote)
+        txtQuote?.typeface = ResourcesCompat.getFont(this, R.font.sixty_nine_demo)
         val animation = AnimationUtils.loadAnimation(this, R.anim.anim)
         animation.setDuration(500)
         llSlots?.setAnimation(animation)
@@ -584,7 +590,7 @@ class ServicesListActivity : BaseActivity(), CompoundButton.OnCheckedChangeListe
             if (quantityCount == 0) {
                 showToastError(getString(R.string.select_quantity_msg))
             } else {
-                callAddRemoveCartApi(true,serviceId)
+                callAddRemoveCartApi(true, serviceId)
             }
             // confirmationDialog?.dismiss()
 
@@ -604,7 +610,7 @@ class ServicesListActivity : BaseActivity(), CompoundButton.OnCheckedChangeListe
         when (mKey) {
             "Remove Cart" -> {
                 confirmationDialog?.dismiss()
-                callAddRemoveCartApi(false,"")
+                callAddRemoveCartApi(false, "")
             }
             "Clear Cart" -> {
                 confirmationDialog?.dismiss()
@@ -626,7 +632,7 @@ class ServicesListActivity : BaseActivity(), CompoundButton.OnCheckedChangeListe
         }
     }
 
-    fun callAddRemoveCartApi(isAdd:Boolean,serviceId: String) {
+    fun callAddRemoveCartApi(isAdd: Boolean, serviceId: String) {
         if (isAdd) {
             var cartObject = JsonObject()
             cartObject.addProperty(

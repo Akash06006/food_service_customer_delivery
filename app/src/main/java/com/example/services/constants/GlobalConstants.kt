@@ -131,6 +131,8 @@ object GlobalConstants {
     @JvmStatic
     var COLOR_CODE = "#DC143C"
     @JvmStatic
+    var RANDOM_COLOR = "#DC143C"
+    @JvmStatic
     var PRODUCT_DELIVERY = "delivery"
     @JvmStatic
     var PRODUCT_SERVICES = "services"

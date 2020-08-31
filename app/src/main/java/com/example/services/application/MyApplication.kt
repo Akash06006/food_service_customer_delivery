@@ -24,6 +24,7 @@ class MyApplication : MultiDexApplication() {
         customFontFamily!!.addFont("regular", "Montserrat-Regular_0.ttf")
         customFontFamily!!.addFont("semibold", "Montserrat-Medium_0.ttf")
         customFontFamily!!.addFont("bold", "Montserrat-SemiBold_0.ttf")
+        customFontFamily!!.addFont("betty", "Sixty_Nine_Demo.ttf")
     }
 
     //Only needed for API 19
@@ -36,6 +37,7 @@ class MyApplication : MultiDexApplication() {
         }
 
     }
+
     companion object {
         /**
          * @return ApplicationController singleton instance

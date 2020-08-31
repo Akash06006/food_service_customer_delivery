@@ -19,8 +19,9 @@ import com.example.services.viewmodels.faq.FAQViewModel
 class FAQListActivity : BaseActivity() {
     lateinit var faqListBinding: ActivityFaqListBinding
     lateinit var faqViewModel: FAQViewModel
-    private var notificationList = ArrayList<FAQListResponse.Data>()
+    private var faqList = ArrayList<FAQListResponse.Data>()
     var userId = ""
+    var faqListAdapter: FAQListAdapter? = null
     override fun getLayoutId(): Int {
         return R.layout.activity_faq_list
     }
@@ -50,7 +51,7 @@ class FAQListActivity : BaseActivity() {
                     when {
                         response.code == 200 -> {
                             if (response.data != null && response.data!!.size > 0) {
-                                notificationList.addAll(response.data!!)
+                                faqList.addAll(response.data!!)
                                 faqListBinding.rvNotification.visibility = View.VISIBLE
                                 faqListBinding.tvNoRecord.visibility = View.GONE
                                 faqListBinding.title.visibility = View.GONE
@@ -83,10 +84,10 @@ class FAQListActivity : BaseActivity() {
     }
 
     private fun initRecyclerView() {
-        var faqListAdapter =
+        faqListAdapter =
             FAQListAdapter(
                 this@FAQListActivity,
-                notificationList,
+                faqList,
                 this@FAQListActivity
             )
         val linearLayoutManager = LinearLayoutManager(this)
@@ -99,6 +100,22 @@ class FAQListActivity : BaseActivity() {
 
             }
         })
+    }
+
+    fun showDescription(position: Int) {
+        var selected = ""
+        if (faqList[position].selected.equals("false")) {
+            selected = "true"
+        } else {
+            selected = "false"
+        }
+
+        for (x in 0 until faqList.count()) {
+            faqList[x].selected = "false"
+        }
+        faqList[position].selected = selected
+        faqListAdapter?.notifyDataSetChanged()
+
     }
 
 }

@@ -52,10 +52,26 @@ class BestSellerListRecyclerAdapter(
     override fun onBindViewHolder(@NonNull holder: ViewHolder, position: Int) {
         viewHolder = holder
         holder.binding!!.llOffer.visibility = View.GONE
-
+        GlobalConstants.RANDOM_COLOR = UtilsFunctions.getRandomColor()
         holder.binding!!.txtRestName.setText(bestSellerList[position].companyName)
+        holder.binding!!.txtRestName.setTextColor(
+            ColorStateList.valueOf(
+                Color.parseColor(
+                    GlobalConstants.RANDOM_COLOR
+                    // UtilsFunctions.getRandomColor()
+                )
+            )
+        )
         holder.binding!!.txtAddress.setText(bestSellerList[position].address1)
-        holder.binding!!.txtTotalOrders.setText("Orders in past 24hrs: " + bestSellerList[position].totalOrders)
+        holder.binding!!.txtTotalOrders.setText(bestSellerList[position].totalOrders)
+        holder.binding!!.txtTotalOrders.setBackgroundTintList(
+            ColorStateList.valueOf(
+                Color.parseColor(
+                    GlobalConstants.RANDOM_COLOR
+                    // UtilsFunctions.getRandomColor()
+                )
+            )
+        )
         //holder.binding!!.txtTime.setText(bestSellerList[position].companyName)
         holder.binding!!.rBar.setRating(bestSellerList[position].rating!!.toFloat())
         //ratingBar!!.setRating(ratingData.ratingData.get(position).rating!!.toFloat())
@@ -79,12 +95,23 @@ class BestSellerListRecyclerAdapter(
         if (!color.equals(mContext.resources.getColor(R.color.colorWhite))) {
             //mContext.baseActivity.showToastError("black")
             holder.binding!!.txtMarqueText.setTextColor(
-                ColorStateList.valueOf(Color.parseColor(UtilsFunctions.getRandomColor()))/*color*/
+                ColorStateList.valueOf(
+                    Color.parseColor(GlobalConstants.RANDOM_COLOR)
+                )/*color*/
             )/*color*/
         } else {
             // mContext.baseActivity.showToastError("other")
 
         }
+
+        if (bestSellerList[position].distance!!.contains(".")) {
+            var span = bestSellerList[position].distance!!.split(".")
+            val ditance = span[0]
+            holder.binding!!.txtDistance.setText(callTimeCalculate(ditance.toInt()).toString() + " Mins")
+        } else {
+            holder.binding!!.txtDistance.setText(callTimeCalculate(bestSellerList[position].distance!!.toInt()).toString() + " Mins")
+        }
+
         if (!TextUtils.isEmpty(marqText)) {
             holder.binding!!.txtMarqueText.visibility = View.VISIBLE
         } else {
@@ -110,6 +137,13 @@ class BestSellerListRecyclerAdapter(
             mContext.startActivity(intent)
         }
 
+    }
+
+    private fun callTimeCalculate(distance: Int): Any {
+        val pits = distance / 10
+        val time = (pits * 5).toInt()
+        //val actualTime = time / 60
+        return time
     }
 
     override fun getItemCount(): Int {

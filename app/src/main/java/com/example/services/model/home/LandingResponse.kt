@@ -207,6 +207,9 @@ class LandingResponse {
         @SerializedName("endTime")
         @Expose
         var endTIme: String? = null
+        @SerializedName("distance")
+        @Expose
+        var distance: String? = null
         @SerializedName("logo1")
         @Expose
         var logo1: String? = null

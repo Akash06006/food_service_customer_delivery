@@ -52,10 +52,28 @@ class VendorListRecyclerAdapter(
 
     override fun onBindViewHolder(@NonNull holder: ViewHolder, position: Int) {
         viewHolder = holder
-
+        var col = ""
+        GlobalConstants.RANDOM_COLOR = UtilsFunctions.getRandomColor()
         holder.binding!!.txtRestName.setText(vendorList[position].companyName)
+        holder.binding!!.txtRestName.setTextColor(
+            ColorStateList.valueOf(
+                Color.parseColor(
+                    GlobalConstants.RANDOM_COLOR
+                    // UtilsFunctions.getRandomColor()
+                )
+            )
+        )
+
         holder.binding!!.txtAddress.setText(vendorList[position].address1)
-        holder.binding!!.txtTotalOrders.setText("Orders in past 24hrs: " + vendorList[position].totalOrders)
+        holder.binding!!.txtTotalOrders.setText(vendorList[position].totalOrders)
+        holder.binding!!.txtTotalOrders.setBackgroundTintList(
+            ColorStateList.valueOf(
+                Color.parseColor(
+                    GlobalConstants.RANDOM_COLOR
+                    // UtilsFunctions.getRandomColor()
+                )
+            )
+        )
         val marquee = AnimationUtils.loadAnimation(activity, R.anim.marquee)
         holder.binding!!.txtMarqueText.visibility = View.VISIBLE
         var marqText = ""
@@ -73,17 +91,25 @@ class VendorListRecyclerAdapter(
         val color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
         if (!color.equals(mContext.resources.getColor(R.color.colorWhite))) {
             //mContext.baseActivity.showToastError("black")
-            holder.binding!!.txtMarqueText.setTextColor(ColorStateList.valueOf(Color.parseColor(UtilsFunctions.getRandomColor()))/*color*/)
+            holder.binding!!.txtMarqueText.setTextColor(
+                ColorStateList.valueOf(
+                    Color.parseColor(
+                        GlobalConstants.RANDOM_COLOR
+                        //UtilsFunctions.getRandomColor()
+                    )
+                    //colorCode
+                )
+            )
         } else {
             // mContext.baseActivity.showToastError("other")
 
         }
         if (!TextUtils.isEmpty(marqText)) {
             holder.binding!!.txtMarqueText.visibility = View.VISIBLE
-        }else{
+        } else {
             holder.binding!!.txtMarqueText.visibility = View.GONE
         }
-        if (vendorList[position].distance?.length!! > 5) {
+        /*if (vendorList[position].distance?.length!! > 5) {
             holder.binding!!.txtDistance.setText(
                 vendorList[position].distance?.substring(
                     0,
@@ -92,6 +118,13 @@ class VendorListRecyclerAdapter(
             )
         } else {
             holder.binding!!.txtDistance.setText(vendorList[position].distance + " KM")
+        }*/
+        if (vendorList[position].distance!!.contains(".")) {
+            var span = vendorList[position].distance!!.split(".")
+            val ditance = span[0]
+            holder.binding!!.txtDistance.setText(callTimeCalculate(ditance.toInt()).toString() + " Mins")
+        } else {
+            holder.binding!!.txtDistance.setText(callTimeCalculate(vendorList[position].distance!!.toInt()).toString() + " Mins")
         }
 
         if (TextUtils.isEmpty(vendorList[position].startTime) || vendorList[position].startTime.equals(
@@ -135,6 +168,13 @@ class VendorListRecyclerAdapter(
             holder.binding.llOffer.visibility = View.GONE
         }
 
+    }
+
+    private fun callTimeCalculate(distance: Int): Any {
+        val pits = distance / 10
+        val time = (pits * 5).toInt()
+        //val actualTime = time / 60
+        return time
     }
 
     override fun getItemCount(): Int {

@@ -32,6 +32,9 @@ class FAQListResponse {
         @SerializedName("status")
         @Expose
         var status: String? = null
+        @SerializedName("selected")
+        @Expose
+        var selected: String? = null
         @SerializedName("language")
         @Expose
         var language: String? = null

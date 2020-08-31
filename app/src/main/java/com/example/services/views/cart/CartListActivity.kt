@@ -64,6 +64,8 @@ class CartListActivity : BaseActivity(), DialogssInterface {
     var animationView: View? = null
     var imgCross: View? = null
     var cartCount = ""
+    var llCartDetail: LinearLayout? = null
+
 
     private val SECOND_ACTIVITY_REQUEST_CODE = 0
     override fun getLayoutId(): Int {
@@ -210,10 +212,12 @@ class CartListActivity : BaseActivity(), DialogssInterface {
                             cartList.clear()
                             addOnsList.clear()
                             imgCross?.visibility = View.GONE
+                            llCartDetail?.visibility = View.GONE
+
                             animationView?.visibility = View.VISIBLE
                             Handler().postDelayed({
                                 confirmationDialog?.dismiss()
-                            }, 2000)
+                            }, 3500)
 
                             cartViewModel.getCartList()
                             cartCount = cartCount.toInt().plus(1).toString()
@@ -463,8 +467,9 @@ class CartListActivity : BaseActivity(), DialogssInterface {
         val imgMinus = confirmationDialog?.findViewById<ImageView>(R.id.imgMinus)
         val imgPlus = confirmationDialog?.findViewById<ImageView>(R.id.imgPlus)
         imgCross = confirmationDialog?.findViewById<ImageView>(R.id.img_cross)
+        llCartDetail = confirmationDialog?.findViewById<LinearLayout>(R.id.llCartDetail)
         animationView = confirmationDialog?.findViewById<View>(R.id.animationView)
-        val llSlots = confirmationDialog?.findViewById<LinearLayout>(R.id.ll_slots)
+        val llSlots = confirmationDialog?.findViewById<RelativeLayout>(R.id.ll_slots)
         llSlots?.visibility = View.VISIBLE
         val animation = AnimationUtils.loadAnimation(this, R.anim.anim)
         animation.setDuration(500)

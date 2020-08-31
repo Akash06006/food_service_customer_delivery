@@ -2,7 +2,9 @@ package com.example.services.views
 
 import android.content.Context
 import android.content.Intent
+import android.os.Handler
 import android.text.TextUtils
+import android.view.View
 import androidx.databinding.DataBindingUtil
 import com.example.services.R
 import com.example.services.application.MyApplication
@@ -36,7 +38,8 @@ class SplashActivity : BaseActivity() {
 
     override fun initViews() {
         mContext = this
-        mActivitySplashBinding = DataBindingUtil.setContentView(this, R.layout.activity_splash)
+        mActivitySplashBinding = viewDataBinding as ActivitySplashBinding
+        //  mActivitySplashBinding = DataBindingUtil.setContentView(this, R.layout.activity_splash)
 
         sharedPrefClass = SharedPrefClass()
         /*val token: String? = "sd"
@@ -48,13 +51,26 @@ class SplashActivity : BaseActivity() {
                   token
               )
           }*/
+
+        callAnimation()
+        /*  Handler().postDelayed({
+
+              callAnimation()
+          }, 2500)
+  */
+    }
+
+    private fun callAnimation() {
+        mActivitySplashBinding!!.imgIcon.visibility = View.GONE
+        mActivitySplashBinding!!.imgText.visibility = View.VISIBLE
+        mActivitySplashBinding!!.animationView.visibility = View.VISIBLE
         Timer().schedule(object : TimerTask() {
             override fun run() {
                 runOnUiThread {
                     checkScreenType()
                 }
             }
-        }, 3000)
+        }, 3600)
     }
 
     private fun checkScreenType() {

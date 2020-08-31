@@ -11,19 +11,19 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.services.R
 import com.example.services.constants.GlobalConstants
-import com.example.services.databinding.TopPicksItemBinding
+import com.example.services.databinding.CouponListItemBinding
 import com.example.services.model.home.LandingResponse
 import com.example.services.views.home.DashboardActivity
 import com.example.services.views.home.LandingHomeFragment
 import java.util.*
 
 
-class TopPicksRecyclerAdapter(
+class CouponsRecyclerAdapter(
     context: LandingHomeFragment,
     addressList: ArrayList<LandingResponse.TopPicks>,
     var activity: Context
 ) :
-    RecyclerView.Adapter<TopPicksRecyclerAdapter.ViewHolder>() {
+    RecyclerView.Adapter<CouponsRecyclerAdapter.ViewHolder>() {
     private val mContext: LandingHomeFragment
     private var viewHolder: ViewHolder? = null
     private var topPicksList: ArrayList<LandingResponse.TopPicks>
@@ -37,17 +37,17 @@ class TopPicksRecyclerAdapter(
     override fun onCreateViewHolder(@NonNull parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = DataBindingUtil.inflate(
             LayoutInflater.from(parent.context),
-            R.layout.top_picks_item,
+            R.layout.coupon_list_item,
             parent,
             false
-        ) as TopPicksItemBinding
+        ) as CouponListItemBinding
         return ViewHolder(binding.root, viewType, binding, mContext, topPicksList)
     }
 
     override fun onBindViewHolder(@NonNull holder: ViewHolder, position: Int) {
         viewHolder = holder
 
-        holder.binding!!.txtVendorName.setText(topPicksList[position].companyName)
+        /*holder.binding!!.txtVendorName.setText(topPicksList[position].companyName)
         Glide.with(mContext).load(topPicksList[position].logo1)
             .into(holder.binding!!.imgVendor)
 
@@ -57,17 +57,17 @@ class TopPicksRecyclerAdapter(
             GlobalConstants.CATEGORY_SELECTED = topPicksList[position].id.toString()
             val intent = Intent(activity, DashboardActivity::class.java)
             mContext.startActivity(intent)
-        }
+        }*/
     }
 
     override fun getItemCount(): Int {
-        return topPicksList.count()
+        return 5// topPicksList.count()
     }
 
     inner class ViewHolder//This constructor would switch what to findViewBy according to the type of viewType
         (
         v: View, val viewType: Int, //These are the general elements in the RecyclerView
-        val binding: TopPicksItemBinding?,
+        val binding: CouponListItemBinding?,
         mContext: LandingHomeFragment,
         addressList: ArrayList<LandingResponse.TopPicks>?
     ) : RecyclerView.ViewHolder(v) {
