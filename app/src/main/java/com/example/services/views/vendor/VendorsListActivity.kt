@@ -65,7 +65,7 @@ class VendorsListActivity : BaseActivity() {
 
         if (UtilsFunctions.isNetworkConnected()) {
             startProgressDialog()
-            vendorsViewModel.getVendorList(GlobalConstants.CATEGORY_SELECTED, "0.0", "0.0","")
+            //   vendorsViewModel.getVendorList(GlobalConstants.CATEGORY_SELECTED, "0.0", "0.0","")
             //cartViewModel.getvendorList(userId)
         }
         /*vendorsViewModel.getVendorListRes().observe(this,

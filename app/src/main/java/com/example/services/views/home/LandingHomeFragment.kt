@@ -55,6 +55,8 @@ import com.example.services.views.cart.CartListActivity
 import com.example.services.views.orders.OrdersDetailActivity
 import com.example.services.views.vendor.RestaurantsListActivity
 import com.example.services.views.vendor.VendorsListActivity
+import com.github.angads25.toggle.LabeledSwitch
+import com.github.angads25.toggle.interfaces.OnToggledListener
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.snackbar.Snackbar
@@ -81,6 +83,8 @@ LandingHomeFragment : BaseFragment(), DialogssInterface, CompoundButton.OnChecke
         ArrayList<Banners>()
     private var offersList =
         ArrayList<LandingResponse.Offers>()
+    private var restOffersList =
+        ArrayList<LandingResponse.RestOffers>()
     private var topPicksList =
         ArrayList<TopPicks>()
     private var bestSellerList =
@@ -195,15 +199,24 @@ LandingHomeFragment : BaseFragment(), DialogssInterface, CompoundButton.OnChecke
 
                             GlobalConstants.COMPANY_ID = cartCategoryTypeId.toString()
                             bannerList.clear()
-                            bannerList.addAll(response.data?.banners!!)
+                            /*bannerList.addAll(response.data?.banners!!)
 
                             if (bannerList.size > 0) {
                                 bannerListViewPager()
                                 fragmentHomeBinding.bannersViewpager.visibility = View.GONE
                             } else {
                                 fragmentHomeBinding.bannersViewpager.visibility = View.GONE
+                            }*/
+                            restOffersList.clear()
+                            // restOffersList.addAll(response.data?.restOffers!!)
+                            if (offersList.size > 0) {
+                                couponListRecyclerView()
+                                fragmentHomeBinding.txtCoupons.visibility = View.VISIBLE
+                                fragmentHomeBinding.rvCouponsList.visibility = View.VISIBLE
+                            } else {
+                                fragmentHomeBinding.txtCoupons.visibility = View.GONE
+                                fragmentHomeBinding.rvCouponsList.visibility = View.GONE
                             }
-
                             offersList.clear()
                             offersList.addAll(response.data?.offers!!)
                             if (offersList.size > 0) {
@@ -221,7 +234,7 @@ LandingHomeFragment : BaseFragment(), DialogssInterface, CompoundButton.OnChecke
                                 fragmentHomeBinding.trendingLayout.visibility = View.GONE
                             }
                             dealsList.clear()
-                            dealsList.addAll(response.data?.deals!!)
+                            // dealsList.addAll(response.data?.deals!!)
                             if (dealsList.size > 0) {
                                 dealsListViewPager()
                                 fragmentHomeBinding.dealsViewPager.visibility = View.GONE
@@ -290,6 +303,55 @@ LandingHomeFragment : BaseFragment(), DialogssInterface, CompoundButton.OnChecke
                 }
             })
 
+
+
+
+
+        fragmentHomeBinding.switchDelPickup.setOnToggledListener(object : OnToggledListener {
+            override fun onSwitched(labeledSwitch: LabeledSwitch?, isChecked: Boolean) {
+                if (isChecked) {
+                    baseActivity.startProgressDialog()
+                    GlobalConstants.DELIVERY_PICKUP_TYPE = "1"
+                    SharedPrefClass().putObject(
+                        activity!!,
+                        GlobalConstants.DELIVERY_PICKUP_TYPE,
+                        "1"
+                    )
+                    if (UtilsFunctions.isNetworkConnected()) {
+                        // baseActivity.startProgressDialog()
+                        homeViewModel.getCategories(
+                            GlobalConstants.DELIVERY_PICKUP_TYPE,
+                            GlobalConstants.CURRENT_LAT,
+                            GlobalConstants.CURRENT_LONG,
+                            vegOnly
+                        )
+                    }
+                } else {
+                    baseActivity.startProgressDialog()
+                    GlobalConstants.DELIVERY_PICKUP_TYPE = "0"
+                    SharedPrefClass().putObject(
+                        activity!!,
+                        GlobalConstants.DELIVERY_PICKUP_TYPE,
+                        "0"
+                    )
+                    if (UtilsFunctions.isNetworkConnected()) {
+                        // baseActivity.startProgressDialog()
+                        homeViewModel.getCategories(
+                            GlobalConstants.DELIVERY_PICKUP_TYPE,
+                            GlobalConstants.CURRENT_LAT,
+                            GlobalConstants.CURRENT_LONG,
+                            vegOnly
+                        )
+                    }
+                    //showToastError("unchecked")
+                }
+            }
+
+        })
+
+
+
+
         fragmentHomeBinding.delPickup.setOnCheckedChangeListener(
             RadioGroup.OnCheckedChangeListener { group, checkedId ->
                 val radio: RadioButton = view!!.findViewById(checkedId)
@@ -307,8 +369,8 @@ LandingHomeFragment : BaseFragment(), DialogssInterface, CompoundButton.OnChecke
                         // baseActivity.startProgressDialog()
                         homeViewModel.getCategories(
                             GlobalConstants.DELIVERY_PICKUP_TYPE,
-                            currentLat,
-                            currentLong,
+                            GlobalConstants.CURRENT_LAT,
+                            GlobalConstants.CURRENT_LONG,
                             vegOnly
                         )
                     }
@@ -326,8 +388,8 @@ LandingHomeFragment : BaseFragment(), DialogssInterface, CompoundButton.OnChecke
                         // baseActivity.startProgressDialog()
                         homeViewModel.getCategories(
                             GlobalConstants.DELIVERY_PICKUP_TYPE,
-                            currentLat,
-                            currentLong,
+                            GlobalConstants.CURRENT_LAT,
+                            GlobalConstants.CURRENT_LONG,
                             vegOnly
                         )
                     }
@@ -375,6 +437,7 @@ LandingHomeFragment : BaseFragment(), DialogssInterface, CompoundButton.OnChecke
                 when (it) {
                     "txtSeeAll" -> {
                         val intent = Intent(activity, RestaurantsListActivity::class.java)
+                        intent.putExtra("discount", "")
                         startActivity(intent)
                     }
                     "etSearch" -> {
@@ -395,6 +458,8 @@ LandingHomeFragment : BaseFragment(), DialogssInterface, CompoundButton.OnChecke
         )
 
         fragmentHomeBinding.switchMaterial.setOnCheckedChangeListener(this@LandingHomeFragment)
+        // fragmentHomeBinding.switchDelPickup.setOnCheckedChangeListener(this@LandingHomeFragment)
+
 
     }
 
@@ -405,8 +470,8 @@ LandingHomeFragment : BaseFragment(), DialogssInterface, CompoundButton.OnChecke
                 // baseActivity.startProgressDialog()
                 homeViewModel.getCategories(
                     GlobalConstants.DELIVERY_PICKUP_TYPE,
-                    currentLat,
-                    currentLong,
+                    GlobalConstants.CURRENT_LAT,
+                    GlobalConstants.CURRENT_LONG,
                     vegOnly
                 )
             }
@@ -416,8 +481,8 @@ LandingHomeFragment : BaseFragment(), DialogssInterface, CompoundButton.OnChecke
                 // baseActivity.startProgressDialog()
                 homeViewModel.getCategories(
                     GlobalConstants.DELIVERY_PICKUP_TYPE,
-                    currentLat,
-                    currentLong,
+                    GlobalConstants.CURRENT_LAT,
+                    GlobalConstants.CURRENT_LONG,
                     vegOnly
                 )
             }
@@ -447,7 +512,7 @@ LandingHomeFragment : BaseFragment(), DialogssInterface, CompoundButton.OnChecke
 
 
     private fun topPicksRecyclerView() {
-        couponListRecyclerView()
+        // couponListRecyclerView()
         val topPicks =
             TopPicksRecyclerAdapter(
                 this@LandingHomeFragment,
@@ -595,14 +660,14 @@ LandingHomeFragment : BaseFragment(), DialogssInterface, CompoundButton.OnChecke
                     } else {
                         currentLat = location.latitude.toString()
                         currentLong = location.longitude.toString()
-                        GlobalConstants.CURRENT_LAT = currentLat
-                        GlobalConstants.CURRENT_LONG = currentLong
+                        // GlobalConstants.CURRENT_LAT = currentLat
+                        //   GlobalConstants.CURRENT_LONG = currentLong
                         if (UtilsFunctions.isNetworkConnected()) {
                             // baseActivity.startProgressDialog()
                             homeViewModel.getCategories(
                                 GlobalConstants.DELIVERY_PICKUP_TYPE,
-                                currentLat,
-                                currentLong,
+                                GlobalConstants.CURRENT_LAT,
+                                GlobalConstants.CURRENT_LONG,
                                 vegOnly
                             )
                         }
@@ -676,14 +741,14 @@ LandingHomeFragment : BaseFragment(), DialogssInterface, CompoundButton.OnChecke
             val mLastLocation: Location = locationResult.lastLocation
             currentLat = mLastLocation.latitude.toString()
             currentLong = mLastLocation.longitude.toString()
-            GlobalConstants.CURRENT_LAT = currentLat
-            GlobalConstants.CURRENT_LONG = currentLong
+            //  GlobalConstants.CURRENT_LAT = currentLat
+            // GlobalConstants.CURRENT_LONG = currentLong
             if (UtilsFunctions.isNetworkConnected()) {
                 // baseActivity.startProgressDialog()
                 homeViewModel.getCategories(
                     GlobalConstants.DELIVERY_PICKUP_TYPE,
-                    currentLat,
-                    currentLong,
+                    GlobalConstants.CURRENT_LAT,
+                    GlobalConstants.CURRENT_LONG,
                     vegOnly
                 )
             }
@@ -766,6 +831,12 @@ LandingHomeFragment : BaseFragment(), DialogssInterface, CompoundButton.OnChecke
         }
 
         confirmationDialog?.show()
+    }
+
+    fun viewOffersRestaurant(position: Int) {
+        val intent = Intent(activity, RestaurantsListActivity::class.java)
+        intent.putExtra("discount", "20")
+        startActivity(intent)
     }
 
 }

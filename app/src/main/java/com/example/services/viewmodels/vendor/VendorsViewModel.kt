@@ -27,7 +27,7 @@ class VendorsViewModel : BaseViewModel() {
 
     init {
         if (UtilsFunctions.isNetworkConnectedWithoutToast()) {
-            favList = vendorRepository.vendorList("", "", "","")
+            favList = vendorRepository.vendorList("", "", "","","")
         }
 
     }
@@ -56,9 +56,9 @@ class VendorsViewModel : BaseViewModel() {
          }
      }*/
 
-    fun getVendorList(id: String, lat: String, longi: String, vegNonVeg: String) {
+    fun getVendorList(id: String, lat: String, longi: String, vegNonVeg: String,discount:String) {
         if (UtilsFunctions.isNetworkConnected()) {
-            favList = vendorRepository.vendorList(id, lat, longi,vegNonVeg)
+            favList = vendorRepository.vendorList(id, lat, longi,vegNonVeg,discount)
             mIsUpdating.postValue(true)
         }
 

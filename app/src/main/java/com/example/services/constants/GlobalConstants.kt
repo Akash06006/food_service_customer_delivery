@@ -141,8 +141,8 @@ object GlobalConstants {
     @JvmStatic
     var DELIVERY_PICKUP_TYPE = "1"
     @JvmStatic
-    var CURRENT_LAT = "1"
+    var CURRENT_LAT = "33.3699198"
     @JvmStatic
-    var CURRENT_LONG = "1"
+    var CURRENT_LONG = "-104.6008557"
 
 }

@@ -119,7 +119,7 @@ interface ApiInterface {
     fun vendorList(
         @Query("deliveryType") serviceId: String, @Query("page") page: String, @Query("limit") limit: String, @Query(
             "lat"
-        ) lat: String, @Query("lng") lng: String, @Query("itemType") itemType: String
+        ) lat: String, @Query("lng") lng: String, @Query("itemType") itemType: String, @Query("discount") discount: String
     ): Call<JsonObject>
 
 
@@ -178,13 +178,12 @@ interface ApiInterface {
 
     @Multipart
     @POST("mobile/orders/create")
-    fun ordePlace(@PartMap mJsonObject:  HashMap<String, RequestBody>,@Part audio: MultipartBody.Part?): Call<JsonObject>
+    fun ordePlace(@PartMap mJsonObject: HashMap<String, RequestBody>, @Part audio: MultipartBody.Part?): Call<JsonObject>
 
 
 //    @Multipart
 //    @POST("mobile/orders/create")
 //    fun ordePlace(): Call<JsonObject>
-
 
 
     @POST("mobile/orders/paymentStatus")

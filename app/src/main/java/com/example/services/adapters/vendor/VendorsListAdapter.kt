@@ -162,7 +162,7 @@ class VendorsListAdapter(
                     "0"
                 )
             ) {
-                holder.binding.txtOffer.setText(vendorList[position].coupan?.discount + "% OFF")
+                holder.binding.txtOffer.setText(vendorList[position].coupan?.discount + "%")
                 holder.binding.llOffer.visibility = View.VISIBLE
             } else {
                 holder.binding.llOffer.visibility = View.GONE

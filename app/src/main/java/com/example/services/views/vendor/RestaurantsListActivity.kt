@@ -38,6 +38,7 @@ class RestaurantsListActivity : BaseActivity(), CompoundButton.OnCheckedChangeLi
     private var mDialogClass = DialogClass()
     var cartObject = JsonObject()
     var pos = 0
+    var discount = ""
 
     override fun getLayoutId(): Int {
         return R.layout.activity_favorite_list
@@ -63,17 +64,26 @@ class RestaurantsListActivity : BaseActivity(), CompoundButton.OnCheckedChangeLi
         //resources.getString(R.string.restaurants)
         // }
         favoriteBinding.switchMaterial.setOnCheckedChangeListener(this)
-
+        discount = intent.extras?.get("discount").toString()
         if (UtilsFunctions.isNetworkConnected()) {
             startProgressDialog()
             vendorsViewModel.getVendorList(
                 GlobalConstants.DELIVERY_PICKUP_TYPE,
                 GlobalConstants.CURRENT_LAT,
                 GlobalConstants.CURRENT_LONG,
-                ""
+                "",
+                discount
             )
             //cartViewModel.getvendorList(userId)
         }
+
+        if (discount.equals("")) {
+            favoriteBinding.imgCoupon.visibility = View.GONE
+        } else {
+            favoriteBinding.imgCoupon.visibility = View.VISIBLE
+        }
+
+
         vendorsViewModel.getVendorListRes().observe(this,
             Observer<VendorListResponse> { response ->
                 stopProgressDialog()
@@ -128,7 +138,7 @@ class RestaurantsListActivity : BaseActivity(), CompoundButton.OnCheckedChangeLi
                     GlobalConstants.DELIVERY_PICKUP_TYPE,
                     GlobalConstants.CURRENT_LAT,
                     GlobalConstants.CURRENT_LONG,
-                    "0"
+                    "0", discount
                 )
                 //cartViewModel.getvendorList(userId)
             }
@@ -140,6 +150,7 @@ class RestaurantsListActivity : BaseActivity(), CompoundButton.OnCheckedChangeLi
                     GlobalConstants.CURRENT_LAT,
                     GlobalConstants.CURRENT_LONG,
                     ""
+                    , discount
                 )
                 //cartViewModel.getvendorList(userId)
             }

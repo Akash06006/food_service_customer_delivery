@@ -19,7 +19,9 @@ class LandingResponse {
         @SerializedName("cartCompanyType")
         @Expose
         var cartCompanyType: String? = null
-
+        @SerializedName("restOffers")
+        @Expose
+        var restOffers: ArrayList<RestOffers>? = null
         @SerializedName("offers")
         @Expose
         var offers: ArrayList<Offers>? = null
@@ -73,6 +75,15 @@ class LandingResponse {
         @SerializedName("status")
         @Expose
         var status: String? = null
+    }
+
+    inner class RestOffers {
+        @SerializedName("discount")
+        @Expose
+        var discount: String? = null
+        @SerializedName("name")
+        @Expose
+        var name: String? = null
     }
 
     inner class Offers {

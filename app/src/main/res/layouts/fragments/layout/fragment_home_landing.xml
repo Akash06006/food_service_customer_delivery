@@ -278,6 +278,22 @@
                         android:layout_marginTop="10dp"
                         android:gravity="center_vertical">
 
+                        <com.github.angads25.toggle.LabeledSwitch
+                            android:id="@+id/switchDelPickup"
+                            android:layout_width="120dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="15dp"
+                            android:switchTextAppearance="@style/SwitchTextAppearance"
+                            android:textSize="14sp"
+                            app:colorBorder="@color/colorWhite"
+                            app:colorOff="#00c4a6"
+                            android:textColor="#ffffff"
+                            app:colorOn="@color/colorPrimary"
+                            app:on="true"
+                            app:textOff="Pickup"
+                            app:textOn="Delivery" />
+
+
                         <RadioGroup
                             android:id="@+id/delPickup"
                             android:layout_width="180dp"
@@ -286,7 +302,8 @@
                             android:layout_marginRight="50dp"
                             android:background="@drawable/del_pickup_back"
                             android:checkedButton="@+id/offer"
-                            android:orientation="horizontal">
+                            android:orientation="horizontal"
+                            android:visibility="gone">
 
                             <RadioButton
                                 android:id="@+id/rdDelivery"

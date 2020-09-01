@@ -103,7 +103,7 @@
                     android:text="@string/cart_quotes"
                     android:textAllCaps="false"
                     android:textColor="@color/colorBlack"
-                    android:textSize="16sp"
+                    android:textSize="22sp"
                     android:textStyle="bold"
                     app:font="@{`betty`}"
                     tools:ignore="AllCaps" />

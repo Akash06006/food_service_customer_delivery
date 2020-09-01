@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Handler
 import android.text.TextUtils
 import android.view.View
+import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.DataBindingUtil
 import com.example.services.R
 import com.example.services.application.MyApplication
@@ -39,7 +40,8 @@ class SplashActivity : BaseActivity() {
     override fun initViews() {
         mContext = this
         mActivitySplashBinding = viewDataBinding as ActivitySplashBinding
-        //  mActivitySplashBinding = DataBindingUtil.setContentView(this, R.layout.activity_splash)
+
+
 
         sharedPrefClass = SharedPrefClass()
         /*val token: String? = "sd"
@@ -61,6 +63,8 @@ class SplashActivity : BaseActivity() {
     }
 
     private fun callAnimation() {
+        mActivitySplashBinding!!.txtQuote.typeface =
+            ResourcesCompat.getFont(this, R.font.sixty_nine_demo)
         mActivitySplashBinding!!.imgIcon.visibility = View.GONE
         mActivitySplashBinding!!.imgText.visibility = View.VISIBLE
         mActivitySplashBinding!!.animationView.visibility = View.VISIBLE

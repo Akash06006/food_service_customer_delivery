@@ -14,6 +14,7 @@ import android.view.Window
 import android.view.animation.AnimationUtils
 import android.widget.*
 import androidx.annotation.RequiresApi
+import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
@@ -471,6 +472,8 @@ class CartListActivity : BaseActivity(), DialogssInterface {
         animationView = confirmationDialog?.findViewById<View>(R.id.animationView)
         val llSlots = confirmationDialog?.findViewById<RelativeLayout>(R.id.ll_slots)
         llSlots?.visibility = View.VISIBLE
+        val txtQuote = confirmationDialog?.findViewById<TextView>(R.id.txtQuote)
+        txtQuote?.typeface = ResourcesCompat.getFont(this, R.font.sixty_nine_demo)
         val animation = AnimationUtils.loadAnimation(this, R.anim.anim)
         animation.setDuration(500)
         llSlots?.setAnimation(animation)

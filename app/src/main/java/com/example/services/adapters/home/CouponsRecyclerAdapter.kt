@@ -47,17 +47,13 @@ class CouponsRecyclerAdapter(
     override fun onBindViewHolder(@NonNull holder: ViewHolder, position: Int) {
         viewHolder = holder
 
-        /*holder.binding!!.txtVendorName.setText(topPicksList[position].companyName)
+     /*   holder.binding!!.txtVendorName.setText(topPicksList[position].companyName)
         Glide.with(mContext).load(topPicksList[position].logo1)
-            .into(holder.binding!!.imgVendor)
+            .into(holder.binding!!.imgVendor)*/
 
         holder.binding!!.llVendor.setOnClickListener {
-            GlobalConstants.COMPANY_ID = topPicksList[position].id.toString()
-            GlobalConstants.CATEGORY_SELECTED_NAME = topPicksList[position].companyName.toString()
-            GlobalConstants.CATEGORY_SELECTED = topPicksList[position].id.toString()
-            val intent = Intent(activity, DashboardActivity::class.java)
-            mContext.startActivity(intent)
-        }*/
+            mContext.viewOffersRestaurant(position)
+        }
     }
 
     override fun getItemCount(): Int {
