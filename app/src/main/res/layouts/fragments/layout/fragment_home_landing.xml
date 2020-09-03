@@ -17,17 +17,19 @@
     <!--<ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">-->
-
+    <!--
+            android:background="@drawable/back_image"-->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/back_image"
         android:orientation="vertical">
-
+        <!--
+                    android:background="@drawable/back_image"-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/back_image"
+
+            android:background="#ffffff"
             android:orientation="vertical">
 
             <RelativeLayout
@@ -144,11 +146,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical">
-
+<!--
+                        android:layout_marginTop="@dimen/dp_10"-->
                     <RelativeLayout
                         android:layout_width="match_parent"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp_10"
+                        android:background="@color/colorPrimary"
                         android:orientation="horizontal">
 
                         <ImageView
@@ -160,7 +165,7 @@
                             android:layout_alignParentLeft="true"
                             android:layout_marginLeft="@dimen/dp_10"
                             android:layout_marginRight="@dimen/dp_10"
-                            android:backgroundTint="#000"
+                            android:backgroundTint="#ffffff"
                             android:onClick="@{(v) -> homeViewModel.clickListener(v)}"
                             android:src="@drawable/ic_menu"
                             android:visibility="visible" />
@@ -178,7 +183,6 @@
                             android:drawableLeft="@drawable/ic_search"
                             android:drawablePadding="@dimen/dp_10"
                             android:editable="false"
-                            android:elevation="@dimen/dp_5"
                             android:gravity="center_vertical"
                             android:hint="Search for restaurant or dish"
                             android:imeOptions="actionDone"
@@ -199,7 +203,7 @@
                             android:layout_alignParentRight="true"
                             android:layout_marginLeft="@dimen/dp_10"
                             android:layout_marginRight="@dimen/dp_10"
-                            android:backgroundTint="#000"
+                            android:backgroundTint="#ffffff"
                             android:onClick="@{(v) -> homeViewModel.clickListener(v)}"
                             android:src="@drawable/ic_cart"
                             android:visibility="visible" />
@@ -284,10 +288,11 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="15dp"
                             android:switchTextAppearance="@style/SwitchTextAppearance"
+                            android:textColor="#ffffff"
                             android:textSize="14sp"
+                            android:visibility="gone"
                             app:colorBorder="@color/colorWhite"
                             app:colorOff="#00c4a6"
-                            android:textColor="#ffffff"
                             app:colorOn="@color/colorPrimary"
                             app:on="true"
                             app:textOff="Pickup"
@@ -300,21 +305,22 @@
                             android:layout_height="30dp"
                             android:layout_marginLeft="15dp"
                             android:layout_marginRight="50dp"
-                            android:background="@drawable/del_pickup_back"
+
                             android:checkedButton="@+id/offer"
                             android:orientation="horizontal"
-                            android:visibility="gone">
+                            android:visibility="visible">
 
+                            <!--android:background="@drawable/del_pickup_back"-->
+
+                            <!--                                android:background="@drawable/round_back_transparent_new"
+                            -->
                             <RadioButton
                                 android:id="@+id/rdDelivery"
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
-                                android:layout_marginLeft="2dp"
                                 android:layout_marginTop="2dp"
                                 android:layout_marginBottom="2dp"
                                 android:layout_weight="1"
-                                android:background="@drawable/round_back_transparent_new"
-                                android:button="@null"
                                 android:gravity="center"
                                 android:text="Delivery"
                                 android:textColor="@color/colorBlack" />
@@ -327,7 +333,6 @@
                                 android:layout_marginRight="2dp"
                                 android:layout_marginBottom="2dp"
                                 android:layout_weight="1"
-                                android:button="@null"
                                 android:checked="false"
                                 android:gravity="center"
                                 android:text="Pickup"
@@ -437,7 +442,7 @@
                             android:layout_alignParentRight="true"
                             android:layout_marginTop="@dimen/dp_5"
                             android:layout_marginRight="@dimen/dp_15"
-                            android:background="@drawable/shape_round_top_corner"
+                            android:background="@drawable/shape_round_stroke"
                             android:elevation="5dp"
                             android:gravity="center"
                             android:onClick="@{(v) -> homeViewModel.clickListener(v)}"
@@ -447,7 +452,7 @@
                             android:paddingBottom="5dp"
                             android:text="View All"
                             android:textAllCaps="false"
-                            android:textColor="@color/colorWhite"
+                            android:textColor="@color/colorPrimary"
                             android:textSize="@dimen/sp_14"
                             android:textStyle="bold" />
                     </RelativeLayout>

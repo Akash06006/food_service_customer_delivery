@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- <color name="colorPrimary">#F75469</color>-->
+    <!--DC143C-->
 
-    <color name="colorPrimary">#DC143C</color>
+    <color name="colorPrimary">#DAA03EB1</color>
     <!--<color name="colorPrimary">#97D729</color>-->
-    <color name="colorPrimaryDark">#DC143C</color>
+    <color name="colorPrimaryDark">#DAA03EB1</color>
     <color name="lightColor">#F6C1CC</color>
     <color name="colorAccent">#000000</color>
     <color name="colorWhite">#ffffff</color>
@@ -38,6 +39,6 @@
     <color name="salonBtnBackground">#97D729</color>
     <color name="btnBackgroundWhite">#F8F8F8</color>
     <color name="colorPrice">#1DBB2D</color>
-    <color name="driftColorAccent">#DC143C</color>
+    <color name="driftColorAccent">#DAA03EB1</color>
 
 </resources>

@@ -359,8 +359,8 @@ LandingHomeFragment : BaseFragment(), DialogssInterface, CompoundButton.OnChecke
                         GlobalConstants.DELIVERY_PICKUP_TYPE,
                         "1"
                     )
-                    rdDelivery.setBackgroundResource(R.drawable.round_back_transparent_new)
-                    rdPickup.setBackgroundResource(R.color.transparent)
+                    // rdDelivery.setBackgroundResource(R.drawable.round_back_transparent_new)
+                    // rdPickup.setBackgroundResource(R.color.transparent)
                     if (UtilsFunctions.isNetworkConnected()) {
                         // baseActivity.startProgressDialog()
                         homeViewModel.getCategories(
@@ -378,8 +378,8 @@ LandingHomeFragment : BaseFragment(), DialogssInterface, CompoundButton.OnChecke
                         GlobalConstants.DELIVERY_PICKUP_TYPE,
                         "0"
                     )
-                    rdPickup.setBackgroundResource(R.drawable.round_back_transparent_new)
-                    rdDelivery.setBackgroundResource(R.color.transparent)
+                    //rdPickup.setBackgroundResource(R.drawable.round_back_transparent_new)
+                    //  rdDelivery.setBackgroundResource(R.color.transparent)
                     if (UtilsFunctions.isNetworkConnected()) {
                         // baseActivity.startProgressDialog()
                         homeViewModel.getCategories(
