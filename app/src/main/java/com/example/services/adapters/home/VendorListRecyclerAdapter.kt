@@ -55,14 +55,14 @@ class VendorListRecyclerAdapter(
         var col = ""
         GlobalConstants.RANDOM_COLOR = UtilsFunctions.getRandomColor()
         holder.binding!!.txtRestName.setText(vendorList[position].companyName)
-        holder.binding!!.txtRestName.setTextColor(
+        /*holder.binding!!.txtRestName.setTextColor(
             ColorStateList.valueOf(
                 Color.parseColor(
                     GlobalConstants.RANDOM_COLOR
                     // UtilsFunctions.getRandomColor()
                 )
             )
-        )
+        )*/
 
         holder.binding!!.txtAddress.setText(vendorList[position].address1)
         holder.binding!!.txtTotalOrders.setText(vendorList[position].totalOrders)
@@ -91,15 +91,15 @@ class VendorListRecyclerAdapter(
         val color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
         if (!color.equals(mContext.resources.getColor(R.color.colorWhite))) {
             //mContext.baseActivity.showToastError("black")
-            holder.binding!!.txtMarqueText.setTextColor(
-                ColorStateList.valueOf(
-                    Color.parseColor(
-                        GlobalConstants.RANDOM_COLOR
-                        //UtilsFunctions.getRandomColor()
-                    )
-                    //colorCode
-                )
-            )
+            /* holder.binding!!.txtMarqueText.setTextColor(
+                 ColorStateList.valueOf(
+                     Color.parseColor(
+                         GlobalConstants.RANDOM_COLOR
+                         //UtilsFunctions.getRandomColor()
+                     )
+                     //colorCode
+                 )
+             )*/
         } else {
             // mContext.baseActivity.showToastError("other")
 
