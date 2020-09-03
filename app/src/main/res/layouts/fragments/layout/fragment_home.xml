@@ -18,7 +18,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/back_image">
+        android:background="#ffffff">
 
         <LinearLayout
             android:id="@+id/upper_container"

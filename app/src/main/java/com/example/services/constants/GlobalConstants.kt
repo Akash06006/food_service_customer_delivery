@@ -127,7 +127,7 @@ object GlobalConstants {
     @JvmStatic
     var CATEGORY_SELECTED_NAME = "CATEGORY_SELECTED_NAME"
     @JvmStatic
-    var Currency = "Rs"
+    var Currency = "$"
     @JvmStatic
     var COLOR_CODE = "#DC143C"
     @JvmStatic
@@ -141,8 +141,8 @@ object GlobalConstants {
     @JvmStatic
     var DELIVERY_PICKUP_TYPE = "1"
     @JvmStatic
-    var CURRENT_LAT = "33.3699198"
+    var CURRENT_LAT = "40.7138353"
     @JvmStatic
-    var CURRENT_LONG = "-104.6008557"
+    var CURRENT_LONG = "-73.9920178"
 
 }

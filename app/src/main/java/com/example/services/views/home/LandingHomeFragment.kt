@@ -129,7 +129,7 @@ LandingHomeFragment : BaseFragment(), DialogssInterface, CompoundButton.OnChecke
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun initView() {
         var cartCategoryTypeId: String? = null
-        // showPaymentSuccessDialog()
+        //showPaymentSuccessDialog()
         fragmentHomeBinding = viewDataBinding as FragmentHomeLandingBinding
         homeViewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
         fragmentHomeBinding.homeViewModel = homeViewModel
@@ -431,6 +431,10 @@ LandingHomeFragment : BaseFragment(), DialogssInterface, CompoundButton.OnChecke
             this, Observer<String>(function =
             fun(it: String?) {
                 when (it) {
+                    "imgNavigation" -> {
+                        (activity as LandingMainActivity).openCloseDrawer()
+                    }
+
                     "txtSeeAll" -> {
                         val intent = Intent(activity, RestaurantsListActivity::class.java)
                         intent.putExtra("discount", "")
@@ -657,8 +661,8 @@ LandingHomeFragment : BaseFragment(), DialogssInterface, CompoundButton.OnChecke
                     } else {
                         currentLat = location.latitude.toString()
                         currentLong = location.longitude.toString()
-                        GlobalConstants.CURRENT_LAT = currentLat
-                        GlobalConstants.CURRENT_LONG = currentLong
+                        //GlobalConstants.CURRENT_LAT = currentLat
+                        //GlobalConstants.CURRENT_LONG = currentLong
                         if (UtilsFunctions.isNetworkConnected()) {
                             // baseActivity.startProgressDialog()
                             homeViewModel.getCategories(
@@ -738,8 +742,8 @@ LandingHomeFragment : BaseFragment(), DialogssInterface, CompoundButton.OnChecke
             val mLastLocation: Location = locationResult.lastLocation
             currentLat = mLastLocation.latitude.toString()
             currentLong = mLastLocation.longitude.toString()
-            GlobalConstants.CURRENT_LAT = currentLat
-            GlobalConstants.CURRENT_LONG = currentLong
+            //GlobalConstants.CURRENT_LAT = currentLat
+            //GlobalConstants.CURRENT_LONG = currentLong
             if (UtilsFunctions.isNetworkConnected()) {
                 // baseActivity.startProgressDialog()
                 homeViewModel.getCategories(

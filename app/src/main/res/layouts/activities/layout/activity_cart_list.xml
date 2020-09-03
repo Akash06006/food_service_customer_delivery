@@ -17,7 +17,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/back_image"
+        android:background="#ffffff"
         android:orientation="vertical">
 
         <include
@@ -289,11 +289,11 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentBottom="true"
                         android:layout_marginBottom="@dimen/dp_5"
-                        android:background="@drawable/btn_bg_shape_colored_primary"
+                        android:background="@drawable/shape_round_stroke"
                         android:elevation="@dimen/dp_5"
                         android:onClick="@{(v) -> cartViewModel.clickListener(v)}"
                         android:text="@string/continues"
-                        android:textColor="@color/colorWhite"
+                        android:textColor="@color/colorPrimary"
                         android:visibility="gone" />
                 </LinearLayout>
 

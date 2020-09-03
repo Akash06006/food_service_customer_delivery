@@ -352,12 +352,12 @@
                         android:layout_marginLeft="@dimen/dp_20"
                         android:layout_marginTop="@dimen/dp_20"
                         android:layout_marginRight="@dimen/dp_20"
-                        android:background="@drawable/btn_bg_shape_colored_primary"
+                        android:background="@drawable/shape_round_stroke"
                         android:elevation="@dimen/dp_15"
                         android:gravity="center"
                         android:text="@string/apply_filter"
                         android:textAlignment="center"
-                        android:textColor="@color/colorWhite"
+                        android:textColor="@color/colorPrimary"
                         android:textStyle="bold"
                         />
 
@@ -370,11 +370,11 @@
                         android:layout_marginTop="@dimen/dp_15"
                         android:layout_marginRight="@dimen/dp_20"
                         android:layout_marginBottom="@dimen/dp_5"
-                        android:background="@drawable/shape_round_corner_grey"
+                        android:background="@drawable/shape_round_stroke"
                         android:gravity="center"
                         android:text="@string/clear_filters"
                         android:textAlignment="center"
-                        android:textColor="@color/colorBlack"
+                        android:textColor="@color/colorPrimary"
                         android:textStyle="bold"
                         />
 

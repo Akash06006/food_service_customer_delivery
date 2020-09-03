@@ -174,7 +174,8 @@ class LandingMainActivity : BaseActivity(),
                         activityLandingBinding!!.drawerLayout.closeDrawers()
                     }
                     "tv_nav_chat" -> {
-                        Drift.showCreateConversationActivity(this)
+                        // Drift.showCreateConversationActivity(this)
+                        showToastSuccess("Coming Soon")
                     }
 
                     "tv_nav_logout" -> {
@@ -276,7 +277,6 @@ class LandingMainActivity : BaseActivity(),
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {
-
             }
 
             override fun onTabReselected(tab: TabLayout.Tab?) {
@@ -285,6 +285,14 @@ class LandingMainActivity : BaseActivity(),
             }
         })
 
+    }
+
+    public fun openCloseDrawer() {
+        if (drawer!!.isDrawerOpen(GravityCompat.START)) {
+            drawer!!.closeDrawer(Gravity.LEFT) //CLOSE Nav Drawer!
+        } else {
+            drawer!!.openDrawer(Gravity.LEFT)
+        }
     }
 
 

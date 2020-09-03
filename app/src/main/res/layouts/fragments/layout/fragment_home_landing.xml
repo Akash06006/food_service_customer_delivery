@@ -146,15 +146,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical">
-<!--
-                        android:layout_marginTop="@dimen/dp_10"-->
+                    <!--
+                                            android:layout_marginTop="@dimen/dp_10"-->
                     <RelativeLayout
                         android:layout_width="match_parent"
-                        android:paddingTop="10dp"
-                        android:paddingBottom="10dp"
                         android:layout_height="wrap_content"
                         android:background="@color/colorPrimary"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp">
 
                         <ImageView
                             android:id="@+id/imgNavigation"
@@ -179,7 +179,7 @@
                             android:layout_marginBottom="2dp"
                             android:layout_toLeftOf="@+id/imgCart"
                             android:layout_toRightOf="@+id/imgNavigation"
-                            android:background="@drawable/round_back_transparent"
+                            android:background="@drawable/round_back_transparent_search"
                             android:drawableLeft="@drawable/ic_search"
                             android:drawablePadding="@dimen/dp_10"
                             android:editable="false"
@@ -303,7 +303,7 @@
                             android:id="@+id/delPickup"
                             android:layout_width="180dp"
                             android:layout_height="30dp"
-                            android:layout_marginLeft="15dp"
+                            android:layout_marginLeft="10dp"
                             android:layout_marginRight="50dp"
 
                             android:checkedButton="@+id/offer"
@@ -330,7 +330,7 @@
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
                                 android:layout_marginTop="2dp"
-                                android:layout_marginRight="2dp"
+                                android:layout_marginLeft="5dp"
                                 android:layout_marginBottom="2dp"
                                 android:layout_weight="1"
                                 android:checked="false"
@@ -348,7 +348,8 @@
                             android:checked="false"
                             android:padding="5dp"
                             android:switchPadding="5dp"
-                            android:text="Veg Only  " />
+                            android:text="Veg Only  "
+                            android:textColor="@color/colorSuccess" />
                     </RelativeLayout>
 
 

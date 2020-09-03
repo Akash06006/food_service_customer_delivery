@@ -293,7 +293,7 @@
     <string name="otp_not_received_text">Didn\'t get OTP? </string>
     <string name="resend">Resend</string>
 
-    <string name="create_profile">Create Profile</string>
+    <string name="create_profile">Profile</string>
     <string name="house_no">House No.</string>
     <string name="city">City</string>
     <string name="address_type">Address Type</string>
@@ -307,7 +307,7 @@
     <string name="enter_address_details">Enter address details</string>
     <string name="warning_delete_address">Do you really want to delete this address?</string>
     <string name="warning_default_address">Do you really want to make this to default address?</string>
-    <string name="address_management">Address Management</string>
+    <string name="address_management">Addresses</string>
     <string name="search_saved_locations">Search Saved Locations</string>
     <string name="select_location">Select Location</string>
     <string name="saved_locations">Saved Locations</string>
@@ -383,7 +383,7 @@
     <string name="done">Done</string>
     <string name="success">Success</string>
     <string name="vendor">Vendors</string>
-    <string name="title_for_dates"> Please Add Birthday ans Anniversary details for getting offers and discount</string>
+    <string name="title_for_dates"> Please Add Birthday and Anniversary details for getting offers and discount</string>
     <string name="single"> Single</string>
     <string name="married"> Married</string>
     <string name="anniversary_date"> Select Anniversary Date</string>

@@ -50,7 +50,7 @@ class DashboardSubCatsRecyclerAdapter(
         holder.binding!!.catHeader.setText(categoriesList[position].name)
 
         Glide.with(mContext)
-            .load(categoriesList[position].icon)
+            .load(categoriesList[position].thumbnail)
             .apply(RequestOptions.bitmapTransform(RoundedCorners(20)))
             .placeholder(R.drawable.ic_category)
             .into(holder.binding.catImg)

@@ -132,7 +132,7 @@
             android:layout_marginLeft="@dimen/dp_20"
             android:layout_marginTop="@dimen/dp_35"
             android:layout_marginRight="@dimen/dp_20"
-            android:background="@drawable/shape_round_corner_black"
+            android:background="@drawable/shape_round_stroke"
             android:elevation="@dimen/dp_10"
             android:onClick="@{(v) -> loginViewModel.clickListener(v)}"
             android:paddingLeft="50dp"
@@ -141,7 +141,7 @@
             android:paddingBottom="@dimen/dp_10"
             android:src="@drawable/ic_arrow_forward"
             android:text="@string/verify"
-            android:textColor="@color/colorWhite" />
+            android:textColor="@color/buttonTextColor" />
 
     </LinearLayout>
 

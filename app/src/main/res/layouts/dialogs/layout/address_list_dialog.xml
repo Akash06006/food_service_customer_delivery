@@ -54,11 +54,11 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
-                        android:background="@drawable/btn_bg_shape_colored_primary"
+                        android:background="@drawable/shape_round_stroke"
                         android:gravity="center"
                         android:text="@string/cancel"
                         android:textAlignment="center"
-                        android:textColor="@color/colorWhite"
+                        android:textColor="@color/buttonTextColor"
                         android:textStyle="bold"
                         app:font="@{`bold`}"/>
 
