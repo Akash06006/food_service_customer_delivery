@@ -129,9 +129,9 @@ class OrdersListActivity : BaseActivity(), DialogssInterface {
                     when {
                         response.code == 200 -> {
                             startProgressDialog()
-                            //orderList.clear()
-                            // ordersViewModel.getOrderList()
-                            callRatingReviewsActivity(orderId)
+                            orderList.clear()
+                            ordersViewModel.getOrderList()
+                            // callRatingReviewsActivity(orderId)
                         }
                         else -> message?.let {
                             UtilsFunctions.showToastError(it)

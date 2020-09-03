@@ -71,7 +71,7 @@ abstract class BaseActivity : AppCompatActivity() {
         initializeProgressDialog()
         initViews()
 
-        checkAndRequestPermissions()
+
 
     }
 

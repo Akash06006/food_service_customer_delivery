@@ -400,5 +400,20 @@
 
     <string name="chat_support">Chat and Support</string>
     <string name="cart_quotes">I just do not want to look back and think  I could have eaten that </string>
+    <string name="filter_title">Filter your search</string>
+    <string name="sort">Sort</string>
+    <string name="popularity">Popularity</string>
+    <string name="high_to_low">High to Low</string>
+    <string name="low_to_high">Low to High</string>
+
+    <string name="more_filters">More Filters</string>
+
+    <string name="del_under">Delivery under 30 Mins</string>
+    <string name="great_offers">Great offers</string>
+    <string name="open_now">Open Now</string>
+    <string name="distance">Distance</string>
+    <string name="apply_filter">Apply Filters</string>
+    <string name="clear_filters">Clear Filters</string>
+    <string name="previously_ordered">Previously Ordered</string>
 
 </resources>

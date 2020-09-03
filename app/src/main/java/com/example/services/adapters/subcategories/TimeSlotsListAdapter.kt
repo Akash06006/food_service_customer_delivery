@@ -46,6 +46,7 @@ class TimeSlotsListAdapter(
         viewHolder = holder
         holder.binding!!.tvCatName.text = addressList[position].slot
         if (addressList[position].status.equals("1")) {
+            holder.binding.tvCatName.isEnabled = true
             if (!TextUtils.isEmpty(addressList[position].selected) && addressList[position].selected.equals(
                     "true"
                 )
@@ -61,6 +62,7 @@ class TimeSlotsListAdapter(
                 )
                 holder.binding.tvCatName.setTextColor(mContext.resources.getColor(R.color.colorWhite))
             } else {
+                holder.binding.tvCatName.isEnabled = true
                 // holder.binding.topLay.setBackgroundResource(R.drawable.shape_round_corner)
                 holder.binding.tvCatName.setTextColor(mContext.resources.getColor(R.color.colorBlack))
                 holder.binding.tvCatName.setBackgroundColor(mContext.resources.getColor(R.color.btnBackgroundWhite))

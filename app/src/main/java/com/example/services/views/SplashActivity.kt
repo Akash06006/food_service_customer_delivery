@@ -41,18 +41,19 @@ class SplashActivity : BaseActivity() {
         mContext = this
         mActivitySplashBinding = viewDataBinding as ActivitySplashBinding
 
-
-
         sharedPrefClass = SharedPrefClass()
-        /*val token: String? = "sd"
-
-          if (token != null) {
-              sharedPrefClass!!.putObject(
-                  applicationContext,
-                  GlobalConstants.NOTIFICATION_TOKEN,
-                  token
-              )
-          }*/
+        //var token = ""
+        if (TextUtils.isEmpty(GlobalConstants.NOTIFICATION_TOKEN)) {
+            //  token = "sd"
+            GlobalConstants.NOTIFICATION_TOKEN = "sd"
+        }
+        //if (GlobalConstants.NOTIFICATION_TOKEN != null) {
+        sharedPrefClass!!.putObject(
+            applicationContext,
+            GlobalConstants.NOTIFICATION_TOKEN,
+            GlobalConstants.NOTIFICATION_TOKEN
+        )
+        // }
 
         callAnimation()
         /*  Handler().postDelayed({

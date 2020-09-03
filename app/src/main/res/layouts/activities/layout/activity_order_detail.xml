@@ -102,24 +102,22 @@
                                 android:background="@color/colorPrimary" />
 
                             <TextView
-                                android:paddingRight="@dimen/dp_10"
-                                android:paddingLeft="@dimen/dp_10"
-                                android:paddingTop="@dimen/dp_5"
                                 android:id="@+id/btnReorder"
-                                android:visibility="gone"
-                                android:onClick="@{(v) -> cartViewModel.clickListener(v)}"
-                                android:elevation="@dimen/dp_3"
-                                android:textColor="@color/white"
-                                android:paddingBottom="@dimen/dp_5"
-                                android:background="@drawable/round_red_shape"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
                                 android:layout_marginTop="@dimen/dp_5"
                                 android:layout_marginRight="@dimen/dp_5"
-                                android:layout_alignParentRight="true"
+                                android:background="@drawable/round_red_shape"
+                                android:elevation="@dimen/dp_3"
+                                android:onClick="@{(v) -> cartViewModel.clickListener(v)}"
+                                android:paddingLeft="@dimen/dp_10"
+                                android:paddingTop="@dimen/dp_5"
+                                android:paddingRight="@dimen/dp_10"
+                                android:paddingBottom="@dimen/dp_5"
                                 android:text="Re Order"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"/>
-
-
+                                android:textColor="@color/white"
+                                android:visibility="gone" />
 
 
                         </RelativeLayout>
@@ -580,7 +578,8 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="@dimen/dp_5"
-                        android:layout_marginTop="@dimen/dp_5">
+                        android:layout_marginTop="@dimen/dp_5"
+                        android:layout_marginBottom="@dimen/dp_5">
 
                         <ImageView
                             android:id="@+id/imgDriver"

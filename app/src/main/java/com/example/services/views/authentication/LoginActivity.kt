@@ -33,6 +33,7 @@ class LoginActivity : BaseActivity() {
     private val mJsonObject = JsonObject()
 
     override fun initViews() {
+        checkAndRequestPermissions()
         activityLoginbinding = DataBindingUtil.setContentView(this, R.layout.activity_login)
         loginViewModel = ViewModelProviders.of(this).get(LoginViewModel::class.java)
         activityLoginbinding.loginViewModel = loginViewModel
@@ -122,12 +123,12 @@ class LoginActivity : BaseActivity() {
                             startActivity(intent)
                             finish()
 
-                         //   FirebaseFunctions.sendOTP("login", mJsonObject, this)
+                            //   FirebaseFunctions.sendOTP("login", mJsonObject, this)
 
                         }
-                       /*  response.code == 204 -> {
-                             FirebaseFunctions.sendOTP("signup", mJsonObject, this)
-                         }*/
+                        /*  response.code == 204 -> {
+                              FirebaseFunctions.sendOTP("signup", mJsonObject, this)
+                          }*/
                         else -> showToastError(message)
                     }
 
@@ -141,63 +142,69 @@ class LoginActivity : BaseActivity() {
                 val phone = activityLoginbinding.etPhoneNo.text.toString()
                 when (it) {
                     "btn_login" -> {
-                        when {
-                            TextUtils.isEmpty(phone) -> run {
-                                activityLoginbinding.etPhoneNo.requestFocus()
-                                activityLoginbinding.etPhoneNo.error =
-                                    getString(R.string.empty) + " " + getString(
-                                        R.string.phone_number
+                        if (UtilsFunctions.isNetworkConnected()) {
+                            when {
+                                TextUtils.isEmpty(phone) -> run {
+                                    activityLoginbinding.etPhoneNo.requestFocus()
+                                    activityLoginbinding.etPhoneNo.error =
+                                        getString(R.string.empty) + " " + getString(
+                                            R.string.phone_number
+                                        )
+                                }
+                                else -> {
+                                    mJsonObject.addProperty("phoneNumber", phone)
+                                    mJsonObject.addProperty(
+                                        "deviceToken",
+                                        SharedPrefClass().getPrefValue(
+                                            MyApplication.instance,
+                                            GlobalConstants.NOTIFICATION_TOKEN
+                                        ) as String
                                     )
-                            }
-                            else -> {
-                                mJsonObject.addProperty("phoneNumber", phone)
-                                mJsonObject.addProperty(
-                                    "deviceToken",
-                                    SharedPrefClass().getPrefValue(
-                                        MyApplication.instance,
-                                        GlobalConstants.NOTIFICATION_TOKEN
-                                    ) as String
-                                )
-                                val versionName = MyApplication.instance.packageManager
-                                    .getPackageInfo(MyApplication.instance.packageName, 0)
-                                    .versionName
-                                val androidId = UtilsFunctions.getAndroidID()
+                                    val versionName = MyApplication.instance.packageManager
+                                        .getPackageInfo(MyApplication.instance.packageName, 0)
+                                        .versionName
+                                    val androidId = UtilsFunctions.getAndroidID()
 
-                                mJsonObject.addProperty("platform", GlobalConstants.PLATFORM)
-                                mJsonObject.addProperty(
-                                    "countryCode",
-                                    "+" + activityLoginbinding.btnCcp.selectedCountryCode
-                                )
-                                mJsonObject.addProperty(
-                                    "companyId",
-                                    "25cbf58b-46ba-4ba2-b25d-8f8f653e9f13"
-                                )
-                                mJsonObject.addProperty("device_id", androidId)
-                                mJsonObject.addProperty("app-version", versionName)
-                                loginViewModel.checkPhoneExistence(mJsonObject)
+                                    mJsonObject.addProperty(
+                                        "platform",
+                                        GlobalConstants.PLATFORM
+                                    )
+                                    mJsonObject.addProperty(
+                                        "countryCode",
+                                        "+" + activityLoginbinding.btnCcp.selectedCountryCode
+                                    )
+                                    mJsonObject.addProperty(
+                                        "companyId",
+                                        "25cbf58b-46ba-4ba2-b25d-8f8f653e9f13"
+                                    )
+                                    mJsonObject.addProperty("device_id", androidId)
+                                    mJsonObject.addProperty("app-version", versionName)
+                                    loginViewModel.checkPhoneExistence(mJsonObject)
 
-                                SharedPrefClass().putObject(
-                                    applicationContext,
-                                    getString(R.string.key_phone),
-                                    phone
-                                )
+                                    SharedPrefClass().putObject(
+                                        applicationContext,
+                                        getString(R.string.key_phone),
+                                        phone
+                                    )
 
-                                SharedPrefClass().putObject(
-                                    applicationContext,
-                                    getString(R.string.key_country_code),
-                                    "+" + activityLoginbinding.btnCcp.selectedCountryCode
-                                )
-                                //  FirebaseFunctions.sendOTP("signup", mJsonObject, this)
-                                /*    val mSmsBroadcastReceiver = SMSBroadcastReciever()
-                                    //set google api client for hint request
-                                    //  mSmsBroadcastReceiver.setOnOtpListeners(baseContext)
-                                    val intentFilter = IntentFilter()
-                                    intentFilter.addAction(SmsRetriever.SMS_RETRIEVED_ACTION)
-                                    LocalBroadcastManager.getInstance(this)
-                                        .registerReceiver(mSmsBroadcastReceiver, intentFilter)*/
+                                    SharedPrefClass().putObject(
+                                        applicationContext,
+                                        getString(R.string.key_country_code),
+                                        "+" + activityLoginbinding.btnCcp.selectedCountryCode
+                                    )
+                                    //  FirebaseFunctions.sendOTP("signup", mJsonObject, this)
+                                    /*    val mSmsBroadcastReceiver = SMSBroadcastReciever()
+                                        //set google api client for hint request
+                                        //  mSmsBroadcastReceiver.setOnOtpListeners(baseContext)
+                                        val intentFilter = IntentFilter()
+                                        intentFilter.addAction(SmsRetriever.SMS_RETRIEVED_ACTION)
+                                        LocalBroadcastManager.getInstance(this)
+                                            .registerReceiver(mSmsBroadcastReceiver, intentFilter)*/
 
+                                }
                             }
                         }
+
                     }
                 }
 

@@ -84,6 +84,10 @@ class LandingResponse {
         @SerializedName("name")
         @Expose
         var name: String? = null
+        @SerializedName("thumbnail")
+        @Expose
+        var thumbnail: String? = null
+
     }
 
     inner class Offers {

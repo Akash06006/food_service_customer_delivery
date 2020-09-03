@@ -81,9 +81,6 @@ class OrdersDetailActivity : BaseActivity(), DialogssInterface {
     }
 
 
-
-
-
     override fun initViews() {
         orderBinding = viewDataBinding as ActivityOrderDetailBinding
         reviewsViewModel = ViewModelProviders.of(this).get(RatingReviewsViewModel::class.java)
@@ -130,6 +127,7 @@ class OrdersDetailActivity : BaseActivity(), DialogssInterface {
                                     orderBinding.txtCurrentStatus.setTextColor(resources.getColor(R.color.colorSuccess))
                                 }
                                 "5" -> {
+                                    orderBinding.btnComplete.visibility = View.INVISIBLE
                                     orderBinding.animationConfirmed.visibility = View.VISIBLE
                                     orderBinding.txtCurrentStatus.setTextColor(resources.getColor(R.color.colorSuccess))
                                     orderBinding.btnReorder.visibility = View.VISIBLE
@@ -269,10 +267,15 @@ class OrdersDetailActivity : BaseActivity(), DialogssInterface {
                     val message = response.message
                     when {
                         response.code == 200 -> {
-                            startProgressDialog()
+                            if (UtilsFunctions.isNetworkConnected()) {
+                                reviewsViewModel.orderDetail(orderId)
+                                startProgressDialog()
+                            }
+                            // startProgressDialog()
                             //orderList.clear()
                             // ordersViewModel.getOrderList()
-                            callRatingReviewsActivity(orderId)
+                            //callRatingReviewsActivity(orderId)
+
                         }
                         else -> message?.let {
                             UtilsFunctions.showToastError(it)

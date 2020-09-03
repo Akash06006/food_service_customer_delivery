@@ -12,7 +12,6 @@ import android.location.Geocoder
 import android.location.Location
 import android.location.LocationManager
 import android.os.Build
-import android.os.Handler
 import android.os.Looper
 import android.provider.Settings
 import android.text.Html
@@ -22,7 +21,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.Window
 import android.view.animation.AnimationUtils
-import android.view.animation.LayoutAnimationController
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
@@ -59,12 +57,9 @@ import com.github.angads25.toggle.LabeledSwitch
 import com.github.angads25.toggle.interfaces.OnToggledListener
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.material.snackbar.Snackbar
 import com.google.gson.JsonObject
 import com.uniongoods.adapters.*
 import kotlinx.android.synthetic.main.fragment_home_landing.*
-import org.w3c.dom.Document
-import java.io.IOException
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -134,6 +129,7 @@ LandingHomeFragment : BaseFragment(), DialogssInterface, CompoundButton.OnChecke
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun initView() {
         var cartCategoryTypeId: String? = null
+        // showPaymentSuccessDialog()
         fragmentHomeBinding = viewDataBinding as FragmentHomeLandingBinding
         homeViewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
         fragmentHomeBinding.homeViewModel = homeViewModel
@@ -208,8 +204,8 @@ LandingHomeFragment : BaseFragment(), DialogssInterface, CompoundButton.OnChecke
                                 fragmentHomeBinding.bannersViewpager.visibility = View.GONE
                             }*/
                             restOffersList.clear()
-                            // restOffersList.addAll(response.data?.restOffers!!)
-                            if (offersList.size > 0) {
+                            restOffersList.addAll(response.data?.restOffers!!)
+                            if (restOffersList.size > 0) {
                                 couponListRecyclerView()
                                 fragmentHomeBinding.txtCoupons.visibility = View.VISIBLE
                                 fragmentHomeBinding.rvCouponsList.visibility = View.VISIBLE
@@ -218,7 +214,7 @@ LandingHomeFragment : BaseFragment(), DialogssInterface, CompoundButton.OnChecke
                                 fragmentHomeBinding.rvCouponsList.visibility = View.GONE
                             }
                             offersList.clear()
-                            offersList.addAll(response.data?.offers!!)
+                            //offersList.addAll(response.data?.offers!!)
                             if (offersList.size > 0) {
                                 offerListViewPager()
                                 fragmentHomeBinding.offersLayout.visibility = View.VISIBLE
@@ -438,6 +434,7 @@ LandingHomeFragment : BaseFragment(), DialogssInterface, CompoundButton.OnChecke
                     "txtSeeAll" -> {
                         val intent = Intent(activity, RestaurantsListActivity::class.java)
                         intent.putExtra("discount", "")
+                        intent.putExtra("image", "")
                         startActivity(intent)
                     }
                     "etSearch" -> {
@@ -535,7 +532,7 @@ LandingHomeFragment : BaseFragment(), DialogssInterface, CompoundButton.OnChecke
         val topPicks =
             CouponsRecyclerAdapter(
                 this@LandingHomeFragment,
-                topPicksList/*offersList*/,
+                restOffersList/*offersList*/,
                 activity!!
             )
         val linearLayoutManager = LinearLayoutManager(this.baseActivity)
@@ -660,8 +657,8 @@ LandingHomeFragment : BaseFragment(), DialogssInterface, CompoundButton.OnChecke
                     } else {
                         currentLat = location.latitude.toString()
                         currentLong = location.longitude.toString()
-                        // GlobalConstants.CURRENT_LAT = currentLat
-                        //   GlobalConstants.CURRENT_LONG = currentLong
+                        GlobalConstants.CURRENT_LAT = currentLat
+                        GlobalConstants.CURRENT_LONG = currentLong
                         if (UtilsFunctions.isNetworkConnected()) {
                             // baseActivity.startProgressDialog()
                             homeViewModel.getCategories(
@@ -741,8 +738,8 @@ LandingHomeFragment : BaseFragment(), DialogssInterface, CompoundButton.OnChecke
             val mLastLocation: Location = locationResult.lastLocation
             currentLat = mLastLocation.latitude.toString()
             currentLong = mLastLocation.longitude.toString()
-            //  GlobalConstants.CURRENT_LAT = currentLat
-            // GlobalConstants.CURRENT_LONG = currentLong
+            GlobalConstants.CURRENT_LAT = currentLat
+            GlobalConstants.CURRENT_LONG = currentLong
             if (UtilsFunctions.isNetworkConnected()) {
                 // baseActivity.startProgressDialog()
                 homeViewModel.getCategories(
@@ -835,8 +832,122 @@ LandingHomeFragment : BaseFragment(), DialogssInterface, CompoundButton.OnChecke
 
     fun viewOffersRestaurant(position: Int) {
         val intent = Intent(activity, RestaurantsListActivity::class.java)
-        intent.putExtra("discount", "20")
+        intent.putExtra("discount", restOffersList[position].discount)
+        intent.putExtra("image", restOffersList[position].thumbnail)
         startActivity(intent)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    private fun showPaymentSuccessDialog() {
+        confirmationDialog = Dialog(activity, R.style.transparent_dialog)
+        confirmationDialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
+
+
+        confirmationDialog?.setContentView(R.layout.filter_dialog)
+        confirmationDialog?.setCancelable(false)
+
+        confirmationDialog?.window!!.setLayout(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.MATCH_PARENT
+        )
+        confirmationDialog?.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        val imgCross = confirmationDialog?.findViewById<ImageView>(R.id.imgCross)
+        val txtPopularity = confirmationDialog?.findViewById<TextView>(R.id.txtPopularity)
+        val txtHighLow = confirmationDialog?.findViewById<TextView>(R.id.txtHighLow)
+        val txtLowHigh = confirmationDialog?.findViewById<TextView>(R.id.txtLowHigh)
+
+        val txtDelUnder = confirmationDialog?.findViewById<TextView>(R.id.txtDelUnder)
+        val txtGreatOffers = confirmationDialog?.findViewById<TextView>(R.id.txtGreatOffers)
+        val txtOpenNow = confirmationDialog?.findViewById<TextView>(R.id.txtOpenNow)
+        val txtPrevOrdered = confirmationDialog?.findViewById<TextView>(R.id.txtPrevOrdered)
+
+        val seekbarDistance = confirmationDialog?.findViewById<SeekBar>(R.id.seekbarDistance)
+        val seekbarRating = confirmationDialog?.findViewById<SeekBar>(R.id.seekbarRating)
+        txtPopularity?.setOnClickListener {
+            setSortDefaultValue(txtPopularity, txtHighLow, txtLowHigh)
+            txtPopularity?.setTextColor(resources.getColor(R.color.colorWhite))
+            txtPopularity?.setBackgroundTintList(resources.getColorStateList(R.color.colorPrimary))
+
+        }
+        txtHighLow?.setOnClickListener {
+            setSortDefaultValue(txtPopularity, txtHighLow, txtLowHigh)
+            txtHighLow?.setTextColor(resources.getColor(R.color.colorWhite))
+            txtHighLow?.setBackgroundTintList(resources.getColorStateList(R.color.colorPrimary))
+
+        }
+        txtLowHigh?.setOnClickListener {
+            setSortDefaultValue(txtPopularity, txtHighLow, txtLowHigh)
+            txtLowHigh?.setTextColor(resources.getColor(R.color.colorWhite))
+            txtLowHigh?.setBackgroundTintList(resources.getColorStateList(R.color.colorPrimary))
+        }
+        txtDelUnder?.setOnClickListener {
+            setMoreFiltersDefaultValue(
+                txtDelUnder, txtGreatOffers, txtOpenNow, txtPrevOrdered
+            )
+            txtDelUnder?.setTextColor(resources.getColor(R.color.colorWhite))
+            txtDelUnder?.setBackgroundTintList(resources.getColorStateList(R.color.colorPrimary))
+        }
+        txtGreatOffers?.setOnClickListener {
+            setMoreFiltersDefaultValue(
+                txtDelUnder, txtGreatOffers, txtOpenNow, txtPrevOrdered
+            )
+            txtGreatOffers?.setTextColor(resources.getColor(R.color.colorWhite))
+            txtGreatOffers?.setBackgroundTintList(resources.getColorStateList(R.color.colorPrimary))
+        }
+        txtOpenNow?.setOnClickListener {
+            setMoreFiltersDefaultValue(
+                txtDelUnder, txtGreatOffers, txtOpenNow, txtPrevOrdered
+            )
+            txtOpenNow?.setTextColor(resources.getColor(R.color.colorWhite))
+            txtOpenNow?.setBackgroundTintList(resources.getColorStateList(R.color.colorPrimary))
+        }
+        txtPrevOrdered?.setOnClickListener {
+            setMoreFiltersDefaultValue(
+                txtDelUnder, txtGreatOffers, txtOpenNow, txtPrevOrdered
+            )
+            txtPrevOrdered?.setTextColor(resources.getColor(R.color.colorWhite))
+            txtPrevOrdered?.setBackgroundTintList(resources.getColorStateList(R.color.colorPrimary))
+        }
+
+        imgCross?.setOnClickListener {
+            confirmationDialog?.dismiss()
+
+        }
+        confirmationDialog?.show()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    private fun setSortDefaultValue(
+        txtPopularity: TextView?,
+        txtHighLow: TextView?,
+        txtLowHigh: TextView?
+    ) {
+        txtPopularity?.setTextColor(resources.getColor(R.color.colorBlack))
+        txtPopularity?.setBackgroundTintList(resources.getColorStateList(R.color.colorGreyLight))
+        txtHighLow?.setTextColor(resources.getColor(R.color.colorBlack))
+        txtHighLow?.setBackgroundTintList(resources.getColorStateList(R.color.colorGreyLight))
+        txtLowHigh?.setTextColor(resources.getColor(R.color.colorBlack))
+        txtLowHigh?.setBackgroundTintList(resources.getColorStateList(R.color.colorGreyLight))
+
+    }
+
+    //txtDelUnder, txtGreatOffers, txtOpenNow
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    private fun setMoreFiltersDefaultValue(
+        txtDelUnder: TextView?,
+        txtGreatOffers: TextView?,
+        txtOpenNow: TextView?,
+        txtPrevOrdered: TextView?
+    ) {
+        txtDelUnder?.setTextColor(resources.getColor(R.color.colorBlack))
+        txtDelUnder?.setBackgroundTintList(resources.getColorStateList(R.color.colorGreyLight))
+        txtGreatOffers?.setTextColor(resources.getColor(R.color.colorBlack))
+        txtGreatOffers?.setBackgroundTintList(resources.getColorStateList(R.color.colorGreyLight))
+        txtOpenNow?.setTextColor(resources.getColor(R.color.colorBlack))
+        txtOpenNow?.setBackgroundTintList(resources.getColorStateList(R.color.colorGreyLight))
+        txtPrevOrdered?.setTextColor(resources.getColor(R.color.colorBlack))
+        txtPrevOrdered?.setBackgroundTintList(resources.getColorStateList(R.color.colorGreyLight))
+
     }
 
 }

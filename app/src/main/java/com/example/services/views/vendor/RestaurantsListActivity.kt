@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.services.R
 import com.example.services.application.MyApplication
 import com.example.services.common.UtilsFunctions
@@ -65,6 +66,7 @@ class RestaurantsListActivity : BaseActivity(), CompoundButton.OnCheckedChangeLi
         // }
         favoriteBinding.switchMaterial.setOnCheckedChangeListener(this)
         discount = intent.extras?.get("discount").toString()
+        val image = intent.extras?.get("image").toString()
         if (UtilsFunctions.isNetworkConnected()) {
             startProgressDialog()
             vendorsViewModel.getVendorList(
@@ -80,6 +82,7 @@ class RestaurantsListActivity : BaseActivity(), CompoundButton.OnCheckedChangeLi
         if (discount.equals("")) {
             favoriteBinding.imgCoupon.visibility = View.GONE
         } else {
+            Glide.with(this).load(image).placeholder(resources.getDrawable(R.drawable.ic_category)).into(favoriteBinding.imgCoupon)
             favoriteBinding.imgCoupon.visibility = View.VISIBLE
         }
 
