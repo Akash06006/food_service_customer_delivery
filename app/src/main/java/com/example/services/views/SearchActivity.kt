@@ -50,11 +50,15 @@ class SearchActivity : BaseActivity() {
                 searchbinding.tvNoRecord.visibility = View.VISIBLE
                 if (radio == rdRestaurant) {
                     type = "restaurant"
+                    rdRestaurant.setTextColor(resources.getColor(R.color.colorWhite))
+                    rdDish.setTextColor(resources.getColor(R.color.colorBlack))
                     rdRestaurant.setBackgroundResource(R.drawable.round_back_transparent_new)
                     rdDish.setBackgroundResource(R.color.transparent)
 
                 } else {
                     type = "food"
+                    rdDish.setTextColor(resources.getColor(R.color.colorWhite))
+                    rdRestaurant.setTextColor(resources.getColor(R.color.colorBlack))
                     rdDish.setBackgroundResource(R.drawable.round_back_transparent_new)
                     rdRestaurant.setBackgroundResource(R.color.transparent)
 
@@ -66,10 +70,14 @@ class SearchActivity : BaseActivity() {
                 val radio: RadioButton = findViewById(checkedId)
                 if (radio == rdDelivery) {
                     DELIVERY_PICKUP_TYPE = "1"
+                    rdDelivery.setTextColor(resources.getColor(R.color.colorWhite))
+                    rdPickup.setTextColor(resources.getColor(R.color.colorBlack))
                     rdDelivery.setBackgroundResource(R.drawable.round_back_transparent_new)
                     rdPickup.setBackgroundResource(R.color.transparent)
                 } else {
                     DELIVERY_PICKUP_TYPE = "0"
+                    rdDelivery.setTextColor(resources.getColor(R.color.colorBlack))
+                    rdPickup.setTextColor(resources.getColor(R.color.colorWhite))
                     rdPickup.setBackgroundResource(R.drawable.round_back_transparent_new)
                     rdDelivery.setBackgroundResource(R.color.transparent)
                 }
@@ -92,7 +100,7 @@ class SearchActivity : BaseActivity() {
                                     searchbinding.rvList.visibility = View.VISIBLE
                                     searchbinding.tvNoRecord.visibility = View.GONE
                                     initRecyclerView()
-                                }else{
+                                } else {
                                     searchbinding.rvList.visibility = View.GONE
                                     searchbinding.tvNoRecord.visibility = View.VISIBLE
                                 }

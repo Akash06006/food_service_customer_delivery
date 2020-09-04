@@ -195,14 +195,14 @@ LandingHomeFragment : BaseFragment(), DialogssInterface, CompoundButton.OnChecke
 
                             GlobalConstants.COMPANY_ID = cartCategoryTypeId.toString()
                             bannerList.clear()
-                            /*bannerList.addAll(response.data?.banners!!)
+                            bannerList.addAll(response.data?.banners!!)
 
                             if (bannerList.size > 0) {
                                 bannerListViewPager()
-                                fragmentHomeBinding.bannersViewpager.visibility = View.GONE
+                                fragmentHomeBinding.bannersViewpager.visibility = View.VISIBLE
                             } else {
                                 fragmentHomeBinding.bannersViewpager.visibility = View.GONE
-                            }*/
+                            }
                             restOffersList.clear()
                             restOffersList.addAll(response.data?.restOffers!!)
                             if (restOffersList.size > 0) {
@@ -213,6 +213,15 @@ LandingHomeFragment : BaseFragment(), DialogssInterface, CompoundButton.OnChecke
                                 fragmentHomeBinding.txtCoupons.visibility = View.GONE
                                 fragmentHomeBinding.rvCouponsList.visibility = View.GONE
                             }
+                            trendingList.clear()
+                            trendingList.addAll(response.data?.trending!!)
+                            if (trendingList.size > 0) {
+                                // trendingListViewPager()
+                                trendingRecyclerView()
+                                fragmentHomeBinding.trendingLayout.visibility = View.VISIBLE
+                            } else {
+                                fragmentHomeBinding.trendingLayout.visibility = View.GONE
+                            }
                             offersList.clear()
                             //offersList.addAll(response.data?.offers!!)
                             if (offersList.size > 0) {
@@ -221,22 +230,15 @@ LandingHomeFragment : BaseFragment(), DialogssInterface, CompoundButton.OnChecke
                             } else {
                                 fragmentHomeBinding.offersLayout.visibility = View.GONE
                             }
-                            trendingList.clear()
-                            trendingList.addAll(response.data?.trending!!)
-                            if (trendingList.size > 0) {
-                                trendingListViewPager()
-                                fragmentHomeBinding.trendingLayout.visibility = View.VISIBLE
-                            } else {
-                                fragmentHomeBinding.trendingLayout.visibility = View.GONE
-                            }
+
                             dealsList.clear()
-                            // dealsList.addAll(response.data?.deals!!)
+                            /*dealsList.addAll(response.data?.deals!!)
                             if (dealsList.size > 0) {
                                 dealsListViewPager()
-                                fragmentHomeBinding.dealsViewPager.visibility = View.GONE
+                                fragmentHomeBinding.dealsViewPager.visibility = View.VISIBLE
                             } else {
                                 fragmentHomeBinding.dealsViewPager.visibility = View.GONE
-                            }
+                            }*/
                             vendorsList.clear()
                             topPicksList.clear()
                             bestSellerList.clear()
@@ -359,8 +361,10 @@ LandingHomeFragment : BaseFragment(), DialogssInterface, CompoundButton.OnChecke
                         GlobalConstants.DELIVERY_PICKUP_TYPE,
                         "1"
                     )
-                    // rdDelivery.setBackgroundResource(R.drawable.round_back_transparent_new)
-                    // rdPickup.setBackgroundResource(R.color.transparent)
+                    rdDelivery.setTextColor(resources.getColor(R.color.colorWhite))
+                    rdPickup.setTextColor(resources.getColor(R.color.colorBlack))
+                    rdDelivery.setBackgroundResource(R.drawable.round_back_transparent_new)
+                    rdPickup.setBackgroundResource(R.color.transparent)
                     if (UtilsFunctions.isNetworkConnected()) {
                         // baseActivity.startProgressDialog()
                         homeViewModel.getCategories(
@@ -378,8 +382,10 @@ LandingHomeFragment : BaseFragment(), DialogssInterface, CompoundButton.OnChecke
                         GlobalConstants.DELIVERY_PICKUP_TYPE,
                         "0"
                     )
-                    //rdPickup.setBackgroundResource(R.drawable.round_back_transparent_new)
-                    //  rdDelivery.setBackgroundResource(R.color.transparent)
+                    rdPickup.setTextColor(resources.getColor(R.color.colorWhite))
+                    rdPickup.setBackgroundResource(R.drawable.round_back_transparent_new)
+                    rdDelivery.setTextColor(resources.getColor(R.color.colorBlack))
+                    rdDelivery.setBackgroundResource(R.color.transparent)
                     if (UtilsFunctions.isNetworkConnected()) {
                         // baseActivity.startProgressDialog()
                         homeViewModel.getCategories(
@@ -431,10 +437,21 @@ LandingHomeFragment : BaseFragment(), DialogssInterface, CompoundButton.OnChecke
             this, Observer<String>(function =
             fun(it: String?) {
                 when (it) {
+                    "txtBest" -> {
+                        fragmentHomeBinding.txtBest.setTextColor(resources.getColor(R.color.colorBlack))
+                        fragmentHomeBinding.txtNear.setTextColor(resources.getColor(R.color.colorWhite))
+                        fragmentHomeBinding.rlBestSeller.visibility = View.VISIBLE
+                        fragmentHomeBinding.rlVendors.visibility = View.GONE
+                    }
+                    "txtNear" -> {
+                        fragmentHomeBinding.txtNear.setTextColor(resources.getColor(R.color.colorBlack))
+                        fragmentHomeBinding.txtBest.setTextColor(resources.getColor(R.color.colorWhite))
+                        fragmentHomeBinding.rlBestSeller.visibility = View.GONE
+                        fragmentHomeBinding.rlVendors.visibility = View.VISIBLE
+                    }
                     "imgNavigation" -> {
                         (activity as LandingMainActivity).openCloseDrawer()
                     }
-
                     "txtSeeAll" -> {
                         val intent = Intent(activity, RestaurantsListActivity::class.java)
                         intent.putExtra("discount", "")
@@ -525,6 +542,26 @@ LandingHomeFragment : BaseFragment(), DialogssInterface, CompoundButton.OnChecke
         fragmentHomeBinding.rvTopPicks.layoutManager = linearLayoutManager
         fragmentHomeBinding.rvTopPicks.adapter = topPicks
         fragmentHomeBinding.rvTopPicks.addOnScrollListener(object :
+            RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+
+            }
+        })
+    }
+
+    private fun trendingRecyclerView() {
+        // couponListRecyclerView()
+        val trendingAdapter =
+            TrendingRecyclerAdapter(
+                this@LandingHomeFragment,
+                trendingList/*offersList*/,
+                activity!!
+            )
+        val linearLayoutManager = LinearLayoutManager(this.baseActivity)
+        linearLayoutManager.orientation = RecyclerView.HORIZONTAL
+        fragmentHomeBinding.trendingRecycler.layoutManager = linearLayoutManager
+        fragmentHomeBinding.trendingRecycler.adapter = trendingAdapter
+        fragmentHomeBinding.trendingRecycler.addOnScrollListener(object :
             RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
 

@@ -5,10 +5,14 @@
     <!--DAA03EB1-->
 
     <!--#f9ea59 yelow-->
-    <color name="colorPrimary">#612E74</color>
+    <color name="colorPrimary">#F89B94</color>
     <!--<color name="colorPrimary">#97D729</color>-->
-    <color name="colorPrimaryDark">#612E74</color>
+    <color name="colorPrimaryDark">#F89B94</color>
     <color name="lightColor">#F6C1CC</color>
+
+    <color name="screenBackgroundColor"> #E5E5E5</color>
+    <color name="textColor"> #979797</color>
+    <color name="offerColor">#B77CB4</color>
     <color name="buttonTextColor">#612E74</color>
     <color name="colorAccent">#000000</color>
     <color name="colorWhite">#ffffff</color>

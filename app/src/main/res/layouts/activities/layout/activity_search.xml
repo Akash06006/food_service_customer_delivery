@@ -59,7 +59,7 @@
             <RadioGroup
                 android:id="@+id/rgFilter"
                 android:layout_width="0dp"
-                android:layout_height="30dp"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginBottom="1dp"
                 android:layout_weight="1"
@@ -71,36 +71,32 @@
                     android:id="@+id/rdRestaurant"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="2dp"
-                    android:layout_marginTop="2dp"
-                    android:layout_marginBottom="2dp"
                     android:layout_weight="1"
                     android:background="@drawable/round_back_transparent_new"
                     android:button="@null"
                     android:gravity="center"
                     android:text="Restaurant"
-                    android:textColor="@color/colorBlack" />
+                    android:textColor="@color/colorWhite"
+                    android:textSize="13sp" />
 
                 <RadioButton
                     android:id="@+id/rdDish"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="2dp"
-                    android:layout_marginTop="2dp"
-                    android:layout_marginRight="2dp"
-                    android:layout_marginBottom="2dp"
                     android:layout_weight="1"
                     android:button="@null"
                     android:checked="false"
                     android:gravity="center"
                     android:text="Dish"
-                    android:textColor="@color/colorBlack" />
+                    android:textColor="@color/colorBlack"
+                    android:textSize="13sp" />
             </RadioGroup>
 
             <RadioGroup
                 android:id="@+id/delPickup"
                 android:layout_width="0dp"
-                android:layout_height="30dp"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginBottom="1dp"
@@ -113,30 +109,26 @@
                     android:id="@+id/rdDelivery"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="2dp"
-                    android:layout_marginTop="2dp"
-                    android:layout_marginBottom="2dp"
                     android:layout_weight="1"
                     android:background="@drawable/round_back_transparent_new"
                     android:button="@null"
                     android:gravity="center"
                     android:text="Delivery"
-                    android:textColor="@color/colorBlack" />
+                    android:textColor="@color/colorWhite"
+                    android:textSize="13sp" />
 
                 <RadioButton
                     android:id="@+id/rdPickup"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="2dp"
-                    android:layout_marginTop="2dp"
-                    android:layout_marginRight="2dp"
-                    android:layout_marginBottom="2dp"
                     android:layout_weight="1"
                     android:button="@null"
                     android:checked="false"
                     android:gravity="center"
                     android:text="Pickup"
-                    android:textColor="@color/colorBlack" />
+                    android:textColor="@color/colorBlack"
+                    android:textSize="13sp" />
             </RadioGroup>
 
         </LinearLayout>
@@ -146,19 +138,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:background="@drawable/round_button_layout_search_back"
+            android:background="@drawable/round_back_transparent_search"
             android:drawableLeft="@drawable/ic_search"
             android:drawablePadding="10dp"
+            android:hint="Search for restaurant or dish"
             android:inputType="text"
             android:maxLength="30"
             android:paddingLeft="@dimen/dp_15"
-            android:paddingRight="@dimen/dp_15"
-            android:singleLine="true"
-            android:hint="Search for restaurant or dish"
             android:paddingTop="5dp"
+            android:paddingRight="@dimen/dp_15"
             android:paddingBottom="5dp"
-            android:textColor="#D5D5D5"
-            android:textColorHint="#D5D5D5"
+            android:singleLine="true"
+            android:textColor="@color/colorblack"
             tools:ignore="HardcodedText" />
         <!-- <SearchView
              android:id="@+id/searchBar"
@@ -200,9 +191,9 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvList"
-                android:layoutAnimation="@anim/layout_animation_from_left"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:layoutAnimation="@anim/layout_animation_from_left" />
 
         </RelativeLayout>
     </LinearLayout>

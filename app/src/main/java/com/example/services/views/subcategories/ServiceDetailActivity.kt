@@ -178,7 +178,7 @@ class ServiceDetailActivity : BaseActivity(), DialogssInterface {
                             } else {
                                 serviceDetailBinding.imgVegNonVeg.setImageResource(R.drawable.nonveg)
                             }
-
+/*txtCouponDesc.setText(Html.fromHtml(offersList[pos].description).toString())*/
                             if (!TextUtils.isEmpty(response.data!!.offer) && !response.data!!.offer.equals(
                                     "0"
                                 )
