@@ -34,6 +34,8 @@ import com.example.services.model.cart.AddCartResponse
 import com.example.services.model.cart.CartListResponse
 import com.example.services.model.cart.CartNewListResponse
 import com.example.services.model.orders.CreateOrdersResponse
+import com.example.services.model.services.UpdateCartResponse
+import com.example.services.model.services.cart
 import com.example.services.sharedpreference.SharedPrefClass
 import com.example.services.utils.DialogClass
 import com.example.services.utils.DialogssInterface
@@ -197,6 +199,26 @@ class CartListActivity : BaseActivity(), DialogssInterface {
                                 GlobalConstants.isCartAdded,
                                 "false"
                             )
+                        }
+                    }
+
+                }
+            })
+
+        servicesViewModel.updateCartRes().observe(this,
+            Observer<UpdateCartResponse> { response ->
+                stopProgressDialog()
+                if (response != null) {
+                    val message = response.message
+                    when {
+                        response.code == 200 -> {
+                            cartList[position].quantity = response.data!!.quantity!!
+                            cartList[position].price =  response.data!!.orderTotalPrice!!.toString()
+                            myJobsListAdapter?.notifyDataSetChanged()
+                            cartBinding.tvOfferPrice.setText(GlobalConstants.Currency + " " + response.data!!.sum)
+                        }
+                        else -> message?.let {
+                            UtilsFunctions.showToastError(it)
                         }
                     }
 
@@ -444,7 +466,10 @@ class CartListActivity : BaseActivity(), DialogssInterface {
     public fun showAddToCartDialog(pos: Int, isCart: Boolean) {
         quantityCount = 0
         position = pos
-        confirmationDialog = Dialog(this, R.style.dialogAnimation_animation)
+        priceAmount = addOnsList[pos].price!!.toInt()
+        serviceId = addOnsList[pos].id.toString()
+        callAddRemoveCartApi(true)
+        /*confirmationDialog = Dialog(this, R.style.dialogAnimation_animation)
         confirmationDialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
         val binding =
             DataBindingUtil.inflate<ViewDataBinding>(
@@ -525,7 +550,7 @@ class CartListActivity : BaseActivity(), DialogssInterface {
         }
         imgCross
 
-        confirmationDialog?.show()
+        confirmationDialog?.show()*/
     }
 
     fun callAddRemoveCartApi(isAdd: Boolean) {
@@ -545,10 +570,10 @@ class CartListActivity : BaseActivity(), DialogssInterface {
                 "orderPrice", priceAmount
             )
             cartObject.addProperty(
-                "orderTotalPrice", price
+                "orderTotalPrice", priceAmount
             )
             cartObject.addProperty(
-                "quantity", quantityCount
+                "quantity", 1
             )
 
             if (UtilsFunctions.isNetworkConnected()) {
@@ -557,5 +582,56 @@ class CartListActivity : BaseActivity(), DialogssInterface {
             }
         }
 
+    }
+    fun callUpdateCartApi(cartid: String)
+    {
+        var cartObject = JsonObject()
+       /* cartObject.addProperty(
+            "serviceId", serviceId
+        )*/
+        cartObject.addProperty(
+            "cartId", cartid
+        )
+
+        cartObject.addProperty(
+            "companyId", GlobalConstants.COMPANY_ID
+        )
+
+        /* cartObject.addProperty(
+                 "status", isCart
+         )*/
+      /*  cartObject.addProperty(
+            "orderPrice", priceAmount
+        )
+        cartObject.addProperty(
+            "orderTotalPrice", price
+        )*/
+        cartObject.addProperty(
+            "quantity", quantityCount
+        )
+
+        if (UtilsFunctions.isNetworkConnected()) {
+            servicesViewModel.updateCart(cartObject)
+            // startProgressDialog()
+        }
+    }
+    fun clickMinusButton(pos: Int, mPrice: Int, quantity: Int){
+        position = pos
+        quantityCount = quantity/*serVicesList[pos].cart?.quantity!!.toInt()*/
+        /*  if (quantityCount == 0) {
+              showToastError(getString(R.string.select_quantity_msg))
+          } else {*/
+        callUpdateCartApi(cartList[pos].id!!)
+        //  }
+    }
+
+    fun clickAddButton(pos: Int, mPrice: Int, quantity: Int){
+        position = pos
+        quantityCount = quantity
+        /*if (quantityCount == 0) {
+            showToastError(getString(R.string.select_quantity_msg))
+        } else {*/
+        callUpdateCartApi(cartList[pos].id!!)
+        // }
     }
 }

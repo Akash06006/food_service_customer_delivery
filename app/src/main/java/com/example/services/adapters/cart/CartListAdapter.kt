@@ -49,7 +49,7 @@ class CartListAdapter(
     override fun onBindViewHolder(@NonNull holder: ViewHolder, position: Int) {
         viewHolder = holder
         holder.binding!!.tvCatName.text = addressList[position].service?.name
-        holder.binding!!.tvQuantity.setText(mContext.resources.getString(R.string.quantity) + ": " + addressList[position].quantity)
+        holder.binding!!.tvQuantity.setText( addressList[position].quantity)
         holder.binding!!.tvOfferPrice.setText(
             GlobalConstants.Currency + " " + addressList[position].price.toString()
         )
@@ -70,6 +70,34 @@ class CartListAdapter(
             holder.binding.tvNoSlotAvailable.visibility = View.GONE
         }
 */
+        holder.binding!!.imgPlus.setOnClickListener {
+            if ( addressList[position].quantity!!.toInt() <= 5) {
+                var quantity = addressList[position].quantity!!.toInt()
+                quantity++
+                // serviceDetailBinding.btnSubmit.isEnabled = false
+                holder.binding!!.tvQuantity.setText(quantity.toString())
+                //   serviceDetailBinding.btnSubmit.visibility = View.VISIBLE
+                //callGetTimeSlotsApi()
+                var price = quantity * addressList[position].price!!.toInt()
+                //  tvTotalPrice?.setText(GlobalConstants.Currency + " " + price.toString())
+                mContext.clickAddButton(position, price, quantity)
+            }
+        }
+
+        holder.binding.imgMinus.setOnClickListener {
+            if (addressList[position].quantity!!.toInt() > 1) {
+                var quantity = addressList[position].quantity!!.toInt()
+                quantity--
+                var price = quantity * addressList[position].price!!.toInt()
+                // tvTotalPrice?.setText(GlobalConstants.Currency + " " + price.toString())
+                //callGetTimeSlotsApi()
+                mContext.clickMinusButton(position,price,quantity)
+                holder.binding!!.tvQuantity?.setText(quantity.toString())
+            }
+            if (addressList[position].quantity!!.toInt() == 1) {
+
+            }
+        }
     }
 
     override fun getItemCount(): Int {

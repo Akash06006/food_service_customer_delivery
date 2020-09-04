@@ -152,6 +152,9 @@ interface ApiInterface {
     @POST("mobile/cart/add")
     fun addCart(@Body mJsonObject: JsonObject): Call<JsonObject>
 
+    @PUT("mobile/cart/update")
+    fun updateCart(@Body mJsonObject: JsonObject): Call<JsonObject>
+
     @DELETE("mobile/cart/remove")
     fun removeCart(@Query("cartId") cartId: String): Call<JsonObject>
 

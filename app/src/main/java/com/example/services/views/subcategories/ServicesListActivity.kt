@@ -29,9 +29,7 @@ import com.example.services.utils.BaseActivity
 import com.example.services.databinding.ActivityServicesBinding
 import com.example.services.model.CommonModel
 import com.example.services.model.cart.AddCartResponse
-import com.example.services.model.services.Headers
-import com.example.services.model.services.Services
-import com.example.services.model.services.ServicesListResponse
+import com.example.services.model.services.*
 import com.example.services.sharedpreference.SharedPrefClass
 import com.example.services.utils.DialogClass
 import com.example.services.utils.DialogssInterface
@@ -211,7 +209,9 @@ class ServicesListActivity : BaseActivity(), CompoundButton.OnCheckedChangeListe
                     when {
                         response.code == 200 -> {
                             val id = response.body?.id
-                            serVicesList[position].cart = id.toString()
+                            var cart = cart(id =  id!!,quantity = quantityCount.toString(),
+                                orderPrice = price.toString(), orderTotalPrice = price.toString())
+                            serVicesList[position].cart = cart
                             servicesListAdapter?.notifyDataSetChanged()
                             imgCross?.visibility = View.GONE
                             animationView?.visibility = View.VISIBLE
@@ -236,6 +236,27 @@ class ServicesListActivity : BaseActivity(), CompoundButton.OnCheckedChangeListe
                             )
 
 //                            servicesViewModel.getServices(catId, vegOnly)
+                        }
+                        else -> message?.let {
+                            UtilsFunctions.showToastError(it)
+                        }
+                    }
+
+                }
+            })
+
+
+        servicesViewModel.updateCartRes().observe(this,
+            Observer<UpdateCartResponse> { response ->
+                stopProgressDialog()
+                if (response != null) {
+                    val message = response.message
+                    when {
+                        response.code == 200 -> {
+                            var cart = cart(id =  serVicesList[position].cart!!.id,quantity = response.data!!.quantity!!,
+                                orderPrice = response.data!!.orderPrice!!, orderTotalPrice = response.data!!.orderTotalPrice!!.toString())
+                            serVicesList[position].cart = cart
+                            servicesListAdapter?.notifyDataSetChanged()
                         }
                         else -> message?.let {
                             UtilsFunctions.showToastError(it)
@@ -270,7 +291,7 @@ class ServicesListActivity : BaseActivity(), CompoundButton.OnCheckedChangeListe
                     when {
                         response.code == 200 -> {
                             var iscart = false
-                            serVicesList[position].cart = ""
+                            serVicesList[position].cart = null
                             servicesListAdapter?.notifyDataSetChanged()
 
                             cartCount = cartCount.toInt().minus(1).toString()
@@ -280,7 +301,7 @@ class ServicesListActivity : BaseActivity(), CompoundButton.OnCheckedChangeListe
                                 cartCount
                             )
                             for (item in serVicesList) {
-                                if (!TextUtils.isEmpty(item.cart)) {
+                                if (item.cart!=null) {
                                     iscart = true
                                 }
                             }
@@ -495,10 +516,24 @@ class ServicesListActivity : BaseActivity(), CompoundButton.OnCheckedChangeListe
     public fun showAddToCartDialog(pos: Int, isCart: Boolean) {
 
         if (TextUtils.isEmpty(cartCategory)) {
-            showCartInfoLayout(pos)
+            position = pos
+            serviceId = serVicesList[pos].id
+            priceAmount = serVicesList[pos].price.toInt()
+            serviceId = serVicesList[pos].id
+            price = serVicesList[pos].price.toInt()
+            quantityCount = 1
+            callAddRemoveCartApi(true, serviceId)
+          //  showCartInfoLayout(pos)
         } else {
             if (cartCategory.equals(GlobalConstants.COMPANY_ID)) {
-                showCartInfoLayout(pos)
+                position = pos
+                //showCartInfoLayout(pos)
+                serviceId = serVicesList[pos].id
+                priceAmount = serVicesList[pos].price.toInt()
+                serviceId = serVicesList[pos].id
+                price = serVicesList[pos].price.toInt()
+                quantityCount = 1
+                callAddRemoveCartApi(true, serviceId)
             } else {
                 showClearCartDialog()
             }
@@ -632,6 +667,38 @@ class ServicesListActivity : BaseActivity(), CompoundButton.OnCheckedChangeListe
         }
     }
 
+    fun callUpdateCartApi(cartid: String)
+    {
+        var cartObject = JsonObject()
+        cartObject.addProperty(
+            "serviceId", serviceId
+        )
+        cartObject.addProperty(
+            "cartId", cartid
+        )
+
+        cartObject.addProperty(
+            "companyId", GlobalConstants.COMPANY_ID
+        )
+
+        /* cartObject.addProperty(
+                 "status", isCart
+         )*/
+        cartObject.addProperty(
+            "orderPrice", priceAmount
+        )
+        cartObject.addProperty(
+            "orderTotalPrice", price
+        )
+        cartObject.addProperty(
+            "quantity", quantityCount
+        )
+
+        if (UtilsFunctions.isNetworkConnected()) {
+            servicesViewModel.updateCart(cartObject)
+           // startProgressDialog()
+        }
+    }
     fun callAddRemoveCartApi(isAdd: Boolean, serviceId: String) {
         if (isAdd) {
             var cartObject = JsonObject()
@@ -675,13 +742,39 @@ class ServicesListActivity : BaseActivity(), CompoundButton.OnCheckedChangeListe
     fun showRemoveCartDialog(pos: Int, cartid: String) {
         position = pos
         cartId = cartid
-        confirmationDialog = mDialogClass.setDefaultDialog(
+        callAddRemoveCartApi(false, "")
+       /* confirmationDialog = mDialogClass.setDefaultDialog(
             this,
             this,
             "Remove Cart",
             getString(R.string.warning_remove_cart)
         )
-        confirmationDialog?.show()
+        confirmationDialog?.show()*/
     }
 
+    fun clickMinusButton(pos: Int, mPrice: Int, quantity: Int){
+        position = pos
+        priceAmount = serVicesList[pos].price.toInt()
+        serviceId = serVicesList[pos].id
+        price = mPrice
+        quantityCount = quantity/*serVicesList[pos].cart?.quantity!!.toInt()*/
+      /*  if (quantityCount == 0) {
+            showToastError(getString(R.string.select_quantity_msg))
+        } else {*/
+            callUpdateCartApi(serVicesList[pos].cart!!.id)
+      //  }
+    }
+
+    fun clickAddButton(pos: Int, mPrice: Int, quantity: Int){
+        position = pos
+        priceAmount = serVicesList[pos].price.toInt()
+        serviceId = serVicesList[pos].id
+        price = mPrice
+        quantityCount = quantity
+        /*if (quantityCount == 0) {
+            showToastError(getString(R.string.select_quantity_msg))
+        } else {*/
+            callUpdateCartApi(serVicesList[pos].cart!!.id)
+       // }
+    }
 }

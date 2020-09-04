@@ -7,10 +7,7 @@ import com.example.services.common.UtilsFunctions
 import com.example.services.model.CommonModel
 import com.example.services.model.LoginResponse
 import com.example.services.model.cart.AddCartResponse
-import com.example.services.model.services.DateSlotsResponse
-import com.example.services.model.services.ServicesDetailResponse
-import com.example.services.model.services.ServicesListResponse
-import com.example.services.model.services.TimeSlotsResponse
+import com.example.services.model.services.*
 import com.example.services.repositories.services.ServicesRepository
 import com.example.services.viewmodels.BaseViewModel
 import com.google.gson.JsonObject
@@ -21,6 +18,7 @@ class ServicesViewModel : BaseViewModel() {
     private var servicesDetail = MutableLiveData<ServicesDetailResponse>()
     private var carRes = MutableLiveData<AddCartResponse>()
     private var removeCartRes = MutableLiveData<CommonModel>()
+    private var updateCartRes = MutableLiveData<UpdateCartResponse>()
     private var favRes = MutableLiveData<CommonModel>()
     private var timeSlotsList = MutableLiveData<TimeSlotsResponse>()
     private var dateSlots = MutableLiveData<DateSlotsResponse>()
@@ -37,6 +35,7 @@ class ServicesViewModel : BaseViewModel() {
             favRes = servicesRepository.removeFav("")
             removeCartRes = servicesRepository.removeCart("")
             timeSlotsList = servicesRepository.getTimeSlots("")
+            updateCartRes = servicesRepository.updateCart(null)
             // dateSlots = servicesRepository.getDateSlots()
         }
 
@@ -53,6 +52,10 @@ class ServicesViewModel : BaseViewModel() {
 
     fun addRemovefavRes(): LiveData<CommonModel> {
         return favRes
+    }
+
+    fun updateCartRes(): LiveData<UpdateCartResponse> {
+        return updateCartRes
     }
 
     fun getTimeSlotsRes(): LiveData<TimeSlotsResponse> {
@@ -93,6 +96,13 @@ class ServicesViewModel : BaseViewModel() {
     fun addCart(mJsonObject: JsonObject) {
         if (UtilsFunctions.isNetworkConnected()) {
             carRes = servicesRepository.addCart(mJsonObject)
+            mIsUpdating.postValue(true)
+        }
+    }
+
+    fun updateCart(mJsonObject: JsonObject) {
+        if (UtilsFunctions.isNetworkConnected()) {
+            updateCartRes = servicesRepository.updateCart(mJsonObject)
             mIsUpdating.postValue(true)
         }
     }

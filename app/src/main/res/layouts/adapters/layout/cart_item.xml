@@ -67,7 +67,52 @@
                             android:textColor="@android:color/black"
                             app:font="@{`bold`}" />
 
-                        <TextView
+                        <LinearLayout
+                            android:id="@+id/ll_addCartValue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginStart="@dimen/dp_10"
+                            android:layout_marginEnd="@dimen/dp_5"
+                            android:layout_marginTop="@dimen/dp_10"
+                            android:visibility="visible"
+                            android:layout_below="@+id/tv_cat_name"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:id="@+id/imgMinus"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/ic_minus_back"
+                                android:padding="@dimen/dp_5"
+                                android:src="@drawable/ic_minus" />
+
+                            <TextView
+                                android:id="@+id/tv_quantity"
+                                android:layout_width="30dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:background="@color/colorGrey"
+                                android:gravity="center"
+                                android:text="0"
+                                android:textAllCaps="false"
+                                android:textColor="@color/colorWhite"
+                                android:textSize="18sp"
+                                android:textStyle="bold"
+                                app:font="@{`regular`}"
+                                tools:ignore="AllCaps" />
+                            <!--   android:background="@drawable/ic_count_back"-->
+                            <ImageView
+                                android:id="@+id/imgPlus"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/ic_plus_back"
+                                android:padding="@dimen/dp_5"
+                                android:src="@drawable/ic_plus" />
+                            <!--android:background="@drawable/ic_plus_back"-->
+                        </LinearLayout>
+
+                        <!--<TextView
                             android:id="@+id/tvQuantity"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -79,7 +124,7 @@
                             android:text="@string/quantity"
                             android:textAppearance="@style/TextAppearance.AppCompat.Small"
                             android:textColor="@android:color/black"
-                            app:font="@{`bold`}" />
+                            app:font="@{`bold`}" />-->
 
                         <RatingBar
                             android:id="@+id/rBar"
@@ -98,7 +143,7 @@
                             android:id="@+id/tv_offer_price"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/tvQuantity"
+                            android:layout_below="@+id/ll_addCartValue"
                             android:layout_marginLeft="@dimen/dp_10"
                             android:layout_marginTop="@dimen/dp_5"
                             android:layout_marginBottom="@dimen/dp_5"

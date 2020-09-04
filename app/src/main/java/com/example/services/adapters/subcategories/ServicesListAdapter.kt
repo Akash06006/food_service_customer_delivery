@@ -89,6 +89,38 @@ class ServicesListAdapter(
             holder.binding.imgFavourite.setImageResource(R.drawable.ic_favorite)
         }
         //is button ka krna h
+        holder.binding!!.imgPlus.setOnClickListener {
+            if ( addressList[position].cart?.quantity!!.toInt() <= 5) {
+               var quantity = addressList[position].cart?.quantity!!.toInt()
+                quantity++
+                // serviceDetailBinding.btnSubmit.isEnabled = false
+                holder.binding!!.tvQuantity.setText(quantity.toString())
+                //   serviceDetailBinding.btnSubmit.visibility = View.VISIBLE
+                //callGetTimeSlotsApi()
+                var price = quantity * addressList[position].price.toInt()
+              //  tvTotalPrice?.setText(GlobalConstants.Currency + " " + price.toString())
+                mContext.clickAddButton(position, price, quantity)
+            }
+        }
+
+        holder.binding.imgMinus.setOnClickListener {
+            if (addressList[position].cart?.quantity!!.toInt() > 1) {
+                var quantity = addressList[position].cart?.quantity!!.toInt()
+                  quantity--
+                var price = quantity * addressList[position].price.toInt()
+               // tvTotalPrice?.setText(GlobalConstants.Currency + " " + price.toString())
+                //callGetTimeSlotsApi()
+                mContext.clickMinusButton(position,price,quantity)
+                holder.binding!!.tvQuantity?.setText(quantity.toString())
+            }
+            if (addressList[position].cart?.quantity!!.toInt() == 1) {
+                var quantity = addressList[position].cart?.quantity!!.toInt()
+                quantity--
+                holder.binding!!.tvAdd.visibility = View.VISIBLE
+                holder.binding!!.llAddCartValue.visibility = View.GONE
+                mContext.showRemoveCartDialog(position, addressList[position].cart!!.id)
+            }
+        }
 
         holder.binding!!.tvAdd.setBackgroundTintList(
             ColorStateList.valueOf(
@@ -110,7 +142,7 @@ class ServicesListAdapter(
             mContext.addRemovefav(position, addressList[position].favourite)
 
         }
-        if (TextUtils.isEmpty(addressList[position].cart)) {
+        if (TextUtils.isEmpty(addressList[position].cart?.id)) {
             holder.binding!!.tvAdd.setText("Add")
             holder.binding!!.tvAdd.setBackgroundTintList(
                 ColorStateList.valueOf(
@@ -120,15 +152,9 @@ class ServicesListAdapter(
                 )/*mContext.getResources().getColorStateList(R.color.colorOrange)*/
             )
         } else {
-            holder.binding!!.tvAdd.setText("Remove")
-            holder.binding!!.tvAdd.setBackgroundTintList(
-                ColorStateList.valueOf(
-                    mContext.getColor(R.color.red)
-                    /*Color.parseColor(
-                        GlobalConstants.COLOR_CODE
-                    )*/
-                )/*mContext.getResources().getColorStateList(R.color.colorOrange)*/
-            )
+            holder.binding!!.tvAdd.visibility = View.GONE
+            holder.binding!!.llAddCartValue.visibility = View.VISIBLE
+            holder.binding!!.tvQuantity.text = addressList[position].cart?.quantity
         }
 
         if (addressList[position].itemType.equals("0")) {
@@ -140,10 +166,13 @@ class ServicesListAdapter(
 
         holder.binding!!.tvAdd.setOnClickListener {
             //  addressList[position].
-            if (TextUtils.isEmpty(addressList[position].cart)) {
-                mContext.showAddToCartDialog(position, false)
+            if (addressList[position].cart == null) {
+                    holder.binding!!.tvAdd.visibility = View.GONE
+                    holder.binding!!.llAddCartValue.visibility = View.VISIBLE
+                    holder.binding.tvQuantity.text = "1"
+                    mContext.showAddToCartDialog(position, false)
             } else {
-                mContext.showRemoveCartDialog(position, addressList[position].cart)
+                mContext.showRemoveCartDialog(position, addressList[position].cart!!.id)
             }
 
         }
