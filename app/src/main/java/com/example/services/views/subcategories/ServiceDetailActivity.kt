@@ -178,7 +178,7 @@ class ServiceDetailActivity : BaseActivity(), DialogssInterface {
                             } else {
                                 serviceDetailBinding.imgVegNonVeg.setImageResource(R.drawable.nonveg)
                             }
-
+/*txtCouponDesc.setText(Html.fromHtml(offersList[pos].description).toString())*/
                             if (!TextUtils.isEmpty(response.data!!.offer) && !response.data!!.offer.equals(
                                     "0"
                                 )
@@ -188,11 +188,17 @@ class ServiceDetailActivity : BaseActivity(), DialogssInterface {
                             } else {
                                 serviceDetailBinding.rlRealPrice.visibility = View.GONE
                             }
+                            priceAmount = response.data!!.price.toString()
+                            serviceDetailBinding.tvOfferPrice.setText(GlobalConstants.Currency + " " + priceAmount)
+
                             var detailList = ArrayList<DetailModel>()
                             var detail =
                                 DetailModel("Prepration Time", response.data!!.duration.toString())
                             detailList.add(detail)
-                            detail = DetailModel("Pricing", response.data!!.type.toString())
+                            detail = DetailModel(
+                                "Pricing",
+                                GlobalConstants.Currency + " " + priceAmount
+                            )
                             detailList.add(detail)
 
                             if (applicationType.equals(GlobalConstants.PRODUCT_DELIVERY)) {
@@ -249,7 +255,7 @@ class ServiceDetailActivity : BaseActivity(), DialogssInterface {
                             serviceDetailBinding.tvOfferPrice.setText(GlobalConstants.Currency + " " + priceAmount)
                             serviceDetailBinding.rBar.setRating(response.data!!.rating!!.toFloat())
                             Glide.with(this)
-                                .load(response.data!!.icon)
+                                .load(response.data!!.thumbnail)
                                 .apply(RequestOptions.bitmapTransform(RoundedCorners(20)))
                                 .placeholder(R.drawable.ic_category)
                                 .into(serviceDetailBinding.imgService)
@@ -264,7 +270,9 @@ class ServiceDetailActivity : BaseActivity(), DialogssInterface {
                                 cartId = response.data!!.cart!!
                                 serviceDetailBinding.AddCart.setText(getString(R.string.remove_to_cart))
                             }
-                            if (response.data!!.favourite.equals("null") && response.data!!.favourite.equals(
+                            if (TextUtils.isEmpty(response.data!!.favourite) || response.data!!.favourite.equals(
+                                    "null"
+                                ) || response.data!!.favourite.equals(
                                     "false"
                                 )
                             ) {

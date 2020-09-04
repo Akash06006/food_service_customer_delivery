@@ -101,10 +101,10 @@
                 android:layout_marginTop="30dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginBottom="10dp"
-                android:background="@drawable/btn_bg_shape_colored_primary"
+                android:background="@drawable/shape_round_stroke"
                 android:elevation="@dimen/dp_5"
                 android:text="@string/submit"
-                android:textColor="@color/colorWhite"
+                android:textColor="@color/colorPrimary"
                 android:visibility="visible" />
         </LinearLayout>
     </RelativeLayout>

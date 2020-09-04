@@ -10,6 +10,7 @@
     android:layout_marginLeft="@dimen/dp_3"
     android:layout_marginTop="@dimen/dp_1"
     android:layout_marginRight="@dimen/dp_3"
+    android:layout_marginBottom="@dimen/dp_3"
     android:elevation="@dimen/dp_20"
     android:padding="@dimen/dp_5">
     <!---->
@@ -36,15 +37,22 @@
                 android:textAllCaps="false"
                 android:textColor="@color/colorBlack" />
 
-            <ImageView
-                android:id="@+id/img_service"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_150"
-                android:layout_gravity="center"
-                android:layout_marginTop="@dimen/dp_5"
-                android:scaleType="centerCrop"
-                android:src="@drawable/ic_category"
-                android:visibility="visible" />
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_view"
+                android:layout_margin="@dimen/dp_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="@dimen/dp_10">
+
+                <ImageView
+                    android:id="@+id/img_service"
+                    android:layout_width="match_parent"
+                    android:layout_height="160dp"
+                    android:layout_gravity="center"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_category"
+                    android:visibility="visible" />
+            </androidx.cardview.widget.CardView>
             <!--android:scaleType="centerCrop"-->
         </LinearLayout>
     </androidx.cardview.widget.CardView>

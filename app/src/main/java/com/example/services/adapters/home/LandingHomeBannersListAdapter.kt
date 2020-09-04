@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.request.RequestOptions
 import com.example.services.R
 import com.example.services.databinding.CategoryItemBinding
 import com.example.services.model.home.LandingResponse
@@ -46,7 +48,7 @@ class LandingHomeBannersListAdapter(
         view.tv_service_name!!.visibility = View.GONE
         Glide.with(mContext)
             .load(offersList[position].url)
-            // .apply(RequestOptions.bitmapTransform(RoundedCorners(20)))
+           // .apply(RequestOptions.bitmapTransform(RoundedCorners(20)))
             .placeholder(R.drawable.ic_category)
             .into(view.img_service!!)
         val vp = container as ViewPager

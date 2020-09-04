@@ -676,10 +676,10 @@
                         android:layout_marginTop="@dimen/dp_30"
                         android:layout_marginRight="@dimen/dp_20"
                         android:layout_marginBottom="@dimen/dp_20"
-                        android:background="@drawable/btn_bg_shape_colored"
+                        android:background="@drawable/shape_round_stroke"
                         android:onClick="@{(v) -> cartViewModel.clickListener(v)}"
                         android:text="@string/complete_order"
-                        android:textColor="@color/colorWhite"
+                        android:textColor="@color/buttonTextColor"
                         android:visibility="visible"
                         app:font="@{`bold`}" />
                 </LinearLayout>

@@ -2,11 +2,18 @@
 <resources>
     <!-- <color name="colorPrimary">#F75469</color>-->
     <!--DC143C-->
+    <!--DAA03EB1-->
 
-    <color name="colorPrimary">#11C1C0</color>
+    <!--#f9ea59 yelow-->
+    <color name="colorPrimary">#F89B94</color>
     <!--<color name="colorPrimary">#97D729</color>-->
-    <color name="colorPrimaryDark">#11C1C0</color>
+    <color name="colorPrimaryDark">#F89B94</color>
     <color name="lightColor">#F6C1CC</color>
+
+    <color name="screenBackgroundColor"> #E5E5E5</color>
+    <color name="textColor"> #979797</color>
+    <color name="offerColor">#B77CB4</color>
+    <color name="buttonTextColor">#612E74</color>
     <color name="colorAccent">#000000</color>
     <color name="colorWhite">#ffffff</color>
     <color name="colorWhite2">#F9F4F3</color>

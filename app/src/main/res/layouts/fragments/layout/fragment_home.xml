@@ -18,7 +18,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/back_image">
+        android:background="#ffffff">
 
         <LinearLayout
             android:id="@+id/upper_container"
@@ -199,7 +199,7 @@
                                             android:layout_centerVertical="true"
                                             android:layout_marginLeft="@dimen/dp_5"
                                             android:layout_toRightOf="@+id/rBar"
-                                            android:text="5.0"
+                                            android:text="0.0"
                                             android:textAllCaps="false"
                                             android:textColor="@color/colorBlack"
                                             android:textSize="12sp" />
@@ -415,9 +415,9 @@
                         <!--   android:layout_weight="1.2"-->
                         <com.hsalf.smileyrating.SmileyRating
                             android:id="@+id/rbQuality"
-                            android:enabled="false"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:enabled="false" />
 
                         <RatingBar
                             android:id="@+id/rbQuality1"

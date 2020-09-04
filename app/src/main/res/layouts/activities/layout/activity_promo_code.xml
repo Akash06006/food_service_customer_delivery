@@ -18,8 +18,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorWhite"
-        app:hideKeyBoardOnClick="@{`back`}"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        app:hideKeyBoardOnClick="@{`back`}">
 
         <include
 
@@ -31,11 +31,11 @@
 
 
         <RelativeLayout
-            android:elevation="@dimen/dp_5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp_5"
             android:background="@color/colorWhite"
-            android:layout_marginBottom="@dimen/dp_5">
+            android:elevation="@dimen/dp_5">
 
             <EditText
                 android:id="@+id/et_coupon_code"
@@ -62,11 +62,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:background="@color/colorPrimary"
+                android:background="@drawable/shape_round_stroke"
                 android:onClick="@{(v) -> promcodeViewModel.clickListener(v)}"
                 android:padding="@dimen/dp_5"
                 android:text="@string/apply"
-                android:textColor="@color/colorWhite" />
+                android:textColor="@color/buttonTextColor" />
 
         </RelativeLayout>
 
@@ -86,9 +86,9 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_promo"
-                android:padding="@dimen/dp_5"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:padding="@dimen/dp_5" />
 
         </RelativeLayout>
     </LinearLayout>

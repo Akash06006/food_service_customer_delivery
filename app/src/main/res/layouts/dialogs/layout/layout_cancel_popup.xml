@@ -37,10 +37,10 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="@dimen/btn_height"
-            android:background="@drawable/round_button_layout"
+            android:background="@drawable/shape_round_stroke"
             android:layout_marginTop="@dimen/dp_40"
             android:layout_marginStart="@dimen/dp_20"
-            android:textColor="@color/colorWhite"
+            android:textColor="@color/buttonTextColor"
             android:layout_marginEnd="@dimen/dp_20"
             android:textSize="@dimen/btn_text"
             android:id="@+id/btn_continue"
@@ -51,12 +51,12 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="@dimen/btn_height"
-            android:background="@drawable/round_button_layout_red"
+            android:background="@drawable/shape_round_stroke"
             android:layout_margin="@dimen/dp_20"
             android:text="@string/back"
             android:id="@+id/btn_back"
             app:font="@{`semibold`}"
-            android:textColor="@color/colorWhite"
+            android:textColor="@color/buttonTextColor"
             android:layout_gravity="center"
             />
 

@@ -99,10 +99,10 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentBottom="true"
                             android:layout_margin="@dimen/dp_20"
-                            android:background="@drawable/btn_bg_shape_colored"
+                            android:background="@drawable/shape_round_stroke"
                             android:text="@string/submit"
                             android:textAlignment="center"
-                            android:textColor="@color/colorWhite"
+                            android:textColor="@color/buttonTextColor"
                             android:textStyle="bold"
                             app:font="@{`bold`}" />
 
