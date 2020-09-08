@@ -97,6 +97,8 @@ object GlobalConstants {
      val SOCKET_URL = "http://10.8.23.202:9062"*/
     @JvmStatic
     val SOCKET_URL = "http://51.79.40.224:9075/"
+    @JvmStatic
+    val SOCKET_CHAT_URL = "http://51.79.40.224:9070/"
     const val PLATFORM = "android"
     @JvmStatic
     var LOGIN = "every"
@@ -144,5 +146,7 @@ object GlobalConstants {
     var CURRENT_LAT = "40.7138353"
     @JvmStatic
     var CURRENT_LONG = "-73.9920178"
+    @JvmStatic
+    var ROOM_ID = "roomID"
 
 }
