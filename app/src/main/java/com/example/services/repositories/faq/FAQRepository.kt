@@ -24,34 +24,34 @@ class FAQRepository {
         data1 = MutableLiveData()
     }
 
-    fun getFAQList(userId: String): MutableLiveData<FAQListResponse> {
-        if (!TextUtils.isEmpty(userId)) {
-            val mApiService = ApiService<JsonObject>()
-            mApiService.get(
-                object : ApiResponse<JsonObject> {
-                    override fun onResponse(mResponse: Response<JsonObject>) {
-                        val loginResponse = if (mResponse.body() != null)
-                            gson.fromJson<FAQListResponse>(
-                                "" + mResponse.body(),
-                                FAQListResponse::class.java
-                            )
-                        else {
-                            gson.fromJson<FAQListResponse>(
-                                mResponse.errorBody()!!.charStream(),
-                                FAQListResponse::class.java
-                            )
-                        }
-                        data!!.postValue(loginResponse)
+    fun getFAQList(catid: String): MutableLiveData<FAQListResponse> {
+        //if (!TextUtils.isEmpty(catid)) {
+        val mApiService = ApiService<JsonObject>()
+        mApiService.get(
+            object : ApiResponse<JsonObject> {
+                override fun onResponse(mResponse: Response<JsonObject>) {
+                    val loginResponse = if (mResponse.body() != null)
+                        gson.fromJson<FAQListResponse>(
+                            "" + mResponse.body(),
+                            FAQListResponse::class.java
+                        )
+                    else {
+                        gson.fromJson<FAQListResponse>(
+                            mResponse.errorBody()!!.charStream(),
+                            FAQListResponse::class.java
+                        )
                     }
+                    data!!.postValue(loginResponse)
+                }
 
-                    override fun onError(mKey: String) {
-                        UtilsFunctions.showToastError(MyApplication.instance.getString(R.string.internal_server_error))
-                        data!!.postValue(null)
-                    }
+                override fun onError(mKey: String) {
+                    UtilsFunctions.showToastError(MyApplication.instance.getString(R.string.internal_server_error))
+                    data!!.postValue(null)
+                }
 
-                }, ApiClient.getApiInterface().getFAQList("100000", "1")
-            )
-        }
+            }, ApiClient.getApiInterface().getFAQList("100000", "1", catid)
+        )
+        //   }
         return data!!
     }
 

@@ -46,23 +46,23 @@ class FAQListAdapter(
     override fun onBindViewHolder(@NonNull holder: ViewHolder, position: Int) {
         viewHolder = holder
 
-        holder.binding!!.tvNotificationTitle.setText("Q." + (position + 1) + " " + jobsList[position].question)
+        holder.binding!!.tvNotificationTitle.setText(/*"Q." + (position + 1) + " " + */jobsList[position].question)
         holder.binding!!.tvNotificationDescription.text =
             jobsList[position].answer
 
-        if (!TextUtils.isEmpty(jobsList[position].selected) && jobsList[position].selected.equals("true")) {
-            holder.binding!!.tvNotificationDescription.visibility = View.VISIBLE
+        /*if (!TextUtils.isEmpty(jobsList[position].selected) && jobsList[position].selected.equals("true")) {
+           // holder.binding!!.tvNotificationDescription.visibility = View.VISIBLE
             holder.binding!!.tvNotificationTitle.setTextColor(
                 mContext.getResources().getColorStateList(
                     R.color.colorPrimary
                 )
             )
             holder.binding!!.cardView.setBackgroundTintList(
-                /* ColorStateList.valueOf(
+                *//* ColorStateList.valueOf(
                      Color.parseColor(
                          GlobalConstants.COLOR_CODE
                      )
-                 )*/mContext.getResources().getColorStateList(R.color.lightColor)
+                 )*//*mContext.getResources().getColorStateList(R.color.lightColor)
             )
         } else {
             holder.binding!!.tvNotificationDescription.visibility = View.GONE
@@ -72,14 +72,14 @@ class FAQListAdapter(
                 )
             )
             holder.binding!!.cardView.setBackgroundTintList(
-                /* ColorStateList.valueOf(
+                *//* ColorStateList.valueOf(
                      Color.parseColor(
                          GlobalConstants.COLOR_CODE
                      )
-                 )*/mContext.getResources().getColorStateList(R.color.colorWhite)
+                 )*//*mContext.getResources().getColorStateList(R.color.colorWhite)
             )
         }
-
+*/
         holder.binding.tvNotificationTitle.setOnClickListener {
             mContext.showDescription(position)
         }

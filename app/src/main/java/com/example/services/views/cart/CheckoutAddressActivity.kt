@@ -215,7 +215,7 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
                                 (deliveryCharges?.plus(
                                     payableAmount.toDouble().plus(tipSelected.toDouble())
                                 )).toString()
-                            cartBinding.tvOfferPrice.setText(GlobalConstants.Currency + " " + total/*response.body?.sum*/)
+                            cartBinding.tvOfferPrice.setText(GlobalConstants.Currency + "" + total/*response.body?.sum*/)
                             cartBinding.tvPromo.setText(getString(R.string.apply_coupon))
                             cartBinding.rlRealPrice.visibility = View.GONE
                             if (response.body!!.data?.size!! > 0) {
@@ -464,8 +464,8 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
                                     deliveryCharges?.plus(payableAmount.toDouble())
 
                                 payableAmount = totalCharges.toString()
-                                cartBinding.tvDelCharges.setText(GlobalConstants.Currency + " " + response.data?.shipment)
-                                cartBinding.tvOfferPrice.setText(GlobalConstants.Currency + " " + totalCharges)
+                                cartBinding.tvDelCharges.setText(GlobalConstants.Currency + "" + response.data?.shipment)
+                                cartBinding.tvOfferPrice.setText(GlobalConstants.Currency + "" + totalCharges)
                             } else {
                                 cartBinding.llDevCharges.visibility = View.GONE
                             }
@@ -585,14 +585,14 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
                 cartBinding.tvLoyalityPoints.setText(totalPoints.toString())
                 payableAmount =
                     payableAmount.toDouble().minus(totalPoints).toString()
-                cartBinding.tvOfferPrice.setText(GlobalConstants.Currency + " " + payableAmount)
+                cartBinding.tvOfferPrice.setText(GlobalConstants.Currency + "" + payableAmount)
             } else {
                 totalPoints = (singlePointValue * maxRangePoints)
                 cartBinding.tvLoyalityPoints.setText(totalPoints.toString())
                 payableAmount =
                     payableAmount.toDouble().plus(totalPoints).toString()
                 totalPoints = 0
-                cartBinding.tvOfferPrice.setText(GlobalConstants.Currency + " " + payableAmount)
+                cartBinding.tvOfferPrice.setText(GlobalConstants.Currency + "" + payableAmount)
                 cartBinding!!.llLoyalityPoints.visibility = View.GONE
                 cartBinding.tvLoyalityPoints.setText("")
             }
@@ -897,12 +897,12 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
                 payableAmount = (payableAmount.toDouble().plus(tipSelected.toDouble())).toString()
                 //payableAmount = payableAmount.toDouble().minus(totalPoints).toString()
                 cartBinding.tvOfferPrice.setText(
-                    GlobalConstants.Currency + " " +
+                    GlobalConstants.Currency + "" +
                             payableAmount
                     /*payableAmount*/
                 )
                 cartBinding.tvRealPrice.setText(
-                    GlobalConstants.Currency + " " + deliveryCharges?.plus(
+                    GlobalConstants.Currency + "" + deliveryCharges?.plus(
                         totalAmount.toDouble()
                     )/*totalAmount*/
                 )
@@ -1012,7 +1012,7 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
             payableAmount = (payableAmount.toDouble().plus(tipSelected.toDouble())).toString()
             //payableAmount = payableAmount.toDouble().minus(totalPoints).toString()
             cartBinding.tvOfferPrice.setText(
-                GlobalConstants.Currency + " " +
+                GlobalConstants.Currency + "" +
                         payableAmount
                 /*payableAmount*/
             )
@@ -1020,7 +1020,7 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
             payableAmount = (payableAmount.toDouble().minus(tipSelected.toDouble())).toString()
             // payableAmount = payableAmount.toDouble().minus(totalPoints).toString()
             cartBinding.tvOfferPrice.setText(
-                GlobalConstants.Currency + " " +
+                GlobalConstants.Currency + "" +
                         payableAmount
                 /*payableAmount*/
             )

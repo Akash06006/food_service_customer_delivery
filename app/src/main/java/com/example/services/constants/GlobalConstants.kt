@@ -131,7 +131,7 @@ object GlobalConstants {
     @JvmStatic
     var Currency = "$"
     @JvmStatic
-    var COLOR_CODE = "#DC143C"
+    var COLOR_CODE = "#F89B94"
     @JvmStatic
     var RANDOM_COLOR = "#DC143C"
     @JvmStatic

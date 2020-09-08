@@ -90,13 +90,13 @@ class ServiceDetailActivity : BaseActivity(), DialogssInterface {
         ).toString()
 
         if (isCart.equals("true")) {
-            serviceDetailBinding.commonToolBar.imgRight.visibility = View.VISIBLE
-            serviceDetailBinding.commonToolBar.txtCount.visibility = View.VISIBLE
-            serviceDetailBinding.commonToolBar.txtCount.setText(cartCount)
+            serviceDetailBinding.imgRight.visibility = View.VISIBLE
+            serviceDetailBinding.txtCount.visibility = View.VISIBLE
+            serviceDetailBinding.txtCount.setText(cartCount)
         } else {
-            serviceDetailBinding.commonToolBar.imgRight.visibility = View.GONE
+            serviceDetailBinding.imgRight.visibility = View.GONE
             cartCount = "0"
-            serviceDetailBinding.commonToolBar.txtCount.visibility = View.GONE
+            serviceDetailBinding.txtCount.visibility = View.GONE
         }
     }
 
@@ -184,12 +184,12 @@ class ServiceDetailActivity : BaseActivity(), DialogssInterface {
                                 )
                             ) {
                                 serviceDetailBinding.rlRealPrice.visibility = View.VISIBLE
-                                serviceDetailBinding.tvRealPrice.setText(GlobalConstants.Currency + " " + response.data!!.originalPrice)
+                                serviceDetailBinding.tvRealPrice.setText(GlobalConstants.Currency + "" + response.data!!.originalPrice)
                             } else {
                                 serviceDetailBinding.rlRealPrice.visibility = View.GONE
                             }
                             priceAmount = response.data!!.price.toString()
-                            serviceDetailBinding.tvOfferPrice.setText(GlobalConstants.Currency + " " + priceAmount)
+                            serviceDetailBinding.tvOfferPrice.setText(GlobalConstants.Currency + "" + priceAmount)
 
                             var detailList = ArrayList<DetailModel>()
                             var detail =
@@ -197,7 +197,7 @@ class ServiceDetailActivity : BaseActivity(), DialogssInterface {
                             detailList.add(detail)
                             detail = DetailModel(
                                 "Pricing",
-                                GlobalConstants.Currency + " " + priceAmount
+                                GlobalConstants.Currency + "" + priceAmount
                             )
                             detailList.add(detail)
 
@@ -252,7 +252,7 @@ class ServiceDetailActivity : BaseActivity(), DialogssInterface {
 
                             initRecyclerView(detailList)
                             priceAmount = response.data!!.price.toString()
-                            serviceDetailBinding.tvOfferPrice.setText(GlobalConstants.Currency + " " + priceAmount)
+                            serviceDetailBinding.tvOfferPrice.setText(GlobalConstants.Currency + "" + priceAmount)
                             serviceDetailBinding.rBar.setRating(response.data!!.rating!!.toFloat())
                             Glide.with(this)
                                 .load(response.data!!.thumbnail)
@@ -305,7 +305,7 @@ class ServiceDetailActivity : BaseActivity(), DialogssInterface {
                                 showToastSuccess(message)
                                 serviceDetailBinding.AddCart.setText(getString(R.string.add_to_cart))
                             } else {
-                                serviceDetailBinding.commonToolBar.imgRight.visibility =
+                                serviceDetailBinding.imgRight.visibility =
                                     View.VISIBLE
                                 serviceDetailBinding.AddCart.setText(getString(R.string.remove_to_cart))
                                 SharedPrefClass().putObject(
@@ -314,8 +314,8 @@ class ServiceDetailActivity : BaseActivity(), DialogssInterface {
                                     "true"
                                 )
                                 cartCount = cartCount.toInt().plus(1).toString()
-                                serviceDetailBinding.commonToolBar.txtCount.setText(cartCount)
-                                serviceDetailBinding.commonToolBar.txtCount.visibility =
+                                serviceDetailBinding.txtCount.setText(cartCount)
+                                serviceDetailBinding.txtCount.visibility =
                                     View.VISIBLE
                                 SharedPrefClass().putObject(
                                     this,
@@ -352,9 +352,9 @@ class ServiceDetailActivity : BaseActivity(), DialogssInterface {
                                 cartCount
                             )
                             if (cartCount.toInt() > 0) {
-                                serviceDetailBinding.commonToolBar.txtCount.visibility =
+                                serviceDetailBinding.txtCount.visibility =
                                     View.VISIBLE
-                                serviceDetailBinding.commonToolBar.txtCount.setText(cartCount)
+                                serviceDetailBinding.txtCount.setText(cartCount)
                             } else {
                                 SharedPrefClass().putObject(
                                     this,
@@ -362,8 +362,8 @@ class ServiceDetailActivity : BaseActivity(), DialogssInterface {
                                     "false"
                                 )
                                 cartCategory = ""
-                                serviceDetailBinding.commonToolBar.imgRight.visibility = View.GONE
-                                serviceDetailBinding.commonToolBar.txtCount.visibility = View.GONE
+                                serviceDetailBinding.imgRight.visibility = View.GONE
+                                serviceDetailBinding.txtCount.visibility = View.GONE
                             }
                         }
                         else -> message?.let {
@@ -445,7 +445,7 @@ class ServiceDetailActivity : BaseActivity(), DialogssInterface {
                         if (quantityCount > 0) {
                             quantityCount--
                             price = quantityCount * priceAmount.toInt()
-                            serviceDetailBinding.tvTotalPrice.setText(GlobalConstants.Currency + " " + price.toString())
+                            serviceDetailBinding.tvTotalPrice.setText(GlobalConstants.Currency + "" + price.toString())
                             //callGetTimeSlotsApi()
                         }
                         if (quantityCount == 0) {
@@ -465,7 +465,7 @@ class ServiceDetailActivity : BaseActivity(), DialogssInterface {
                             //   serviceDetailBinding.btnSubmit.visibility = View.VISIBLE
                             //callGetTimeSlotsApi()
                             price = quantityCount * priceAmount.toInt()
-                            serviceDetailBinding.tvTotalPrice.setText(GlobalConstants.Currency + " " + price.toString())
+                            serviceDetailBinding.tvTotalPrice.setText(GlobalConstants.Currency + "" + price.toString())
                         }
 
 
@@ -510,8 +510,8 @@ class ServiceDetailActivity : BaseActivity(), DialogssInterface {
                                 "0"
                             )
                             cartCount = "0"
-                            serviceDetailBinding.commonToolBar.imgRight.visibility = View.GONE
-                            serviceDetailBinding.commonToolBar.txtCount.visibility = View.GONE
+                            serviceDetailBinding.imgRight.visibility = View.GONE
+                            serviceDetailBinding.txtCount.visibility = View.GONE
                             // (activity as LandingMainActivity).onResumedForFragment()
 
 

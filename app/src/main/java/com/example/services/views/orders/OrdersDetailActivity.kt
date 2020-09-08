@@ -173,7 +173,7 @@ class OrdersDetailActivity : BaseActivity(), DialogssInterface {
                                 response.data?.serviceDateTime,
                                 "HH:mm yyyy-MM-dd"
                             )
-                            orderBinding.tvTotal.setText(GlobalConstants.Currency + " " + response.data?.totalOrderPrice)
+                            orderBinding.tvTotal.setText(GlobalConstants.Currency + "" + response.data?.totalOrderPrice)
 
 
                             destLat = response.data?.company?.latitude!!

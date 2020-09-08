@@ -21,6 +21,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.services.R
 import com.example.services.application.MyApplication
 import com.example.services.common.UtilsFunctions
@@ -33,12 +34,19 @@ import com.example.services.model.services.*
 import com.example.services.sharedpreference.SharedPrefClass
 import com.example.services.utils.DialogClass
 import com.example.services.utils.DialogssInterface
+import com.example.services.viewmodels.home.CategoriesListResponse
 import com.example.services.viewmodels.home.HomeViewModel
+import com.example.services.viewmodels.home.Subcat
 import com.example.services.viewmodels.services.ServicesViewModel
 import com.example.services.views.cart.CartListActivity
+import com.google.android.gms.maps.model.CameraPosition
+import com.google.android.gms.maps.model.LatLng
 import com.google.gson.JsonObject
+import com.uniongoods.adapters.CatsListAdapter
+import com.uniongoods.adapters.DashboardSubCatsRecyclerAdapter
 import com.uniongoods.adapters.ServicesListAdapter
 import com.uniongoods.adapters.SubCategoriesFilterListAdapter
+import java.lang.Double
 
 class ServicesListActivity : BaseActivity(), CompoundButton.OnCheckedChangeListener,
     DialogssInterface {
@@ -67,8 +75,9 @@ class ServicesListActivity : BaseActivity(), CompoundButton.OnCheckedChangeListe
 
     var isFirstTime = false
     var serviceId = ""
-    val serviceObject = JsonObject()
-
+    var serviceObject = JsonObject()
+    private var categoriesList = ArrayList<Subcat>()
+    var catsListAdapter: CatsListAdapter? = null
     var animationView: View? = null
     var imgCross: View? = null
     var llCartDetail: LinearLayout? = null
@@ -93,18 +102,22 @@ class ServicesListActivity : BaseActivity(), CompoundButton.OnCheckedChangeListe
         ).toString()
 
         if (isCart.equals("true")) {
-            servicesBinding.commonToolBar.txtCount.visibility = View.VISIBLE
-            servicesBinding.commonToolBar.imgRight.visibility = View.VISIBLE
-            servicesBinding.commonToolBar.txtCount.setText(cartCount)
+            servicesBinding.txtCount.visibility = View.VISIBLE
+            servicesBinding.imgRight.visibility = View.VISIBLE
+            servicesBinding.txtCount.setText(cartCount)
         } else {
             cartCount = "0"
-            servicesBinding.commonToolBar.imgRight.visibility = View.GONE
-            servicesBinding.commonToolBar.txtCount.visibility = View.GONE
+            servicesBinding.imgRight.visibility = View.GONE
+            servicesBinding.txtCount.visibility = View.GONE
         }
-        if (UtilsFunctions.isNetworkConnected()) {
-            servicesViewModel.getServices(catId, vegOnly)
-            startProgressDialog()
+
+        if (!TextUtils.isEmpty(catId)) {
+            if (UtilsFunctions.isNetworkConnected()) {
+                servicesViewModel.getServices(catId, vegOnly)
+                startProgressDialog()
+            }
         }
+
     }
 
     override fun initViews() {
@@ -120,13 +133,22 @@ class ServicesListActivity : BaseActivity(), CompoundButton.OnCheckedChangeListe
             GlobalConstants.PRODUCT_TYPE
         ).toString()
 
-        if (applicationType.equals(GlobalConstants.PRODUCT_DELIVERY)) {
-            servicesBinding.commonToolBar.imgToolbarText.text =
-                resources.getString(R.string.products)
-        } else if (applicationType.equals(GlobalConstants.PRODUCT_SERVICES)) {
-            servicesBinding.commonToolBar.imgToolbarText.text =
-                resources.getString(R.string.services)
+        if (UtilsFunctions.isNetworkConnected()) {
+            homeViewModel.getSubServices(
+                "b21a7c8f-078f-4323-b914-8f59054c4467",
+                ""/*GlobalConstants.CATEGORY_SELECTED*/
+            )
+            startProgressDialog()
         }
+
+
+        /* if (applicationType.equals(GlobalConstants.PRODUCT_DELIVERY)) {
+             servicesBinding.commonToolBar.imgToolbarText.text =
+                 resources.getString(R.string.products)
+         } else if (applicationType.equals(GlobalConstants.PRODUCT_SERVICES)) {
+             servicesBinding.commonToolBar.imgToolbarText.text =
+                 resources.getString(R.string.services)
+         }*/
 
         servicesBinding.servicesViewModel = servicesViewModel
 
@@ -149,6 +171,43 @@ class ServicesListActivity : BaseActivity(), CompoundButton.OnCheckedChangeListe
         val subcat = Headers("0", "", catId, "All", "All", "true")
         subCategoryList.add(subcat)
         //  initSubCatRecyclerView()
+
+
+        homeViewModel.getGetSubServices().observe(this,
+            Observer<CategoriesListResponse> { response ->
+                stopProgressDialog()
+                if (response != null) {
+                    val message = response.message
+                    when {
+                        response.code == 200 -> {
+                            categoriesList.clear()
+                            categoriesList.addAll(response.body.subcat)
+                            initCategoriesRecyclerView()
+
+                            if (categoriesList.size > 0) {
+                                if (UtilsFunctions.isNetworkConnected()) {
+                                    categoriesList[0].selected = "true"
+                                    servicesViewModel.getServices(categoriesList[0].id, vegOnly)
+                                    startProgressDialog()
+                                }
+                            } else {
+                                servicesBinding.rvServices.visibility = View.GONE
+                                servicesBinding.foodCats.visibility = View.GONE
+                                servicesBinding.tvNoRecord.visibility = View.VISIBLE
+                            }
+                        }
+                        else -> message?.let {
+                            UtilsFunctions.showToastError(it)
+                            servicesBinding.rvServices.visibility = View.GONE
+                            servicesBinding.foodCats.visibility = View.GONE
+                            servicesBinding.tvNoRecord.visibility = View.VISIBLE
+                            //fragmentHomeBinding.rvJobs.visibility = View.GONE
+                        }
+                    }
+
+                }
+            })
+
         servicesViewModel.serviceListRes().observe(this,
             Observer<ServicesListResponse> { response ->
                 stopProgressDialog()
@@ -165,12 +224,12 @@ class ServicesListActivity : BaseActivity(), CompoundButton.OnCheckedChangeListe
                                 }
                                 subCategoryList[0].isSelected = "true"
                             }
-                            if (subCategoryList.size == 1) {
+                            /*if (subCategoryList.size == 1) {
                                 servicesBinding.rvSubcategories.visibility = View.GONE
                             } else {
                                 servicesBinding.rvSubcategories.visibility = View.VISIBLE
                                 initSubCatRecyclerView()
-                            }
+                            }*/
                             /* for (item in subCategoryList) {
                                  if (item.subCategorySelect == "true") {
                                      isCheck = "true"
@@ -209,8 +268,10 @@ class ServicesListActivity : BaseActivity(), CompoundButton.OnCheckedChangeListe
                     when {
                         response.code == 200 -> {
                             val id = response.body?.id
-                            var cart = cart(id =  id!!,quantity = quantityCount.toString(),
-                                orderPrice = price.toString(), orderTotalPrice = price.toString())
+                            var cart = cart(
+                                id = id!!, quantity = quantityCount.toString(),
+                                orderPrice = price.toString(), orderTotalPrice = price.toString()
+                            )
                             serVicesList[position].cart = cart
                             servicesListAdapter?.notifyDataSetChanged()
                             imgCross?.visibility = View.GONE
@@ -220,15 +281,15 @@ class ServicesListActivity : BaseActivity(), CompoundButton.OnCheckedChangeListe
                                 confirmationDialog?.dismiss()
                             }, 3500)
 
-                            servicesBinding.commonToolBar.imgRight.visibility = View.VISIBLE
+                            servicesBinding.imgRight.visibility = View.VISIBLE
                             SharedPrefClass().putObject(
                                 this,
                                 GlobalConstants.isCartAdded,
                                 "true"
                             )
                             cartCount = cartCount.toInt().plus(1).toString()
-                            servicesBinding.commonToolBar.txtCount.setText(cartCount)
-                            servicesBinding.commonToolBar.txtCount.visibility = View.VISIBLE
+                            servicesBinding.txtCount.setText(cartCount)
+                            servicesBinding.txtCount.visibility = View.VISIBLE
                             SharedPrefClass().putObject(
                                 this,
                                 GlobalConstants.cartCount,
@@ -253,8 +314,12 @@ class ServicesListActivity : BaseActivity(), CompoundButton.OnCheckedChangeListe
                     val message = response.message
                     when {
                         response.code == 200 -> {
-                            var cart = cart(id =  serVicesList[position].cart!!.id,quantity = response.data!!.quantity!!,
-                                orderPrice = response.data!!.orderPrice!!, orderTotalPrice = response.data!!.orderTotalPrice!!.toString())
+                            var cart = cart(
+                                id = serVicesList[position].cart!!.id,
+                                quantity = response.data!!.quantity!!,
+                                orderPrice = response.data!!.orderPrice!!,
+                                orderTotalPrice = response.data!!.orderTotalPrice!!.toString()
+                            )
                             serVicesList[position].cart = cart
                             servicesListAdapter?.notifyDataSetChanged()
                         }
@@ -301,24 +366,24 @@ class ServicesListActivity : BaseActivity(), CompoundButton.OnCheckedChangeListe
                                 cartCount
                             )
                             for (item in serVicesList) {
-                                if (item.cart!=null) {
+                                if (item.cart != null) {
                                     iscart = true
                                 }
                             }
                             if (iscart) {
-                                servicesBinding.commonToolBar.imgRight.visibility = View.VISIBLE
+                                servicesBinding.imgRight.visibility = View.VISIBLE
                                 SharedPrefClass().putObject(
                                     this,
                                     GlobalConstants.isCartAdded,
                                     "true"
                                 )
                                 if (cartCount.toInt() > 0) {
-                                    servicesBinding.commonToolBar.txtCount.visibility = View.VISIBLE
-                                    servicesBinding.commonToolBar.txtCount.setText(cartCount)
+                                    servicesBinding.txtCount.visibility = View.VISIBLE
+                                    servicesBinding.txtCount.setText(cartCount)
                                 }
                             } else {
-                                servicesBinding.commonToolBar.imgRight.visibility = View.GONE
-                                servicesBinding.commonToolBar.txtCount.visibility = View.GONE
+                                servicesBinding.imgRight.visibility = View.GONE
+                                servicesBinding.txtCount.visibility = View.GONE
                             }
                         }
                         else -> message?.let {
@@ -334,6 +399,10 @@ class ServicesListActivity : BaseActivity(), CompoundButton.OnCheckedChangeListe
             this, Observer<String>(function =
             fun(it: String?) {
                 when (it) {
+
+                    "imgNavigation" -> {
+                        finish()
+                    }
                     "img_right" -> {
                         val intent = Intent(this, CartListActivity::class.java)
                         startActivity(intent)
@@ -367,8 +436,8 @@ class ServicesListActivity : BaseActivity(), CompoundButton.OnCheckedChangeListe
                             )
                             cartCategory = ""
                             cartCount = "0"
-                            servicesBinding.commonToolBar.imgRight.visibility = View.GONE
-                            servicesBinding.commonToolBar.txtCount.visibility = View.GONE
+                            servicesBinding.imgRight.visibility = View.GONE
+                            servicesBinding.txtCount.visibility = View.GONE
                             // (activity as LandingMainActivity).onResumedForFragment()
 
 
@@ -401,6 +470,34 @@ class ServicesListActivity : BaseActivity(), CompoundButton.OnCheckedChangeListe
 
         }
         //showToastError(p1.toString())
+    }
+
+
+    private fun initCategoriesRecyclerView() {
+        /*val adapter = CategoriesGridListAdapter(this@HomeFragment, categoriesList, activity!!)
+        fragmentHomeBinding.gridview.adapter = adapter*/
+
+        catsListAdapter =
+            CatsListAdapter(this, categoriesList, this)
+        // val linearLayoutManager = LinearLayoutManager(this)
+        //val gridLayoutManager = GridLayoutManager(activity!!, 4)
+        // fragmentHomeBinding.rvJobs.layoutManager = gridLayoutManager
+        val controller =
+            AnimationUtils.loadLayoutAnimation(this, R.anim.layout_animation_from_bottom)
+        servicesBinding.rvSubcategories.setLayoutAnimation(controller);
+        servicesBinding.rvSubcategories.scheduleLayoutAnimation();
+        servicesBinding.rvSubcategories.setHasFixedSize(true)
+        val linearLayoutManager = LinearLayoutManager(this)
+        linearLayoutManager.orientation = RecyclerView.HORIZONTAL
+        servicesBinding.rvSubcategories.layoutManager = linearLayoutManager
+        servicesBinding.rvSubcategories.adapter = catsListAdapter
+        servicesBinding.rvSubcategories.addOnScrollListener(object :
+            RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+
+            }
+        })
+
     }
 
     private fun initRecyclerView() {
@@ -523,7 +620,7 @@ class ServicesListActivity : BaseActivity(), CompoundButton.OnCheckedChangeListe
             price = serVicesList[pos].price.toInt()
             quantityCount = 1
             callAddRemoveCartApi(true, serviceId)
-          //  showCartInfoLayout(pos)
+            //  showCartInfoLayout(pos)
         } else {
             if (cartCategory.equals(GlobalConstants.COMPANY_ID)) {
                 position = pos
@@ -600,7 +697,7 @@ class ServicesListActivity : BaseActivity(), CompoundButton.OnCheckedChangeListe
             if (quantityCount > 0) {
                 quantityCount--
                 price = quantityCount * serVicesList[this.pos].price.toInt()
-                tvTotalPrice?.setText(GlobalConstants.Currency + " " + price.toString())
+                tvTotalPrice?.setText(GlobalConstants.Currency + "" + price.toString())
                 //callGetTimeSlotsApi()
             }
             if (quantityCount == 0) {
@@ -617,7 +714,7 @@ class ServicesListActivity : BaseActivity(), CompoundButton.OnCheckedChangeListe
                 //   serviceDetailBinding.btnSubmit.visibility = View.VISIBLE
                 //callGetTimeSlotsApi()
                 price = quantityCount * serVicesList[this.pos].price.toInt()
-                tvTotalPrice?.setText(GlobalConstants.Currency + " " + price.toString())
+                tvTotalPrice?.setText(GlobalConstants.Currency + "" + price.toString())
             }
         }
         btnSubmit?.setOnClickListener {
@@ -667,8 +764,7 @@ class ServicesListActivity : BaseActivity(), CompoundButton.OnCheckedChangeListe
         }
     }
 
-    fun callUpdateCartApi(cartid: String)
-    {
+    fun callUpdateCartApi(cartid: String) {
         var cartObject = JsonObject()
         cartObject.addProperty(
             "serviceId", serviceId
@@ -696,9 +792,10 @@ class ServicesListActivity : BaseActivity(), CompoundButton.OnCheckedChangeListe
 
         if (UtilsFunctions.isNetworkConnected()) {
             servicesViewModel.updateCart(cartObject)
-           // startProgressDialog()
+            // startProgressDialog()
         }
     }
+
     fun callAddRemoveCartApi(isAdd: Boolean, serviceId: String) {
         if (isAdd) {
             var cartObject = JsonObject()
@@ -743,29 +840,29 @@ class ServicesListActivity : BaseActivity(), CompoundButton.OnCheckedChangeListe
         position = pos
         cartId = cartid
         callAddRemoveCartApi(false, "")
-       /* confirmationDialog = mDialogClass.setDefaultDialog(
-            this,
-            this,
-            "Remove Cart",
-            getString(R.string.warning_remove_cart)
-        )
-        confirmationDialog?.show()*/
+        /* confirmationDialog = mDialogClass.setDefaultDialog(
+             this,
+             this,
+             "Remove Cart",
+             getString(R.string.warning_remove_cart)
+         )
+         confirmationDialog?.show()*/
     }
 
-    fun clickMinusButton(pos: Int, mPrice: Int, quantity: Int){
+    fun clickMinusButton(pos: Int, mPrice: Int, quantity: Int) {
         position = pos
         priceAmount = serVicesList[pos].price.toInt()
         serviceId = serVicesList[pos].id
         price = mPrice
         quantityCount = quantity/*serVicesList[pos].cart?.quantity!!.toInt()*/
-      /*  if (quantityCount == 0) {
-            showToastError(getString(R.string.select_quantity_msg))
-        } else {*/
-            callUpdateCartApi(serVicesList[pos].cart!!.id)
-      //  }
+        /*  if (quantityCount == 0) {
+              showToastError(getString(R.string.select_quantity_msg))
+          } else {*/
+        callUpdateCartApi(serVicesList[pos].cart!!.id)
+        //  }
     }
 
-    fun clickAddButton(pos: Int, mPrice: Int, quantity: Int){
+    fun clickAddButton(pos: Int, mPrice: Int, quantity: Int) {
         position = pos
         priceAmount = serVicesList[pos].price.toInt()
         serviceId = serVicesList[pos].id
@@ -774,7 +871,31 @@ class ServicesListActivity : BaseActivity(), CompoundButton.OnCheckedChangeListe
         /*if (quantityCount == 0) {
             showToastError(getString(R.string.select_quantity_msg))
         } else {*/
-            callUpdateCartApi(serVicesList[pos].cart!!.id)
-       // }
+        callUpdateCartApi(serVicesList[pos].cart!!.id)
+        // }
+    }
+
+    fun filterItems(position: Int) {
+
+        for (i in 0 until categoriesList.size) {
+            categoriesList[i].selected = "false"
+        }
+        categoriesList[position].selected = "true"
+        catsListAdapter?.notifyDataSetChanged()
+        serviceObject = JsonObject()
+        catId = categoriesList[position].id
+        //subCatId = intent.extras?.get("subCatId").toString()
+        //initRecyclerView()
+        //subcat.name="All"
+        serviceObject.addProperty(
+            "category", catId
+        )
+        serviceObject.addProperty(
+            "subcategory", "0"
+        )
+        if (UtilsFunctions.isNetworkConnected()) {
+            servicesViewModel.getServices(catId, vegOnly)
+            startProgressDialog()
+        }
     }
 }

@@ -41,7 +41,7 @@ class TipListAdapter(
 
     override fun onBindViewHolder(@NonNull holder: ViewHolder, position: Int) {
         viewHolder = holder
-        holder.binding!!.txtTip.setText(GlobalConstants.Currency + " " + tipList[position].tips)/*dateList[position].date*/
+        holder.binding!!.txtTip.setText(GlobalConstants.Currency + "" + tipList[position].tips)/*dateList[position].date*/
 
         if (tipList[position].selected.equals("true")) {
             holder.binding.txtTip.setTextColor(mContext.resources.getColor(R.color.success))

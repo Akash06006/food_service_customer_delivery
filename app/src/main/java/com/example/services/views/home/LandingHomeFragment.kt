@@ -100,9 +100,12 @@ LandingHomeFragment : BaseFragment(), DialogssInterface, CompoundButton.OnChecke
     override fun onResume() {
         super.onResume()
         //Location
-        mFusedLocationClass = FusedLocationClass(activity)
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(activity!!)
-        getLastLocation()
+        if (UtilsFunctions.isNetworkConnected()) {
+            mFusedLocationClass = FusedLocationClass(activity)
+            mFusedLocationClient = LocationServices.getFusedLocationProviderClient(activity!!)
+            getLastLocation()
+        }
+
 
         val isCart = SharedPrefClass().getPrefValue(
             MyApplication.instance,
@@ -113,7 +116,7 @@ LandingHomeFragment : BaseFragment(), DialogssInterface, CompoundButton.OnChecke
             GlobalConstants.cartCount
         ).toString()
         if (isCart.equals("true")) {
-            fragmentHomeBinding.imgCart.visibility = View.VISIBLE
+            fragmentHomeBinding.imgRight.visibility = View.VISIBLE
             if (!TextUtils.isEmpty(cartCount)) {
                 fragmentHomeBinding.txtCount.setText(cartCount)
                 fragmentHomeBinding.txtCount.visibility = View.VISIBLE
@@ -121,7 +124,7 @@ LandingHomeFragment : BaseFragment(), DialogssInterface, CompoundButton.OnChecke
 
         } else {
             fragmentHomeBinding.txtCount.visibility = View.GONE
-            fragmentHomeBinding.imgCart.visibility = View.GONE
+            fragmentHomeBinding.imgRight.visibility = View.GONE
         }
 
     }
@@ -167,6 +170,7 @@ LandingHomeFragment : BaseFragment(), DialogssInterface, CompoundButton.OnChecke
                                     GlobalConstants.cartCategory,
                                     ""
                                 )
+                                fragmentHomeBinding.imgRight.visibility = View.GONE
                                 (activity as LandingMainActivity).onResumedForFragment()
                             } else {
                                 SharedPrefClass().putObject(
@@ -179,6 +183,7 @@ LandingHomeFragment : BaseFragment(), DialogssInterface, CompoundButton.OnChecke
                                     GlobalConstants.cartCategory,
                                     cartCategoryTypeId.toString()
                                 )
+                                fragmentHomeBinding.imgRight.visibility = View.VISIBLE
                                 (activity as LandingMainActivity).onResumedForFragment()
                             }
 
@@ -462,7 +467,8 @@ LandingHomeFragment : BaseFragment(), DialogssInterface, CompoundButton.OnChecke
                         val intent = Intent(activity, SearchActivity::class.java)
                         startActivity(intent)
                     }
-                    "imgCart" -> {
+
+                    "img_right" -> {
                         val intent = Intent(activity, CartListActivity::class.java)
                         startActivity(intent)
                     }

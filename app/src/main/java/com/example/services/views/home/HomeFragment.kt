@@ -54,15 +54,23 @@ import com.example.services.views.orders.OrdersDetailActivity
 import com.example.services.views.subcategories.ServicesListActivity
 import com.example.services.views.vendor.RestaurantsListActivity
 import com.google.android.gms.location.*
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.CameraPosition
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import com.google.gson.JsonObject
 import com.uniongoods.adapters.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
 import org.json.JSONObject
 
 class
-HomeFragment : BaseFragment(), SocketInterface {
+HomeFragment : BaseFragment(), SocketInterface, OnMapReadyCallback {
     private var mFusedLocationClass: FusedLocationClass? = null
     private var socket = SocketClass.socket
+    private lateinit var mMap: GoogleMap
     private var categoriesList = ArrayList<Subcat>()
     private var details: Details? = null
     private var bannersList = ArrayList<Banners>()
@@ -103,8 +111,18 @@ HomeFragment : BaseFragment(), SocketInterface {
         mFusedLocationClass = FusedLocationClass(activity)
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(activity!!)
         // baseActivity.startProgressDialog()
-        categoriesList?.clear()
+        categoriesList.clear()
 
+        var mapFragment: SupportMapFragment? = null
+        mapFragment = fragmentManager?.findFragmentById(R.id.map) as SupportMapFragment?
+        mapFragment?.getMapAsync(this)
+
+
+        /* val mapFragment = activity!!.supportFragmentManager
+             .findFragmentById(R.id.map) as SupportMapFragment
+         mapFragment.getMapAsync(this)*/
+
+        fragmentHomeBinding.txtRestName.setText(GlobalConstants.CATEGORY_SELECTED_NAME)
         val applicationType = SharedPrefClass()!!.getPrefValue(
             MyApplication.instance,
             GlobalConstants.PRODUCT_TYPE
@@ -146,6 +164,20 @@ HomeFragment : BaseFragment(), SocketInterface {
                     when {
                         response.code == 200 -> {
                             //  details = Details()
+
+                            val mCameraPosition = CameraPosition.Builder()
+                                .target(
+                                    LatLng(
+                                        java.lang.Double.parseDouble(GlobalConstants.CURRENT_LAT),
+                                        java.lang.Double.parseDouble(GlobalConstants.CURRENT_LONG)
+                                    )
+                                )
+                                .zoom(15.5f)
+                                .tilt(30f)
+                                .build()
+                            //   mMap.moveCamera(CameraUpdateFactory.newCameraPosition(mCameraPosition))
+
+
                             details = response.body.details
                             categoriesList.clear()
                             trendingServiceList.clear()
@@ -189,9 +221,9 @@ HomeFragment : BaseFragment(), SocketInterface {
                                         0,
                                         3
                                     )
-                                    fragmentHomeBinding.txtRating.setText(rating + " Ratings (" + details?.totalRatings + " Votes)")
+                                    fragmentHomeBinding.txtRating.setText(rating + " (" + details?.totalRatings + " Votes)")
                                 } else {
-                                    fragmentHomeBinding.txtRating.setText(details?.rating + " Ratings (" + details?.totalRatings + " Votes)")
+                                    fragmentHomeBinding.txtRating.setText(details?.rating + " (" + details?.totalRatings + " Votes)")
                                 }
 
                             }
@@ -253,8 +285,6 @@ HomeFragment : BaseFragment(), SocketInterface {
                                         true
                                     )
                                 }
-
-
                             }
 
                             initRecyclerView()
@@ -264,19 +294,20 @@ HomeFragment : BaseFragment(), SocketInterface {
                             } else {
                                 fragmentHomeBinding.rvBanners.visibility = View.GONE
                             }
-                            if (trendingServiceList.size > 0) {
-                                fragmentHomeBinding.trendingLayout.visibility = View.VISIBLE
-                                trendingServiceListViewPager()
-                            } else {
-                                fragmentHomeBinding.trendingLayout.visibility = View.GONE
-                            }
 
-                            if (offersList.size > 0) {
-                                fragmentHomeBinding.offersLayout.visibility = View.VISIBLE
-                                offerListViewPager()
-                            } else {
-                                fragmentHomeBinding.offersLayout.visibility = View.GONE
-                            }
+                            /*
+                             if (trendingServiceList.size > 0) {
+                                 fragmentHomeBinding.trendingLayout.visibility = View.VISIBLE
+                                 trendingServiceListViewPager()
+                             } else {
+                                 fragmentHomeBinding.trendingLayout.visibility = View.GONE
+                             }
+                              if (offersList.size > 0) {
+                                 fragmentHomeBinding.offersLayout.visibility = View.VISIBLE
+                                 offerListViewPager()
+                             } else {
+                                 fragmentHomeBinding.offersLayout.visibility = View.GONE
+                             }*/
 
                         }
                         else -> message?.let {
@@ -316,11 +347,11 @@ HomeFragment : BaseFragment(), SocketInterface {
 
         fragmentHomeBinding.gridview.onItemClickListener =
             AdapterView.OnItemClickListener { parent, v, position, id ->
-                //showToastSuccess(" Clicked Position: " + (position + 1))
-                // if (categoriesList[position].isService.equals("false")) {
                 val intent = Intent(activity!!, ServicesListActivity::class.java)
                 intent.putExtra("catId", categoriesList[position].id)
-                startActivity(intent)
+                //startActivity(intent)
+
+
                 /* } else {
                      val intent = Intent(activity!!, ServicesListActivity::class.java)
                      intent.putExtra("catId", categoriesList[position].id)
@@ -332,8 +363,20 @@ HomeFragment : BaseFragment(), SocketInterface {
             this, Observer<String>(function =
             fun(it: String?) {
                 when (it) {
+                    "btnViewDirection" -> {
+
+                    }
+                    "btnOrderHere" -> {
+                        val intent = Intent(activity!!, ServicesListActivity::class.java)
+                        intent.putExtra("catId", ""/*categoriesList[position].id*/)
+                        startActivity(intent)
+                    }
+
                     "txtAddRating" -> {
                         addRating()
+                    }
+                    "imgBack" -> {
+                        activity!!.finish()
                     }
                     "txtMobNumber" -> {
                         checkPermission()
@@ -367,19 +410,24 @@ HomeFragment : BaseFragment(), SocketInterface {
     private fun initRecyclerView() {
         /*val adapter = CategoriesGridListAdapter(this@HomeFragment, categoriesList, activity!!)
         fragmentHomeBinding.gridview.adapter = adapter*/
-
+        if (categoriesList.size > 0) {
+            fragmentHomeBinding.foodGallery.visibility = View.VISIBLE
+        } else {
+            fragmentHomeBinding.foodGallery.visibility = View.GONE
+        }
         val vendorsListAdapter =
             DashboardSubCatsRecyclerAdapter(this@HomeFragment, categoriesList, activity!!)
         // val linearLayoutManager = LinearLayoutManager(this)
-        val gridLayoutManager = GridLayoutManager(activity!!, 4)
-        fragmentHomeBinding.rvJobs.layoutManager = gridLayoutManager
+        //val gridLayoutManager = GridLayoutManager(activity!!, 4)
+        // fragmentHomeBinding.rvJobs.layoutManager = gridLayoutManager
         val controller =
             AnimationUtils.loadLayoutAnimation(activity, R.anim.layout_animation_from_bottom)
         fragmentHomeBinding.rvJobs.setLayoutAnimation(controller);
         fragmentHomeBinding.rvJobs.scheduleLayoutAnimation();
         fragmentHomeBinding.rvJobs.setHasFixedSize(true)
-        // linearLayoutManager.orientation = RecyclerView.VERTICAL
-        // favoriteBinding.rvFavorite.layoutManager = linearLayoutManager
+        val linearLayoutManager = LinearLayoutManager(this.baseActivity)
+        linearLayoutManager.orientation = RecyclerView.HORIZONTAL
+        fragmentHomeBinding.rvJobs.layoutManager = linearLayoutManager
         fragmentHomeBinding.rvJobs.adapter = vendorsListAdapter
         fragmentHomeBinding.rvJobs.addOnScrollListener(object :
             RecyclerView.OnScrollListener() {
@@ -709,6 +757,44 @@ HomeFragment : BaseFragment(), SocketInterface {
     fun callPhone() {
         val intent = Intent(Intent.ACTION_CALL, Uri.parse("tel:" + phoneNumber))
         startActivity(intent)
+    }
+
+    override fun onMapReady(googleMap: GoogleMap?) {
+
+        mMap = googleMap!!
+        // Add a marker in India and move the camera
+        /* val myLocation = LatLng(20.5937, 78.9629)
+         mMap.addMarker(MarkerOptions().position(myLocation).title("Marker in India"))
+         mMap.moveCamera(CameraUpdateFactory.newLatLng(myLocation))*/
+
+
+        googleMap.apply {
+            val sydney = LatLng(40.7138353, -73.9920178)
+            addMarker(
+                MarkerOptions()
+                    .position(sydney)
+                    .title("Marker in Sydney")
+            )
+        }
+
+
+        val mCameraPosition = CameraPosition.Builder()
+            .target(
+                LatLng(
+                    java.lang.Double.parseDouble(GlobalConstants.CURRENT_LAT),
+                    java.lang.Double.parseDouble(GlobalConstants.CURRENT_LONG)
+                )
+            )
+            .zoom(15.5f)
+            .tilt(30f)
+            .build()
+        val myLocation = LatLng(
+            java.lang.Double.parseDouble(GlobalConstants.CURRENT_LAT),
+            java.lang.Double.parseDouble(GlobalConstants.CURRENT_LONG)
+        )
+        mMap.addMarker(MarkerOptions().position(myLocation).title("Marker in India"))
+        mMap.moveCamera(CameraUpdateFactory.newCameraPosition(mCameraPosition))
+        mMap.uiSettings.isZoomControlsEnabled = true
     }
     //endregion
 }
