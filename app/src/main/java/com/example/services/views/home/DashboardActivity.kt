@@ -103,12 +103,12 @@ class DashboardActivity : BaseActivity(),
             GlobalConstants.cartCount
         ).toString()
         if (isCart.equals("true")) {
-            activityDashboardBinding!!.commonToolBar.txtCount.visibility = View.VISIBLE
-            activityDashboardBinding!!.commonToolBar.txtCount.setText(cartCount)
-            activityDashboardBinding!!.commonToolBar.imgRight.visibility = View.VISIBLE
+            activityDashboardBinding!!.txtCount.visibility = View.VISIBLE
+            activityDashboardBinding!!.txtCount.setText(cartCount)
+            activityDashboardBinding!!.imgRight.visibility = View.VISIBLE
         } else {
-            activityDashboardBinding!!.commonToolBar.imgRight.visibility = View.GONE
-            activityDashboardBinding!!.commonToolBar.txtCount.visibility = View.GONE
+            activityDashboardBinding!!.imgRight.visibility = View.GONE
+            activityDashboardBinding!!.txtCount.visibility = View.GONE
         }
         // ic_profile
 

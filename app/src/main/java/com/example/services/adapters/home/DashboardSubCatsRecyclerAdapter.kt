@@ -48,6 +48,7 @@ class DashboardSubCatsRecyclerAdapter(
     override fun onBindViewHolder(@NonNull holder: ViewHolder, position: Int) {
         viewHolder = holder
         holder.binding!!.catHeader.setText(categoriesList[position].name)
+        holder.binding!!.catHeader.visibility = View.GONE
 
         Glide.with(mContext)
             .load(categoriesList[position].thumbnail)
@@ -55,15 +56,11 @@ class DashboardSubCatsRecyclerAdapter(
             .placeholder(R.drawable.ic_category)
             .into(holder.binding.catImg)
 
-
         holder.binding.catImg.setOnClickListener {
-
             val intent = Intent(activity, ServicesListActivity::class.java)
             intent.putExtra("catId", categoriesList[position].id)
             mContext.startActivity(intent)
         }
-
-
     }
 
     override fun getItemCount(): Int {

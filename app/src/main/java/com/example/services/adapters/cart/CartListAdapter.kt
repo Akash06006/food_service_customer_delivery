@@ -51,7 +51,7 @@ class CartListAdapter(
         holder.binding!!.tvCatName.text = addressList[position].service?.name
         holder.binding!!.tvQuantity.setText( addressList[position].quantity)
         holder.binding!!.tvOfferPrice.setText(
-            GlobalConstants.Currency + " " + addressList[position].price.toString()
+            GlobalConstants.Currency + "" + addressList[position].price.toString()
         )
         //holder.binding!!.rBar.setRating(addressList[position].rating?.toFloat())
         Glide.with(mContext)

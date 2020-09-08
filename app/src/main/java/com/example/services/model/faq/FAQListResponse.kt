@@ -10,15 +10,33 @@ class FAQListResponse {
     @SerializedName("message")
     @Expose
     var message: String? = null
+    //
+
     @SerializedName("body")
     @Expose
-    var data: ArrayList<Data>? = null
+    var data: Body? = null
 
-    /* "id": "00020606-2945-42ec-819c-a4195b7b2ba1",
-            "question": "What is dashboard?",
-            "answer": " wdknwacasbc ascbas cambscv ksdbvd svbhdfvb ndsvjkbvdf vbkfdv dfjv kjld ",
-            "status": 0,
-            "language": "FR"*/
+    inner class Body {
+        @SerializedName("category")
+        @Expose
+        var category: ArrayList<Category>? = null
+        @SerializedName("data")
+        @Expose
+        var faqList: ArrayList<Data>? = null
+    }
+
+    inner class Category {
+        @SerializedName("id")
+        @Expose
+        var id: String? = null
+        @SerializedName("catName")
+        @Expose
+        var catName: String? = null
+        @SerializedName("selected")
+        @Expose
+        var selected: String? = null
+    }
+
     inner class Data {
         @SerializedName("id")
         @Expose

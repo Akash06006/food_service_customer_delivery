@@ -169,13 +169,13 @@ class SearchListAdapter(
                 )
             ) {
                 holder.binding.rlOriginalPrice.visibility = View.VISIBLE
-                holder.binding.tvRealPrice.setText(GlobalConstants.Currency + " " + vendorList[position].originalPrice)
+                holder.binding.tvRealPrice.setText(GlobalConstants.Currency + "" + vendorList[position].originalPrice)
             } else {
                 holder.binding.rlOriginalPrice.visibility = View.INVISIBLE
             }
 
             holder.binding!!.tvOfferPrice.text =
-                GlobalConstants.Currency + " " + vendorList[position].price.toString()
+                GlobalConstants.Currency + "" + vendorList[position].price.toString()
             holder.binding!!.tvDuration.setText(mContext.resources.getString(R.string.duration) + ": " + vendorList[position].duration)
 
             holder.binding!!.txtCompanyName.setText(vendorList[position].company?.companyName)

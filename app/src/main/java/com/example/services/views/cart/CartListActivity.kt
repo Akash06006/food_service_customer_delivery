@@ -215,7 +215,7 @@ class CartListActivity : BaseActivity(), DialogssInterface {
                             cartList[position].quantity = response.data!!.quantity!!
                             cartList[position].price =  response.data!!.orderTotalPrice!!.toString()
                             myJobsListAdapter?.notifyDataSetChanged()
-                            cartBinding.tvOfferPrice.setText(GlobalConstants.Currency + " " + response.data!!.sum)
+                            cartBinding.tvOfferPrice.setText(GlobalConstants.Currency + "" + response.data!!.sum)
                         }
                         else -> message?.let {
                             UtilsFunctions.showToastError(it)

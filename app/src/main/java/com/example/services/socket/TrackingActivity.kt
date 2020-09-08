@@ -77,7 +77,7 @@ open class TrackingActivity : BaseActivity(), OnMapReadyCallback, LocationListen
     GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks, MapInterface,
     DialogssInterface,
     GoogleMap.OnInfoWindowClickListener, Application.ActivityLifecycleCallbacks {
-    override fun onActivityPaused(activity : Activity?) {
+    override fun onActivityPaused(activity: Activity?) {
         Log.e("LifeCycle: ", "Pause")
         /* var service = Intent(this, LocationTrackingService::class.java)
          startService(service)*/
@@ -86,8 +86,8 @@ open class TrackingActivity : BaseActivity(), OnMapReadyCallback, LocationListen
 
     }
 
-    var gpsService : BackgroundLocationService? = null
-    override fun onActivityResumed(activity : Activity?) {
+    var gpsService: BackgroundLocationService? = null
+    override fun onActivityResumed(activity: Activity?) {
         Log.e("LifeCycle: ", "Resumed")
         /*  var service = Intent(this, LocationTrackingService::class.java)
           stopService(service)*/
@@ -97,61 +97,61 @@ open class TrackingActivity : BaseActivity(), OnMapReadyCallback, LocationListen
 
     private val serviceConnection = object : ServiceConnection {
         override fun onServiceConnected(
-            className : ComponentName,
-            service : IBinder
+            className: ComponentName,
+            service: IBinder
         ) {
             // gpsService = ((BackgroundLocationService.LocationServiceBinder) service).getService()
             val binder = service as BackgroundLocationService.LocationServiceBinder
             gpsService = binder.service
         }
 
-        override fun onServiceDisconnected(name : ComponentName) {
+        override fun onServiceDisconnected(name: ComponentName) {
             gpsService = null
         }
     }
 
-    override fun onActivityStarted(activity : Activity?) {
+    override fun onActivityStarted(activity: Activity?) {
         Log.e("LifeCycle: ", "Started")
     }
 
-    override fun onActivityDestroyed(activity : Activity?) {
+    override fun onActivityDestroyed(activity: Activity?) {
         Log.e("LifeCycle: ", "Destroyed")
     }
 
-    override fun onActivitySaveInstanceState(activity : Activity?, outState : Bundle?) {
+    override fun onActivitySaveInstanceState(activity: Activity?, outState: Bundle?) {
         Log.e("LifeCycle: ", "SavedInstance")
     }
 
-    override fun onActivityStopped(activity : Activity?) {
+    override fun onActivityStopped(activity: Activity?) {
         Log.e("LifeCycle: ", "Stopped")
 
     }
 
-    override fun onActivityCreated(activity : Activity?, savedInstanceState : Bundle?) {
+    override fun onActivityCreated(activity: Activity?, savedInstanceState: Bundle?) {
         Log.e("LifeCycle: ", "Created")
     }
 
     internal var cameraZoom = 16.0f
     private var mAddress = ""
-    private var mInterface : DialogssInterface? = null
-    private var mGoogleMap : GoogleMap? = null
-    private var mFusedLocationClass : FusedLocationClass? = null
-    private var mLocation : Location? = null
-    private var mLatitude : String? = null
-    private var mLongitude : String? = null
-    private var utils : Utils? = null
+    private var mInterface: DialogssInterface? = null
+    private var mGoogleMap: GoogleMap? = null
+    private var mFusedLocationClass: FusedLocationClass? = null
+    private var mLocation: Location? = null
+    private var mLatitude: String? = null
+    private var mLongitude: String? = null
+    private var utils: Utils? = null
     private var mHandler = Handler()
     private var mMapClass = MapClass()
-    private var mContext : Context? = null
+    private var mContext: Context? = null
     private var sharedPrefClass = SharedPrefClass()
-    private var check : Int = 0
+    private var check: Int = 0
     private val points = ArrayList<LatLng>()
     private var mPermissionCheck = false
-    private var mGoogleApiClient : GoogleApiClient? = null
-    private var mLine : Polyline? = null
+    private var mGoogleApiClient: GoogleApiClient? = null
+    private var mLine: Polyline? = null
     private var socket = SocketClass.socket
-    private var dialog : Dialog? = null
-    private var locationDialog : Dialog? = null
+    private var dialog: Dialog? = null
+    private var locationDialog: Dialog? = null
     private var mDialogClass = DialogClass()
     private var click_settings = 1
     private var click_gps = 1
@@ -165,18 +165,18 @@ open class TrackingActivity : BaseActivity(), OnMapReadyCallback, LocationListen
     var destlat = ""
     var destLong = ""
     var istrack = ""
-    private lateinit var fkip : LatLng
-    private lateinit var destLocation : LatLng
-    lateinit var trackingViewModel : TrackingViewModel
-    lateinit var trackingActivityBinding : FragmentTrackingBinding
-    private lateinit var locationsViewModel : LocationsViewModel
+    private lateinit var fkip: LatLng
+    private lateinit var destLocation: LatLng
+    lateinit var trackingViewModel: TrackingViewModel
+    lateinit var trackingActivityBinding: FragmentTrackingBinding
+    private lateinit var locationsViewModel: LocationsViewModel
     var runCall = 0
-    var serviceIntent : Intent? = null
-    var polyPath : MutableList<LatLng>? = null
-    private var confirmationDialog : Dialog? = null
+    var serviceIntent: Intent? = null
+    var polyPath: MutableList<LatLng>? = null
+    private var confirmationDialog: Dialog? = null
 
     companion object {
-        var categoryListids : ArrayList<String>? = null
+        var categoryListids: ArrayList<String>? = null
 
     }
 
@@ -219,7 +219,7 @@ open class TrackingActivity : BaseActivity(), OnMapReadyCallback, LocationListen
         }
     }
 
-    override fun getLayoutId() : Int {
+    override fun getLayoutId(): Int {
         return R.layout.fragment_tracking
     }
 
@@ -257,7 +257,7 @@ open class TrackingActivity : BaseActivity(), OnMapReadyCallback, LocationListen
                 markerOptions.title("Destination Position")
                 markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA))
             }
-        } catch (e : JSONException) {
+        } catch (e: JSONException) {
             e.printStackTrace()
         }
         //service
@@ -288,13 +288,13 @@ open class TrackingActivity : BaseActivity(), OnMapReadyCallback, LocationListen
         utils = Utils(this)
 
         dialog = Dialog(this)
-       /* dialog = mDialogClass.setPermissionDialog(this, this)
-        locationDialog = mDialogClass.setDefaultDialog(
-            this,
-            mInterface!!,
-            "GPSCheck",
-            getString(R.string.GPS_enabled)
-        )*/
+        /* dialog = mDialogClass.setPermissionDialog(this, this)
+         locationDialog = mDialogClass.setDefaultDialog(
+             this,
+             mInterface!!,
+             "GPSCheck",
+             getString(R.string.GPS_enabled)
+         )*/
         //Socket Initialization
         Log.e("Connect Socket", "Track activity")
         socket.updateSocketInterface(this)
@@ -304,7 +304,7 @@ open class TrackingActivity : BaseActivity(), OnMapReadyCallback, LocationListen
 
         trackingViewModel.isClick().observe(
             this, Observer<String>(function =
-            fun(it : String?) {
+            fun(it: String?) {
                 when (it) {
                     "btn_clear" -> {
                         confirmationDialog = mDialogClass.setDefaultDialog(
@@ -321,7 +321,7 @@ open class TrackingActivity : BaseActivity(), OnMapReadyCallback, LocationListen
         )
 
         trackingViewModel.startCompleteJob().observe(this,
-            Observer<CommonModel> { response->
+            Observer<CommonModel> { response ->
                 stopProgressDialog()
                 if (response != null) {
                     val message = response.message
@@ -362,7 +362,7 @@ open class TrackingActivity : BaseActivity(), OnMapReadyCallback, LocationListen
 
     }
 
-    override fun onCameraIdle(cameraPosition : CameraPosition) {
+    override fun onCameraIdle(cameraPosition: CameraPosition) {
         cameraZoom = cameraPosition.zoom
     }
 
@@ -370,7 +370,7 @@ open class TrackingActivity : BaseActivity(), OnMapReadyCallback, LocationListen
 //Empty
     }
 
-    override fun onInfoWindowClick(marker : Marker) {
+    override fun onInfoWindowClick(marker: Marker) {
 //Not In Use
     }
 
@@ -388,7 +388,7 @@ open class TrackingActivity : BaseActivity(), OnMapReadyCallback, LocationListen
         super.onResume()
     }
 
-    override fun onMapReady(googleMap : GoogleMap) {
+    override fun onMapReady(googleMap: GoogleMap) {
         this.mGoogleMap = googleMap
         mGoogleMap!!.setMinZoomPreference(5f)
         buildGoogleApiClient()
@@ -402,11 +402,11 @@ open class TrackingActivity : BaseActivity(), OnMapReadyCallback, LocationListen
 
     }
 
-    override fun onAutoCompleteListener(place : Place) {
+    override fun onAutoCompleteListener(place: Place) {
 //Not In Use
     }
 
-    override fun onConnected(bundle : Bundle?) {
+    override fun onConnected(bundle: Bundle?) {
         if (ActivityCompat.checkSelfPermission(
                 this,
                 Manifest.permission.ACCESS_FINE_LOCATION
@@ -449,11 +449,11 @@ open class TrackingActivity : BaseActivity(), OnMapReadyCallback, LocationListen
         )
     }
 
-    override fun onConnectionSuspended(i : Int) {
+    override fun onConnectionSuspended(i: Int) {
 //Not In Use
     }
 
-    override fun onConnectionFailed(connectionResult : ConnectionResult) {
+    override fun onConnectionFailed(connectionResult: ConnectionResult) {
 //Not In Use
     }
 
@@ -463,7 +463,7 @@ open class TrackingActivity : BaseActivity(), OnMapReadyCallback, LocationListen
     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    override fun onLocationChanged(location : Location) {
+    override fun onLocationChanged(location: Location) {
         getCurrentLocation(location)
         val mCameraPosition = CameraPosition.Builder()
             .target(
@@ -521,7 +521,7 @@ open class TrackingActivity : BaseActivity(), OnMapReadyCallback, LocationListen
 
     }
 
-    fun bitmapDescriptorFromVector(context : Context, @DrawableRes vectorDrawableResourceId : Int) : BitmapDescriptor {
+    fun bitmapDescriptorFromVector(context: Context, @DrawableRes vectorDrawableResourceId: Int): BitmapDescriptor {
         var background = ContextCompat.getDrawable(this, R.drawable.ic_car);
         background?.setBounds(
             0,
@@ -547,7 +547,7 @@ open class TrackingActivity : BaseActivity(), OnMapReadyCallback, LocationListen
         return BitmapDescriptorFactory.fromBitmap(bitmap);
     }
 
-    private fun getCurrentLocation(location : Location) {
+    private fun getCurrentLocation(location: Location) {
         mAddress =
             utils!!.getAddressFromLocation(this, location.latitude, location.longitude, "Address")
         mLongitude = location.longitude.toString() + ""
@@ -565,7 +565,7 @@ open class TrackingActivity : BaseActivity(), OnMapReadyCallback, LocationListen
         }
     }
 
-    private fun removeMarkers(mMarkers1 : java.util.ArrayList<Marker>) {
+    private fun removeMarkers(mMarkers1: java.util.ArrayList<Marker>) {
         for (marker in mMarkers1) {
             marker.remove()
         }
@@ -575,7 +575,7 @@ open class TrackingActivity : BaseActivity(), OnMapReadyCallback, LocationListen
     }
 
     //SOCKET FUNCTIONALITY
-    override fun onSocketCall(onMethadCall : String, vararg jsonObject : Any) {
+    override fun onSocketCall(onMethadCall: String, vararg jsonObject: Any) {
         val serverResponse = jsonObject[0] as JSONObject
         var methodName = serverResponse.get("method")
         Log.e("", "serverResponse: " + serverResponse)
@@ -584,7 +584,7 @@ open class TrackingActivity : BaseActivity(), OnMapReadyCallback, LocationListen
                 when (methodName) {
                     "updateLocation" -> try {
                         //callSocketMethods("getLocation")
-                    } catch (e1 : Exception) {
+                    } catch (e1: Exception) {
                         e1.printStackTrace()
                     }
                     "getLocation" -> try {
@@ -593,23 +593,23 @@ open class TrackingActivity : BaseActivity(), OnMapReadyCallback, LocationListen
                         obj.optString("to_lat")
                         obj.getString("to_lat")
                         obj.get("to_lat").toString()
-                    } catch (e1 : Exception) {
+                    } catch (e1: Exception) {
                         e1.printStackTrace()
                     }
                 }
             }
-        } catch (e : Exception) {
+        } catch (e: Exception) {
             e.printStackTrace()
         }
 
     }
 
-    override fun onSocketConnect(vararg args : Any) {
+    override fun onSocketConnect(vararg args: Any) {
         //OnSocket Connect Call It
         Log.e("Socket Status : ", "Connected")
     }
 
-    override fun onSocketDisconnect(vararg args : Any) {
+    override fun onSocketDisconnect(vararg args: Any) {
         // //OnSocket Disconnect Call It
         Log.e("Socket Status : ", "Disconnected")
     }
@@ -649,7 +649,7 @@ open class TrackingActivity : BaseActivity(), OnMapReadyCallback, LocationListen
         }
     }
 
-    override fun onDialogConfirmAction(mView : View?, mKey : String) {
+    override fun onDialogConfirmAction(mView: View?, mKey: String) {
         when (mKey) {
             "GPSCheck" -> {
                 val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
@@ -709,7 +709,7 @@ open class TrackingActivity : BaseActivity(), OnMapReadyCallback, LocationListen
         }
     }
 
-    override fun onDialogCancelAction(mView : View?, mKey : String) {
+    override fun onDialogCancelAction(mView: View?, mKey: String) {
         when (mKey) {
             "GPSCheck" -> {
                 dialog!!.dismiss()
@@ -750,8 +750,8 @@ open class TrackingActivity : BaseActivity(), OnMapReadyCallback, LocationListen
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     override fun onRequestPermissionsResult(
-        requestCode : Int, permissions : Array<String>,
-        grantResults : IntArray
+        requestCode: Int, permissions: Array<String>,
+        grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == MY_PERMISSIONS_REQUEST_LOCATION && permissions.size > 0) {
@@ -792,7 +792,7 @@ open class TrackingActivity : BaseActivity(), OnMapReadyCallback, LocationListen
     }
 
     private fun drawPolyline() {
-        var path : MutableList<LatLng> = ArrayList()
+        var path: MutableList<LatLng> = ArrayList()
         val context = GeoApiContext.Builder()
             .apiKey(getString(R.string.api_key))
             .build()
@@ -843,7 +843,7 @@ open class TrackingActivity : BaseActivity(), OnMapReadyCallback, LocationListen
                 //  mGoogleMap.drawPolyline("Destination is not detected,unable to draw path")
                 Log.d("MapPath", "Unable to draw path")
             }
-        } catch (ex : Exception) {
+        } catch (ex: Exception) {
             ex.printStackTrace()
         }
 
@@ -851,7 +851,7 @@ open class TrackingActivity : BaseActivity(), OnMapReadyCallback, LocationListen
 
     }
 
-    private fun drawLine(path : MutableList<LatLng>) {
+    private fun drawLine(path: MutableList<LatLng>) {
         polyPath = path
         mGoogleMap?.clear()
         //  var icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_car)

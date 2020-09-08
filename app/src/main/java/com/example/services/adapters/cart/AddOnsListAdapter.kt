@@ -47,7 +47,7 @@ class AddOnsListAdapter(
         viewHolder = holder
         holder.binding!!.tvCatName.text = addressList[position].name
         holder.binding!!.tvOfferPrice.setText(
-            GlobalConstants.Currency + " " + addressList[position].price.toString()
+            GlobalConstants.Currency + "" + addressList[position].price.toString()
         )
         //holder.binding!!.rBar.setRating(addressList[position].rating?.toFloat())
         Glide.with(mContext)

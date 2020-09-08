@@ -415,5 +415,7 @@
     <string name="apply_filter">Apply Filters</string>
     <string name="clear_filters">Clear Filters</string>
     <string name="previously_ordered">Previously Ordered</string>
-
+    <string name="order_from_here">Order From Here</string>
+    <string name="view_direction">View Direction</string>
+    <string name="food_cats">Food Categories</string>
 </resources>

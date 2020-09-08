@@ -90,15 +90,15 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="#ffffff"
                 android:orientation="vertical">
 
                 <LinearLayout
                     android:id="@+id/llVendor"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
                     android:background="@color/colorWhite"
-                    android:orientation="horizontal"
+                    android:orientation="vertical"
                     android:visibility="visible">
 
                     <LinearLayout
@@ -130,35 +130,138 @@
                         </LinearLayout>
                     </LinearLayout>
 
-                    <LinearLayout
-
+                    <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:background="#ffffff">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="#ffffff">
+
+                            <androidx.cardview.widget.CardView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="#ffffff"
+                                app:cardCornerRadius="@dimen/dp_15">
+                                <!-- style="@style/MyCardView"-->
+                                <ImageView
+                                    android:id="@+id/imgVendorImage"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="220dp"
+                                    android:background="#ffffff"
+                                    android:scaleType="centerCrop"
+                                    android:src="@drawable/ic_category"
+                                    android:visibility="visible" />
+                            </androidx.cardview.widget.CardView>
+                        </RelativeLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="220dp"
+                            android:background="#80000000" />
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_margin="20dp">
+
+                            <ImageView
+                                android:id="@+id/imgBack"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:onClick="@{(v) -> homeViewModel.clickListener(v)}"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/ic_profile_back" />
+
+                            <ImageView
+                                android:id="@+id/imgFav"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginRight="15dp"
+                                android:layout_toLeftOf="@+id/imgShare"
+                                android:onClick="@{(v) -> homeViewModel.clickListener(v)}"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/ic_fav_white" />
+
+                            <ImageView
+                                android:id="@+id/imgShare"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:onClick="@{(v) -> homeViewModel.clickListener(v)}"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/ic_share" />
+                        </RelativeLayout>
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:layout_marginTop="-35dp"
+
                         android:orientation="vertical"
                         android:visibility="visible">
 
-                        <ImageView
-                            android:id="@+id/imgVendorImage"
-                            android:layout_width="match_parent"
-                            android:layout_height="160dp"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/ic_category"
-                            android:visibility="visible" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginTop="-20dp"
-                            android:layout_marginRight="10dp"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginRight="20dp"
                             android:layout_marginBottom="10dp"
                             android:background="@drawable/shape_round_corner"
                             android:elevation="2dp"
                             android:orientation="vertical"
-                            android:paddingLeft="10dp"
-                            android:paddingTop="5dp"
-                            android:paddingRight="5dp"
-                            android:paddingBottom="10dp">
+                            android:padding="15dp">
+
+                            <RelativeLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:id="@+id/txtRestName"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/dp_5"
+                                    android:onClick="@{(v) -> homeViewModel.clickListener(v)}"
+
+                                    android:paddingTop="5dp"
+                                    android:paddingRight="10dp"
+                                    android:paddingBottom="5dp"
+                                    android:text="Name"
+                                    android:textAllCaps="false"
+                                    android:textColor="@color/colorBlack"
+                                    android:textSize="16sp"
+                                    android:textStyle="bold"
+                                    app:font="@{`bold`}" />
+
+                                <TextView
+                                    android:id="@+id/txtAddRating"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_gravity="right"
+                                    android:layout_margin="@dimen/dp_5"
+                                    android:background="@drawable/shape_round_top_corner"
+                                    android:onClick="@{(v) -> homeViewModel.clickListener(v)}"
+                                    android:paddingLeft="10dp"
+                                    android:paddingTop="5dp"
+                                    android:paddingRight="10dp"
+                                    android:paddingBottom="5dp"
+                                    android:text="@string/add_rating"
+                                    android:textAllCaps="false"
+                                    android:textColor="@color/colorWhite"
+                                    android:textSize="11sp"
+                                    android:textStyle="bold"
+                                    app:font="@{`bold`}" />
+                            </RelativeLayout>
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -201,7 +304,7 @@
                                             android:layout_toRightOf="@+id/rBar"
                                             android:text="0.0"
                                             android:textAllCaps="false"
-                                            android:textColor="@color/colorBlack"
+                                            android:textColor="@color/prepColor"
                                             android:textSize="12sp" />
 
                                         <TextView
@@ -222,17 +325,20 @@
                                     </RelativeLayout>
                                 </LinearLayout>
 
+
                                 <TextView
-                                    android:id="@+id/txtLiveTracking"
+                                    android:id="@+id/txtMobNumber"
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
-                                    android:layout_weight="0.8"
-                                    android:drawableLeft="@drawable/ic_tracking_drawable"
+                                    android:layout_marginLeft="5dp"
+                                    android:layout_weight="1"
+                                    android:drawableLeft="@drawable/ic_phone_drawable"
                                     android:drawablePadding="5dp"
                                     android:gravity="center_vertical"
-                                    android:text="Tracking"
+                                    android:onClick="@{(v) -> homeViewModel.clickListener(v)}"
+                                    android:text="9530606006"
                                     android:textAllCaps="false"
-                                    android:textColor="@color/colorSuccess"
+                                    android:textColor="@color/prepColor"
                                     android:textSize="12sp" />
                             </LinearLayout>
 
@@ -243,21 +349,52 @@
                                 android:layout_gravity="center_vertical"
                                 android:layout_marginTop="8dp"
                                 android:orientation="horizontal"
+                                android:visibility="visible"
                                 android:weightSum="2">
 
+
                                 <TextView
-                                    android:id="@+id/txtMobNumber"
+                                    android:id="@+id/txtAddress"
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
-                                    android:drawableLeft="@drawable/ic_phone_drawable"
+                                    android:drawableLeft="@drawable/ic_address_drawable"
                                     android:drawablePadding="5dp"
                                     android:gravity="center_vertical"
-                                    android:onClick="@{(v) -> homeViewModel.clickListener(v)}"
-                                    android:text="9530606006"
+                                    android:maxLines="2"
+                                    android:text="7 Phase Mohali"
                                     android:textAllCaps="false"
-                                    android:textColor="@color/colorBlack"
+                                    android:textColor="@color/prepColor"
                                     android:textSize="12sp" />
+
+                                <TextView
+                                    android:id="@+id/txtDeliveryTime"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="5dp"
+                                    android:layout_weight="0.8"
+                                    android:drawableLeft="@drawable/ic_mins_drawable_sized"
+                                    android:drawablePadding="5dp"
+                                    android:gravity="center_vertical"
+                                    android:text="15 mins delivery"
+                                    android:textAllCaps="false"
+                                    android:textColor="@color/prepColor"
+                                    android:textSize="12sp"
+                                    android:visibility="visible" />
+
+
+                                <!--android:textSize="@dimen/sp_10"-->
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginTop="8dp"
+                                android:orientation="horizontal"
+                                android:visibility="gone"
+                                android:weightSum="2">
+
 
                                 <TextView
                                     android:id="@+id/txtEmail"
@@ -271,22 +408,6 @@
                                     android:textAllCaps="false"
                                     android:textColor="@color/colorBlack"
                                     android:textSize="12sp" />
-
-                                <TextView
-                                    android:id="@+id/txtAbout"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="0.8"
-                                    android:drawableLeft="@drawable/ic_about_drawable"
-                                    android:drawablePadding="5dp"
-                                    android:gravity="center_vertical"
-                                    android:text="About Us"
-                                    android:textAllCaps="false"
-                                    android:textColor="@color/colorBlack"
-                                    android:textSize="12sp"
-                                    android:visibility="gone" />
-
-
                                 <!--android:textSize="@dimen/sp_10"-->
                             </LinearLayout>
 
@@ -297,6 +418,7 @@
                                 android:layout_marginTop="8dp"
                                 android:gravity="center_vertical"
                                 android:orientation="horizontal"
+                                android:visibility="gone"
                                 android:weightSum="2">
 
 
@@ -330,20 +452,65 @@
                                 <!--android:textSize="@dimen/sp_10"-->
                             </LinearLayout>
 
-                            <TextView
-                                android:id="@+id/txtAddress"
-                                android:layout_width="wrap_content"
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="0.2dp"
+                                android:layout_marginLeft="15dp"
+                                android:layout_marginTop="15dp"
+                                android:layout_marginRight="15dp"
+
+                                android:alpha="0.8"
+                                android:background="@color/colorGrey" />
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="8dp"
-                                android:drawableLeft="@drawable/ic_location"
-                                android:drawablePadding="5dp"
-                                android:gravity="center_vertical"
-                                android:text="7 Phase Mohali"
-                                android:textAllCaps="false"
-                                android:textColor="@color/colorBlack"
-                                android:textSize="12sp" />
+                                android:layout_marginTop="15dp">
+
+                                <ImageView
+                                    android:id="@+id/imgAbout"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="@dimen/dp_5"
+                                    android:src="@drawable/ic_about" />
+
+                                <TextView
+                                    android:id="@+id/txtAboutHeading"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="right"
+                                    android:layout_marginLeft="@dimen/dp_20"
+                                    android:layout_toRightOf="@+id/imgAbout"
+                                    android:onClick="@{(v) -> homeViewModel.clickListener(v)}"
+
+                                    android:text="About restaurant's"
+                                    android:textAllCaps="false"
+                                    android:textColor="@color/colorBlack"
+                                    android:textSize="15sp"
+                                    android:textStyle="bold"
+                                    app:font="@{`bold`}" />
+
+                                <TextView
+                                    android:id="@+id/txtAbout"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_below="@+id/txtAboutHeading"
+                                    android:layout_gravity="right"
+                                    android:layout_marginLeft="@dimen/dp_20"
+                                    android:layout_marginTop="@dimen/dp_5"
+                                    android:layout_toRightOf="@+id/imgAbout"
+                                    android:onClick="@{(v) -> homeViewModel.clickListener(v)}"
+                                    android:text="About restaurant's About restaurant's About restaurant's About restaurant's About restaurant's About restaurant's About restaurant's About restaurant's About restaurant's About restaurant's About restaurant's About restaurant's About restaurant's "
+                                    android:textAllCaps="false"
+                                    android:textColor="@color/colorGrey"
+                                    android:textSize="12sp"
+                                    app:font="@{`regular`}" />
+
+                            </RelativeLayout>
 
                         </LinearLayout>
+
+
                     </LinearLayout>
                 </LinearLayout>
 
@@ -355,7 +522,8 @@
                     android:background="@drawable/shape_round_corner_grid"
                     android:gravity="center_vertical"
                     android:orientation="vertical"
-                    android:padding="5dp">
+                    android:padding="5dp"
+                    android:visibility="gone">
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -373,24 +541,6 @@
                             android:visibility="gone"
                             app:font="@{`bold`}" />
 
-                        <TextView
-                            android:id="@+id/txtAddRating"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:layout_margin="@dimen/dp_5"
-                            android:background="@drawable/shape_round_top_corner"
-                            android:onClick="@{(v) -> homeViewModel.clickListener(v)}"
-                            android:paddingLeft="10dp"
-                            android:paddingTop="5dp"
-                            android:paddingRight="10dp"
-                            android:paddingBottom="5dp"
-                            android:text="@string/add_rating"
-                            android:textAllCaps="false"
-                            android:textColor="@color/colorWhite"
-                            android:textSize="11sp"
-                            android:textStyle="bold"
-                            app:font="@{`bold`}" />
 
                     </RelativeLayout>
 
@@ -514,14 +664,21 @@
                     </LinearLayout>
                 </LinearLayout>
 
+                <TextView
+                    android:id="@+id/foodGallery"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dp_20"
+                    android:layout_marginTop="@dimen/dp_20"
+                    android:layout_toRightOf="@+id/imgAbout"
+                    android:onClick="@{(v) -> homeViewModel.clickListener(v)}"
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_banners"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_150"
-                    android:layout_margin="@dimen/dp_5"
-                    android:padding="@dimen/dp_5"
-                    android:visibility="visible" />
+                    android:text="Food Gallery"
+                    android:textAllCaps="false"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:font="@{`bold`}" />
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
@@ -533,6 +690,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/dp_5"
+                        android:layout_marginTop="@dimen/dp_10"
                         android:layout_marginRight="@dimen/dp_5"
                         android:layout_marginBottom="@dimen/dp_5"
                         android:layoutAnimation="@anim/layout_animation_from_bottom"
@@ -545,15 +703,74 @@
                     android:layout_height="2dp"
                     android:layout_marginTop="@dimen/dp_5" />
 
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_banners"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_150"
+                    android:layout_margin="@dimen/dp_5"
+                    android:padding="@dimen/dp_5"
+                    android:visibility="gone" />
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:background="#ffffff"
+                    app:cardCornerRadius="@dimen/dp_15">
+
+                    <fragment
+                        android:id="@+id/map"
+                        android:name="com.google.android.gms.maps.SupportMapFragment"
+                        android:layout_width="match_parent"
+                        android:layout_height="170dp" />
+                </androidx.cardview.widget.CardView>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <Button
+                        android:id="@+id/btnViewDirection"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/ic_view_direction_back"
+                        android:onClick="@{(v) -> homeViewModel.clickListener(v)}"
+                        android:text="@string/view_direction"
+                        android:textAllCaps="false"
+                        android:textColor="@color/viewDirectionColor"
+                        app:font="@{`regular`}" />
+
+                    <Button
+                        android:id="@+id/btnOrderHere"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/ic_order_back"
+                        android:onClick="@{(v) -> homeViewModel.clickListener(v)}"
+                        android:text="@string/order_from_here"
+                        android:textAllCaps="false"
+                        android:textColor="@color/colorWhite"
+                        app:font="@{`regular`}" />
+
+
+                </LinearLayout>
+
+
                 <LinearLayout
                     android:id="@+id/trending_layout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-
                     android:background="@color/colorWhite"
                     android:elevation="@dimen/dp_5"
                     android:orientation="vertical"
-                    android:padding="@dimen/dp_5">
+                    android:padding="@dimen/dp_5"
+                    android:visibility="gone">
 
                     <TextView
 
@@ -609,6 +826,7 @@
                         android:textColor="@color/colorBlack"
                         android:textSize="@dimen/sp_16"
                         android:textStyle="bold"
+                        android:visibility="gone"
                         app:font="@{`bold`}" />
 
                     <TextView
@@ -629,7 +847,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="160dp"
                         android:layout_below="@+id/tv_offers_heading"
-                        android:layout_margin="@dimen/dp_5" />
+                        android:layout_margin="@dimen/dp_5"
+                        android:visibility="gone" />
 
                     <androidx.viewpager.widget.ViewPager
                         android:id="@+id/offersViewpager"
@@ -644,6 +863,8 @@
                 </LinearLayout>
             </LinearLayout>
         </ScrollView>
+
+
     </RelativeLayout>
 
 </layout>

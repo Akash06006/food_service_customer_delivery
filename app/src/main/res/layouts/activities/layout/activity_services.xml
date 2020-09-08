@@ -15,9 +15,9 @@
     </data>
 
     <LinearLayout
-        android:background="#ffffff"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#ffffff"
         android:orientation="vertical">
 
         <include
@@ -26,33 +26,90 @@
             layout="@layout/common_toolbar_back"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="@{(v) -> servicesViewModel.clickListener(v)}" />
+            android:onClick="@{(v) -> servicesViewModel.clickListener(v)}"
+            android:visibility="gone" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:background="@color/colorPrimary"
+            android:gravity="center_vertical"
+            android:onClick="@{(v) -> servicesViewModel.clickListener(v)}"
+            android:orientation="horizontal"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp">
+
+            <ImageView
+                android:id="@+id/imgNavigation"
+                android:layout_width="wrap_content"
+
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:layout_marginRight="@dimen/dp_10"
+                android:backgroundTint="#ffffff"
+                android:onClick="@{(v) -> servicesViewModel.clickListener(v)}"
+                android:src="@drawable/ic_back_arrow"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/txtTopPick"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="@dimen/dp_15"
+                android:layout_marginTop="@dimen/dp_5"
+
+                android:text="@string/products"
+                android:textAllCaps="false"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/sp_16"
+                android:textStyle="bold" />
+
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/switchMaterial"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:checked="false"
+                android:switchPadding="5dp"
+                android:text="Veg  "
+                android:textColor="@color/colorWhite" />
+
+        </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/dp_5">
 
+
+            <TextView
+                android:id="@+id/food_cats"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_15"
+                android:layout_marginTop="@dimen/dp_5"
+                android:text="@string/food_cats"
+                android:textAllCaps="false"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/sp_16"
+                android:textStyle="bold" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_subcategories"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/food_cats"
                 android:layout_gravity="center"
-                android:layout_margin="@dimen/dp_5"
-
+                android:layout_marginLeft="@dimen/dp_5"
+                android:layout_marginRight="@dimen/dp_5"
+                android:layout_marginBottom="@dimen/dp_5"
                 android:elevation="@dimen/dp_10"
                 android:gravity="center"
                 android:padding="@dimen/dp_10" />
-
-            <com.google.android.material.switchmaterial.SwitchMaterial
-                android:id="@+id/switchMaterial"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/rv_subcategories"
-                android:checked="false"
-                android:padding="10dp"
-                android:switchPadding="5dp"
-                android:text="Veg Only  " />
 
             <TextView
                 android:id="@+id/tv_no_record"
@@ -66,10 +123,43 @@
                 android:id="@+id/rv_services"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@+id/switchMaterial"
+                android:layout_below="@+id/rv_subcategories"
                 android:layout_marginTop="@dimen/dp_5" />
-<!--                android:layoutAnimation="@anim/layout_animation_from_left"
--->
+            <!--                android:layoutAnimation="@anim/layout_animation_from_left"
+            -->
+
+            <RelativeLayout
+                android:id="@+id/img_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:layout_margin="5dp"
+                android:background="@drawable/ic_cart_back"
+                android:onClick="@{(v) -> servicesViewModel.clickListener(v)}">
+
+                <ImageView
+                    android:id="@+id/imgCart"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/ic_cart" />
+
+                <TextView
+                    android:id="@+id/txtCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/imgCart"
+                    android:layout_alignEnd="@+id/imgCart"
+                    android:layout_marginTop="25dp"
+                    android:layout_marginRight="-15dp"
+                    android:background="@drawable/ic_count_back"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:text="1"
+                    android:textColor="@color/colorWhite" />
+
+            </RelativeLayout>
         </RelativeLayout>
     </LinearLayout>
 </layout>

@@ -17,7 +17,49 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#ffffff"
         android:paddingBottom="@dimen/dp_10">
+
+        <RelativeLayout
+            android:id="@+id/topLayout"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:background="@color/purple">
+
+            <ImageView
+                android:id="@+id/imgBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:onClick="@{(v) -> faqViewModel.clickListener(v)}"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_profile_back" />
+
+
+            <ImageView
+                android:id="@+id/imgBubbles"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/imgBack"
+                android:layout_alignParentRight="true"
+                android:layout_margin="10dp"
+                android:onClick="@{(v) -> faqViewModel.clickListener(v)}"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_bubbles" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:gravity="center"
+                android:text="How can we help you?"
+                android:textColor="@color/colorWhite"
+                android:textSize="38sp"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
 
         <include
 
@@ -25,15 +67,71 @@
             layout="@layout/common_toolbar_back"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="@{(v) -> faqViewModel.clickListener(v)}" />
+            android:onClick="@{(v) -> faqViewModel.clickListener(v)}"
+            android:visibility="gone" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_notification"
-            android:layout_width="match_parent"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_view"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_above="@+id/btn_clear"
-            android:layout_below="@+id/common_tool_bar"
-            android:layout_margin="@dimen/dp_10" />
+            android:layout_below="@+id/topLayout"
+            android:layout_marginTop="-20dp"
+            app:cardCornerRadius="@dimen/dp_10">
+            <!--
+                        android:elevation="@dimen/dp_5"-->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#ffffff">
+
+                <TextView
+                    android:id="@+id/topQues"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="20dp"
+                    android:gravity="center"
+                    android:text="Top Questions"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvHeaders"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@+id/btn_clear"
+                    android:layout_below="@+id/topQues"
+                    android:layout_margin="@dimen/dp_10" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_notification"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@+id/btn_clear"
+                    android:layout_below="@+id/rvHeaders"
+                    android:layout_margin="@dimen/dp_10" />
+
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/tv_no_record"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:visibility="gone"
+                    app:lottie_autoPlay="true"
+                    app:lottie_loop="true"
+                    app:lottie_rawRes="@raw/emp_data" />
+
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_no_record"
+                    android:layout_centerInParent="true"
+                    android:text="@string/no_record_found"
+                    android:visibility="gone" />
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
 
         <!--<TextView
             android:id="@+id/tv_no_record"
@@ -42,24 +140,7 @@
             android:layout_centerInParent="true"
             android:text="@string/no_record_found"
             app:font="@{`regular`}" />-->
-        <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/tv_no_record"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:visibility="gone"
-            app:lottie_autoPlay="true"
-            app:lottie_loop="true"
-            app:lottie_rawRes="@raw/emp_data" />
 
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_no_record"
-            android:layout_centerInParent="true"
-            android:text="@string/no_record_found"
-            android:visibility="gone" />
     </RelativeLayout>
 
 </layout>

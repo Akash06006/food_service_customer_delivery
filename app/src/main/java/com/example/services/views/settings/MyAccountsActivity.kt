@@ -20,11 +20,14 @@ class MyAccountsActivity : BaseActivity() {
         binding = viewDataBinding as ActivityMyAccountsBinding
         accountsViewModel = ViewModelProviders.of(this).get(MyAccountsViewModel::class.java)
         binding.myaccountsViewModel = accountsViewModel
-        binding.toolbarCommon.imgToolbarText.text = getString(R.string.settings)
+        // binding.toolbarCommon.imgToolbarText.text = getString(R.string.settings)
         accountsViewModel!!.isClick().observe(
             this, Observer<String>(function =
             fun(it: String?) {
                 when (it) {
+                    "imgBack" -> {
+                        finish()
+                    }
                     "tv_terms" -> {
                         val intent1 = Intent(this, WebViewActivity::class.java)
                         intent1.putExtra("title", getString(R.string.terms_condition))

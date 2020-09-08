@@ -51,7 +51,7 @@ class FavoriteListAdapter(
         viewHolder = holder
 
         holder.binding!!.tvCatName.text = addressList[position].service?.name
-        holder.binding!!.tvOfferPrice.text = GlobalConstants.Currency + " " + addressList[position].service?.price.toString()
+        holder.binding!!.tvOfferPrice.text = GlobalConstants.Currency + "" + addressList[position].service?.price.toString()
         holder.binding!!.tvDuration.setText(mContext.resources.getString(R.string.duration) + ": " + addressList[position].service?.duration)
         holder.binding!!.tvAdd.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(GlobalConstants.COLOR_CODE))/*mContext.getResources().getColorStateList(R.color.colorOrange)*/)
 

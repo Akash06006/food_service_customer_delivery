@@ -18,59 +18,64 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/dp_5"
-        android:elevation="@dimen/dp_20"
+        android:layout_marginLeft="@dimen/dp_5"
+        android:layout_marginTop="@dimen/dp_5"
+        android:layout_marginRight="@dimen/dp_5"
         android:padding="@dimen/dp_5">
         <!--
             android:background="@drawable/shape_round_corner"-->
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/card_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:elevation="@dimen/dp_5"
-           >
-
-
-
-
-
-
-
-
-
-            <LinearLayout
+        <!--    <androidx.cardview.widget.CardView
+                android:id="@+id/card_view"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="@dimen/dp_10"
-                android:orientation="vertical">
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:elevation="@dimen/dp_5">
+    -->
 
-                <TextView
-                    android:id="@+id/tv_notification_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="@dimen/dp_5"
-                    android:padding="@dimen/dp_3"
-                    android:textAllCaps="false"
-                    android:textColor="@color/colorBlack"
-                    android:textSize="@dimen/sp_16" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="@dimen/dp_10">
 
-                <TextView
-                    android:id="@+id/tv_notification_description"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="@dimen/dp_5"
-                    android:padding="@dimen/dp_3"
-                    android:textAllCaps="false"
-                    android:textColor="@color/list_text_color"
-                    android:textSize="@dimen/sp_14"
-                    android:visibility="gone" />
+            <TextView
+                android:id="@+id/tv_notification_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/dp_5"
+                android:drawableRight="@drawable/ic_right"
+                android:drawablePadding="10dp"
+                android:padding="@dimen/dp_3"
+                android:text="Test "
+                android:textAllCaps="false"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/sp_16" />
 
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.2dp"
+                android:layout_below="@+id/tv_notification_title"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/colorGrey" />
+
+            <TextView
+                android:id="@+id/tv_notification_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/dp_5"
+                android:padding="@dimen/dp_3"
+                android:textAllCaps="false"
+                android:textColor="@color/list_text_color"
+                android:textSize="@dimen/sp_14"
+                android:visibility="gone" />
+
+        </RelativeLayout>
+        <!-- </androidx.cardview.widget.CardView>-->
 
     </RelativeLayout>
 

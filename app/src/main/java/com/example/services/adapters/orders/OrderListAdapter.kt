@@ -87,7 +87,7 @@ class OrderListAdapter(
                 mContext.resources.getString(R.string.booked_on)
         }
 
-        holder.binding!!.tvTotal.setText(GlobalConstants.Currency + " " + addressList[position].totalOrderPrice)
+        holder.binding!!.tvTotal.setText(GlobalConstants.Currency + "" + addressList[position].totalOrderPrice)
 ////0-Pending/Not Confirmed, 1-> Confirmed , 2->Cancelled , 3->Processing,4//cancelled by company, 5->Completed
         if (addressList[position].cancellable.equals("true")) {
             holder.binding!!.tvCancel.setText("Cancel Order"/*addressList[position].progressStatus*/)

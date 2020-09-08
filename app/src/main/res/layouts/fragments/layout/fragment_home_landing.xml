@@ -71,7 +71,6 @@
                     android:layout_marginLeft="@dimen/dp_10"
                     android:layout_marginRight="@dimen/dp_5"
                     android:layout_marginBottom="2dp"
-                    android:layout_toLeftOf="@+id/imgCart"
                     android:background="@drawable/round_back_transparent"
                     android:drawableLeft="@drawable/ic_search"
                     android:drawablePadding="@dimen/dp_10"
@@ -176,10 +175,10 @@
                             android:layout_centerHorizontal="true"
                             android:layout_centerVertical="true"
                             android:layout_marginLeft="5dp"
-                            android:padding="2dp"
                             android:background="@drawable/del_pickup_back"
                             android:checkedButton="@+id/offer"
                             android:orientation="horizontal"
+                            android:padding="2dp"
                             android:visibility="visible">
 
                             <!---->
@@ -211,34 +210,6 @@
                         </RadioGroup>
 
 
-                        <ImageView
-                            android:id="@+id/imgCart"
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_alignParentRight="true"
-                            android:layout_marginLeft="@dimen/dp_10"
-                            android:layout_marginRight="@dimen/dp_10"
-                            android:backgroundTint="#ffffff"
-                            android:onClick="@{(v) -> homeViewModel.clickListener(v)}"
-                            android:src="@drawable/ic_cart"
-                            android:visibility="gone" />
-
-                        <TextView
-                            android:id="@+id/txtCount"
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:layout_alignTop="@+id/imgCart"
-                            android:layout_alignRight="@+id/imgCart"
-                            android:layout_marginTop="5dp"
-                            android:background="@drawable/shape_round"
-                            android:gravity="center"
-                            android:text="0"
-                            android:textColor="@color/colorWhite"
-                            android:textSize="12sp"
-                            android:visibility="gone"
-                            app:font="@{`semibold`}"
-
-                            tools:text="1" />
                     </RelativeLayout>
 
 
@@ -708,82 +679,123 @@
                 </LinearLayout>
             </ScrollView>
         </LinearLayout><!-- </ScrollView>-->
+
         <RelativeLayout
-
-            android:id="@+id/llOrderStatus"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_margin="8dp"
-            android:background="#70000000"
-            android:elevation="8dp"
-            android:onClick="@{(v) -> homeViewModel.clickListener(v)}"
-            android:orientation="vertical"
-            android:padding="5dp"
-            android:visibility="gone">
+            android:layout_alignParentBottom="true">
 
-            <TextView
-                android:id="@+id/txtOrderStatus"
+            <RelativeLayout
+                android:id="@+id/img_right"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/dp_15"
-                android:layout_marginTop="@dimen/dp_5"
-                android:layout_toRightOf="@+id/animationView"
-                android:text="Your order is confirmed"
-                android:textAllCaps="false"
-                android:textColor="@color/colorWhite"
-                android:textSize="@dimen/sp_14"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/txtOrderDes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/txtOrderStatus"
-                android:layout_marginLeft="@dimen/dp_15"
-                android:layout_marginTop="@dimen/dp_5"
-                android:layout_toRightOf="@+id/animationView"
-                android:text="Sit back and relax as your order is confirmed"
-                android:textAllCaps="false"
-                android:textColor="@color/colorWhite"
-                android:textSize="12sp" />
-
-            <TextView
-                android:id="@+id/txtPrice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/txtOrderDes"
-                android:layout_marginLeft="@dimen/dp_15"
-                android:layout_marginTop="@dimen/dp_5"
-                android:layout_toRightOf="@+id/animationView"
-                android:text="Amount: "
-                android:textAllCaps="false"
-                android:textColor="@color/colorWhite"
-                android:textSize="12sp" />
-
-            <TextView
-                android:id="@+id/txtOrderNumber"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/txtOrderDes"
+                android:layout_above="@+id/llOrderStatus"
                 android:layout_alignParentRight="true"
-                android:layout_marginLeft="@dimen/dp_15"
-                android:layout_marginTop="@dimen/dp_5"
-                android:text="Order No:  "
-                android:textAllCaps="false"
-                android:textColor="@color/colorWhite"
-                android:textSize="12sp" />
+                android:layout_marginRight="5dp"
+                android:background="@drawable/ic_cart_back"
+                android:onClick="@{(v) -> homeViewModel.clickListener(v)}"
+                android:visibility="gone">
 
-            <com.airbnb.lottie.LottieAnimationView
-                android:id="@+id/animationView"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_centerVertical="true"
-                android:layout_margin="2dp"
-                app:lottie_autoPlay="true"
-                app:lottie_loop="true"
-                app:lottie_rawRes="@raw/order_statuss" />
+                <ImageView
+                    android:id="@+id/imgCart"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/ic_cart" />
 
+                <TextView
+                    android:id="@+id/txtCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/imgCart"
+                    android:layout_alignEnd="@+id/imgCart"
+                    android:layout_marginTop="25dp"
+                    android:layout_marginRight="-15dp"
+                    android:background="@drawable/ic_count_back"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:text="1"
+                    android:textColor="@color/colorWhite" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+
+                android:id="@+id/llOrderStatus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_margin="8dp"
+                android:background="#70000000"
+                android:elevation="8dp"
+                android:onClick="@{(v) -> homeViewModel.clickListener(v)}"
+                android:orientation="vertical"
+                android:padding="5dp"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/txtOrderStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dp_15"
+                    android:layout_marginTop="@dimen/dp_5"
+                    android:layout_toRightOf="@+id/animationView"
+                    android:text="Your order is confirmed"
+                    android:textAllCaps="false"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/sp_14"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txtOrderDes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/txtOrderStatus"
+                    android:layout_marginLeft="@dimen/dp_15"
+                    android:layout_marginTop="@dimen/dp_5"
+                    android:layout_toRightOf="@+id/animationView"
+                    android:text="Sit back and relax as your order is confirmed"
+                    android:textAllCaps="false"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/txtPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/txtOrderDes"
+                    android:layout_marginLeft="@dimen/dp_15"
+                    android:layout_marginTop="@dimen/dp_5"
+                    android:layout_toRightOf="@+id/animationView"
+                    android:text="Amount: "
+                    android:textAllCaps="false"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/txtOrderNumber"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/txtOrderDes"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginLeft="@dimen/dp_15"
+                    android:layout_marginTop="@dimen/dp_5"
+                    android:text="Order No:  "
+                    android:textAllCaps="false"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="12sp" />
+
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/animationView"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="2dp"
+                    app:lottie_autoPlay="true"
+                    app:lottie_loop="true"
+                    app:lottie_rawRes="@raw/order_statuss" />
+
+            </RelativeLayout>
         </RelativeLayout>
     </RelativeLayout>
 </layout>
