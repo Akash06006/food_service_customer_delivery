@@ -307,7 +307,7 @@
                                             android:text="0.0"
                                             android:textAllCaps="false"
                                             android:textColor="@color/prepColor"
-                                            android:textSize="12sp"
+                                            android:textSize="11sp"
                                             app:font="@{`regular`}" />
 
                                         <TextView
@@ -343,7 +343,7 @@
                                     android:text="9530606006"
                                     android:textAllCaps="false"
                                     android:textColor="@color/prepColor"
-                                    android:textSize="12sp"
+                                    android:textSize="11sp"
                                     app:font="@{`regular`}" />
                             </LinearLayout>
 
@@ -370,7 +370,7 @@
                                     android:text="7 Phase Mohali"
                                     android:textAllCaps="false"
                                     android:textColor="@color/prepColor"
-                                    android:textSize="12sp"
+                                    android:textSize="11sp"
                                     app:font="@{`regular`}" />
 
                                 <TextView
@@ -385,7 +385,7 @@
                                     android:text="15 mins delivery"
                                     android:textAllCaps="false"
                                     android:textColor="@color/prepColor"
-                                    android:textSize="12sp"
+                                    android:textSize="11sp"
                                     android:visibility="visible"
                                     app:font="@{`regular`}" />
 
