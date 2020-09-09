@@ -229,17 +229,6 @@
             </RelativeLayout>
         </ScrollView>
 
-        <Button
-            android:id="@+id/AddCart"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_margin="@dimen/dp_10"
-            android:background="@drawable/ic_round_back"
-            android:onClick="@{(v) -> servicesViewModel.clickListener(v)}"
-            android:text="@string/add_to_cart"
-            android:textColor="@color/buttonTextColor"
-            app:font="@{`bold`}" />
 
         <LinearLayout
             android:id="@+id/ll_slots"
@@ -465,12 +454,11 @@
             android:id="@+id/img_right"
             android:layout_width="60dp"
             android:layout_height="60dp"
+            android:layout_above="@+id/AddCart"
             android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
             android:layout_marginRight="5dp"
-            android:layout_marginBottom="40dp"
             android:background="@drawable/ic_cart_back"
-            android:onClick="@{(v) -> dashboardViewModel.clickListener(v)}">
+            android:onClick="@{(v) -> servicesViewModel.clickListener(v)}">
 
             <ImageView
                 android:id="@+id/imgCart"
@@ -494,6 +482,18 @@
                 android:textSize="10sp" />
 
         </RelativeLayout>
+
+        <Button
+            android:id="@+id/AddCart"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="@dimen/dp_10"
+            android:background="@drawable/shape_purple"
+            android:onClick="@{(v) -> servicesViewModel.clickListener(v)}"
+            android:text="@string/add_to_cart"
+            android:textColor="@color/buttonTextColor"
+            app:font="@{`bold`}" />
 
     </RelativeLayout>
 </layout>

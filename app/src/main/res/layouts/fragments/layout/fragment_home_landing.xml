@@ -115,7 +115,7 @@
                     android:textColor="@color/colorWhite"
                     android:textSize="12sp"
                     android:visibility="gone"
-                    app:font="@{`semibold`}"
+                    app:font="@{`bold`}"
 
                     tools:text="1" />
             </RelativeLayout>
@@ -361,7 +361,7 @@
                             android:textColor="@color/colorBlack"
                             android:textSize="@dimen/sp_16"
                             android:textStyle="bold"
-                            app:font="@{`semibold`}" />
+                            app:font="@{`bold`}" />
 
 
                     </RelativeLayout>
@@ -418,7 +418,7 @@
                             android:textColor="@color/colorBlack"
                             android:textSize="@dimen/sp_16"
                             android:textStyle="bold"
-                            app:font="@{`semibold`}" />
+                            app:font="@{`bold`}" />
 
                         <TextView
                             android:id="@+id/tv_sub_heading"
@@ -469,7 +469,7 @@
                             android:textColor="@color/colorBlack"
                             android:textSize="@dimen/sp_16"
                             android:textStyle="bold"
-                            app:font="@{`semibold`}" />
+                            app:font="@{`bold`}" />
 
 
                     </RelativeLayout>
@@ -651,7 +651,7 @@
                             android:textColor="@color/colorBlack"
                             android:textSize="@dimen/sp_16"
                             android:textStyle="bold"
-                            app:font="@{`semibold`}" />
+                            app:font="@{`bold`}" />
 
                         <TextView
                             android:id="@+id/tv_offer_heading"
@@ -702,7 +702,7 @@
                 android:layout_marginRight="5dp"
                 android:layout_marginBottom="40dp"
                 android:background="@drawable/ic_cart_back"
-                android:onClick="@{(v) -> dashboardViewModel.clickListener(v)}">
+                android:onClick="@{(v) -> homeViewModel.clickListener(v)}">
 
                 <ImageView
                     android:id="@+id/imgCart"

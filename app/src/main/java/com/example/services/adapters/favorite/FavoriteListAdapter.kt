@@ -81,7 +81,7 @@ class FavoriteListAdapter(
                 .placeholder(R.drawable.ic_category)
                 .into(holder.binding.imgCat)
 
-        holder.binding!!.cardView.setOnClickListener {
+        holder.binding!!.serviceItem.setOnClickListener {
             mContext.callServiceDetail(addressList[position].service?.id!!)
         }
 

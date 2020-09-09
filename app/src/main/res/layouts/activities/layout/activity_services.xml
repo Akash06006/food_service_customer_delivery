@@ -137,7 +137,7 @@
                 android:layout_marginRight="5dp"
                 android:layout_marginBottom="40dp"
                 android:background="@drawable/ic_cart_back"
-                android:onClick="@{(v) -> dashboardViewModel.clickListener(v)}">
+                android:onClick="@{(v) -> servicesViewModel.clickListener(v)}">
 
                 <ImageView
                     android:id="@+id/imgCart"
