@@ -46,8 +46,32 @@ class LandingResponse {
         @SerializedName("recentOrder")
         @Expose
         var recentOrder: RecentOrder? = null
+        @SerializedName("completedorder")
+        @Expose
+        var completedorder: CompletedOrder? = null
 
 
+    }
+
+    inner class CompletedOrder {
+        @SerializedName("empId")
+        @Expose
+        var empId: String? = null
+        @SerializedName("orderId")
+        @Expose
+        var orderId: String? = null
+        @SerializedName("firstName")
+        @Expose
+        var firstName: String? = null
+        @SerializedName("lastName")
+        @Expose
+        var lastName: String? = null
+        @SerializedName("image")
+        @Expose
+        var image: String? = null
+        @SerializedName("companyId")
+        @Expose
+        var companyId: String? = null
     }
 
     inner class RecentOrder {

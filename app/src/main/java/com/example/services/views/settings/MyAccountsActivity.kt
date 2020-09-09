@@ -1,16 +1,23 @@
 package com.example.services.views.settings
 
 import android.content.Intent
+import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.services.R
+import com.example.services.common.UtilsFunctions
+import com.example.services.constants.GlobalConstants
 import com.example.services.databinding.ActivityMyAccountsBinding
+import com.example.services.model.faq.FAQListResponse
+import com.example.services.model.faq.LinksResponse
 import com.example.services.utils.BaseActivity
 import com.example.services.viewmodels.MyAccountsViewModel
+import com.example.services.viewmodels.faq.FAQViewModel
 
 class MyAccountsActivity : BaseActivity() {
     lateinit var binding: ActivityMyAccountsBinding
     private var accountsViewModel: MyAccountsViewModel? = null
+    lateinit var faqViewModel: FAQViewModel
 
     override fun getLayoutId(): Int {
         return R.layout.activity_my_accounts
@@ -20,6 +27,31 @@ class MyAccountsActivity : BaseActivity() {
         binding = viewDataBinding as ActivityMyAccountsBinding
         accountsViewModel = ViewModelProviders.of(this).get(MyAccountsViewModel::class.java)
         binding.myaccountsViewModel = accountsViewModel
+        faqViewModel = ViewModelProviders.of(this).get(FAQViewModel::class.java)
+        //notificationsViewModel.getFAQList()
+
+
+        faqViewModel.getLinks().observe(this,
+            Observer<LinksResponse> { response ->
+                stopProgressDialog()
+                if (response != null) {
+                    val message = response.message
+                    when {
+                        response.code == 200 -> {
+                            GlobalConstants.TERMS_CONDITION = response.data?.termsLink!!
+                            GlobalConstants.ABOUT_US = response.data?.aboutusLink!!
+                            GlobalConstants.PRIVACY_POLICY = response.data?.privacyLink!!
+                        }
+                        else -> message?.let {
+                            UtilsFunctions.showToastError(message)
+                            // faqListBinding.btnClear.visibility = View.GONE
+                        }
+                    }
+
+                }
+            })
+
+
         // binding.toolbarCommon.imgToolbarText.text = getString(R.string.settings)
         accountsViewModel!!.isClick().observe(
             this, Observer<String>(function =
@@ -57,9 +89,14 @@ class MyAccountsActivity : BaseActivity() {
                         showToastSuccess("Coming Soon")
                     }
                     "tv_contact_us" -> {
+                        val intent1 = Intent(this, ContactUsActivity::class.java)
+                        startActivity(intent1)
                         /*  val intent1 = Intent(this, ChangePasswrodActivity::class.java)
                           startActivity(intent1)*/
-                        showToastSuccess("Coming Soon")
+
+                        // showToastSuccess("Coming Soon")
+
+
                         // binding.tvChangePassword.isEnabled = false
                     }
                 }

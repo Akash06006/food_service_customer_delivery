@@ -34,7 +34,9 @@
         android:id="@+id/service_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="5dp"
         android:background="@drawable/shape_square_stroke"
         android:orientation="horizontal"
         android:padding="10dp">

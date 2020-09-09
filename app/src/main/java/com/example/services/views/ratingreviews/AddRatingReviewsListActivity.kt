@@ -57,10 +57,10 @@ class AddRatingReviewsListActivity : BaseActivity(), DialogssInterface {
     override fun onBackPressed() {
         //super.onBackPressed()
         confirmationDialog = mDialogClass.setDefaultDialog(
-                this,
-                this,
-                "Rating",
-                getString(R.string.warning_rate_cancel)
+            this,
+            this,
+            "Rating",
+            getString(R.string.warning_rate_cancel)
         )
         confirmationDialog?.show()
     }
@@ -94,12 +94,18 @@ class AddRatingReviewsListActivity : BaseActivity(), DialogssInterface {
         reviewsBinding.commonToolBar.imgRight.visibility = View.GONE
         reviewsBinding.commonToolBar.imgRight.setImageResource(R.drawable.ic_cart)
         reviewsBinding.commonToolBar.imgToolbarText.text =
-                resources.getString(R.string.rating)
+            resources.getString(R.string.rating)
         reviewsBinding.reviewsViewModel = reviewsViewModel
         orderId = intent.extras?.get("orderId").toString()
         //ratingReviewInput[0].orderId = orderId
         reviewsBinding.btnSubmit.visibility = View.INVISIBLE
-        reviewsBinding.btnSubmit.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(GlobalConstants.COLOR_CODE))/*mContext.getResources().getColorStateList(R.color.colorOrange)*/)
+        reviewsBinding.btnSubmit.setBackgroundTintList(
+            ColorStateList.valueOf(
+                Color.parseColor(
+                    GlobalConstants.COLOR_CODE
+                )
+            )/*mContext.getResources().getColorStateList(R.color.colorOrange)*/
+        )
         if (UtilsFunctions.isNetworkConnected()) {
             reviewsViewModel.orderDetail(orderId)
             startProgressDialog()
@@ -108,80 +114,80 @@ class AddRatingReviewsListActivity : BaseActivity(), DialogssInterface {
 
         UtilsFunctions.hideKeyBoard(reviewsBinding.tvNoRecord)
         reviewsViewModel.getOrderDetail().observe(this,
-                Observer<OrdersDetailResponse> { response ->
-                    stopProgressDialog()
-                    if (response != null) {
-                        mLoadMoreViewCheck = true
-                        val message = response.message
-                        when {
-                            response.code == 200 -> {
-                                //ratingReviewInput
-                                // var ratingReviewInput = RatingReviewListInput("orderId", null)
+            Observer<OrdersDetailResponse> { response ->
+                stopProgressDialog()
+                if (response != null) {
+                    mLoadMoreViewCheck = true
+                    val message = response.message
+                    when {
+                        response.code == 200 -> {
+                            //ratingReviewInput
+                            // var ratingReviewInput = RatingReviewListInput("orderId", null)
 
-                                ratingData.orderId = response.data?.id
-                                suborders = response.data?.suborders
-                                if (suborders?.size!! > 0) {
-                                    for (item in suborders!!) {
-                                        val rating = RatingData()
-                                        rating.rating = "0"
-                                        rating.review = ""
-                                        rating.name = item.service?.name
-                                        rating.icon = item.service?.icon
-                                        rating.serviceId = item.service?.id
-                                        ratingData.ratingData?.add(rating)
-                                    }
-                                    initRecyclerView()
-                                    reviewsBinding.rvReviews.visibility = View.VISIBLE
-                                    reviewsBinding.tvNoRecord.visibility = View.GONE
-                                    reviewsAdapter?.notifyDataSetChanged()
+                            ratingData.orderId = response.data?.id
+                            suborders = response.data?.suborders
+                            if (suborders?.size!! > 0) {
+                                for (item in suborders!!) {
+                                    val rating = RatingData()
+                                    rating.rating = "0"
+                                    rating.review = ""
+                                    rating.name = item.service?.name
+                                    rating.icon = item.service?.icon
+                                    rating.serviceId = item.service?.id
+                                    ratingData.ratingData?.add(rating)
                                 }
-                            }
-                            else -> message?.let {
-                                UtilsFunctions.showToastError(it)
-                                //reviewsBinding.rvReviews.visibility = View.GONE
-                                //reviewsBinding.tvNoRecord.visibility = View.VISIBLE
-                            }
-                        }
-
-                    }
-                })
-
-        reviewsViewModel.getRatingRes().observe(this,
-                Observer<CommonModel> { response ->
-                    stopProgressDialog()
-                    if (response != null) {
-                        mLoadMoreViewCheck = true
-                        val message = response.message
-                        when {
-                            response.code == 200 -> {
-
-                                showToastSuccess(message)
-                                finish()
-                            }
-                            else -> message?.let {
-                                UtilsFunctions.showToastError(it)
-                                //reviewsBinding.rvReviews.visibility = View.GONE
-                                //reviewsBinding.tvNoRecord.visibility = View.VISIBLE
+                                initRecyclerView()
+                                reviewsBinding.rvReviews.visibility = View.VISIBLE
+                                reviewsBinding.tvNoRecord.visibility = View.GONE
+                                reviewsAdapter?.notifyDataSetChanged()
                             }
                         }
-
-                    }
-                })
-
-
-        reviewsViewModel.isClick().observe(
-                this, Observer<String>(function =
-        fun(it: String?) {
-            when (it) {
-                "btnSubmit" -> {
-                    if (UtilsFunctions.isNetworkConnected()) {
-                        startProgressDialog()
-                        reviewsViewModel.addRatings(ratingData)
+                        else -> message?.let {
+                            UtilsFunctions.showToastError(it)
+                            //reviewsBinding.rvReviews.visibility = View.GONE
+                            //reviewsBinding.tvNoRecord.visibility = View.VISIBLE
+                        }
                     }
 
                 }
-            }
-        })
+            })
+
+        reviewsViewModel.getRatingRes().observe(this,
+            Observer<CommonModel> { response ->
+                stopProgressDialog()
+                if (response != null) {
+                    mLoadMoreViewCheck = true
+                    val message = response.message
+                    when {
+                        response.code == 200 -> {
+
+                            showToastSuccess(message)
+                            finish()
+                        }
+                        else -> message?.let {
+                            UtilsFunctions.showToastError(it)
+                            //reviewsBinding.rvReviews.visibility = View.GONE
+                            //reviewsBinding.tvNoRecord.visibility = View.VISIBLE
+                        }
+                    }
+
+                }
+            })
+
+
+        reviewsViewModel.isClick().observe(
+            this, Observer<String>(function =
+            fun(it: String?) {
+                when (it) {
+                    "btnSubmit" -> {
+                        if (UtilsFunctions.isNetworkConnected()) {
+                            startProgressDialog()
+                            reviewsViewModel.addRatings(ratingData)
+                        }
+
+                    }
+                }
+            })
         )
     }
 
@@ -196,7 +202,7 @@ class AddRatingReviewsListActivity : BaseActivity(), DialogssInterface {
         reviewsBinding.rvReviews.layoutManager = linearLayoutManager
         reviewsBinding.rvReviews.adapter = reviewsAdapter
         reviewsBinding.rvReviews.addOnScrollListener(object :
-                RecyclerView.OnScrollListener() {
+            RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
 
             }
@@ -208,19 +214,19 @@ class AddRatingReviewsListActivity : BaseActivity(), DialogssInterface {
         confirmationDialog = Dialog(this, R.style.transparent_dialog_borderless)
         confirmationDialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
         val binding =
-                DataBindingUtil.inflate<ViewDataBinding>(
-                        LayoutInflater.from(this),
-                        R.layout.add_rating_dialog,
-                        null,
-                        false
-                )
+            DataBindingUtil.inflate<ViewDataBinding>(
+                LayoutInflater.from(this),
+                R.layout.add_rating_dialog,
+                null,
+                false
+            )
 
         confirmationDialog?.setContentView(binding.root)
         confirmationDialog?.setCancelable(true)
 
         confirmationDialog?.window!!.setLayout(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
         )
         confirmationDialog?.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         val serviceImage = confirmationDialog?.findViewById<ImageView>(R.id.iv_service_image)
@@ -233,10 +239,10 @@ class AddRatingReviewsListActivity : BaseActivity(), DialogssInterface {
         ratingBar!!.setRating(ratingData.ratingData.get(position).rating!!.toFloat())
         serviceName?.setText(ratingData.ratingData.get(position).name)
         Glide.with(this)
-                .load(ratingData.ratingData.get(position).icon)
-                //.apply(RequestOptions.bitmapTransform(RoundedCorners(20)))
-                .placeholder(R.drawable.ic_category)
-                .into(serviceImage!!)
+            .load(ratingData.ratingData.get(position).icon)
+            //.apply(RequestOptions.bitmapTransform(RoundedCorners(20)))
+            .placeholder(R.drawable.ic_category)
+            .into(serviceImage!!)
         btnSubmit?.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(GlobalConstants.COLOR_CODE))/*mContext.getResources().getColorStateList(R.color.colorOrange)*/)
 
         btnSubmit?.setOnClickListener {

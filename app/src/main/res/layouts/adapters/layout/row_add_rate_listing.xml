@@ -45,7 +45,8 @@
                         android:layout_height="wrap_content"
                         android:layout_toLeftOf="@+id/tvAddRating"
                         android:text="Service Name"
-                        android:textStyle="bold" />
+                        android:textColor="@color/colorBlack"
+                        app:font="@{`regular`}" />
 
                     <TextView
                         android:id="@+id/tvAddRating"
@@ -56,7 +57,9 @@
                         android:padding="@dimen/dp_5"
                         android:text="@string/rate_service"
                         android:textColor="@color/colorWhite"
-                        android:textSize="@dimen/sp_10" />
+                        android:textSize="@dimen/sp_10"
+                        android:visibility="gone"
+                        app:font="@{`regular`}" />
 
                 </RelativeLayout>
 
@@ -75,7 +78,8 @@
                     android:id="@+id/tv_service_detail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="@string/no_review" />
+                    android:hint="@string/no_review"
+                    android:visibility="gone" />
 
                 <LinearLayout
                     android:layout_width="match_parent"

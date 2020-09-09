@@ -14,7 +14,8 @@ data class Details(
     val totalRatings: String,
     val foodQuantityRating: String,
     val foodQualityRating: String,
-    val packingPresRating: String
-
-
+    val latitude: String,
+    val longitude: String,
+    val packingPresRating: String,
+    val document: Document
 )

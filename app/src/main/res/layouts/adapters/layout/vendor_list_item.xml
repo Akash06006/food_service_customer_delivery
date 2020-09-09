@@ -38,7 +38,7 @@
             android:id="@+id/llVendor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/ic_vendor_back"
+            android:background="@drawable/shape_square_stroke"
             android:orientation="vertical"
             android:padding="5dp"
             android:visibility="visible">

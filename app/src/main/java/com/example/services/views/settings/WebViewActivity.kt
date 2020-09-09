@@ -11,6 +11,7 @@ import com.example.services.databinding.ActivityWebViewBinding
 import com.example.services.viewmodels.MyAccountsViewModel
 
 import android.webkit.WebViewClient
+import com.example.services.constants.GlobalConstants
 
 class WebViewActivity : BaseActivity() {
     lateinit var binding: ActivityWebViewBinding
@@ -31,14 +32,14 @@ class WebViewActivity : BaseActivity() {
                 return true
             }
         }
-        /*  if (title.equals(resources.getString(R.string.terms_and_conditions))) {
+          if (title.equals(resources.getString(R.string.terms_and_conditions))) {
             binding.webView.loadUrl(GlobalConstants.TERMS_CONDITION)
         } else if (title.equals(resources.getString(R.string.privacy_policy))) {
             binding.webView.loadUrl(GlobalConstants.PRIVACY_POLICY)
         } else {
             binding.webView.loadUrl(GlobalConstants.ABOUT_US)
-        }*/
-        binding.webView.loadUrl("https://www.cerebruminfotech.com/")
+        }
+      //  binding.webView.loadUrl("https://www.cerebruminfotech.com/")
 
     }
 

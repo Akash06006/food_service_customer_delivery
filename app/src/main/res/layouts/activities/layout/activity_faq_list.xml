@@ -57,7 +57,8 @@
                 android:text="How can we help you?"
                 android:textColor="@color/colorWhite"
                 android:textSize="38sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                app:font="@{`bold`}" />
 
         </RelativeLayout>
 
@@ -94,7 +95,8 @@
                     android:text="Top Questions"
                     android:textColor="@color/colorBlack"
                     android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    app:font="@{`semibold`}" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvHeaders"

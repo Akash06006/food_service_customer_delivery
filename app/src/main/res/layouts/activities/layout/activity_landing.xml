@@ -140,15 +140,15 @@
                         android:layout_alignTop="@+id/ic_profile"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginLeft="5dp"
-                        android:layout_marginTop="32dp"
+                        android:layout_marginTop="28dp"
                         android:layout_toRightOf="@+id/ic_profile"
                         android:gravity="center_horizontal"
                         android:onClick="@{(v) -> dashboardViewModel.clickListener(v)}"
-
                         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                         android:textColor="@color/colorWhite"
                         android:textSize="16sp"
                         android:textStyle="bold"
+                        app:font="@{`semibold`}"
                         tools:text="Akash" />
 
                     <TextView
@@ -165,7 +165,8 @@
                         android:text="India"
                         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                         android:textColor="@color/colorWhite"
-                        android:textSize="13sp" />
+                        android:textSize="13sp"
+                        app:font="@{`regular`}" />
 
                     <ImageView
                         android:id="@+id/img_nav_cancel"
@@ -238,8 +239,8 @@
                             android:text="@string/home"
                             android:textAllCaps="false"
                             android:textColor="@color/colorBlack"
-                            android:textSize="@dimen/sp_16"
-                            app:font="@{`semibold`}"
+                            android:textSize="@dimen/sp_14"
+                            app:font="@{`regular`}"
                             tools:ignore="RtlSymmetry" />
 
                         <TextView
@@ -258,8 +259,8 @@
                             android:text="@string/address_management"
                             android:textAllCaps="false"
                             android:textColor="@color/colorBlack"
-                            android:textSize="@dimen/sp_16"
-                            app:font="@{`semibold`}"
+                            android:textSize="@dimen/sp_14"
+                            app:font="@{`regular`}"
                             tools:ignore="RtlSymmetry" />
 
                         <TextView
@@ -275,9 +276,9 @@
                             android:text="@string/cart"
                             android:textAllCaps="false"
                             android:textColor="@color/colorBlack"
-                            android:textSize="@dimen/sp_16"
+                            android:textSize="@dimen/sp_14"
                             android:visibility="gone"
-                            app:font="@{`semibold`}"
+                            app:font="@{`regular`}"
                             tools:ignore="RtlSymmetry" />
 
                         <TextView
@@ -295,8 +296,8 @@
                             android:text="@string/favorite"
                             android:textAllCaps="false"
                             android:textColor="@color/colorBlack"
-                            android:textSize="@dimen/sp_16"
-                            app:font="@{`semibold`}"
+                            android:textSize="@dimen/sp_14"
+                            app:font="@{`regular`}"
                             tools:ignore="RtlSymmetry" />
 
                         <TextView
@@ -316,8 +317,8 @@
 
                             android:textAllCaps="false"
                             android:textColor="@color/colorBlack"
-                            android:textSize="@dimen/sp_16"
-                            app:font="@{`semibold`}"
+                            android:textSize="@dimen/sp_14"
+                            app:font="@{`regular`}"
                             tools:ignore="RtlSymmetry" />
 
                         <TextView
@@ -336,8 +337,8 @@
                             android:text="@string/orders_history"
                             android:textAllCaps="false"
                             android:textColor="@color/colorBlack"
-                            android:textSize="@dimen/sp_16"
-                            app:font="@{`semibold`}"
+                            android:textSize="@dimen/sp_14"
+                            app:font="@{`regular`}"
                             tools:ignore="RtlSymmetry" />
 
                         <TextView
@@ -355,8 +356,8 @@
                             android:text="@string/notifications"
                             android:textAllCaps="false"
                             android:textColor="@color/colorBlack"
-                            android:textSize="@dimen/sp_16"
-                            app:font="@{`semibold`}"
+                            android:textSize="@dimen/sp_14"
+                            app:font="@{`regular`}"
                             tools:ignore="RtlSymmetry" />
 
 
@@ -376,9 +377,9 @@
                             android:textAllCaps="false"
 
                             android:textColor="@color/colorBlack"
-                            android:textSize="@dimen/sp_16"
+                            android:textSize="@dimen/sp_14"
                             android:visibility="visible"
-                            app:font="@{`semibold`}"
+                            app:font="@{`regular`}"
                             tools:ignore="RtlSymmetry" />
 
 
@@ -397,7 +398,7 @@
                             android:textColor="@color/colorBlack"
                             android:textSize="@dimen/sp_18"
                             android:visibility="gone"
-                            app:font="@{`semibold`}"
+                            app:font="@{`regular`}"
                             tools:ignore="RtlSymmetry" />
 
                         <TextView
@@ -416,7 +417,7 @@
                             android:textColor="@color/colorBlack"
                             android:textSize="@dimen/sp_18"
                             android:visibility="gone"
-                            app:font="@{`semibold`}"
+                            app:font="@{`regular`}"
                             tools:ignore="RtlSymmetry" />
 
                         <TextView
@@ -435,7 +436,7 @@
                             android:textColor="@color/colorBlack"
                             android:textSize="@dimen/sp_18"
                             android:visibility="gone"
-                            app:font="@{`semibold`}"
+                            app:font="@{`regular`}"
                             tools:ignore="RtlSymmetry" />
 
 
@@ -470,9 +471,9 @@
                         android:text="@string/settings"
                         android:textAllCaps="false"
                         android:textColor="@color/colorBlack"
-                        android:textSize="@dimen/sp_16"
+                        android:textSize="@dimen/sp_14"
                         android:visibility="visible"
-                        app:font="@{`semibold`}"
+                        app:font="@{`regular`}"
                         tools:ignore="RtlSymmetry" />
 
                     <View
@@ -494,8 +495,8 @@
                         android:text="@string/logout"
                         android:textAllCaps="false"
                         android:textColor="@color/colorBlack"
-                        android:textSize="@dimen/sp_16"
-                        app:font="@{`semibold`}"
+                        android:textSize="@dimen/sp_14"
+                        app:font="@{`regular`}"
                         tools:ignore="RtlSymmetry" />
 
                 </LinearLayout>

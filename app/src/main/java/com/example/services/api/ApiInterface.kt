@@ -90,6 +90,9 @@ interface ApiInterface {
     @POST("mobile/address/add")
     fun addAddress(@Body mJsonObject: JsonObject): Call<JsonObject>
 
+    @POST("mobile/rating/staffRating")
+    fun addDriverRating(@Body mJsonObject: JsonObject): Call<JsonObject>
+
     @POST("mobile/rating/addCompanyRating")
     fun addCompanyRating(@Body mJsonObject: JsonObject): Call<JsonObject>
 
@@ -220,6 +223,9 @@ interface ApiInterface {
     @POST("mobile/profile/updateDatesInfo")
     fun updateDates(@Body mJsonObject: JsonObject): Call<JsonObject>
 
+    @POST("mobile/contactus")
+    fun contactUs(@Body mJsonObject: JsonObject): Call<JsonObject>
+
     @GET("mobile/notification")
     fun getNotificationList(): Call<JsonObject>
 
@@ -228,6 +234,8 @@ interface ApiInterface {
     fun clearAllNotification(): Call<JsonObject>
 /*@Path("id") id: String*/
 
+    @GET("mobile/document")
+    fun getLinks(): Call<JsonObject>
 
     @GET("mobile/getFaq")
     fun getFAQList(@Query("limit") limit: String, @Query("page") page: String, @Query("category") category: String): Call<JsonObject>
