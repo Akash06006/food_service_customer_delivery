@@ -39,7 +39,7 @@
                 android:text="@string/welcome"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/sp_22"
-                app:font="@{`bold`}"
+                app:font="@{`semibold`}"
                 tools:ignore="RtlSymmetry" />
 
             <TextView
@@ -51,7 +51,7 @@
                 android:text="@{BindingUtils.getUserName()+`!`}"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/sp_22"
-                app:font="@{`bold`}"
+                app:font="@{`semibold`}"
                 tools:ignore="RtlSymmetry"
                 tools:text="Karan!" />
 
@@ -85,6 +85,7 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_above="@+id/btnOrderHere"
             android:layout_below="@+id/gridview">
 
             <LinearLayout
@@ -125,7 +126,8 @@
                                 android:gravity="center"
                                 android:text="15% OFF"
                                 android:textColor="@color/colorWhite"
-                                android:textStyle="bold" />
+                                android:textStyle="bold"
+                                app:font="@{`semibold`}" />
 
                         </LinearLayout>
                     </LinearLayout>
@@ -240,7 +242,7 @@
                                     android:textColor="@color/colorBlack"
                                     android:textSize="16sp"
                                     android:textStyle="bold"
-                                    app:font="@{`bold`}" />
+                                    app:font="@{`semibold`}" />
 
                                 <TextView
                                     android:id="@+id/txtAddRating"
@@ -260,7 +262,7 @@
                                     android:textColor="@color/colorWhite"
                                     android:textSize="11sp"
                                     android:textStyle="bold"
-                                    app:font="@{`bold`}" />
+                                    app:font="@{`semibold`}" />
                             </RelativeLayout>
 
                             <LinearLayout
@@ -305,7 +307,8 @@
                                             android:text="0.0"
                                             android:textAllCaps="false"
                                             android:textColor="@color/prepColor"
-                                            android:textSize="12sp" />
+                                            android:textSize="12sp"
+                                            app:font="@{`regular`}" />
 
                                         <TextView
                                             android:id="@+id/txtRatingCount"
@@ -318,7 +321,8 @@
                                             android:textAllCaps="false"
                                             android:textColor="@color/colorBlack"
                                             android:textSize="12sp"
-                                            android:visibility="gone" />
+                                            android:visibility="gone"
+                                            app:font="@{`regular`}" />
 
 
                                         <!--android:textSize="@dimen/sp_10"-->
@@ -339,7 +343,8 @@
                                     android:text="9530606006"
                                     android:textAllCaps="false"
                                     android:textColor="@color/prepColor"
-                                    android:textSize="12sp" />
+                                    android:textSize="12sp"
+                                    app:font="@{`regular`}" />
                             </LinearLayout>
 
 
@@ -365,7 +370,8 @@
                                     android:text="7 Phase Mohali"
                                     android:textAllCaps="false"
                                     android:textColor="@color/prepColor"
-                                    android:textSize="12sp" />
+                                    android:textSize="12sp"
+                                    app:font="@{`regular`}" />
 
                                 <TextView
                                     android:id="@+id/txtDeliveryTime"
@@ -380,7 +386,8 @@
                                     android:textAllCaps="false"
                                     android:textColor="@color/prepColor"
                                     android:textSize="12sp"
-                                    android:visibility="visible" />
+                                    android:visibility="visible"
+                                    app:font="@{`regular`}" />
 
 
                                 <!--android:textSize="@dimen/sp_10"-->
@@ -407,7 +414,8 @@
                                     android:text="gharu86103@gmail.com"
                                     android:textAllCaps="false"
                                     android:textColor="@color/colorBlack"
-                                    android:textSize="12sp" />
+                                    android:textSize="12sp"
+                                    app:font="@{`regular`}" />
                                 <!--android:textSize="@dimen/sp_10"-->
                             </LinearLayout>
 
@@ -426,7 +434,6 @@
                                     android:id="@+id/txtTime"
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
-
                                     android:layout_weight="1.5"
                                     android:drawableLeft="@drawable/ic_time_drawable"
                                     android:drawablePadding="5dp"
@@ -434,7 +441,8 @@
                                     android:text="9:00 AM-8:00 PM"
                                     android:textAllCaps="false"
                                     android:textColor="@color/colorBlack"
-                                    android:textSize="12sp" />
+                                    android:textSize="12sp"
+                                    app:font="@{`regular`}" />
 
                                 <TextView
                                     android:id="@+id/txtTime1"
@@ -447,7 +455,8 @@
                                     android:textAllCaps="false"
                                     android:textColor="@color/colorBlack"
                                     android:textSize="12sp"
-                                    android:visibility="gone" />
+                                    android:visibility="gone"
+                                    app:font="@{`regular`}" />
 
                                 <!--android:textSize="@dimen/sp_10"-->
                             </LinearLayout>
@@ -472,15 +481,17 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="@dimen/dp_5"
-                                    android:src="@drawable/ic_about" />
+                                    android:src="@drawable/ic_about"
+                                    android:visibility="gone" />
 
                                 <TextView
                                     android:id="@+id/txtAboutHeading"
-                                    android:layout_width="wrap_content"
+                                    android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="right"
                                     android:layout_marginLeft="@dimen/dp_20"
                                     android:layout_toRightOf="@+id/imgAbout"
+                                    android:drawableRight="@drawable/ic_down_arrow"
                                     android:onClick="@{(v) -> homeViewModel.clickListener(v)}"
 
                                     android:text="About restaurant's"
@@ -488,7 +499,7 @@
                                     android:textColor="@color/colorBlack"
                                     android:textSize="15sp"
                                     android:textStyle="bold"
-                                    app:font="@{`bold`}" />
+                                    app:font="@{`semibold`}" />
 
                                 <TextView
                                     android:id="@+id/txtAbout"
@@ -504,6 +515,7 @@
                                     android:textAllCaps="false"
                                     android:textColor="@color/colorGrey"
                                     android:textSize="12sp"
+                                    android:visibility="gone"
                                     app:font="@{`regular`}" />
 
                             </RelativeLayout>
@@ -539,7 +551,7 @@
                             android:textSize="15sp"
                             android:textStyle="bold"
                             android:visibility="gone"
-                            app:font="@{`bold`}" />
+                            app:font="@{`semibold`}" />
 
 
                     </RelativeLayout>
@@ -561,7 +573,8 @@
                             android:gravity="center_vertical"
                             android:text="@string/quality"
                             android:textAllCaps="false"
-                            android:textColor="@color/colorBlack" />
+                            android:textColor="@color/colorBlack"
+                            app:font="@{`regular`}" />
                         <!--   android:layout_weight="1.2"-->
                         <com.hsalf.smileyrating.SmileyRating
                             android:id="@+id/rbQuality"
@@ -596,12 +609,12 @@
                             android:layout_width="130dp"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="5dp"
-
                             android:drawablePadding="5dp"
                             android:gravity="center_vertical"
                             android:text="@string/pack_presentation"
                             android:textAllCaps="false"
-                            android:textColor="@color/colorBlack" />
+                            android:textColor="@color/colorBlack"
+                            app:font="@{`regular`}" />
                         <!--android:layout_weight="1.2"-->
 
                         <com.hsalf.smileyrating.SmileyRating
@@ -636,12 +649,12 @@
                             android:layout_width="130dp"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="5dp"
-
                             android:drawablePadding="5dp"
                             android:gravity="center_vertical"
                             android:text="@string/food_quantity"
                             android:textAllCaps="false"
-                            android:textColor="@color/colorBlack" />
+                            android:textColor="@color/colorBlack"
+                            app:font="@{`regular`}" />
                         <!--android:layout_weight="1.2"-->
                         <com.hsalf.smileyrating.SmileyRating
                             android:id="@+id/rbQunatity"
@@ -673,12 +686,12 @@
                     android:layout_toRightOf="@+id/imgAbout"
                     android:onClick="@{(v) -> homeViewModel.clickListener(v)}"
 
-                    android:text="Food Gallery"
+                    android:text="Gallery"
                     android:textAllCaps="false"
                     android:textColor="@color/colorBlack"
                     android:textSize="18sp"
                     android:textStyle="bold"
-                    app:font="@{`bold`}" />
+                    app:font="@{`semibold`}" />
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
@@ -711,32 +724,35 @@
                     android:padding="@dimen/dp_5"
                     android:visibility="gone" />
 
-                <androidx.cardview.widget.CardView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:background="#ffffff"
-                    app:cardCornerRadius="@dimen/dp_15">
-
-                    <fragment
-                        android:id="@+id/map"
-                        android:name="com.google.android.gms.maps.SupportMapFragment"
-                        android:layout_width="match_parent"
-                        android:layout_height="170dp" />
-                </androidx.cardview.widget.CardView>
-
-
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:orientation="horizontal"
-                    android:weightSum="2">
+                    android:layout_margin="10dp">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="#ffffff"
+                        app:cardCornerRadius="@dimen/dp_15">
+
+
+                        <fragment
+                            android:id="@+id/map"
+                            android:name="com.google.android.gms.maps.SupportMapFragment"
+                            android:layout_width="match_parent"
+                            android:layout_height="170dp" />
+                        <!--                        android:background="@drawable/ic_view_direction_back"
+                        -->
+
+                    </androidx.cardview.widget.CardView>
 
                     <Button
                         android:id="@+id/btnViewDirection"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_margin="3dp"
                         android:layout_weight="1"
                         android:background="@drawable/ic_view_direction_back"
                         android:onClick="@{(v) -> homeViewModel.clickListener(v)}"
@@ -744,23 +760,7 @@
                         android:textAllCaps="false"
                         android:textColor="@color/viewDirectionColor"
                         app:font="@{`regular`}" />
-
-                    <Button
-                        android:id="@+id/btnOrderHere"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/ic_order_back"
-                        android:onClick="@{(v) -> homeViewModel.clickListener(v)}"
-                        android:text="@string/order_from_here"
-                        android:textAllCaps="false"
-                        android:textColor="@color/colorWhite"
-                        app:font="@{`regular`}" />
-
-
-                </LinearLayout>
-
+                </RelativeLayout>
 
                 <LinearLayout
                     android:id="@+id/trending_layout"
@@ -783,7 +783,7 @@
                         android:textColor="@color/colorBlack"
                         android:textSize="@dimen/sp_16"
                         android:textStyle="bold"
-                        app:font="@{`bold`}" />
+                        app:font="@{`semibold`}" />
 
                     <TextView
                         android:id="@+id/tv_sub_heading"
@@ -827,7 +827,7 @@
                         android:textSize="@dimen/sp_16"
                         android:textStyle="bold"
                         android:visibility="gone"
-                        app:font="@{`bold`}" />
+                        app:font="@{`semibold`}" />
 
                     <TextView
                         android:id="@+id/tv_offer_heading"
@@ -858,13 +858,24 @@
                         android:layout_marginTop="@dimen/dp_5"
                         android:visibility="gone">
 
-
                     </androidx.viewpager.widget.ViewPager>
                 </LinearLayout>
             </LinearLayout>
         </ScrollView>
 
-
+        <Button
+            android:id="@+id/btnOrderHere"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/shape_purple"
+            android:onClick="@{(v) -> homeViewModel.clickListener(v)}"
+            android:text="@string/order_from_here"
+            android:textAllCaps="false"
+            android:textColor="@color/colorWhite"
+            app:font="@{`regular`}" />
     </RelativeLayout>
 
 </layout>

@@ -64,8 +64,8 @@
 
                         <ImageView
                             android:id="@+id/imgVendorImage"
-                            android:layout_width="70dp"
-                            android:layout_height="70dp"
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
                             android:scaleType="centerCrop"
                             android:src="@drawable/ic_category"
                             android:visibility="visible" />
@@ -103,14 +103,16 @@
                                 android:gravity="center"
                                 android:text="15% "
                                 android:textColor="@color/colorWhite"
-                                android:textStyle="bold" />
+                                android:textStyle="bold"
+                                app:font="@{`bold`}" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="off"
                                 android:textColor="@color/colorWhite"
-                                android:textStyle="bold" />
+                                android:textStyle="bold"
+                                app:font="@{`bold`}" />
 
                         </LinearLayout>
 
@@ -137,7 +139,8 @@
                             android:textAllCaps="false"
                             android:textColor="@color/colorBlack"
                             android:textStyle="bold"
-                            android:visibility="visible" />
+                            android:visibility="visible"
+                            app:font="@{`regular`}" />
 
                         <TextView
                             android:id="@+id/txtAddress"
@@ -150,7 +153,8 @@
                             android:text="7 Phase Mohali"
                             android:textAllCaps="false"
                             android:textSize="@dimen/sp_10"
-                            android:visibility="gone" />
+                            android:visibility="gone"
+                            app:font="@{`regular`}" />
 
 
                         <TextView
@@ -165,7 +169,8 @@
                             android:text="9:00 AM-8:00 PM"
                             android:textAllCaps="false"
                             android:textSize="@dimen/sp_10"
-                            android:visibility="gone" />
+                            android:visibility="gone"
+                            app:font="@{`regular`}" />
                     </RelativeLayout>
 
                     <LinearLayout
@@ -194,13 +199,14 @@
                             android:text="0"
                             android:textAllCaps="false"
                             android:textColor="@color/textColor"
-                            android:textSize="12sp" />
+                            android:textSize="9sp"
+                            app:font="@{`regular`}" />
 
                         <View
                             android:layout_width="1.5dp"
                             android:layout_height="1.5dp"
                             android:layout_gravity="center"
-                            android:layout_marginLeft="8dp"
+                            android:layout_marginLeft="5dp"
                             android:background="@color/textColor"
                             android:gravity="center"
                             android:text="."
@@ -211,19 +217,20 @@
                             android:id="@+id/txtDistance"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/dp_8"
+                            android:layout_marginLeft="@dimen/dp_5"
                             android:drawableLeft="@drawable/ic_mins_drawable"
                             android:drawablePadding="5dp"
                             android:text="15 mins"
                             android:textAllCaps="false"
                             android:textColor="@color/textColor"
-                            android:textSize="@dimen/sp_10" />
+                            android:textSize="@dimen/sp_9"
+                            app:font="@{`regular`}" />
 
                         <View
                             android:layout_width="1.5dp"
                             android:layout_height="1.5dp"
                             android:layout_gravity="center"
-                            android:layout_marginLeft="8dp"
+                            android:layout_marginLeft="5dp"
                             android:background="@color/textColor"
                             android:gravity="center"
                             android:text="."
@@ -235,12 +242,13 @@
                             android:id="@+id/txtTotal"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/dp_8"
+                            android:layout_marginLeft="@dimen/dp_5"
                             android:drawablePadding="5dp"
                             android:text="Orders in past 24 hrs: "
                             android:textAllCaps="false"
                             android:textColor="@color/textColor"
-                            android:textSize="@dimen/sp_10" />
+                            android:textSize="@dimen/sp_9"
+                            app:font="@{`regular`}" />
 
                         <TextView
                             android:id="@+id/txtTotalOrders"
@@ -249,8 +257,9 @@
                             android:text="10"
                             android:textAllCaps="false"
                             android:textColor="@color/textColor"
-                            android:textSize="10sp"
-                            android:textStyle="bold" />
+                            android:textSize="9sp"
+                            android:textStyle="bold"
+                            app:font="@{`regular`}" />
                     </LinearLayout>
 
                     <TextView
@@ -261,7 +270,8 @@
                         android:textAllCaps="false"
                         android:textColor="@color/textColor"
                         android:textSize="@dimen/sp_10"
-                        android:visibility="gone" />
+                        android:visibility="gone"
+                        app:font="@{`regular`}" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -282,7 +292,8 @@
                             android:textAllCaps="false"
                             android:textColor="@color/colorPrimary"
                             android:textSize="14dp"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            app:font="@{`regular`}" />
                         <!--                            android:background="@drawable/shape_round_top_corner"
                         -->
                         <TextView
@@ -292,7 +303,8 @@
                             android:layout_marginTop="2dp"
                             android:text="Orders in past 24 hrs "
                             android:textAllCaps="false"
-                            android:textSize="11dp" />
+                            android:textSize="11dp"
+                            app:font="@{`regular`}" />
 
 
                     </LinearLayout>
@@ -323,7 +335,8 @@
                             android:text="(0)"
                             android:textAllCaps="false"
                             android:textSize="@dimen/sp_10"
-                            android:visibility="gone" />
+                            android:visibility="gone"
+                            app:font="@{`regular`}" />
 
                         <TextView
                             android:id="@+id/txtDistance2"
@@ -335,7 +348,8 @@
                             android:text=""
                             android:textAllCaps="false"
                             android:textSize="@dimen/sp_10"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            app:font="@{`regular`}" />
                     </RelativeLayout>
                 </LinearLayout>
             </LinearLayout>
@@ -350,7 +364,8 @@
                 android:textAllCaps="false"
                 android:textSize="@dimen/sp_12"
                 android:textStyle="bold"
-                android:visibility="gone" />
+                android:visibility="gone"
+                app:font="@{`regular`}" />
 
         </LinearLayout>
 
@@ -444,7 +459,8 @@
                         android:layout_toRightOf="@+id/rbDishRating"
                         android:text=""
                         android:textAllCaps="false"
-                        android:textSize="@dimen/sp_10" />
+                        android:textSize="@dimen/sp_10"
+                        app:font="@{`regular`}" />
 
                     <TextView
                         android:id="@+id/txtDistance1"
@@ -456,7 +472,8 @@
                         android:text="150 KM"
                         android:textAllCaps="false"
                         android:textSize="@dimen/sp_10"
-                        android:visibility="gone" />
+                        android:visibility="gone"
+                        app:font="@{`regular`}" />
                 </RelativeLayout>
 
                 <TextView
@@ -470,7 +487,7 @@
                     android:layout_marginBottom="@dimen/dp_5"
                     android:text="Rs.100"
                     android:textColor="@color/colorPrice"
-                    android:textStyle="bold" />
+                    app:font="@{`regular`}" />
 
                 <RelativeLayout
                     android:id="@+id/rlOriginalPrice"
@@ -489,7 +506,7 @@
                         android:text="Rs.150"
                         android:textColor="@color/colorGrey"
                         android:textSize="@dimen/sp_10"
-                        android:textStyle="bold" />
+                        app:font="@{`regular`}" />
 
                     <View
                         android:layout_width="wrap_content"
@@ -512,19 +529,20 @@
                     android:text="@string/book"
                     android:textAllCaps="true"
                     android:textColor="@color/colorBlack"
-                    android:textSize="@dimen/sp_12" />
+                    android:textSize="@dimen/sp_12"
+                    app:font="@{`regular`}" />
 
                 <TextView
                     android:id="@+id/tv_off"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tv_offer_price"
-
                     android:layout_alignLeft="@+id/tv_offer_price"
                     android:gravity="center"
                     android:text="25% Off"
                     android:textColor="@color/btnBackground"
-                    android:visibility="gone" />
+                    android:visibility="gone"
+                    app:font="@{`regular`}" />
                 <!--   android:layout_alignTop="@+id/tv_add"
                     android:layout_alignBottom="@+id/tv_add"-->
             </RelativeLayout>

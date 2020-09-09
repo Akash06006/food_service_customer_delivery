@@ -194,7 +194,8 @@
                                 android:button="@null"
                                 android:gravity="center"
                                 android:text="Delivery"
-                                android:textColor="@color/colorWhite" />
+                                android:textColor="@color/colorWhite"
+                                app:font="@{`regular`}" />
 
                             <RadioButton
                                 android:id="@+id/rdPickup"
@@ -206,7 +207,8 @@
                                 android:checked="false"
                                 android:gravity="center"
                                 android:text="Pickup"
-                                android:textColor="@color/colorBlack" />
+                                android:textColor="@color/colorBlack"
+                                app:font="@{`regular`}" />
                         </RadioGroup>
 
 
@@ -358,7 +360,8 @@
                             android:textAllCaps="false"
                             android:textColor="@color/colorBlack"
                             android:textSize="@dimen/sp_16"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            app:font="@{`semibold`}" />
 
 
                     </RelativeLayout>
@@ -415,7 +418,7 @@
                             android:textColor="@color/colorBlack"
                             android:textSize="@dimen/sp_16"
                             android:textStyle="bold"
-                            app:font="@{`bold`}" />
+                            app:font="@{`semibold`}" />
 
                         <TextView
                             android:id="@+id/tv_sub_heading"
@@ -465,7 +468,8 @@
                             android:textAllCaps="false"
                             android:textColor="@color/colorBlack"
                             android:textSize="@dimen/sp_16"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            app:font="@{`semibold`}" />
 
 
                     </RelativeLayout>
@@ -503,7 +507,8 @@
                             android:text="Best Seller"
                             android:textAllCaps="false"
                             android:textColor="@color/colorBlack"
-                            android:textSize="@dimen/sp_12" />
+                            android:textSize="@dimen/sp_12"
+                            app:font="@{`regular`}" />
                         <!-- -->
                         <TextView
                             android:id="@+id/txtNear"
@@ -522,7 +527,8 @@
                             android:text="Near By Restaurant"
                             android:textAllCaps="false"
                             android:textColor="@color/colorWhite"
-                            android:textSize="@dimen/sp_12" />
+                            android:textSize="@dimen/sp_12"
+                            app:font="@{`regular`}" />
                         <!--  android:layout_alignParentRight="true"-->
                         <TextView
                             android:id="@+id/txtSeeAll"
@@ -542,7 +548,8 @@
                             android:text="View All"
                             android:textAllCaps="false"
                             android:textColor="@color/colorWhite"
-                            android:textSize="@dimen/sp_12" />
+                            android:textSize="@dimen/sp_12"
+                            app:font="@{`regular`}" />
 
                         <RelativeLayout
                             android:id="@+id/rlVendors"
@@ -621,7 +628,8 @@
                         android:textColor="@color/colorBlack"
                         android:textSize="@dimen/sp_16"
                         android:textStyle="bold"
-                        android:visibility="gone" />
+                        android:visibility="gone"
+                        app:font="@{`regular`}" />
 
 
                     <LinearLayout
@@ -643,7 +651,7 @@
                             android:textColor="@color/colorBlack"
                             android:textSize="@dimen/sp_16"
                             android:textStyle="bold"
-                            app:font="@{`bold`}" />
+                            app:font="@{`semibold`}" />
 
                         <TextView
                             android:id="@+id/tv_offer_heading"
@@ -687,35 +695,35 @@
 
             <RelativeLayout
                 android:id="@+id/img_right"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_above="@+id/llOrderStatus"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
                 android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
                 android:layout_marginRight="5dp"
+                android:layout_marginBottom="40dp"
                 android:background="@drawable/ic_cart_back"
-                android:onClick="@{(v) -> homeViewModel.clickListener(v)}"
-                android:visibility="gone">
+                android:onClick="@{(v) -> dashboardViewModel.clickListener(v)}">
 
                 <ImageView
                     android:id="@+id/imgCart"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:layout_centerInParent="true"
                     android:src="@drawable/ic_cart" />
 
                 <TextView
                     android:id="@+id/txtCount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="17dp"
+                    android:layout_height="17dp"
                     android:layout_alignTop="@+id/imgCart"
-                    android:layout_alignEnd="@+id/imgCart"
-                    android:layout_marginTop="25dp"
-                    android:layout_marginRight="-15dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="-5dp"
+                    android:layout_marginRight="15dp"
                     android:background="@drawable/ic_count_back"
                     android:gravity="center"
-                    android:padding="5dp"
                     android:text="1"
-                    android:textColor="@color/colorWhite" />
+                    android:textColor="@color/colorWhite"
+                    android:textSize="10sp" />
 
             </RelativeLayout>
 
@@ -744,7 +752,8 @@
                     android:textAllCaps="false"
                     android:textColor="@color/colorWhite"
                     android:textSize="@dimen/sp_14"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    app:font="@{`regular`}" />
 
                 <TextView
                     android:id="@+id/txtOrderDes"
@@ -757,7 +766,8 @@
                     android:text="Sit back and relax as your order is confirmed"
                     android:textAllCaps="false"
                     android:textColor="@color/colorWhite"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"
+                    app:font="@{`regular`}" />
 
                 <TextView
                     android:id="@+id/txtPrice"
@@ -770,7 +780,8 @@
                     android:text="Amount: "
                     android:textAllCaps="false"
                     android:textColor="@color/colorWhite"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"
+                    app:font="@{`regular`}" />
 
                 <TextView
                     android:id="@+id/txtOrderNumber"
@@ -783,7 +794,8 @@
                     android:text="Order No:  "
                     android:textAllCaps="false"
                     android:textColor="@color/colorWhite"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"
+                    app:font="@{`regular`}" />
 
                 <com.airbnb.lottie.LottieAnimationView
                     android:id="@+id/animationView"

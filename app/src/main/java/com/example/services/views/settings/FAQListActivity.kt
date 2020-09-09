@@ -1,8 +1,8 @@
 package com.example.services.views.settings
 
-import android.content.Intent
 import android.view.View
 import android.view.Window
+import android.view.WindowManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,6 +19,7 @@ import com.example.services.utils.BaseActivity
 import com.example.services.viewmodels.faq.FAQViewModel
 import com.uniongoods.adapters.FaqCategoryListAdapter
 
+
 class FAQListActivity : BaseActivity() {
     lateinit var faqListBinding: ActivityFaqListBinding
     lateinit var faqViewModel: FAQViewModel
@@ -28,6 +29,7 @@ class FAQListActivity : BaseActivity() {
     var faqListAdapter: FAQListAdapter? = null
     var faqCategoryListAdapter: FaqCategoryListAdapter? = null
     override fun getLayoutId(): Int {
+
         return R.layout.activity_faq_list
     }
 
@@ -35,9 +37,6 @@ class FAQListActivity : BaseActivity() {
         faqListBinding = viewDataBinding as ActivityFaqListBinding
         faqViewModel = ViewModelProviders.of(this).get(FAQViewModel::class.java)
         //notificationsViewModel.getFAQList()
-        val window = getWindow()
-
-        //window.statusBarColor(resources.getColor(R.color.purple))
         faqListBinding.faqViewModel = faqViewModel
         faqListBinding.commonToolBar.imgToolbarText.text =
             resources.getString(R.string.faq)

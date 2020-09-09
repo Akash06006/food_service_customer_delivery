@@ -463,35 +463,35 @@
 
         <RelativeLayout
             android:id="@+id/img_right"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
             android:layout_marginRight="5dp"
-            android:layout_marginBottom="50dp"
+            android:layout_marginBottom="40dp"
             android:background="@drawable/ic_cart_back"
-            android:onClick="@{(v) -> servicesViewModel.clickListener(v)}">
+            android:onClick="@{(v) -> dashboardViewModel.clickListener(v)}">
 
             <ImageView
                 android:id="@+id/imgCart"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_centerInParent="true"
                 android:src="@drawable/ic_cart" />
 
             <TextView
                 android:id="@+id/txtCount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="17dp"
+                android:layout_height="17dp"
                 android:layout_alignTop="@+id/imgCart"
-                android:layout_alignEnd="@+id/imgCart"
-                android:layout_marginTop="25dp"
-                android:layout_marginRight="-15dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="-5dp"
+                android:layout_marginRight="15dp"
                 android:background="@drawable/ic_count_back"
                 android:gravity="center"
-                android:padding="5dp"
                 android:text="1"
-                android:textColor="@color/colorWhite" />
+                android:textColor="@color/colorWhite"
+                android:textSize="10sp" />
 
         </RelativeLayout>
 

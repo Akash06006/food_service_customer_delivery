@@ -72,7 +72,6 @@ abstract class BaseActivity : AppCompatActivity() {
         initViews()
 
 
-
     }
 
     override fun onResume() {

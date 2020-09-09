@@ -139,7 +139,8 @@
                         android:layout_marginTop="@dimen/dp_5"
                         android:layout_marginBottom="@dimen/dp_5"
                         android:text="Rs.100"
-                        android:textColor="@color/colorBlack" />
+                        android:textColor="@color/colorBlack"
+                        app:font="@{`regular`}" />
 
                     <RelativeLayout
                         android:id="@+id/rlOriginalPrice"
@@ -158,7 +159,7 @@
                             android:text="Rs.150"
                             android:textColor="@color/colorGrey"
                             android:textSize="@dimen/sp_10"
-                            android:textStyle="bold" />
+                            app:font="@{`regular`}" />
 
                         <View
                             android:layout_width="wrap_content"
@@ -238,7 +239,8 @@
                         android:textAllCaps="false"
                         android:textColor="@color/colorBlack"
                         android:textSize="@dimen/sp_12"
-                        android:visibility="visible" />
+                        android:visibility="visible"
+                        app:font="@{`regular`}" />
                 </RelativeLayout>
 
                 <TextView
