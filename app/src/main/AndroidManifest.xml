@@ -122,6 +122,10 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".views.settings.FAQDetailActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".views.settings.WebViewActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />

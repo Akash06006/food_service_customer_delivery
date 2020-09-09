@@ -363,8 +363,19 @@ HomeFragment : BaseFragment(), SocketInterface, OnMapReadyCallback {
             this, Observer<String>(function =
             fun(it: String?) {
                 when (it) {
-                    "btnViewDirection" -> {
 
+                    "txtAboutHeading" -> {
+                        if (fragmentHomeBinding.txtAbout.visibility == View.VISIBLE) {
+                            fragmentHomeBinding.txtAbout.visibility = View.GONE
+                        } else {
+                            fragmentHomeBinding.txtAbout.visibility = View.VISIBLE
+                        }
+                    }
+                    "btnViewDirection" -> {
+                        val uri =
+                            "http://maps.google.com/maps?saddr=" + GlobalConstants.CURRENT_LAT + "," + GlobalConstants.CURRENT_LONG + "&daddr=" + GlobalConstants.CURRENT_LAT + "," + GlobalConstants.CURRENT_LONG;
+                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+                        startActivity(intent);
                     }
                     "btnOrderHere" -> {
                         val intent = Intent(activity!!, ServicesListActivity::class.java)

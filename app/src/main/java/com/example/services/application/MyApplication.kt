@@ -21,9 +21,13 @@ class MyApplication : MultiDexApplication() {
         MultiDex.install(this)
         Drift.setupDrift(this, kDrift_ClientToken);
         customFontFamily = FontStyle.instance
-        customFontFamily!!.addFont("regular", "Montserrat-Regular_0.ttf")
-        customFontFamily!!.addFont("semibold", "Montserrat-Medium_0.ttf")
-        customFontFamily!!.addFont("bold", "Montserrat-SemiBold_0.ttf")
+        /* customFontFamily!!.addFont("regular", "Montserrat-Regular_0.ttf")
+         customFontFamily!!.addFont("semibold", "Montserrat-Medium_0.ttf")
+         customFontFamily!!.addFont("bold", "Montserrat-SemiBold_0.ttf")*/
+        customFontFamily!!.addFont("regular", "Poppins-Regular.ttf")
+        customFontFamily!!.addFont("semibold", "Poppins-SemiBold.ttf")
+        /*customFontFamily!!.addFont("bold", "Poppins-Bold.ttf")*/
+        customFontFamily!!.addFont("bold", "Poppins-SemiBold.ttf")
         customFontFamily!!.addFont("betty", "Sixty_Nine_Demo.ttf")
     }
 

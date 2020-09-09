@@ -1,6 +1,7 @@
 package com.example.services.adapters
 
 import android.content.Context
+import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.text.TextUtils
@@ -14,7 +15,9 @@ import com.example.services.R
 import com.example.services.constants.GlobalConstants
 import com.example.services.databinding.FaqItemBinding
 import com.example.services.model.faq.FAQListResponse
+import com.example.services.views.home.LandingMainActivity
 import com.example.services.views.notifications.NotificationsListActivity
+import com.example.services.views.settings.FAQDetailActivity
 import com.example.services.views.settings.FAQListActivity
 
 class FAQListAdapter(
@@ -81,7 +84,11 @@ class FAQListAdapter(
         }
 */
         holder.binding.tvNotificationTitle.setOnClickListener {
-            mContext.showDescription(position)
+            // mContext.showDescription(position)
+            val intent = Intent(mContext, FAQDetailActivity::class.java)
+            intent.putExtra("question", jobsList[position].question)
+            intent.putExtra("ans", jobsList[position].answer)
+            mContext.startActivity(intent)
         }
 
 
