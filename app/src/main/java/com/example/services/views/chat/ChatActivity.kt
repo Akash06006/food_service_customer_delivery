@@ -1,5 +1,6 @@
 package com.example.services.views.chat
 
+import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -36,6 +37,9 @@ class ChatActivity: com.example.services.utils.BaseActivity(), ConnectionListene
 
     override fun initViews() {
         chatBinding = viewDataBinding as ActivityChatBinding
+        chatBinding.commonToolBar.imgRight.visibility = View.GONE
+        chatBinding.commonToolBar.imgToolbarText.text =
+            resources.getString(R.string.chat)
         chatList = ArrayList()
         mMessageAdapter = MessageListAdapter(this, chatList, sharedPrefClass)
         chatBinding.reyclerviewMessageList.setLayoutManager(LinearLayoutManager(this))
