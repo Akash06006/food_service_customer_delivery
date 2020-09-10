@@ -15,7 +15,7 @@
     <color name="screenBackgroundColor">#E5E5E5</color>
     <color name="textColor">#979797</color>
     <color name="offerColor">#B77CB4</color>
-    <color name="buttonTextColor">#000000</color>
+    <color name="buttonTextColor">#ffffff</color>
     <color name="colorAccent">#000000</color>
     <color name="colorWhite">#ffffff</color>
     <color name="colorWhite2">#F9F4F3</color>

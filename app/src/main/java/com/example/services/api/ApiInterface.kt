@@ -90,7 +90,7 @@ interface ApiInterface {
     @POST("mobile/address/add")
     fun addAddress(@Body mJsonObject: JsonObject): Call<JsonObject>
 
-    @POST("mobile/rating/staffRating")
+    @POST("mobile/rating/addStaffRating")
     fun addDriverRating(@Body mJsonObject: JsonObject): Call<JsonObject>
 
     @POST("mobile/rating/addCompanyRating")

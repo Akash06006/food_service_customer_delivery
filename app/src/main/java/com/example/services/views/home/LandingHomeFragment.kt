@@ -35,6 +35,7 @@ import com.example.services.R
 import com.example.services.application.MyApplication
 import com.example.services.common.UtilsFunctions
 import com.example.services.common.UtilsFunctions.showToastError
+import com.example.services.common.UtilsFunctions.showToastSuccess
 import com.example.services.constants.GlobalConstants
 import com.example.services.databinding.FragmentHomeLandingBinding
 import com.example.services.maps.FusedLocationClass
@@ -319,7 +320,7 @@ LandingHomeFragment : BaseFragment(), DialogssInterface, CompoundButton.OnChecke
                     val message = response.message
                     when {
                         response.code == 200 -> {
-
+                            showToastSuccess(response.message!!)
                         }
                         else -> message?.let {
                             showToastError(it)
@@ -1072,6 +1073,7 @@ LandingHomeFragment : BaseFragment(), DialogssInterface, CompoundButton.OnChecke
             )
 
             homeViewModel.addDriverRating(mJsonObject)
+            confirmationDialog?.dismiss()
 
         }
 
