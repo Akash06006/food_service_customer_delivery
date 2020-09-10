@@ -9,6 +9,7 @@ data class Body(
     val trending: List<Trending>,
     val cartCategoryType: String,
     val currency: String,
-    val details: Details
+    val details: Details,
+    val gallery: List<Gallery>
 
 )

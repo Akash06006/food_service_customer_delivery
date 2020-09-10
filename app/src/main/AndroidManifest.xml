@@ -107,7 +107,8 @@
         <activity
             android:name=".views.ratingreviews.AddRatingReviewsListActivity"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".views.subcategories.ServicesListActivity"
             android:launchMode="singleTop"

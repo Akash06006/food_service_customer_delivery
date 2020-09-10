@@ -166,6 +166,7 @@ class OrderListAdapter(
         holder.binding!!.btnRate.setOnClickListener {
             val intent = Intent(mContext, AddRatingReviewsListActivity::class.java)
             intent.putExtra("orderId", orderList[position].id.toString())
+            intent.putExtra("from", "list")
             mContext.startActivity(intent)
         }
         holder.binding!!.btnHelp.setOnClickListener {

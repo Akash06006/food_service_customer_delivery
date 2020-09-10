@@ -748,18 +748,21 @@
 
                     <Button
                         android:id="@+id/btnViewDirection"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
                         android:layout_alignParentRight="true"
                         android:layout_alignParentBottom="true"
-                        android:layout_margin="3dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/ic_view_direction_back"
+                        android:layout_margin="15dp"
+                        android:background="@drawable/ic_navigation"
+
                         android:onClick="@{(v) -> homeViewModel.clickListener(v)}"
-                        android:text="@string/view_direction"
+                        android:padding="10dp" />
+
+                    <!-- android:layout_weight="1"
+                     android:text="@string/view_direction"
                         android:textAllCaps="false"
                         android:textColor="@color/viewDirectionColor"
-                        app:font="@{`regular`}" />
+                        app:font="@{`regular`}" -->
                 </RelativeLayout>
 
                 <LinearLayout

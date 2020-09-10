@@ -38,7 +38,7 @@ import com.example.services.viewmodels.ratingreviews.RatingReviewsViewModel
 import com.google.gson.JsonObject
 import com.uniongoods.adapters.AddRatingReviewsListAdapter
 import com.uniongoods.adapters.ImagesListAdapter
-import kotlinx.android.synthetic.main.custom_toast.*
+import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import java.io.File
 import java.io.IOException
@@ -64,9 +64,10 @@ class AddRatingReviewsListActivity : BaseActivity(), DialogssInterface, ChoiceCa
     private val mJsonObject = JsonObject()
     private val RESULT_LOAD_IMAGE = 100
     private val CAMERA_REQUEST = 1888
-    private val companyId = ""
+    private var companyId = ""
     private var profileImage = ""
     var imagesListAdapter: ImagesListAdapter? = null
+    private var imagesParts: Array<MultipartBody.Part?>? = null
     // var ratingReviewInput = ArrayList<RatingReviewListInput>()
     override fun getLayoutId(): Int {
         return R.layout.activity_reviews_list
@@ -116,7 +117,26 @@ class AddRatingReviewsListActivity : BaseActivity(), DialogssInterface, ChoiceCa
             resources.getString(R.string.rating)
         reviewsBinding.reviewsViewModel = reviewsViewModel
         orderId = intent.extras?.get("orderId").toString()
+        val from = intent.extras?.get("from").toString()
 
+        if (from.equals("list")) {
+            if (UtilsFunctions.isNetworkConnected()) {
+                reviewsViewModel.orderDetail(orderId)
+                startProgressDialog()
+            }
+        } else {
+            val comapnyName = intent.extras?.get("name").toString()
+            val image = intent.extras?.get("image").toString()
+            companyId = intent.extras?.get("id").toString()
+            reviewsBinding.txtRestname.setText(comapnyName)
+            //companyId = response.data?.companyId.toString()
+            Glide.with(this).load(image)
+                .into(reviewsBinding.imgRest)
+
+            reviewsBinding.txtItemsRating.visibility = View.GONE
+            reviewsBinding.rvReviews.visibility = View.GONE
+
+        }
         imagesListAdapter = ImagesListAdapter(this, imagesList, this)
         reviewsBinding.rvImages.setHasFixedSize(true)
         linearLayoutManager1.orientation = RecyclerView.HORIZONTAL
@@ -137,10 +157,7 @@ class AddRatingReviewsListActivity : BaseActivity(), DialogssInterface, ChoiceCa
                 )
             )*//*mContext.getResources().getColorStateList(R.color.colorOrange)*//*
         )*/
-        if (UtilsFunctions.isNetworkConnected()) {
-            reviewsViewModel.orderDetail(orderId)
-            startProgressDialog()
-        }
+
         // initRecyclerView()
 
         UtilsFunctions.hideKeyBoard(reviewsBinding.tvNoRecord)
@@ -155,7 +172,7 @@ class AddRatingReviewsListActivity : BaseActivity(), DialogssInterface, ChoiceCa
                             //ratingReviewInput
                             // var ratingReviewInput = RatingReviewListInput("orderId", null)
                             reviewsBinding.txtRestname.setText(response.data?.company?.companyName)
-                           // companyId=response.data?.company?.
+                            companyId = response.data?.companyId.toString()
                             Glide.with(this).load(response.data?.company?.logo1)
                                 .into(reviewsBinding.imgRest)
                             ratingData.orderId = response.data?.id
@@ -164,7 +181,7 @@ class AddRatingReviewsListActivity : BaseActivity(), DialogssInterface, ChoiceCa
                             if (suborders?.size!! > 0) {
                                 for (item in suborders!!) {
                                     val rating = RatingData()
-                                    rating.rating = "0"
+                                    rating.rating = "1"
                                     rating.review = ""
                                     rating.name = item.service?.name
                                     rating.icon = item.service?.icon
@@ -227,24 +244,55 @@ class AddRatingReviewsListActivity : BaseActivity(), DialogssInterface, ChoiceCa
                     "btnSubmit" -> {
 
                         val mHashMap = HashMap<String, RequestBody>()
-                        mHashMap["foodQuantity"] = Utils(this).createPartFromString("0")
-                        mHashMap["foodQuality"] = Utils(this).createPartFromString("0")
-                        mHashMap["packingPres"] = Utils(this).createPartFromString("0")
+                        mHashMap["foodQuality"] =
+                            Utils(this).createPartFromString(reviewsBinding.rbQuality.getRating().toString())
+                        mHashMap["foodQuantity"] =
+                            Utils(this).createPartFromString(reviewsBinding.rbMoneyValue.getRating().toString())
+                        mHashMap["packingPres"] =
+                            Utils(this).createPartFromString(reviewsBinding.rbPackaging.getRating().toString())
 
-                        mHashMap["companyId"] = Utils(this).createPartFromString(ratingData.orderId.toString())
-                        mHashMap["orderId"] = Utils(this).createPartFromString(ratingData.orderId.toString())
+                        mHashMap["companyId"] =
+                            Utils(this).createPartFromString(companyId)
+                        mHashMap["orderId"] =
+                            Utils(this).createPartFromString(ratingData.orderId.toString())
                         mHashMap["rating"] =
                             Utils(this).createPartFromString(reviewsBinding.rBar.getRating().toString())
                         mHashMap["review"] =
                             Utils(this).createPartFromString(reviewsBinding.edtReviews.getText().toString())
 
+                        // mHashMap["rating"] = Utils(this).createPartFromString("0")
+                        //  mHashMap["ratingData"] =Utils(this).createPartFromString(ratingData.ratingData.toString())
 
-                        mHashMap["rating"] = Utils(this).createPartFromString("0")
-                        mHashMap["rating"] = Utils(this).createPartFromString("0")
+                        if (imagesList.size > 0) {
+                            imagesParts = arrayOfNulls<MultipartBody.Part>(imagesList.count())
+                            for (i in 0 until imagesList.count()) {
+                                val f1 = File(imagesList[i])
+                                imagesParts!![i] = Utils(this).prepareFilePart("images", f1)
+
+                            }
+                        }
+                        val contributorsMap: HashMap<String, String> = HashMap()
+                        if (ratingData.ratingData.size > 0) {
+                            for (i in 0 until ratingData.ratingData.count()) {
+                                /*val obj = JsonObject()
+                                obj.addProperty("rating", ratingData.ratingData[i].rating)
+                                obj.addProperty("serviceId", ratingData.ratingData[i].serviceId)*/
+                                contributorsMap["rating[${i}]"] =
+                                    ratingData.ratingData[i].rating.toString()
+                                contributorsMap["serviceId[${i}]"] =
+                                    ratingData.ratingData[i].serviceId.toString()
+
+                            }
+                        }
 
                         if (UtilsFunctions.isNetworkConnected()) {
                             startProgressDialog()
-                            reviewsViewModel.addRatings(ratingData)
+                            reviewsViewModel.addRatings(
+                                ratingData,
+                                imagesParts,
+                                contributorsMap,
+                                mHashMap
+                            )
                         }
 
                     }
@@ -256,7 +304,7 @@ class AddRatingReviewsListActivity : BaseActivity(), DialogssInterface, ChoiceCa
             RatingBar.OnRatingBarChangeListener {
             override fun onRatingChanged(p0: RatingBar?, p1: Float, p2: Boolean) {
                 // Toast.makeText(this, "Given rating is: $p1", Toast.LENGTH_SHORT).show()
-                showToastSuccess("Given rating is: $p1")
+                // showToastSuccess("Given rating is: $p1")
             }
         })
     }

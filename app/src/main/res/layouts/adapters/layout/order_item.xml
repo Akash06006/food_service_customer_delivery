@@ -180,7 +180,9 @@
                         android:paddingLeft="10dp"
                         android:paddingRight="10dp"
                         android:text="@string/rate"
-                        android:textColor="@color/colorWhite" />
+                        android:textAllCaps="false"
+                        android:textColor="@color/colorWhite"
+                        app:font="@{`regular`}" />
 
                     <Button
                         android:id="@+id/btnHelp"
@@ -192,7 +194,9 @@
                         android:paddingLeft="10dp"
                         android:paddingRight="10dp"
                         android:text="@string/help"
-                        android:textColor="@color/colorWhite" />
+                        android:textAllCaps="false"
+                        android:textColor="@color/colorWhite"
+                        app:font="@{`regular`}" />
 
 
                 </LinearLayout>
