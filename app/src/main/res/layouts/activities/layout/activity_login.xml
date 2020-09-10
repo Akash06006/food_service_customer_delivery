@@ -133,6 +133,7 @@
             android:layout_marginTop="@dimen/dp_35"
             android:layout_marginRight="@dimen/dp_20"
             android:background="@drawable/shape_round_stroke"
+            android:backgroundTint="@color/colorPrimary"
             android:elevation="@dimen/dp_10"
             android:onClick="@{(v) -> loginViewModel.clickListener(v)}"
             android:paddingLeft="50dp"

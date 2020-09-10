@@ -18,6 +18,7 @@ import com.example.services.R
 import com.example.services.adapters.FAQListAdapter
 import com.example.services.common.UtilsFunctions
 import com.example.services.databinding.ActivityContactUsBinding
+import com.example.services.model.CommonModel
 import com.example.services.model.faq.FAQListResponse
 import com.example.services.utils.BaseActivity
 import com.example.services.viewmodels.faq.FAQViewModel
@@ -29,6 +30,7 @@ import java.util.regex.Pattern
 class ContactUsActivity : BaseActivity() {
     private val TAG = "AccountsActivityTAG"
     private val wantPermission: String = Manifest.permission.GET_ACCOUNTS
+    private val contactPermission: String = Manifest.permission.READ_CONTACTS
     private val PERMISSION_REQUEST_CODE = 1
     lateinit var contactusBinding: ActivityContactUsBinding
     lateinit var faqViewModel: FAQViewModel
@@ -49,8 +51,8 @@ class ContactUsActivity : BaseActivity() {
         contactusBinding.faqViewModel = faqViewModel
 
 
-        faqViewModel.getFAQList().observe(this,
-            Observer<FAQListResponse> { response ->
+        faqViewModel.addConcernRes().observe(this,
+            Observer<CommonModel> { response ->
                 stopProgressDialog()
                 if (response != null) {
                     val message = response.message
@@ -58,6 +60,7 @@ class ContactUsActivity : BaseActivity() {
                         response.code == 200 -> {
                             contactusBinding.edtQuery.setText("")
                             showToastSuccess(response.message)
+                            finish()
                         }
                         /* response.code == 204 -> {
                              FirebaseFunctions.sendOTP("signup", mJsonObject, this)
@@ -88,12 +91,20 @@ class ContactUsActivity : BaseActivity() {
                     }
                     "btnSubmit" -> {
 
-
-                        if (!checkPermission(wantPermission)) {
-                            requestPermission(wantPermission)
-                        } else {
-                            getEmails()
+                        if (android.os.Build.VERSION.SDK_INT<23 ) {
+                            if (!checkPermission(wantPermission)) {
+                                requestPermission(wantPermission)
+                            } else {
+                                getEmails()
+                            }
+                        }else{
+                            if (!checkPermission(contactPermission)) {
+                                requestPermission(contactPermission)
+                            } else {
+                                getEmails()
+                            }
                         }
+
 
 
                         // finish()
@@ -141,30 +152,30 @@ class ContactUsActivity : BaseActivity() {
     }
 
     private fun checkPermission(permission: String): Boolean {
-        return if (Build.VERSION.SDK_INT >= 23) {
+       // return if (Build.VERSION.SDK_INT >= 23) {
             val result = ContextCompat.checkSelfPermission(this, permission)
-            if (result == PackageManager.PERMISSION_GRANTED) {
+         return   if (result == PackageManager.PERMISSION_GRANTED) {
                 true
             } else {
                 false
             }
-        } else {
+      /* }*/ /*else {
             true
-        }
+        }*/
     }
 
     private fun requestPermission(permission: String) {
-        if (ActivityCompat.shouldShowRequestPermissionRationale(this, permission)) {
+        /*if (ActivityCompat.shouldShowRequestPermissionRationale(this, permission)) {
             Toast.makeText(
                 this, "Get account permission allows us to get your email",
                 Toast.LENGTH_LONG
             ).show()
-        }
+        }*/
         ActivityCompat.requestPermissions(
-            this,
-            arrayOf(permission),
-            PERMISSION_REQUEST_CODE
-        )
+                this,
+                arrayOf(permission),
+                PERMISSION_REQUEST_CODE
+            )
     }
 
     override fun onRequestPermissionsResult(
