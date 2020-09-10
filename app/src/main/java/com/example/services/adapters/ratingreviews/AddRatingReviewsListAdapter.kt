@@ -7,6 +7,7 @@ import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.RatingBar
 import androidx.annotation.NonNull
 import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
@@ -24,11 +25,11 @@ import com.example.services.views.promocode.PromoCodeActivity
 import com.example.services.views.ratingreviews.AddRatingReviewsListActivity
 
 class AddRatingReviewsListAdapter(
-        context: AddRatingReviewsListActivity,
-        addressList: RatingReviewListInput?,
-        var activity: Context
+    context: AddRatingReviewsListActivity,
+    addressList: RatingReviewListInput?,
+    var activity: Context
 ) :
-        RecyclerView.Adapter<AddRatingReviewsListAdapter.ViewHolder>() {
+    RecyclerView.Adapter<AddRatingReviewsListAdapter.ViewHolder>() {
     private val mContext: AddRatingReviewsListActivity
     private var viewHolder: ViewHolder? = null
     private var addressList: RatingReviewListInput?
@@ -41,10 +42,10 @@ class AddRatingReviewsListAdapter(
     @NonNull
     override fun onCreateViewHolder(@NonNull parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = DataBindingUtil.inflate(
-                LayoutInflater.from(parent.context),
-                R.layout.row_add_rate_listing,
-                parent,
-                false
+            LayoutInflater.from(parent.context),
+            R.layout.row_add_rate_listing,
+            parent,
+            false
         ) as RowAddRateListingBinding
         return ViewHolder(binding.root, viewType, binding, mContext, addressList)
     }
@@ -54,21 +55,40 @@ class AddRatingReviewsListAdapter(
         viewHolder = holder
         holder.binding!!.tvServiceName.text = addressList?.ratingData?.get(position)?.name
         holder.binding!!.tvServiceDetail.text = addressList?.ratingData?.get(position)?.review
+        holder.binding.txtPrice.text =
+            GlobalConstants.Currency + "" + addressList?.ratingData?.get(position)?.price
 
-        if (addressList?.ratingData?.get(position)?.rating!!.toFloat() > 0) {
+
+        /*if (addressList?.ratingData?.get(position)?.rating!!.toFloat() > 0) {
             mContext.visibleSubmit()
-        }
+        }*/
         holder.binding!!.rBar.setRating(addressList?.ratingData?.get(position)?.rating!!.toFloat())//setRating(addressList[position].rating?.toFloat())
         Glide.with(mContext)
-                .load(addressList?.ratingData?.get(position)?.icon)
-                //.apply(RequestOptions.bitmapTransform(RoundedCorners(20)))
-                .placeholder(R.drawable.ic_category)
-                .into(holder.binding.ivServiceImage)
-        holder.binding!!.tvAddRating.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(GlobalConstants.COLOR_CODE))/*mContext.getResources().getColorStateList(R.color.colorOrange)*/)
+            .load(addressList?.ratingData?.get(position)?.icon)
+            //.apply(RequestOptions.bitmapTransform(RoundedCorners(20)))
+            .placeholder(R.drawable.ic_category)
+            .into(holder.binding.ivServiceImage)
+        holder.binding!!.tvAddRating.setBackgroundTintList(
+            ColorStateList.valueOf(
+                Color.parseColor(
+                    GlobalConstants.COLOR_CODE
+                )
+            )/*mContext.getResources().getColorStateList(R.color.colorOrange)*/
+        )
 
         holder.binding!!.tvAddRating.setOnClickListener {
             mContext.addRating(position/*, holder.binding!!.imgCart.getText().toString()*/)
         }
+
+        holder.binding!!.rBar.setOnRatingBarChangeListener(object :
+            RatingBar.OnRatingBarChangeListener {
+            override fun onRatingChanged(p0: RatingBar?, p1: Float, p2: Boolean) {
+                //Toast.makeText(this@MainActivity, "Given rating is: $p1", Toast.LENGTH_SHORT).show()
+                // mContext.showToastSuccess("Given rating is: $p1")
+                mContext.updateRating(position, p1.toString())
+
+            }
+        })
     }
 
     override fun getItemCount(): Int {
@@ -82,11 +102,11 @@ class AddRatingReviewsListAdapter(
     }
 
     inner class ViewHolder//This constructor would switch what to findViewBy according to the type of viewType
-    (
-            v: View, val viewType: Int, //These are the general elements in the RecyclerView
-            val binding: RowAddRateListingBinding?,
-            mContext: AddRatingReviewsListActivity,
-            addressList: RatingReviewListInput?
+        (
+        v: View, val viewType: Int, //These are the general elements in the RecyclerView
+        val binding: RowAddRateListingBinding?,
+        mContext: AddRatingReviewsListActivity,
+        addressList: RatingReviewListInput?
     ) : RecyclerView.ViewHolder(v) {
         /*init {
             binding.linAddress.setOnClickListener {

@@ -323,6 +323,8 @@ abstract class BaseActivity : AppCompatActivity() {
                     PackageManager.PERMISSION_GRANTED
                 perms[Manifest.permission.ACCESS_FINE_LOCATION] = PackageManager.PERMISSION_GRANTED
                 perms[Manifest.permission.RECORD_AUDIO] = PackageManager.PERMISSION_GRANTED
+               // perms[Manifest.permission.GET_ACCOUNTS] = PackageManager.PERMISSION_GRANTED
+                perms[Manifest.permission.CALL_PHONE] = PackageManager.PERMISSION_GRANTED
                 // Fill with actual results from user
                 if (grantResults.isNotEmpty()) {
                     for (i in permissions.indices)
@@ -332,6 +334,8 @@ abstract class BaseActivity : AppCompatActivity() {
                         && perms[Manifest.permission.WRITE_EXTERNAL_STORAGE] == PackageManager.PERMISSION_GRANTED
                         && perms[Manifest.permission.ACCESS_FINE_LOCATION] == PackageManager.PERMISSION_GRANTED
                         && perms[Manifest.permission.RECORD_AUDIO] == PackageManager.PERMISSION_GRANTED
+                       /* && perms[Manifest.permission.GET_ACCOUNTS] == PackageManager.PERMISSION_GRANTED*/
+                        && perms[Manifest.permission.CALL_PHONE] == PackageManager.PERMISSION_GRANTED
                     ) {
                         // process the normal flow
                         //else any one or both the permissions are not granted
@@ -354,7 +358,16 @@ abstract class BaseActivity : AppCompatActivity() {
                             || ActivityCompat.shouldShowRequestPermissionRationale(
                                 this,
                                 Manifest.permission.RECORD_AUDIO
+                            ) /*|| ActivityCompat.shouldShowRequestPermissionRationale(
+                                this,
+                                Manifest.permission.GET_ACCOUNTS
+                            )*/
+
+                            || ActivityCompat.shouldShowRequestPermissionRationale(
+                                this,
+                                Manifest.permission.CALL_PHONE
                             )
+
                         ) {
                             showDialogOK("Service Permissions are required for this app",
                                 DialogInterface.OnClickListener { dialog, which ->
@@ -410,12 +423,20 @@ abstract class BaseActivity : AppCompatActivity() {
         val permissionRecordAudio =
             ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
 
+        /*val permissionGetAccounts =
+            ContextCompat.checkSelfPermission(this, Manifest.permission.GET_ACCOUNTS)*/
+
+        val permissionCalls =
+            ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE)
 
         val listPermissionsNeeded = ArrayList<String>()
 
         if (camerapermission != PackageManager.PERMISSION_GRANTED) {
             listPermissionsNeeded.add(Manifest.permission.CAMERA)
         }
+       /* if (permissionGetAccounts != PackageManager.PERMISSION_GRANTED) {
+            listPermissionsNeeded.add(Manifest.permission.GET_ACCOUNTS)
+        }*/
         if (writepermission != PackageManager.PERMISSION_GRANTED) {
             listPermissionsNeeded.add(Manifest.permission.WRITE_EXTERNAL_STORAGE)
         }
@@ -425,7 +446,7 @@ abstract class BaseActivity : AppCompatActivity() {
         if (permissionRecordAudio != PackageManager.PERMISSION_GRANTED) {
             listPermissionsNeeded.add(Manifest.permission.RECORD_AUDIO)
         }
-        if (permissionRecordAudio != PackageManager.PERMISSION_GRANTED) {
+        if (permissionCalls != PackageManager.PERMISSION_GRANTED) {
             listPermissionsNeeded.add(Manifest.permission.CALL_PHONE)
         }
         if (!listPermissionsNeeded.isEmpty()) {

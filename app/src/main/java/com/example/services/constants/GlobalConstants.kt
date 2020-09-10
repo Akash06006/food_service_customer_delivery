@@ -147,6 +147,12 @@ object GlobalConstants {
     @JvmStatic
     var CURRENT_LONG = "-73.9920178"
     @JvmStatic
+    var TERMS_CONDITION = "TERMS_CONDITION"
+    @JvmStatic
+    var PRIVACY_POLICY = "PRIVACY_POLICY"
+    @JvmStatic
+    var ABOUT_US = "ABOUT_US"
+    @JvmStatic
     var ROOM_ID = "roomID"
 
 }

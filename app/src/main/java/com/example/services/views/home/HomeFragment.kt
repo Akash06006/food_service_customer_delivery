@@ -58,6 +58,7 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
@@ -195,6 +196,14 @@ HomeFragment : BaseFragment(), SocketInterface, OnMapReadyCallback {
                             } else {
                                 fragmentHomeBinding.imgVendorImage.visibility = View.GONE
                             }
+                            if (!TextUtils.isEmpty(details?.document?.aboutUs)) {
+                                fragmentHomeBinding.txtAboutHeading.visibility = View.VISIBLE
+                                fragmentHomeBinding.txtAboutHeading.setText("About " + details?.companyName + "'s")
+                                fragmentHomeBinding.txtAbout.setText(Html.fromHtml(details?.document?.aboutUs).toString())
+                            } else {
+                                fragmentHomeBinding.txtAboutHeading.visibility = View.GONE
+                            }
+
                             phoneNumber = "+" + details?.countryCode + "" + details?.phoneNumber
                             fragmentHomeBinding.txtMobNumber.setText(details?.countryCode + "-" + details?.phoneNumber)
                             fragmentHomeBinding.txtEmail.setText(details?.email)
@@ -227,65 +236,7 @@ HomeFragment : BaseFragment(), SocketInterface, OnMapReadyCallback {
                                 }
 
                             }
-                            if (!TextUtils.isEmpty(details?.foodQualityRating) && details?.foodQualityRating!!.contains(
-                                    "."
-                                )
-                            ) {
-                                var quality = details?.foodQualityRating?.split(".")
-                                var qua = quality!![0].toInt()
-                                fragmentHomeBinding.rbQuality.setRating(
-                                    qua,
-                                    true
-                                )
-                            } else {
-                                if (details?.foodQualityRating!!.toInt() > 0) {
-                                    fragmentHomeBinding.rbQuality.setRating(
-                                        details?.foodQualityRating!!.toInt(),
-                                        true
-                                    )
-                                }
-                            }
 
-
-                            if (!TextUtils.isEmpty(details?.packingPresRating) && details?.packingPresRating!!.contains(
-                                    "."
-                                )
-                            ) {
-                                var quality = details?.packingPresRating?.split(".")
-                                var qua = quality!![0].toInt()
-                                fragmentHomeBinding.rbPacking.setRating(
-                                    qua,
-                                    true
-                                )
-                            } else {
-                                if (details?.packingPresRating!!.toInt() > 0) {
-                                    fragmentHomeBinding.rbPacking.setRating(
-                                        details?.packingPresRating!!.toInt(),
-                                        true
-                                    )
-                                }
-
-                            }
-
-
-                            if (!TextUtils.isEmpty(details?.foodQuantityRating) && details?.foodQuantityRating!!.contains(
-                                    "."
-                                )
-                            ) {
-                                var quality = details?.foodQuantityRating?.split(".")
-                                var qua = quality!![0].toInt()
-                                fragmentHomeBinding.rbQunatity.setRating(
-                                    qua,
-                                    true
-                                )
-                            } else {
-                                if (details?.foodQuantityRating!!.toInt() > 0) {
-                                    fragmentHomeBinding.rbQunatity.setRating(
-                                        details?.foodQuantityRating!!.toInt(),
-                                        true
-                                    )
-                                }
-                            }
 
                             initRecyclerView()
                             if (bannersList.size > 0) {
@@ -373,7 +324,7 @@ HomeFragment : BaseFragment(), SocketInterface, OnMapReadyCallback {
                     }
                     "btnViewDirection" -> {
                         val uri =
-                            "http://maps.google.com/maps?saddr=" + GlobalConstants.CURRENT_LAT + "," + GlobalConstants.CURRENT_LONG + "&daddr=" + GlobalConstants.CURRENT_LAT + "," + GlobalConstants.CURRENT_LONG;
+                            "http://maps.google.com/maps?saddr=" + GlobalConstants.CURRENT_LAT + "," + GlobalConstants.CURRENT_LONG + "&daddr=" + details?.latitude + "," + details?.longitude
                         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri));
                         startActivity(intent);
                     }
@@ -816,7 +767,13 @@ HomeFragment : BaseFragment(), SocketInterface, OnMapReadyCallback {
             java.lang.Double.parseDouble(GlobalConstants.CURRENT_LAT),
             java.lang.Double.parseDouble(GlobalConstants.CURRENT_LONG)
         )
-        mMap.addMarker(MarkerOptions().position(myLocation).title("Marker in India"))
+        mMap.addMarker(
+            MarkerOptions().position(myLocation).icon(
+                BitmapDescriptorFactory.defaultMarker(
+                    BitmapDescriptorFactory.HUE_ORANGE
+                )
+            ).title("Marker in India")
+        )
         mMap.moveCamera(CameraUpdateFactory.newCameraPosition(mCameraPosition))
         mMap.uiSettings.isZoomControlsEnabled = true
     }

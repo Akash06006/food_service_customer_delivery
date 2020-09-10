@@ -35,6 +35,7 @@ import com.example.services.R
 import com.example.services.application.MyApplication
 import com.example.services.common.UtilsFunctions
 import com.example.services.common.UtilsFunctions.showToastError
+import com.example.services.common.UtilsFunctions.showToastSuccess
 import com.example.services.constants.GlobalConstants
 import com.example.services.databinding.FragmentHomeLandingBinding
 import com.example.services.maps.FusedLocationClass
@@ -133,6 +134,7 @@ LandingHomeFragment : BaseFragment(), DialogssInterface, CompoundButton.OnChecke
     override fun initView() {
         var cartCategoryTypeId: String? = null
         //showPaymentSuccessDialog()
+
         fragmentHomeBinding = viewDataBinding as FragmentHomeLandingBinding
         homeViewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
         fragmentHomeBinding.homeViewModel = homeViewModel
@@ -156,8 +158,13 @@ LandingHomeFragment : BaseFragment(), DialogssInterface, CompoundButton.OnChecke
                     val message = response.message
                     when {
                         response.code == 200 -> {
+                            //showDeliveryBoyRatingDialog()
                             // fragmentHomeBinding.textMarquee.isSelected = true
                             // GlobalConstants.Currency = response.body.currency
+
+                            if (!TextUtils.isEmpty(response.data?.completedorder?.empId)) {
+                                showDeliveryBoyRatingDialog(response.data?.completedorder)
+                            }
                             cartCategoryTypeId = response.data?.cartCompanyType
                             if (TextUtils.isEmpty(cartCategoryTypeId)) {
                                 SharedPrefClass().putObject(
@@ -306,6 +313,22 @@ LandingHomeFragment : BaseFragment(), DialogssInterface, CompoundButton.OnChecke
                 }
             })
 
+        homeViewModel.getDriverRatingRes().observe(this,
+            Observer<CommonModel> { response ->
+                baseActivity.stopProgressDialog()
+                if (response != null) {
+                    val message = response.message
+                    when {
+                        response.code == 200 -> {
+                            showToastSuccess(response.message!!)
+                        }
+                        else -> message?.let {
+                            showToastError(it)
+                            fragmentHomeBinding.gvServices.visibility = View.GONE
+                        }
+                    }
+                }
+            })
 
 
 
@@ -704,8 +727,8 @@ LandingHomeFragment : BaseFragment(), DialogssInterface, CompoundButton.OnChecke
                     } else {
                         currentLat = location.latitude.toString()
                         currentLong = location.longitude.toString()
-                        //GlobalConstants.CURRENT_LAT = currentLat
-                        //GlobalConstants.CURRENT_LONG = currentLong
+                        GlobalConstants.CURRENT_LAT = currentLat
+                        GlobalConstants.CURRENT_LONG = currentLong
                         if (UtilsFunctions.isNetworkConnected()) {
                             // baseActivity.startProgressDialog()
                             homeViewModel.getCategories(
@@ -785,8 +808,8 @@ LandingHomeFragment : BaseFragment(), DialogssInterface, CompoundButton.OnChecke
             val mLastLocation: Location = locationResult.lastLocation
             currentLat = mLastLocation.latitude.toString()
             currentLong = mLastLocation.longitude.toString()
-            //GlobalConstants.CURRENT_LAT = currentLat
-            //GlobalConstants.CURRENT_LONG = currentLong
+            GlobalConstants.CURRENT_LAT = currentLat
+            GlobalConstants.CURRENT_LONG = currentLong
             if (UtilsFunctions.isNetworkConnected()) {
                 // baseActivity.startProgressDialog()
                 homeViewModel.getCategories(
@@ -996,5 +1019,73 @@ LandingHomeFragment : BaseFragment(), DialogssInterface, CompoundButton.OnChecke
         txtPrevOrdered?.setBackgroundTintList(resources.getColorStateList(R.color.colorGreyLight))
 
     }
+
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    private fun showDeliveryBoyRatingDialog(completedorder: LandingResponse.CompletedOrder?) {
+        confirmationDialog = Dialog(activity, R.style.transparent_dialog)
+        confirmationDialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
+
+
+        confirmationDialog?.setContentView(R.layout.add_delivery_rating_dialog)
+        confirmationDialog?.setCancelable(false)
+
+        confirmationDialog?.window!!.setLayout(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.MATCH_PARENT
+        )
+        confirmationDialog?.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        val imgCross = confirmationDialog?.findViewById<ImageView>(R.id.imgCross)
+        val imgUser = confirmationDialog?.findViewById<ImageView>(R.id.user_img)
+
+        val txtUserName = confirmationDialog?.findViewById<TextView>(R.id.txtUserName)
+        val rbRatings = confirmationDialog?.findViewById<RatingBar>(R.id.rb_ratings)
+        val etReview = confirmationDialog?.findViewById<EditText>(R.id.et_review)
+        val btnSubmit = confirmationDialog?.findViewById<Button>(R.id.btnSubmit)
+        val rlBottom = confirmationDialog?.findViewById<RelativeLayout>(R.id.rlBottom)
+
+        val animation = AnimationUtils.loadAnimation(activity!!, R.anim.anim)
+        animation.setDuration(1000)
+        rlBottom?.setAnimation(animation)
+        rlBottom?.animate()
+        animation.start()
+
+        txtUserName?.setText(completedorder?.firstName + " " + completedorder?.lastName)
+
+        Glide.with(activity!!).load(completedorder?.image).placeholder(R.drawable.ic_person)
+            .into(imgUser!!)
+        btnSubmit?.setOnClickListener {
+
+            val mJsonObject = JsonObject()
+            mJsonObject.addProperty(
+                "companyId", completedorder?.companyId
+            )
+            mJsonObject.addProperty(
+                "rating", rbRatings?.getRating()
+            )
+            mJsonObject.addProperty(
+                "review", etReview?.getText().toString()
+            )
+            mJsonObject.addProperty(
+                "orderId", completedorder?.orderId
+            )
+            mJsonObject.addProperty(
+                "empId", completedorder?.empId
+            )
+
+            homeViewModel.addDriverRating(mJsonObject)
+            confirmationDialog?.dismiss()
+
+        }
+
+        imgCross?.setOnClickListener {
+            confirmationDialog?.dismiss()
+
+        }
+        if (!confirmationDialog?.isShowing()!!) {
+            confirmationDialog?.show()
+        }
+
+    }
+
 
 }

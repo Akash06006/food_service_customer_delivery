@@ -1,8 +1,6 @@
 package com.uniongoods.adapters
 
 import android.content.Intent
-import android.content.res.ColorStateList
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,12 +14,11 @@ import com.example.services.constants.GlobalConstants
 import com.example.services.databinding.OrderItemBinding
 import com.example.services.model.orders.OrdersListResponse
 import com.example.services.sharedpreference.SharedPrefClass
-import com.example.services.socket.DriverTrackingActivity
 import com.example.services.utils.BaseActivity
 import com.example.services.utils.Utils
 import com.example.services.views.orders.OrdersDetailActivity
 import com.example.services.views.orders.OrdersListActivity
-import com.google.gson.JsonObject
+import com.example.services.views.ratingreviews.AddRatingReviewsListActivity
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -34,11 +31,11 @@ class OrderListAdapter(
     private val mContext: BaseActivity
     private val orderListActivity: OrdersListActivity?
     private var viewHolder: ViewHolder? = null
-    private var addressList: ArrayList<OrdersListResponse.Body>
+    private var orderList: ArrayList<OrdersListResponse.Body>
 
     init {
         this.mContext = context
-        this.addressList = addressList
+        this.orderList = addressList
         orderListActivity = activity
     }
 
@@ -50,19 +47,19 @@ class OrderListAdapter(
             parent,
             false
         ) as OrderItemBinding
-        return ViewHolder(binding.root, viewType, binding, mContext, addressList)
+        return ViewHolder(binding.root, viewType, binding, mContext, orderList)
     }
 
     override fun onBindViewHolder(@NonNull holder: ViewHolder, position: Int) {
         viewHolder = holder
         holder.binding!!.tvOrderOn.text = Utils(mContext).getDate(
             "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'",
-            addressList[position].createdAt,
+            orderList[position].createdAt,
             "HH:mm yyyy-MM-dd"
         )
         holder.binding!!.tvServiceOn.text = Utils(mContext).getDate(
             "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'",
-            addressList[position].serviceDateTime,
+            orderList[position].serviceDateTime,
             "HH:mm yyyy-MM-dd"
         )
 
@@ -87,21 +84,20 @@ class OrderListAdapter(
                 mContext.resources.getString(R.string.booked_on)
         }
 
-        holder.binding!!.tvTotal.setText(GlobalConstants.Currency + "" + addressList[position].totalOrderPrice)
+        holder.binding!!.tvTotal.setText(GlobalConstants.Currency + "" + orderList[position].totalOrderPrice)
 ////0-Pending/Not Confirmed, 1-> Confirmed , 2->Cancelled , 3->Processing,4//cancelled by company, 5->Completed
-        if (addressList[position].cancellable.equals("true")) {
+        if (orderList[position].cancellable.equals("true")) {
             holder.binding!!.tvCancel.setText("Cancel Order"/*addressList[position].progressStatus*/)
             holder.binding!!.tvCancel.isEnabled = true
         } else {
             //if () {
-            holder.binding!!.tvCancel.setText(addressList[position].orderStatus?.statusName)
+            holder.binding!!.tvCancel.setText(orderList[position].orderStatus?.statusName)
             holder.binding!!.tvCancel.isEnabled = true
             holder.binding!!.tvCancel.setBackgroundTintList(
                 mContext.getResources().getColorStateList(
                     R.color.colorStatus
                 )
             )
-
 
 
             // }
@@ -152,33 +148,40 @@ class OrderListAdapter(
             }*/
 
 
-
-
         }
 
 
 
         holder.binding!!.serviceItem.setOnClickListener {
-//            if (orderListActivity != null) {
+            //            if (orderListActivity != null) {
 //                orderListActivity.callDetailActivity(position)
 //            }
-            addressList[position].id.toString()
+            orderList[position].id.toString()
             val intent = Intent(mContext, OrdersDetailActivity::class.java)
-            intent.putExtra("orderId", addressList[position].id.toString())
+            intent.putExtra("orderId", orderList[position].id.toString())
             mContext.startActivity(intent)
+        }
+
+        holder.binding!!.btnRate.setOnClickListener {
+            val intent = Intent(mContext, AddRatingReviewsListActivity::class.java)
+            intent.putExtra("orderId", orderList[position].id.toString())
+            mContext.startActivity(intent)
+        }
+        holder.binding!!.btnHelp.setOnClickListener {
+            mContext.showToastSuccess("Open Chat")
         }
 
         holder.binding!!.tvCancel.setOnClickListener {
             if (orderListActivity != null) {
 
-                if (addressList[position].cancellable.equals("true")) {
+                if (orderList[position].cancellable.equals("true")) {
                     if (orderListActivity != null)
                         orderListActivity.cancelOrder(position)
                 } else {
                     if (orderListActivity != null)
                         orderListActivity!!.completeOrder(position)
                 }
-
+                holder.binding.llButtons.visibility = View.GONE
                 /*val mJsonObjectStartJob = JsonObject()
                 mJsonObjectStartJob.addProperty(
                     "orderId", addressList[position].id
@@ -199,6 +202,8 @@ class OrderListAdapter(
                 val intent = Intent(mContext, DriverTrackingActivity::class.java)
                 intent.putExtra("data", mJsonObjectStartJob.toString())
                 mContext.startActivity(intent)*/
+            } else {
+                holder.binding.llButtons.visibility = View.VISIBLE
             }
 
 
@@ -211,7 +216,7 @@ class OrderListAdapter(
             holder.binding!!.tvCancel.visibility = View.VISIBLE
         }
         val orderListAdapter =
-            OrderServicesListAdapter(mContext, addressList[position].suborders, mContext)
+            OrderServicesListAdapter(mContext, orderList[position].suborders, mContext)
         val linearLayoutManager = LinearLayoutManager(mContext)
         linearLayoutManager.orientation = RecyclerView.VERTICAL
         holder.binding!!.rvOrderService.layoutManager = linearLayoutManager
@@ -233,7 +238,7 @@ class OrderListAdapter(
     }
 
     override fun getItemCount(): Int {
-        return addressList.count()
+        return orderList.count()
     }
 
     inner class ViewHolder//This constructor would switch what to findViewBy according to the type of viewType

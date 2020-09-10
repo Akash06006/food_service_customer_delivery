@@ -18,6 +18,7 @@ class HomeViewModel : BaseViewModel() {
     private var subServicesList = MutableLiveData<CategoriesListResponse>()
     private var clearCart = MutableLiveData<CommonModel>()
     private var addCompanyRating = MutableLiveData<CommonModel>()
+    private var addDriverRating = MutableLiveData<CommonModel>()
     /*private var jobsHistoryResponse = MutableLiveData<JobsResponse>()
     private var acceptRejectJob = MutableLiveData<CommonModel>()
     private var startCompleteJob = MutableLiveData<CommonModel>()*/
@@ -27,7 +28,9 @@ class HomeViewModel : BaseViewModel() {
             categoriesList = homeRepository.getCategories("", "", "", "")
             subServicesList = homeRepository.getSubServices("", "")
             clearCart = homeRepository.clearCart("")
+
             addCompanyRating = homeRepository.addComapnyRating(null)
+            addDriverRating = homeRepository.addDriverRating(null)
         }
 
     }
@@ -46,6 +49,10 @@ class HomeViewModel : BaseViewModel() {
 
     fun getComapnyRatingRes(): LiveData<CommonModel> {
         return addCompanyRating
+    }
+
+    fun getDriverRatingRes(): LiveData<CommonModel> {
+        return addDriverRating
     }
 
     override fun isLoading(): LiveData<Boolean> {
@@ -93,6 +100,15 @@ class HomeViewModel : BaseViewModel() {
     fun addComapnyRating(s: JsonObject) {
         if (UtilsFunctions.isNetworkConnected()) {
             clearCart = homeRepository.addComapnyRating(s)
+            mIsUpdating.postValue(true)
+        }
+
+    }
+
+
+    fun addDriverRating(s: JsonObject) {
+        if (UtilsFunctions.isNetworkConnected()) {
+            clearCart = homeRepository.addDriverRating(s)
             mIsUpdating.postValue(true)
         }
 

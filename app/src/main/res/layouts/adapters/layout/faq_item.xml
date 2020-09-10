@@ -51,7 +51,8 @@
                 android:text="Test "
                 android:textAllCaps="false"
                 android:textColor="@color/colorBlack"
-                android:textSize="@dimen/sp_16" />
+                android:textSize="@dimen/sp_16"
+                app:font="@{`regular`}" />
 
             <View
                 android:layout_width="match_parent"
@@ -72,7 +73,8 @@
                 android:textAllCaps="false"
                 android:textColor="@color/list_text_color"
                 android:textSize="@dimen/sp_14"
-                android:visibility="gone" />
+                android:visibility="gone"
+                app:font="@{`regular`}" />
 
         </RelativeLayout>
         <!-- </androidx.cardview.widget.CardView>-->

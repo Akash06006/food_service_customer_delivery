@@ -420,6 +420,14 @@
     <string name="order_from_here">Order From Here</string>
     <string name="view_direction">View Direction</string>
     <string name="food_cats">Food Categories</string>
+    <string name="rate">Rate</string>
+    <string name="help">help</string>
+
+    <string name="add_items_rating">Add items Rating</string>
+    <string name="add_rest_rating">Add Restaurant Rating</string>
+    <string name="add_images">Add Images</string>
+    <string name="write_thoughts">Write youer thoughts</string>
+    <string name="review_rating">Reviews &amp; Rating</string>
     <string name="folder">Folder</string>
     <string name="gallery_select_title_msg">Tap to select</string>
 </resources>
