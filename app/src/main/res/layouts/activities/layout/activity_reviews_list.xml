@@ -93,7 +93,6 @@
                     android:id="@+id/rv_reviews"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_above="@+id/btnSubmit"
                     android:layout_below="@+id/txtItemsRating"
                     android:layout_marginTop="5dp"
                     android:padding="@dimen/dp_5" />
@@ -176,11 +175,107 @@
                             </RelativeLayout>
                         </LinearLayout>
 
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:gravity="center_vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="10dp"
+                                android:text="@string/quality"
+                                android:textColor="@color/purple"
+                                android:textSize="15sp"
+                                app:font="@{`regular`}" />
+
+                            <RatingBar
+                                android:id="@+id/rbQuality"
+                                android:layout_width="wrap_content"
+                                android:layout_height="44dp"
+                                android:layout_below="@+id/tv_service_name"
+                                android:layout_alignParentRight="true"
+                                android:layout_marginRight="-5dp"
+                                android:numStars="5"
+                                android:rating="1"
+                                android:scaleX=".5"
+                                android:scaleY=".5"
+                                android:stepSize="1"
+                                android:theme="@style/RatingBar"
+                                tools:ignore="UnusedAttribute" />
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="10dp"
+                                android:text="Packing"
+                                android:textColor="@color/purple"
+                                android:textSize="15sp"
+                                app:font="@{`regular`}" />
+
+                            <RatingBar
+                                android:id="@+id/rbPackaging"
+                                android:layout_width="wrap_content"
+                                android:layout_height="44dp"
+                                android:layout_alignParentRight="true"
+                                android:layout_marginRight="-5dp"
+                                android:numStars="5"
+                                android:rating="1"
+                                android:scaleX=".5"
+                                android:scaleY=".5"
+                                android:stepSize="1"
+                                android:theme="@style/RatingBar"
+                                tools:ignore="UnusedAttribute" />
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="10dp"
+                                android:text="Value for money"
+                                android:textColor="@color/purple"
+                                android:textSize="15sp"
+                                app:font="@{`regular`}" />
+
+                            <RatingBar
+                                android:id="@+id/rbMoneyValue"
+                                android:layout_width="wrap_content"
+                                android:layout_height="44dp"
+                                android:layout_alignParentRight="true"
+                                android:layout_marginRight="-5dp"
+                                android:gravity="end"
+                                android:numStars="5"
+                                android:rating="1"
+                                android:scaleX=".5"
+                                android:scaleY=".5"
+                                android:stepSize="1"
+                                android:theme="@style/RatingBar"
+                                tools:ignore="UnusedAttribute" />
+                        </RelativeLayout>
+
                         <EditText
                             android:id="@+id/edtReviews"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_margin="10dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginBottom="10dp"
                             android:background="@drawable/shape_back"
                             android:gravity="start"
                             android:hint="@string/write_thoughts"

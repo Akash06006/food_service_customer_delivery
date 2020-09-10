@@ -12,7 +12,9 @@ import com.example.services.model.ratnigreviews.RatingReviewListInput
 import com.example.services.model.ratnigreviews.ReviewsListResponse
 import com.example.services.repositories.ratingreviews.RatingReviewsRepository
 import com.example.services.viewmodels.BaseViewModel
-import com.google.android.gms.common.internal.service.Common
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import java.util.HashMap
 
 class RatingReviewsViewModel : BaseViewModel() {
     private var data: MutableLiveData<LoginResponse>? = null
@@ -30,7 +32,12 @@ class RatingReviewsViewModel : BaseViewModel() {
         if (UtilsFunctions.isNetworkConnectedWithoutToast()) {
             reviewsList = ratingReviewsRepository.reviewsListList("", "")
             orderDetail = ratingReviewsRepository.getOrderDetail("")
-            ratingReview = ratingReviewsRepository.addRatings(null)
+            ratingReview = ratingReviewsRepository.addRatings(
+                null,
+                null,
+                null,
+                null
+            )
 
         }
 
@@ -76,9 +83,14 @@ class RatingReviewsViewModel : BaseViewModel() {
 
     }
 
-    fun addRatings(params: RatingReviewListInput) {
+    fun addRatings(
+        params: RatingReviewListInput,
+        imagesParts: Array<MultipartBody.Part?>?,
+        contributorsMap: HashMap<String, String>,
+        mHashMap: HashMap<String, RequestBody>
+    ) {
         if (UtilsFunctions.isNetworkConnected()) {
-            ratingReview = ratingReviewsRepository.addRatings(params)
+            ratingReview = ratingReviewsRepository.addRatings(params,imagesParts,contributorsMap,mHashMap)
             mIsUpdating.postValue(true)
         }
 

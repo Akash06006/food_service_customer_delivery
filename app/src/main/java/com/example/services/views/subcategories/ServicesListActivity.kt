@@ -43,7 +43,6 @@ import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.gson.JsonObject
 import com.uniongoods.adapters.CatsListAdapter
-import com.uniongoods.adapters.DashboardSubCatsRecyclerAdapter
 import com.uniongoods.adapters.ServicesListAdapter
 import com.uniongoods.adapters.SubCategoriesFilterListAdapter
 import java.lang.Double

@@ -9,16 +9,15 @@ import com.example.services.api.ApiService
 import com.example.services.application.MyApplication
 import com.example.services.common.UtilsFunctions
 import com.example.services.model.CommonModel
-import com.example.services.model.address.AddressListResponse
-import com.example.services.model.address.AddressResponse
-import com.example.services.model.cart.CartListResponse
-import com.example.services.model.fav.FavListResponse
 import com.example.services.model.orders.OrdersDetailResponse
 import com.example.services.model.ratnigreviews.RatingReviewListInput
 import com.example.services.model.ratnigreviews.ReviewsListResponse
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonObject
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Response
+import java.util.HashMap
 
 class RatingReviewsRepository {
     private var data1: MutableLiveData<ReviewsListResponse>? = null
@@ -99,7 +98,12 @@ class RatingReviewsRepository {
 
     }
 
-    fun addRatings(id: RatingReviewListInput?): MutableLiveData<CommonModel> {
+    fun addRatings(
+        id: RatingReviewListInput?,
+        imagesParts: Array<MultipartBody.Part?>?,
+        contributorsMap: HashMap<String, String>?,
+        mHashMap: HashMap<String, RequestBody>?
+    ): MutableLiveData<CommonModel> {
         if (id != null) {
             val mApiService = ApiService<JsonObject>()
             mApiService.get(
@@ -124,7 +128,8 @@ class RatingReviewsRepository {
                         data3!!.postValue(null)
                     }
 
-                }, ApiClient.getApiInterface().addRatings(id)
+                },
+                ApiClient.getApiInterface().addRatings(/*id*/mHashMap, imagesParts, contributorsMap)
             )
 
         }

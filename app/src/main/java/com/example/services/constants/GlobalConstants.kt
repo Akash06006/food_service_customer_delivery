@@ -151,4 +151,9 @@ object GlobalConstants {
     @JvmStatic
     var ABOUT_US = "ABOUT_US"
 
+    @JvmStatic
+    var REST_LAT = "REST_LAT"
+    @JvmStatic
+    var REST_LONG = "ABOUT_US"
+
 }

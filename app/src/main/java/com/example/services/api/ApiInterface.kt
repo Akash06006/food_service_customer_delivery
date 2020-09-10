@@ -1,6 +1,5 @@
 package com.example.services.api
 
-import com.example.services.model.ratnigreviews.RatingReviewListInput
 import com.google.gson.JsonObject
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -22,12 +21,6 @@ interface ApiInterface {
                 RequestBody>, @Part image: MultipartBody.Part?
     ): Call<JsonObject>
 
-    @Multipart
-    @POST("mobile/profile/updateprofile")
-    fun callUpdateProfile(
-        @PartMap mHashMap: HashMap<String,
-                RequestBody>, @Part image: MultipartBody.Part?
-    ): Call<JsonObject>
 
     @Headers("Content-Type: application/json")
     @POST("checkPhoneNumber/")
@@ -129,9 +122,32 @@ interface ApiInterface {
     @GET("mobile/orders/detail/{id}")
     fun orderDetail(@Path("id") id: String): Call<JsonObject>
 
-    @POST("mobile/rating/addRating")
-    fun addRatings(@Body mJsonObject: RatingReviewListInput): Call<JsonObject>
 
+    /* @POST("mobile/rating/addRating")
+    fun addRatings(@Body mJsonObject: RatingReviewListInput): Call<JsonObject>*/
+
+
+    @Multipart
+    @POST("mobile/rating/addRating")
+    fun addRatings(
+        @PartMap partMap: HashMap<String, RequestBody>?, @Part imagesParts: Array<MultipartBody.Part?>?,
+        @PartMap contributorsMap: HashMap<String, String>?
+    ): Call<JsonObject>
+
+    @Multipart
+    @POST("mobile/profile/updateprofile")
+    fun callUpdateProfile(
+        @PartMap mHashMap: HashMap<String,
+                RequestBody>, @Part image: MultipartBody.Part?
+    ): Call<JsonObject>
+
+    /* @Multipart
+     @POST("service/updateServiceEntry")
+     fun callUpdateService(
+         @PartMap mHashMap: HashMap<String,
+                 RequestBody>, @Part image: MultipartBody.Part?
+     ): Call<JsonObject>*/
+///api/mobile/rating/addRating
     //    {id}
 //service_id
     @Multipart

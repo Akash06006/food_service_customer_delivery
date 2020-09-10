@@ -30,7 +30,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -48,11 +47,8 @@ import com.example.services.socket.SocketInterface
 import com.example.services.utils.BaseFragment
 import com.example.services.utils.DialogClass
 import com.example.services.viewmodels.home.*
-import com.example.services.views.SearchActivity
-import com.example.services.views.cart.CartListActivity
-import com.example.services.views.orders.OrdersDetailActivity
+import com.example.services.views.ratingreviews.AddRatingReviewsListActivity
 import com.example.services.views.subcategories.ServicesListActivity
-import com.example.services.views.vendor.RestaurantsListActivity
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -64,8 +60,9 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.gson.JsonObject
 import com.uniongoods.adapters.*
-import kotlinx.android.synthetic.main.fragment_home.view.*
+import okhttp3.MultipartBody
 import org.json.JSONObject
+import kotlin.collections.ArrayList
 
 class
 HomeFragment : BaseFragment(), SocketInterface, OnMapReadyCallback {
@@ -79,6 +76,8 @@ HomeFragment : BaseFragment(), SocketInterface, OnMapReadyCallback {
         ArrayList<com.example.services.viewmodels.home.Trending>()
     private var offersList =
         ArrayList<com.example.services.viewmodels.home.Offers>()
+    private var galleryList =
+        ArrayList<com.example.services.viewmodels.home.Gallery>()
     private var myJobsListAdapter: CategoriesListAdapter? = null
     private lateinit var fragmentHomeBinding: FragmentHomeBinding
     private lateinit var homeViewModel: HomeViewModel
@@ -93,6 +92,13 @@ HomeFragment : BaseFragment(), SocketInterface, OnMapReadyCallback {
     private var confirmationDialog: Dialog? = null
     private var mDialogClass = DialogClass()
     var phoneNumber = ""
+    private val RESULT_LOAD_IMAGE = 100
+    private val CAMERA_REQUEST = 1888
+    private var companyId = ""
+    private var profileImage = ""
+    var imagesListAdapter: ImagesListAdapter? = null
+    private var imagesParts: Array<MultipartBody.Part?>? = null
+    var imagesList = ArrayList<String>()
     //var categoriesList = null
     override fun getLayoutResId(): Int {
         return R.layout.fragment_home
@@ -184,11 +190,14 @@ HomeFragment : BaseFragment(), SocketInterface, OnMapReadyCallback {
                             trendingServiceList.clear()
                             offersList.clear()
                             bannersList.clear()
+                            galleryList.clear()
                             categoriesList.addAll(response.body.subcat)
                             trendingServiceList.addAll(response.body.trending)
                             offersList.addAll(response.body.offers)
                             bannersList.addAll(response.body.banners)
                             fragmentHomeBinding.rvJobs.visibility = View.VISIBLE
+
+                            galleryList.addAll(response.body.gallery)
                             //Vendor Detail
                             if (!TextUtils.isEmpty(details?.logo1)) {
                                 Glide.with(activity!!).load(details?.logo1)
@@ -335,7 +344,14 @@ HomeFragment : BaseFragment(), SocketInterface, OnMapReadyCallback {
                     }
 
                     "txtAddRating" -> {
-                        addRating()
+                        //addRating()
+                        val intent = Intent(activity!!, AddRatingReviewsListActivity::class.java)
+                        intent.putExtra("orderId", "")
+                        intent.putExtra("from", "profile")
+                        intent.putExtra("name", details?.companyName)
+                        intent.putExtra("id", GlobalConstants.COMPANY_ID)
+                        intent.putExtra("image", details?.logo1)
+                        startActivity(intent)
                     }
                     "imgBack" -> {
                         activity!!.finish()
@@ -369,9 +385,9 @@ HomeFragment : BaseFragment(), SocketInterface, OnMapReadyCallback {
 
     }
 
-    private fun initRecyclerView() {
-        /*val adapter = CategoriesGridListAdapter(this@HomeFragment, categoriesList, activity!!)
-        fragmentHomeBinding.gridview.adapter = adapter*/
+   /* private fun initRecyclerView() {
+        *//*val adapter = CategoriesGridListAdapter(this@HomeFragment, categoriesList, activity!!)
+        fragmentHomeBinding.gridview.adapter = adapter*//*
         if (categoriesList.size > 0) {
             fragmentHomeBinding.foodGallery.visibility = View.VISIBLE
         } else {
@@ -379,6 +395,37 @@ HomeFragment : BaseFragment(), SocketInterface, OnMapReadyCallback {
         }
         val vendorsListAdapter =
             DashboardSubCatsRecyclerAdapter(this@HomeFragment, categoriesList, activity!!)
+        // val linearLayoutManager = LinearLayoutManager(this)
+        //val gridLayoutManager = GridLayoutManager(activity!!, 4)
+        // fragmentHomeBinding.rvJobs.layoutManager = gridLayoutManager
+        val controller =
+            AnimationUtils.loadLayoutAnimation(activity, R.anim.layout_animation_from_bottom)
+        fragmentHomeBinding.rvJobs.setLayoutAnimation(controller);
+        fragmentHomeBinding.rvJobs.scheduleLayoutAnimation();
+        fragmentHomeBinding.rvJobs.setHasFixedSize(true)
+        val linearLayoutManager = LinearLayoutManager(this.baseActivity)
+        linearLayoutManager.orientation = RecyclerView.HORIZONTAL
+        fragmentHomeBinding.rvJobs.layoutManager = linearLayoutManager
+        fragmentHomeBinding.rvJobs.adapter = vendorsListAdapter
+        fragmentHomeBinding.rvJobs.addOnScrollListener(object :
+            RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+
+            }
+        })
+
+    }*/
+
+    private fun initRecyclerView() {
+        /*val adapter = CategoriesGridListAdapter(this@HomeFragment, categoriesList, activity!!)
+        fragmentHomeBinding.gridview.adapter = adapter*/
+        if (galleryList.size > 0) {
+            fragmentHomeBinding.foodGallery.visibility = View.VISIBLE
+        } else {
+            fragmentHomeBinding.foodGallery.visibility = View.GONE
+        }
+        val vendorsListAdapter =
+            DashboardSubCatsRecyclerAdapter(this@HomeFragment, galleryList, activity!!)
         // val linearLayoutManager = LinearLayoutManager(this)
         //val gridLayoutManager = GridLayoutManager(activity!!, 4)
         // fragmentHomeBinding.rvJobs.layoutManager = gridLayoutManager
@@ -765,4 +812,5 @@ HomeFragment : BaseFragment(), SocketInterface, OnMapReadyCallback {
         mMap.uiSettings.isZoomControlsEnabled = true
     }
     //endregion
+
 }
