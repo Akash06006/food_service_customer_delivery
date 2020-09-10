@@ -1,6 +1,7 @@
 package com.example.services.views.settings
 
 import android.content.Intent
+import android.net.Uri
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.services.R
@@ -61,6 +62,29 @@ class MyAccountsActivity : BaseActivity() {
                           startActivity(intent1)*/
                         showToastSuccess("Coming Soon")
                         // binding.tvChangePassword.isEnabled = false
+                    }
+                    "tv_rate_us" ->{
+                        startActivity(
+                            Intent(
+                                Intent.ACTION_VIEW,
+                                Uri.parse("https://play.google.com/store/apps/"/*details?id=$appPackageName*/)
+                            )
+                        )
+
+                    }
+                    "tv_share_app" ->{
+                        try {
+                            val shareIntent = Intent(Intent.ACTION_SEND)
+                            shareIntent.type = "text/plain"
+                            shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Delicio App")
+                            var shareMessage =
+                                "\nLet me recommend you this application\n\n"
+                            shareMessage = shareMessage+" Google.com\n"
+                            shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage)
+                            startActivity(Intent.createChooser(shareIntent, "choose one"))
+                        } catch (e: Exception) {
+                            //e.toString();
+                        }
                     }
                 }
 

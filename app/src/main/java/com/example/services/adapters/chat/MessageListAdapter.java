@@ -9,16 +9,26 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.services.R;
 import com.example.services.constants.GlobalConstants;
 import com.example.services.model.chat.ChatListModel;
 import com.example.services.sharedpreference.SharedPrefClass;
+import com.example.services.views.chat.ChatActivity;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.TimeZone;
 
 public class MessageListAdapter extends RecyclerView.Adapter {
     private static final int VIEW_TYPE_MESSAGE_SENT = 1;
     private static final int VIEW_TYPE_MESSAGE_RECEIVED = 2;
+    private static final int VIEW_TYPE_MESSAGE_SENT_IMAGE = 3;
+    private static final int VIEW_TYPE_MESSAGE_RECEIVE_IMAGE = 4;
+
     private SharedPrefClass sharedPreferenceClass;
 
     private Context mContext;
@@ -40,10 +50,15 @@ public class MessageListAdapter extends RecyclerView.Adapter {
     public int getItemViewType(int position) {
         ChatListModel message = (ChatListModel) mMessageList.get(position);
 
-        if (message.getSenderId().equals(sharedPreferenceClass.getPrefValue(mContext, GlobalConstants.getUSERID()).toString())) {
+        if (message.getSenderId() != null &&  message.getType() != null && message.getType() == 1) {
             // If the current user is the sender of the message
             return VIEW_TYPE_MESSAGE_SENT;
-        } else {
+        } else if(message.getSenderId() != null && message.getType() != null && message.getType() == 2){
+            return VIEW_TYPE_MESSAGE_SENT_IMAGE;
+        }else if(message.getSenderId() == null && message.getType() != null && message.getType() == 2){
+            return VIEW_TYPE_MESSAGE_RECEIVE_IMAGE;
+        }
+        else {
             // If some other user sent the message
             return VIEW_TYPE_MESSAGE_RECEIVED;
         }
@@ -58,7 +73,15 @@ public class MessageListAdapter extends RecyclerView.Adapter {
             view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.item_message_sent, parent, false);
             return new SentMessageHolder(view);
-        } else if (viewType == VIEW_TYPE_MESSAGE_RECEIVED) {
+        }else if (viewType == VIEW_TYPE_MESSAGE_SENT_IMAGE) {
+            view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.item_message_recieve_image, parent, false);
+            return new SentImageHolder(view);
+        }else if (viewType == VIEW_TYPE_MESSAGE_RECEIVE_IMAGE) {
+            view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.item_message_sent_image, parent, false);
+            return new ReceiveImageHolder(view);
+        }  else if (viewType == VIEW_TYPE_MESSAGE_RECEIVED) {
             view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.item_message_received, parent, false);
             return new ReceivedMessageHolder(view);
@@ -71,13 +94,19 @@ public class MessageListAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         ChatListModel message = (ChatListModel) mMessageList.get(position);
-
         switch (holder.getItemViewType()) {
             case VIEW_TYPE_MESSAGE_SENT:
                 ((SentMessageHolder) holder).bind(message);
                 break;
+            case VIEW_TYPE_MESSAGE_SENT_IMAGE:
+                ((SentImageHolder) holder).bind(message);
+                break;
+            case VIEW_TYPE_MESSAGE_RECEIVE_IMAGE:
+                ((ReceiveImageHolder) holder).bind(message);
+                break;
             case VIEW_TYPE_MESSAGE_RECEIVED:
                 ((ReceivedMessageHolder) holder).bind(message);
+                break;
         }
     }
 
@@ -99,7 +128,8 @@ public class MessageListAdapter extends RecyclerView.Adapter {
             messageText.setText(message.getMessage());
 
             // Format the stored timestamp into a readable String using method.
-           // timeText.setText(Utils.formatDateTime(message.getCreatedAt()));
+            if (message.getSentAt()!=null)
+                timeText.setText(getDateCurrentTimeZone(message.getSentAt()));
         }
     }
 
@@ -112,20 +142,93 @@ public class MessageListAdapter extends RecyclerView.Adapter {
 
             messageText = (TextView) itemView.findViewById(R.id.text_message_body);
             timeText = (TextView) itemView.findViewById(R.id.text_message_time);
-            nameText = (TextView) itemView.findViewById(R.id.text_message_name);
-            profileImage = (ImageView) itemView.findViewById(R.id.image_message_profile);
         }
 
         void bind(ChatListModel message) {
             messageText.setText(message.getMessage());
 
             // Format the stored timestamp into a readable String using method.
-          //  timeText.setText(Utils.formatDateTime(message.getCreatedAt()));
+            if (message.getSentAt()!=null)
+                timeText.setText(getDateCurrentTimeZone(message.getSentAt()));
 
-            nameText.setText(message.getSenderName());
 
             // Insert the profile image from the URL into the ImageView.
          //   Utils.displayRoundImageFromUrl(mContext, message.getSender().getProfileUrl(), profileImage);
+        }
+    }
+
+    private class SentImageHolder extends RecyclerView.ViewHolder {
+        TextView  timeText;
+        ImageView imageView;
+
+        SentImageHolder(View itemView) {
+            super(itemView);
+
+            imageView = (ImageView) itemView.findViewById(R.id.img_message);
+            timeText = (TextView) itemView.findViewById(R.id.text_message_time);
+            imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mMessageList.get(getAdapterPosition()).getMedia()!=null)
+                    ((ChatActivity)mContext).showImageData(false, mMessageList.get(getAdapterPosition()).getMedia());
+                }
+            });
+        }
+
+        void bind(ChatListModel message) {
+            Glide.with(mContext)
+                    .load(GlobalConstants.getSOCKET_CHAT_URL()+""+message.getMedia())
+                    //.apply(RequestOptions.bitmapTransform(RoundedCorners(20)))
+                    .placeholder(R.drawable.ic_category)
+                    .into(imageView);
+
+            // Format the stored timestamp into a readable String using method.
+            if (message.getSentAt()!=null)
+             timeText.setText(getDateCurrentTimeZone(message.getSentAt()));
+        }
+    }
+
+    private class ReceiveImageHolder extends RecyclerView.ViewHolder {
+        TextView  timeText;
+        ImageView imageView;
+
+        ReceiveImageHolder(View itemView) {
+            super(itemView);
+
+            imageView = (ImageView) itemView.findViewById(R.id.img_message);
+            timeText = (TextView) itemView.findViewById(R.id.text_message_time);
+            imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mMessageList.get(getAdapterPosition()).getMedia()!=null)
+                    ((ChatActivity)mContext).showImageData(false,mMessageList.get(getAdapterPosition()).getMedia());
+                }
+            });
+        }
+
+        void bind(ChatListModel message) {
+            Glide.with(mContext)
+                    .load(GlobalConstants.getSOCKET_CHAT_URL()+""+message.getMedia())
+                    //.apply(RequestOptions.bitmapTransform(RoundedCorners(20)))
+                    .placeholder(R.drawable.ic_category)
+                    .into(imageView);
+
+            // Format the stored timestamp into a readable String using method.
+            if (message.getSentAt()!=null)
+                timeText.setText(getDateCurrentTimeZone(message.getSentAt()));
+        }
+    }
+
+     private String getDateCurrentTimeZone(long timestamp) {
+        try{
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTimeInMillis(timestamp * 1000);
+            calendar.add(Calendar.MILLISECOND, (int) calendar.getTimeInMillis());
+            Date currenTimeZone = (Date) calendar.getTime();
+            SimpleDateFormat localDateFormat = new SimpleDateFormat("HH:mm");
+            return localDateFormat.format(currenTimeZone);
+        }catch (Exception e) {
+            return "";
         }
     }
 }

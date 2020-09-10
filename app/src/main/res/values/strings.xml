@@ -200,6 +200,8 @@
     <string name="help_and_info">Help and info</string>
     <string name="feedback">Feedback</string>
     <string name="contact_us">Contact Us</string>
+    <string name="rate_us">Rate Us</string>
+    <string name="share_app">Share App</string>
     <string name="booked">Booked</string>
     <string name="your_upcoming_booking">Upcoming Booking :</string>
     <string name="key_activity">activity</string>
@@ -418,4 +420,6 @@
     <string name="order_from_here">Order From Here</string>
     <string name="view_direction">View Direction</string>
     <string name="food_cats">Food Categories</string>
+    <string name="folder">Folder</string>
+    <string name="gallery_select_title_msg">Tap to select</string>
 </resources>

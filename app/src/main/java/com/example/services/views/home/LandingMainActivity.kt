@@ -175,18 +175,6 @@ class LandingMainActivity : BaseActivity(),
                     "tv_nav_chat" -> {
                         val intent = Intent(this, ChatActivity::class.java)
                         startActivity(intent)
-                       /* try {
-                            val shareIntent = Intent(Intent.ACTION_SEND)
-                            shareIntent.type = "text/plain"
-                            shareIntent.putExtra(Intent.EXTRA_SUBJECT, "My application name")
-                            var shareMessage =
-                                "\nLet me recommend you this application\n\n"
-                            shareMessage = shareMessage+" Google.com\n"
-                            shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage)
-                            startActivity(Intent.createChooser(shareIntent, "choose one"))
-                        } catch (e: Exception) {
-                            //e.toString();
-                        }*/
                         // Drift.showCreateConversationActivity(this)
                       //  showToastSuccess("Coming Soon")
                     }

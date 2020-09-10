@@ -382,7 +382,20 @@ HomeFragment : BaseFragment(), SocketInterface, OnMapReadyCallback {
                         intent.putExtra("catId", ""/*categoriesList[position].id*/)
                         startActivity(intent)
                     }
-
+                    "imgShare" -> {
+                        try {
+                            val shareIntent = Intent(Intent.ACTION_SEND)
+                            shareIntent.type = "text/plain"
+                            shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Delicio App")
+                            var shareMessage =
+                                "\nLet me recommend you this application\n\n"
+                            shareMessage = shareMessage+" Google.com\n"
+                            shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage)
+                            startActivity(Intent.createChooser(shareIntent, "choose one"))
+                        } catch (e: Exception) {
+                            //e.toString();
+                        }
+                    }
                     "txtAddRating" -> {
                         addRating()
                     }
