@@ -152,14 +152,13 @@
                     android:layout_height="wrap_content"
                     android:layout_alignBottom="@+id/tv_offer_price"
                     android:layout_marginLeft="@dimen/dp_5"
-                    android:layout_toRightOf="@+id/tv_offer_price"
+                    android:layout_toEndOf="@+id/tv_offer_price"
                     android:visibility="visible">
 
                     <TextView
                         android:id="@+id/tv_real_price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
                         android:text="Rs.150"
                         android:textColor="@color/colorGrey"
                         android:textSize="@dimen/sp_10"

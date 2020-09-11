@@ -103,13 +103,13 @@ class CartListActivity : BaseActivity(), DialogssInterface {
             MyApplication.instance,
             GlobalConstants.SelectedAddressType
         ).toString()
-        cartBinding.btnCheckout.setBackgroundTintList(
+       /* cartBinding.btnCheckout.setBackgroundTintList(
             ColorStateList.valueOf(
                 Color.parseColor(
                     GlobalConstants.COLOR_CODE
                 )
-            )/*mContext.getResources().getColorStateList(R.color.colorOrange)*/
-        )
+            )*//*mContext.getResources().getColorStateList(R.color.colorOrange)*//*
+        )*/
 
         cartViewModel.getCartListRes().observe(this,
             Observer<CartListResponse> { response ->
@@ -153,7 +153,7 @@ class CartListActivity : BaseActivity(), DialogssInterface {
                             // cartBinding.rlCoupon.visibility = View.VISIBLE
                             cartBinding.btnCheckout.visibility = View.VISIBLE
                             initRecyclerView()
-                            cartBinding.tvOfferPrice.setText(GlobalConstants.Currency + " " + response.body!!.sum)
+                            cartBinding.tvOfferPrice.setText(GlobalConstants.Currency + "" + response.body!!.sum)
                             /*if (response.coupanDetails?.isCouponApplied.equals("true")) {
 
                                 if (response.coupanDetails?.isCoupanValid.equals("true")) {
@@ -213,7 +213,7 @@ class CartListActivity : BaseActivity(), DialogssInterface {
                     when {
                         response.code == 200 -> {
                             cartList[position].quantity = response.data!!.quantity!!
-                            cartList[position].price =  response.data!!.orderTotalPrice!!.toString()
+                            cartList[position].price = response.data!!.orderTotalPrice!!.toString()
                             myJobsListAdapter?.notifyDataSetChanged()
                             cartBinding.tvOfferPrice.setText(GlobalConstants.Currency + "" + response.data!!.sum)
                         }
@@ -334,21 +334,9 @@ class CartListActivity : BaseActivity(), DialogssInterface {
             this, Observer<String>(function =
             fun(it: String?) {
                 when (it) {
-                    /* "tvPromo" -> {
-                         if (cartBinding.tvPromo.getText().toString().equals(getString(R.string.apply_coupon))) {
-                             val intent = Intent(this, PromoCodeActivity::class.java)
-                             startActivityForResult(intent, SECOND_ACTIVITY_REQUEST_CODE)
-                         } else {
-                             confirmationDialog = mDialogClass.setDefaultDialog(
-                                     this,
-                                     this,
-                                     "Remove Coupon",
-                                     getString(R.string.warning_remove_coupon)
-                             )
-                             confirmationDialog?.show()
-
-                         }
-                     }*/
+                    "imgBack" -> {
+                        finish()
+                    }
                     "btnCheckout" -> {
                         // if (addressType.equals(getString(R.string.home))) {
                         val intent = Intent(this, CheckoutAddressActivity::class.java)
@@ -583,12 +571,12 @@ class CartListActivity : BaseActivity(), DialogssInterface {
         }
 
     }
-    fun callUpdateCartApi(cartid: String)
-    {
+
+    fun callUpdateCartApi(cartid: String) {
         var cartObject = JsonObject()
-       /* cartObject.addProperty(
-            "serviceId", serviceId
-        )*/
+        /* cartObject.addProperty(
+             "serviceId", serviceId
+         )*/
         cartObject.addProperty(
             "cartId", cartid
         )
@@ -600,12 +588,12 @@ class CartListActivity : BaseActivity(), DialogssInterface {
         /* cartObject.addProperty(
                  "status", isCart
          )*/
-      /*  cartObject.addProperty(
-            "orderPrice", priceAmount
-        )
-        cartObject.addProperty(
-            "orderTotalPrice", price
-        )*/
+        /*  cartObject.addProperty(
+              "orderPrice", priceAmount
+          )
+          cartObject.addProperty(
+              "orderTotalPrice", price
+          )*/
         cartObject.addProperty(
             "quantity", quantityCount
         )
@@ -615,7 +603,8 @@ class CartListActivity : BaseActivity(), DialogssInterface {
             // startProgressDialog()
         }
     }
-    fun clickMinusButton(pos: Int, mPrice: Int, quantity: Int){
+
+    fun clickMinusButton(pos: Int, mPrice: Int, quantity: Int) {
         position = pos
         quantityCount = quantity/*serVicesList[pos].cart?.quantity!!.toInt()*/
         /*  if (quantityCount == 0) {
@@ -625,7 +614,7 @@ class CartListActivity : BaseActivity(), DialogssInterface {
         //  }
     }
 
-    fun clickAddButton(pos: Int, mPrice: Int, quantity: Int){
+    fun clickAddButton(pos: Int, mPrice: Int, quantity: Int) {
         position = pos
         quantityCount = quantity
         /*if (quantityCount == 0) {
