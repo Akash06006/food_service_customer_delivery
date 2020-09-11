@@ -49,19 +49,18 @@
                           android:visibility="invisible" />-->
 
 
-                    <Button
-                        android:id="@+id/cancel"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:background="@drawable/shape_round_stroke"
-                        android:gravity="center"
-                        android:text="@string/cancel"
-                        android:textAlignment="center"
-                        android:textColor="@color/buttonTextColor"
-                        android:textStyle="bold"
-                        app:font="@{`bold`}"/>
-
+                <Button
+                    android:id="@+id/cancel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/shape_purple"
+                    android:gravity="center"
+                    android:text="@string/cancel"
+                    android:textAlignment="center"
+                    android:textColor="@color/buttonTextColor"
+                    android:textStyle="bold"
+                    app:font="@{`bold`}" />
 
 
                 <!--  <View

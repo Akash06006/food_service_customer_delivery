@@ -44,17 +44,19 @@ class TipListAdapter(
         holder.binding!!.txtTip.setText(GlobalConstants.Currency + "" + tipList[position].tips)/*dateList[position].date*/
 
         if (tipList[position].selected.equals("true")) {
-            holder.binding.txtTip.setTextColor(mContext.resources.getColor(R.color.success))
+            holder.binding!!.txtTip.setBackground(mContext.resources.getDrawable(R.drawable.ic_tip_selected_back))
+            holder.binding.txtTip.setTextColor(mContext.resources.getColor(R.color.colorWhite))
         } else {
             // holder.binding.topLay.setBackgroundResource(R.drawable.shape_round_corner)
             holder.binding.txtTip.setTextColor(mContext.resources.getColor(R.color.colorBlack))
+            holder.binding!!.txtTip.setBackground(mContext.resources.getDrawable(R.drawable.ic_tip_back))
         }
         holder.binding!!.txtTip.setOnClickListener {
 
             if (tipList[position].selected.equals("true")) {
-                mContext.selectTip(position,"false")
+                mContext.selectTip(position, "false")
             } else {
-                mContext.selectTip(position,"true")
+                mContext.selectTip(position, "true")
             }
 
         }

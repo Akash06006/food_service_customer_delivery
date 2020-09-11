@@ -426,4 +426,8 @@
     <string name="add_images">Add Images</string>
     <string name="write_thoughts">Write your thoughts</string>
     <string name="review_rating">Reviews &amp; Rating</string>
+    <string name="delivery_address">Delivery Address</string>
+
+
+
 </resources>

@@ -17,11 +17,11 @@ import com.example.services.views.cart.CheckoutAddressActivity
 import com.example.services.views.subcategories.ServiceDetailActivity
 
 class DateListAdapter(
-        context: CheckoutAddressActivity,
-        addressList: ArrayList<DateSlotsResponse.Body>,
-        var activity: Context
+    context: CheckoutAddressActivity,
+    addressList: ArrayList<DateSlotsResponse.Body>,
+    var activity: Context
 ) :
-        RecyclerView.Adapter<DateListAdapter.ViewHolder>() {
+    RecyclerView.Adapter<DateListAdapter.ViewHolder>() {
     private val mContext: CheckoutAddressActivity
     private var viewHolder: ViewHolder? = null
     private var dateList: ArrayList<DateSlotsResponse.Body>
@@ -34,10 +34,10 @@ class DateListAdapter(
     @NonNull
     override fun onCreateViewHolder(@NonNull parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = DataBindingUtil.inflate(
-                LayoutInflater.from(parent.context),
-                R.layout.time_item,
-                parent,
-                false
+            LayoutInflater.from(parent.context),
+            R.layout.time_item,
+            parent,
+            false
         ) as TimeItemBinding
         return ViewHolder(binding.root, viewType, binding, mContext, dateList)
     }
@@ -50,15 +50,17 @@ class DateListAdapter(
         if (dateList[position].selected.equals("true")) {
             // holder.binding.topLay.setBackgroundResource(R.drawable.btn_bg_shape_colored)
             // holder.binding.tvCatName.setBackgroundColor(mContext.resources.getColor(R.color.btnBackground))
-            holder.binding.tvCatName.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(GlobalConstants.COLOR_CODE))/*mContext.getResources().getColorStateList(R.color.colorOrange)*/)
+            // holder.binding.tvCatName.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(GlobalConstants.COLOR_CODE))/*mContext.getResources().getColorStateList(R.color.colorOrange)*/)
+
+            holder.binding!!.tvCatName.setBackground(mContext.resources.getDrawable(R.drawable.ic_header_back_purple))
 
             holder.binding.tvCatName.setTextColor(mContext.resources.getColor(R.color.colorWhite))
         } else {
             // holder.binding.topLay.setBackgroundResource(R.drawable.shape_round_corner)
             holder.binding.tvCatName.setTextColor(mContext.resources.getColor(R.color.colorBlack))
-            holder.binding.tvCatName.setBackgroundColor(mContext.resources.getColor(R.color.btnBackgroundWhite))
-            holder.binding.tvCatName.setBackgroundTintList(mContext.getResources().getColorStateList(R.color.colorWhite))
-
+            //  holder.binding.tvCatName.setBackgroundColor(mContext.resources.getColor(R.color.btnBackgroundWhite))
+            //  holder.binding.tvCatName.setBackgroundTintList(mContext.getResources().getColorStateList(R.color.colorWhite))
+            holder.binding!!.tvCatName.setBackground(mContext.resources.getDrawable(R.drawable.ic_header_back))
         }
 
         /*  if(dateList[position].status.equals("Open")){
@@ -78,11 +80,11 @@ class DateListAdapter(
     }
 
     inner class ViewHolder//This constructor would switch what to findViewBy according to the type of viewType
-    (
-            v: View, val viewType: Int, //These are the general elements in the RecyclerView
-            val binding: TimeItemBinding?,
-            mContext: CheckoutAddressActivity,
-            addressList: ArrayList<DateSlotsResponse.Body>?
+        (
+        v: View, val viewType: Int, //These are the general elements in the RecyclerView
+        val binding: TimeItemBinding?,
+        mContext: CheckoutAddressActivity,
+        addressList: ArrayList<DateSlotsResponse.Body>?
     ) : RecyclerView.ViewHolder(v) {
         /*init {
             binding.linAddress.setOnClickListener {

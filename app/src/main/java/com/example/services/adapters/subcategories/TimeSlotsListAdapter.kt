@@ -53,44 +53,49 @@ class TimeSlotsListAdapter(
             ) {
                 // holder.binding.topLay.setBackgroundResource(R.drawable.btn_bg_shape_colored)
                 //holder.binding.tvCatName.setBackgroundColor(mContext.resources.getColor(R.color.btnBackground))
-                holder.binding.tvCatName.setBackgroundTintList(
+                /*holder.binding.tvCatName.setBackgroundTintList(
                     ColorStateList.valueOf(
                         Color.parseColor(
                             GlobalConstants.COLOR_CODE
                         )
-                    )/*mContext.getResources().getColorStateList(R.color.colorOrange)*/
-                )
+                    )*//*mContext.getResources().getColorStateList(R.color.colorOrange)*//*
+                )*/
+
+                holder.binding!!.tvCatName.setBackground(mContext.resources.getDrawable(R.drawable.ic_header_back_purple))
                 holder.binding.tvCatName.setTextColor(mContext.resources.getColor(R.color.colorWhite))
             } else {
                 holder.binding.tvCatName.isEnabled = true
                 // holder.binding.topLay.setBackgroundResource(R.drawable.shape_round_corner)
                 holder.binding.tvCatName.setTextColor(mContext.resources.getColor(R.color.colorBlack))
-                holder.binding.tvCatName.setBackgroundColor(mContext.resources.getColor(R.color.btnBackgroundWhite))
-                holder.binding.tvCatName.setBackgroundTintList(
-                    mContext.getResources().getColorStateList(
-                        R.color.colorWhite
-                    )
-                )
+                holder.binding!!.tvCatName.setBackground(mContext.resources.getDrawable(R.drawable.ic_header_back))
+                /* holder.binding.tvCatName.setBackgroundColor(mContext.resources.getColor(R.color.btnBackgroundWhite))
+                 holder.binding.tvCatName.setBackgroundTintList(
+                     mContext.getResources().getColorStateList(
+                         R.color.colorWhite
+                     )
+                 )*/
 
             }
         } else if (addressList[position].status.equals("0")) {
             holder.binding.tvCatName.isEnabled = false
+            holder.binding!!.tvCatName.setBackground(mContext.resources.getDrawable(R.drawable.ic_header_grey_back))
             holder.binding.tvCatName.setTextColor(mContext.resources.getColor(R.color.colorBlack))
-            holder.binding.tvCatName.setBackgroundColor(mContext.resources.getColor(R.color.btnBackgroundWhite))
-            holder.binding.tvCatName.setBackgroundTintList(
-                mContext.getResources().getColorStateList(
-                    R.color.colorGrey
-                )
-            )
+            //holder.binding.tvCatName.setBackgroundColor(mContext.resources.getColor(R.color.btnBackgroundWhite))
+            /* holder.binding.tvCatName.setBackgroundTintList(
+                 mContext.getResources().getColorStateList(
+                     R.color.colorGrey
+                 )
+             )*/
         } else {
             holder.binding.tvCatName.isEnabled = false
+            holder.binding!!.tvCatName.setBackground(mContext.resources.getDrawable(R.drawable.ic_header_red_back))
             holder.binding.tvCatName.setTextColor(mContext.resources.getColor(R.color.colorWhite))
-            holder.binding.tvCatName.setBackgroundColor(mContext.resources.getColor(R.color.btnBackgroundWhite))
-            holder.binding.tvCatName.setBackgroundTintList(
-                mContext.getResources().getColorStateList(
-                    R.color.colorRed
-                )
-            )
+            // holder.binding.tvCatName.setBackgroundColor(mContext.resources.getColor(R.color.btnBackgroundWhite))
+            /* holder.binding.tvCatName.setBackgroundTintList(
+                 mContext.getResources().getColorStateList(
+                     R.color.colorRed
+                 )
+             )*/
         }
 
         holder.binding!!.tvCatName.setOnClickListener {

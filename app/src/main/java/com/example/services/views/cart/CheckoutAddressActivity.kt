@@ -114,9 +114,9 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
 
     override fun onResume() {
         super.onResume()
-        if (cartBinding.tvChange.getText().toString().equals(getString(R.string.add_address))) {
-            addressViewModel.addressList()
-        }
+        /* if (cartBinding.tvChange.getText().toString().equals(getString(R.string.add_address))) {
+             addressViewModel.addressList()
+         }*/
     }
 
     override fun initViews() {
@@ -156,20 +156,20 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
             startProgressDialog()
             //cartViewModel.getcartList(userId)
         }
-        cartBinding.tvChange.setBackgroundTintList(
+        /* cartBinding.tvChange.setBackgroundTintList(
+             ColorStateList.valueOf(
+                 Color.parseColor(
+                     GlobalConstants.COLOR_CODE
+                 )
+             )*//*mContext.getResources().getColorStateList(R.color.colorOrange)*//*
+        )*/
+        /*cartBinding.btnCheckout.setBackgroundTintList(
             ColorStateList.valueOf(
                 Color.parseColor(
                     GlobalConstants.COLOR_CODE
                 )
-            )/*mContext.getResources().getColorStateList(R.color.colorOrange)*/
-        )
-        cartBinding.btnCheckout.setBackgroundTintList(
-            ColorStateList.valueOf(
-                Color.parseColor(
-                    GlobalConstants.COLOR_CODE
-                )
-            )/*mContext.getResources().getColorStateList(R.color.colorOrange)*/
-        )
+            )*//*mContext.getResources().getColorStateList(R.color.colorOrange)*//*
+        )*/
 
         for (i in 0..4) {
             val item = DateSlotsResponse()
@@ -361,13 +361,13 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
                             orderId = response.data?.id!!
                             orderNo = response.data?.orderNo!!
 
-                            if(paymentStatus.equals("1")){
+                            if (paymentStatus.equals("1")) {
                                 val intent = Intent(this, PaymentActivity::class.java)
                                 intent.putExtra("amount", payableAmount)
                                 intent.putExtra("currency", GlobalConstants.Currency)
                                 intent.putExtra("totalItems", cartList.size.toString())
                                 startActivityForResult(intent, 200)
-                            } else{
+                            } else {
 
                                 showPaymentSuccessDialog()
                             }
@@ -390,7 +390,7 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
                         response.code == 200 -> {
                             addressesList.addAll(response.data!!)
                             var default = "false"
-                            cartBinding.tvChange.setText(getString(R.string.change))
+                            // cartBinding.tvChange.setText(getString(R.string.change))
                             for (item in addressesList) {
                                 if (item.default.equals("1")) {
                                     default = "true"
@@ -431,7 +431,7 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
                             /*message?.let {
                                 UtilsFunctions.showToastError(it)
                             }*/
-                            cartBinding.tvChange.setText(getString(R.string.add_address))
+                            // cartBinding.tvChange.setText(getString(R.string.add_address))
                             cartBinding.addressItem.visibility = View.GONE
                         }
                     }
@@ -528,15 +528,25 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
 
                         }
                     }
+                    "imgBack" -> {
+                        finish()
+                    }
                     "tvChange" -> {
-                        if (cartBinding.tvChange.getText().toString()
+                        if (TextUtils.isEmpty(addressId)) {
+                            val intent = Intent(this, AddAddressActivity::class.java)
+                            startActivity(intent)
+                        } else {
+                            addressDialog()
+                        }
+
+                        /*if (cartBinding.tvChange.getText().toString()
                                 .equals(getString(R.string.add_address))
                         ) {
                             val intent = Intent(this, AddAddressActivity::class.java)
                             startActivity(intent)
                         } else {
                             addressDialog()
-                        }
+                        }*/
 
                     }
 
@@ -720,13 +730,13 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
         cartBinding.tvAddress.text = addressesList[pos].addressType
         cartBinding.tvAddressDetail.text = addressesList[pos].addressName
 
-        if (addressesList[pos].addressType.equals(getString(R.string.home))) {
+        /*if (addressesList[pos].addressType.equals(getString(R.string.home))) {
             cartBinding.addresssImg.setImageDrawable(resources.getDrawable(R.drawable.ic_home))
         } else if (addressesList[pos].addressType.equals(getString(R.string.work))) {
             cartBinding.addresssImg.setImageDrawable(resources.getDrawable(R.drawable.ic_work))
         } else {
             cartBinding.addresssImg.setImageDrawable(resources.getDrawable(R.drawable.ic_other))
-        }
+        }*/
         callCheckDelivery()
     }
 
@@ -1080,13 +1090,13 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
         uploadImage.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         uploadImage.tvCashDelivery.setOnClickListener {
             uploadImage.dismiss()
-            paymentStatus="2"
+            paymentStatus = "2"
             payNow()
         }
         uploadImage.tvPayNow.setOnClickListener {
             uploadImage.dismiss()
             payNow()
-            paymentStatus="1"
+            paymentStatus = "1"
         }
         uploadImage.tv_cancel.setOnClickListener {
             uploadImage.dismiss()
@@ -1118,7 +1128,8 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
         val mHashMap = HashMap<String, RequestBody>()
         mHashMap["addressId"] = Utils(this).createPartFromString(addressId)
         mHashMap["deliveryType"] = Utils(this).createPartFromString(DELIVERY_PICKUP_TYPE)
-        mHashMap["serviceDateTime"] = Utils(this).createPartFromString(selectedDate + " " + selectedTime)
+        mHashMap["serviceDateTime"] =
+            Utils(this).createPartFromString(selectedDate + " " + selectedTime)
         mHashMap["orderPrice"] = Utils(this).createPartFromString(payableAmount)
         mHashMap["serviceCharges"] = Utils(this).createPartFromString(deliveryCharges.toString())
         mHashMap["usedLPoints"] = Utils(this).createPartFromString("0")
@@ -1132,24 +1143,26 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
         mHashMap["paymentType"] = Utils(this).createPartFromString(paymentStatus)
 
 
-      var audio: MultipartBody.Part?=null
+        var audio: MultipartBody.Part? = null
         var IMAGE_EXTENSION = "audio/*"
-        if(file!=null){
+        if (file != null) {
 
-         //   audio= Utils(this).prepareFilePart("cookingInstMedia",file!!)
+            //   audio= Utils(this).prepareFilePart("cookingInstMedia",file!!)
 
             audio = MultipartBody.Part.createFormData(
                 "cookingInstMedia", file!!.name,
-                RequestBody.create(MediaType.parse("audio/*"), file!!))
+                RequestBody.create(MediaType.parse("audio/*"), file!!)
+            )
 
-        } else{
+        } else {
             audio = MultipartBody.Part.createFormData(
                 "cookingInstMedia", "",
-                RequestBody.create(MediaType.parse("audio/*"), ""))
+                RequestBody.create(MediaType.parse("audio/*"), "")
+            )
 
         }
 
-        cartViewModel.orderPlace(mHashMap,audio)
+        cartViewModel.orderPlace(mHashMap, audio)
     }
 
 }
