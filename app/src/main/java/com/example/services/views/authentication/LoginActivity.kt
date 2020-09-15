@@ -50,6 +50,11 @@ class LoginActivity : BaseActivity() {
 
                             SharedPrefClass().putObject(
                                 this,
+                                GlobalConstants.REFERRAL_CODE,
+                                GlobalConstants.REFERRAL_CODE
+                            )
+                            SharedPrefClass().putObject(
+                                this,
                                 GlobalConstants.ACCESS_TOKEN,
                                 response.data!!.sessionToken
                             )

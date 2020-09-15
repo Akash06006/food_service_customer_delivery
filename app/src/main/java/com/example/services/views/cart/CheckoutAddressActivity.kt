@@ -202,7 +202,7 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
                             if (points!!.toDouble() > 0) {
                                 cartBinding.rlLoyalty.visibility = View.VISIBLE
                                 maxRangePoints = response.body?.lPoints?.maxRange!!.toDouble()
-                                cartBinding.txtLoyalMes.setText("Your can use loyalty points : " + response.body?.lPoints?.maxRange + "/" + response.body?.lPoints?.balance)
+                                cartBinding.txtLoyalMes.setText("Your can use loyalty points : " + response.body?.lPoints?.usablePoints + "/" + response.body?.lPoints?.balance)
                                 cartBinding.txtloyalDes.setText("Use loyalty point to redeem price, 1 point = " + GlobalConstants.Currency + response.body?.lPoints?.onePointValue)
                             } else {
                                 cartBinding.rlLoyalty.visibility = View.GONE

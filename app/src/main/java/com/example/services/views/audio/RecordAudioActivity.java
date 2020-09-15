@@ -33,7 +33,7 @@ public class RecordAudioActivity extends AppCompatActivity {
     String AudioSavePathInDevice = null;
     CountDownTimer countDownTimer;
     MediaRecorder mediaRecorder;
-    TextView tvTime;
+    TextView tvTime, txtStart;
     ImageView recordAudio, btnClose, btnRestart, btnPlay, ivCheck, ivClear, gifImage;
     Random random;
     boolean startRecording = false;
@@ -53,6 +53,7 @@ public class RecordAudioActivity extends AppCompatActivity {
         setContentView(R.layout.activity_record_audio);
         btnPlay = findViewById(R.id.play);
         recordAudio = findViewById(R.id.recordAudio);
+        txtStart = findViewById(R.id.txtStart);
         gifImage = findViewById(R.id.gif_image_view);
         ivCheck = findViewById(R.id.ivCheck);
         ivClear = findViewById(R.id.ivClear);
@@ -218,7 +219,8 @@ public class RecordAudioActivity extends AppCompatActivity {
 
                 MediaRecorderReady();
                 try {
-                   // recordAudio.setBackground(getDrawable(R.drawable.ic_pause));
+                    // recordAudio.setBackground(getDrawable(R.drawable.ic_pause));
+                    txtStart.setText("Tap to Stop");
                     //     recordAudio.setBackground(getDrawable(R.drawable.ic_stop_audio));
                     startRecording = true;
                     playStatus = "0";
@@ -242,11 +244,12 @@ public class RecordAudioActivity extends AppCompatActivity {
                             tvTime.setText("00:" + milisecont);
                             mediaRecorder.stop();
                             //   btnDone.setVisibility(View.VISIBLE);
-                           // recordAudio.setBackground(getDrawable(R.drawable.aar_ic_rec));
+                            // recordAudio.setBackground(getDrawable(R.drawable.aar_ic_rec));
                             btnRestart.setVisibility(View.VISIBLE);
                             btnPlay.setVisibility(View.VISIBLE);
                             ivCheck.setVisibility(View.VISIBLE);
                             ivClear.setVisibility(View.VISIBLE);
+                            txtStart.setText("");
                             //  recordAudio.setBackground(getDrawable(R.drawable.ic_pause));
                         }
                     }.start();
@@ -261,7 +264,8 @@ public class RecordAudioActivity extends AppCompatActivity {
             }
 
         } else {
-          //  recordAudio.setBackground(getDrawable(R.drawable.aar_ic_rec));
+            txtStart.setText("Tap to Start");
+            //  recordAudio.setBackground(getDrawable(R.drawable.aar_ic_rec));
             countDownTimer.cancel();
             countDownTimer.onFinish();
             startRecording = false;

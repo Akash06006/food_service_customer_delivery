@@ -124,6 +124,18 @@
                 android:padding="10dp"
                 android:scaleType="fitCenter" />
 
+            <TextView
+                android:id="@+id/txtStart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/recordAudio"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:fontFamily="sans-serif-thin"
+                android:text="Tap to Start"
+                android:textColor="@android:color/black"
+                android:textSize="16sp" />
+
             <ImageView
                 android:id="@+id/play"
                 android:layout_width="50dp"

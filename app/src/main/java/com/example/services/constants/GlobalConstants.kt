@@ -156,4 +156,7 @@ object GlobalConstants {
     @JvmStatic
     var REST_LONG = "ABOUT_US"
 
+    @JvmStatic
+    var REFERRAL_CODE = "REFERRAL_CODE"
+
 }

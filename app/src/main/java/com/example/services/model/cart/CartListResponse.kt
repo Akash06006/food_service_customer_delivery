@@ -42,6 +42,10 @@ class CartListResponse {
         @SerializedName("onePointValue")
         @Expose
         var onePointValue: String? = null
+        @SerializedName("usablePoints")
+        @Expose
+        var usablePoints: String? = null
+
     }
 
     inner class Data {

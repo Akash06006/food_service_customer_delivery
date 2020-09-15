@@ -42,7 +42,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:layout_centerVertical="true"
-                android:text="@string/upload_images"
+                android:text="@string/refer_earn"
                 android:textColor="@color/colorWhite"
                 android:textSize="18sp"
                 android:textStyle="bold"
@@ -86,31 +86,69 @@
                         android:layout_centerInParent="true"
                         app:lottie_autoPlay="true"
                         app:lottie_loop="true"
-                        app:lottie_rawRes="@raw/camera" />
+                        app:lottie_rawRes="@raw/gift" />
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:text="@string/add_images"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="20dp"
+                        android:gravity="center_horizontal"
+                        android:text="Invite your friends and get loyalty points."
                         android:textColor="@color/colorBlack"
-                        android:textSize="16sp"
+                        android:textSize="18sp"
                         android:textStyle="bold"
                         app:font="@{`bold`}" />
 
-                    <Button
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="20dp"
+                        android:gravity="center_horizontal"
+                        android:text="@string/referral_msg"
+                        android:textColor="@color/colorBlack"
+                        app:font="@{`regular`}" />
+
+                    <RelativeLayout
                         android:id="@+id/btnSubmit"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/dp_20"
+                        android:layout_marginLeft="@dimen/dp_20"
+                        android:layout_marginTop="@dimen/dp_30"
+                        android:layout_marginRight="@dimen/dp_20"
+                        android:layout_marginBottom="@dimen/dp_20"
                         android:background="@drawable/shape_purple"
-                        android:onClick="@{(v) -> reviewsViewModel.clickListener(v)}"
-                        android:text="@string/submit"
-                        android:textAlignment="center"
-                        android:textAllCaps="false"
-                        android:textColor="@color/buttonTextColor"
-                        android:textStyle="bold"
-                        app:font="@{`bold`}" />
+                        android:onClick="@{(v) -> reviewsViewModel.clickListener(v)}">
+
+                        <Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:background="@null"
+                            android:text="Share and Earn"
+                            android:textAlignment="center"
+                            android:textAllCaps="false"
+                            android:textColor="@color/buttonTextColor"
+                            android:textStyle="bold"
+                            app:font="@{`bold`}" />
+
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="10dp">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/ic_share" />
+
+                        </RelativeLayout>
+                    </RelativeLayout>
                 </LinearLayout>
 
 

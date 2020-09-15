@@ -22,8 +22,9 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.services.databinding.ActivityImagesBinding
+import com.example.services.databinding.ActivityReferEarnBinding
 import com.example.services.R
+import com.example.services.application.MyApplication
 import com.example.services.callbacks.ChoiceCallBack
 import com.example.services.common.UtilsFunctions
 import com.example.services.constants.GlobalConstants
@@ -31,6 +32,7 @@ import com.example.services.model.CommonModel
 import com.example.services.model.orders.OrdersDetailResponse
 import com.example.services.model.ratnigreviews.RatingData
 import com.example.services.model.ratnigreviews.RatingReviewListInput
+import com.example.services.sharedpreference.SharedPrefClass
 import com.example.services.utils.BaseActivity
 import com.example.services.utils.DialogClass
 import com.example.services.utils.DialogssInterface
@@ -48,13 +50,13 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class ReferAndEarn : BaseActivity(), DialogssInterface {
-    lateinit var reviewsBinding: ActivityImagesBinding
+    lateinit var reviewsBinding: ActivityReferEarnBinding
     lateinit var reviewsViewModel: RatingReviewsViewModel
     private var confirmationDialog: Dialog? = null
     private var mDialogClass = DialogClass()
     private val mJsonObject = JsonObject()
     override fun getLayoutId(): Int {
-        return R.layout.activity_images
+        return R.layout.activity_refer_earn
     }
 
     override fun onBackPressed() {
@@ -84,7 +86,7 @@ class ReferAndEarn : BaseActivity(), DialogssInterface {
 
     override fun initViews() {
 
-        reviewsBinding = viewDataBinding as ActivityImagesBinding
+        reviewsBinding = viewDataBinding as ActivityReferEarnBinding
         reviewsViewModel = ViewModelProviders.of(this).get(RatingReviewsViewModel::class.java)
         reviewsBinding.commonToolBar.imgRight.visibility = View.GONE
         reviewsBinding.commonToolBar.imgRight.setImageResource(R.drawable.ic_cart)
@@ -119,7 +121,22 @@ class ReferAndEarn : BaseActivity(), DialogssInterface {
                         onBackPressed()
                     }
                     "btnSubmit" -> {
-
+                        val referralCode = SharedPrefClass().getPrefValue(
+                            MyApplication.instance,
+                            GlobalConstants.REFERRAL_CODE
+                        ).toString()
+                        try {
+                            val shareIntent = Intent(Intent.ACTION_SEND)
+                            shareIntent.type = "text/plain"
+                            shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Delicio App")
+                            var shareMessage =
+                                "Hey\nJoin me on Delicio app and get delicious food and exciting offers. Use $referralCode referral code for login\n"
+                            shareMessage = shareMessage
+                            shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage)
+                            startActivity(Intent.createChooser(shareIntent, "choose one"))
+                        } catch (e: Exception) {
+                            //e.toString();
+                        }
                     }
                 }
             })
