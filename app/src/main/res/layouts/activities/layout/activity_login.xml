@@ -49,100 +49,131 @@
                 tools:ignore="AllCaps" />
         </LinearLayout>
 
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/dp_5"
-            android:text="@string/enter_your_moble_number"
-            android:textAllCaps="false"
-            android:textColor="@color/colorBlack"
-            android:textSize="16sp"
-            app:font="@{`regular`}"
-            tools:ignore="AllCaps" />
-
-        <View
-            android:id="@+id/v_underemail"
-            android:layout_width="@dimen/dp_20"
-            android:layout_height="@dimen/dp_2"
-            android:layout_marginLeft="@dimen/dp_10"
-            android:layout_marginTop="@dimen/dp_5"
-            android:layout_marginRight="@dimen/dp_10"
-            android:background="@color/colorPrimary"
-            android:visibility="gone" />
-
-        <LinearLayout
-            android:id="@+id/ll_login_phone"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dp_10"
-            android:layout_marginTop="@dimen/dp_20"
-            android:layout_marginRight="@dimen/dp_10"
-            android:elevation="@dimen/dp_10"
-            android:orientation="horizontal"
-            android:padding="@dimen/dp_15"
-            android:paddingLeft="@dimen/dp_10"
+            android:layout_height="match_parent">
 
-            >
-
-            <com.hbb20.CountryCodePicker
-                android:id="@+id/btn_ccp"
-                android:layout_width="@dimen/dp_120"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:background="@drawable/ic_editttext_bg"
-                android:elevation="@dimen/dp_10"
-                android:gravity="center"
-                android:padding="@dimen/dp_5"
-                app:ccpDialog_showNameCode="false"
-                app:ccp_arrowSize="@dimen/dp_20"
-                app:ccp_clickable="true"
-                app:ccp_contentColor="@color/colorBlack"
-                app:ccp_defaultPhoneCode="91"
-                app:ccp_showFlag="true"
-                app:ccp_showPhoneCode="true"
-                app:ccp_textSize="@dimen/sp_14" />
-
-            <EditText
-                android:id="@+id/et_phone_no"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:background="@drawable/ic_editttext_bg"
-                android:elevation="@dimen/dp_10"
-                android:ellipsize="start"
-                android:hint="@string/your_mobile_number"
-                android:imeOptions="actionDone"
-                android:inputType="number"
-                android:maxLength="10"
-                android:paddingLeft="@dimen/dp_10"
-                android:textColor="@color/colorBlack"
-                android:textColorHint="@color/colorGrey"
-                android:textSize="@dimen/sp_14"
-                app:font="@{`regular`}" />
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="5dp">
 
-        </LinearLayout>
 
-        <Button
-            android:id="@+id/btn_login"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginLeft="@dimen/dp_20"
-            android:layout_marginTop="@dimen/dp_35"
-            android:layout_marginRight="@dimen/dp_20"
-            android:background="@drawable/shape_round_stroke"
-            android:elevation="@dimen/dp_10"
-            android:onClick="@{(v) -> loginViewModel.clickListener(v)}"
-            android:paddingLeft="50dp"
-            android:paddingTop="@dimen/dp_10"
-            android:paddingRight="50dp"
-            android:paddingBottom="@dimen/dp_10"
-            android:src="@drawable/ic_arrow_forward"
-            android:text="@string/verify"
-            android:textColor="@color/buttonTextColor" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/dp_5"
+                    android:text="@string/enter_your_moble_number"
+                    android:textAllCaps="false"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="16sp"
+                    app:font="@{`regular`}"
+                    tools:ignore="AllCaps" />
 
+                <View
+                    android:id="@+id/v_underemail"
+                    android:layout_width="@dimen/dp_20"
+                    android:layout_height="@dimen/dp_2"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:layout_marginTop="@dimen/dp_5"
+                    android:layout_marginRight="@dimen/dp_10"
+                    android:background="@color/colorPrimary"
+                    android:visibility="gone" />
+
+                <LinearLayout
+                    android:id="@+id/ll_login_phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:layout_marginTop="@dimen/dp_5"
+                    android:layout_marginRight="@dimen/dp_10"
+                    android:elevation="@dimen/dp_10"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/dp_15"
+                    android:paddingLeft="@dimen/dp_10"
+
+                    >
+
+                    <com.hbb20.CountryCodePicker
+                        android:id="@+id/btn_ccp"
+                        android:layout_width="@dimen/dp_120"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:background="@drawable/ic_editttext_bg"
+                        android:elevation="@dimen/dp_10"
+                        android:gravity="center"
+                        android:padding="@dimen/dp_5"
+                        app:ccpDialog_showNameCode="false"
+                        app:ccp_arrowSize="@dimen/dp_20"
+                        app:ccp_clickable="true"
+                        app:ccp_contentColor="@color/colorBlack"
+                        app:ccp_defaultPhoneCode="91"
+                        app:ccp_showFlag="true"
+                        app:ccp_showPhoneCode="true"
+                        app:ccp_textSize="@dimen/sp_14" />
+
+                    <EditText
+                        android:id="@+id/et_phone_no"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:background="@drawable/ic_editttext_bg"
+                        android:elevation="@dimen/dp_10"
+                        android:ellipsize="start"
+                        android:hint="@string/your_mobile_number"
+                        android:imeOptions="actionDone"
+                        android:inputType="number"
+                        android:maxLength="10"
+                        android:paddingLeft="@dimen/dp_10"
+                        android:textColor="@color/colorBlack"
+                        android:textColorHint="@color/colorGrey"
+                        android:textSize="@dimen/sp_14"
+                        app:font="@{`regular`}" />
+
+                </LinearLayout>
+
+                <EditText
+                    android:id="@+id/edtReferralCode"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/dp_20"
+                    android:layout_marginRight="@dimen/dp_20"
+                    android:background="@drawable/ic_editttext_bg"
+                    android:elevation="@dimen/dp_10"
+                    android:ellipsize="start"
+                    android:hint="@string/referral_code"
+                    android:imeOptions="actionDone"
+                    android:maxLength="10"
+                    android:paddingLeft="@dimen/dp_10"
+                    android:textColor="@color/colorBlack"
+                    android:textColorHint="@color/colorGrey"
+                    android:textSize="@dimen/sp_14"
+                    app:font="@{`regular`}" />
+
+                <Button
+                    android:id="@+id/btn_login"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/dp_20"
+                    android:layout_marginTop="@dimen/dp_35"
+                    android:layout_marginRight="@dimen/dp_20"
+                    android:background="@drawable/shape_purple"
+                    android:elevation="@dimen/dp_10"
+                    android:onClick="@{(v) -> loginViewModel.clickListener(v)}"
+                    android:paddingLeft="50dp"
+                    android:paddingTop="@dimen/dp_10"
+                    android:paddingRight="50dp"
+                    android:paddingBottom="@dimen/dp_10"
+                    android:src="@drawable/ic_arrow_forward"
+                    android:text="@string/verify"
+                    android:textColor="@color/buttonTextColor" />
+
+            </LinearLayout>
+        </ScrollView>
     </LinearLayout>
 
 </layout>

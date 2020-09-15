@@ -50,21 +50,30 @@ class DashboardSubCatsRecyclerAdapter(
         //holder.binding!!.catHeader.setText(galleryList[position].name)
         holder.binding!!.catHeader.visibility = View.GONE
 
+        if (position == 4) {
+            holder.binding!!.rlViewAll.visibility = View.VISIBLE
+        } else {
+            holder.binding!!.rlViewAll.visibility = View.GONE
+        }
         Glide.with(mContext)
             .load(galleryList[position].mediaHttpUrl)
             .apply(RequestOptions.bitmapTransform(RoundedCorners(20)))
             .placeholder(R.drawable.ic_category)
             .into(holder.binding.catImg)
 
-        /*holder.binding.catImg.setOnClickListener {
-            val intent = Intent(activity, ServicesListActivity::class.java)
-            intent.putExtra("catId", galleryList[position].id)
-            mContext.startActivity(intent)
-        }*/
+        holder.binding.catImg.setOnClickListener {
+
+            mContext.openGalleryFullView()
+        }
     }
 
     override fun getItemCount(): Int {
-        return galleryList.count()
+        if (galleryList.count() > 4) {
+            return 4
+        } else {
+            return galleryList.count()
+        }
+
     }
 
     inner class ViewHolder//This constructor would switch what to findViewBy according to the type of viewType

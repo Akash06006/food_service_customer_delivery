@@ -101,6 +101,14 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".views.home.AddImagesActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".views.referandearn.ReferAndEarn"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".views.ratingreviews.AddRatingReviewsListActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"

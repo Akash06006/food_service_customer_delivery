@@ -135,6 +135,12 @@ interface ApiInterface {
     ): Call<JsonObject>
 
     @Multipart
+    @POST("mobile/company/gallery/add")
+    fun addImages(
+        @PartMap partMap: HashMap<String, RequestBody>?, @Part imagesParts: Array<MultipartBody.Part?>?
+    ): Call<JsonObject>
+
+    @Multipart
     @POST("mobile/profile/updateprofile")
     fun callUpdateProfile(
         @PartMap mHashMap: HashMap<String,

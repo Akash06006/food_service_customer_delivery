@@ -1,125 +1,143 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center"
-    android:background="#ED264E"
-
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    android:background="#50000000"
+    android:gravity="bottom"
+    android:orientation="vertical">
 
 
-    <ImageView
-        android:id="@+id/ivClear"
-        android:visibility="gone"
-        android:padding="@dimen/dp_5"
-        android:layout_margin="@dimen/dp_20"
-        android:src="@drawable/aar_ic_clear"
-        android:layout_width="@dimen/dp_40"
-        android:layout_height="@dimen/dp_40">
-
-    </ImageView>
-
-    <ImageView
-        android:id="@+id/ivCheck"
-        android:visibility="gone"
-        android:padding="@dimen/dp_5"
-        android:layout_alignParentRight="true"
-        android:layout_margin="@dimen/dp_20"
-        android:src="@drawable/aar_ic_check"
-        android:layout_width="@dimen/dp_40"
-        android:layout_height="@dimen/dp_40">
-
-    </ImageView>
-
-
-    <LinearLayout
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/dp_50"
-        android:orientation="vertical">
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorWhite"
+        android:paddingBottom="10dp">
 
-        <TextView
-            android:id="@+id/status"
+        <ImageView
+            android:id="@+id/ivClear"
+            android:layout_width="@dimen/dp_40"
+            android:layout_height="@dimen/dp_40"
+            android:layout_margin="@dimen/dp_20"
+            android:background="@drawable/aar_ic_clear"
+            android:backgroundTint="@color/colorBlack"
+            android:padding="@dimen/dp_5"
+            android:visibility="gone">
+
+        </ImageView>
+
+        <ImageView
+            android:id="@+id/ivCheck"
+            android:layout_width="@dimen/dp_40"
+            android:layout_height="@dimen/dp_40"
+            android:layout_alignParentRight="true"
+            android:layout_margin="@dimen/dp_20"
+            android:background="@drawable/aar_ic_check"
+            android:backgroundTint="@color/colorBlack"
+            android:padding="@dimen/dp_5"
+            android:visibility="gone">
+
+        </ImageView>
+
+
+        <RelativeLayout
+            android:id="@+id/audio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="-10dp"
-            android:textSize="@dimen/sp_20"
-            android:textColor="@android:color/white"
-            android:fontFamily="sans-serif-light"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/dp_50"
+            android:background="@drawable/ic_audio_beats"
+            android:orientation="vertical">
 
-            />
+            <TextView
+                android:id="@+id/status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="-10dp"
+                android:text=""
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/sp_20" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_audio_mic" />
+
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/timer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="60sp"
-            android:textColor="@android:color/white"
+            android:layout_below="@+id/audio"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
             android:fontFamily="sans-serif-thin"
-            android:text="00:00:00"/>
-
-
-    </LinearLayout>
-
-    <ImageView
-        android:layout_centerInParent="true"
-        android:id="@+id/gif_image_view"
-        android:visibility="gone"
-        android:layout_width="match_parent"
-        android:layout_height="300dp"/>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_120"
-        android:background="@color/colorPrimaryDark"
-        android:layout_alignParentBottom="true">
+            android:text="00:00:00"
+            android:textColor="@android:color/black"
+            android:textSize="16sp" />
 
         <ImageView
-            android:id="@+id/restart"
-            android:layout_width="@dimen/dp_50"
-            android:visibility="gone"
-            android:layout_height="@dimen/dp_50"
-            android:layout_centerVertical="true"
-            android:layout_toStartOf="@+id/recordAudio"
-            android:layout_toLeftOf="@+id/recordAudio"
-            android:layout_marginTop="@dimen/dp_50"
-            android:layout_marginRight="@dimen/dp_20"
-
-            android:scaleType="fitCenter"
-            android:src="@drawable/aar_ic_restart"
-            />
-
-        <ImageView
-            android:id="@+id/recordAudio"
-            android:layout_width="@dimen/dp_80"
-            android:layout_height="80dp"
+            android:id="@+id/gif_image_view"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
             android:layout_centerInParent="true"
-            android:layout_marginTop="50dp"
-            android:layout_margin="15dp"
-            android:padding="10dp"
-            android:scaleType="fitCenter"
-            android:background="@drawable/aar_ic_rec"
-            style="@style/Widget.AppCompat.Button.Borderless"/>
+            android:visibility="visible" />
 
-        <ImageView
-            android:id="@+id/play"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:visibility="gone"
-            android:layout_centerVertical="true"
-            android:layout_toEndOf="@+id/recordAudio"
-            android:layout_toRightOf="@+id/recordAudio"
-            android:layout_marginTop="@dimen/dp_50"
-            android:layout_marginLeft="@dimen/dp_20"
-            android:scaleType="fitCenter"
-            android:background="@drawable/aar_ic_play"
-            />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/timer"
+            android:layout_marginTop="50dp">
 
+            <ImageView
+                android:id="@+id/restart"
+                android:layout_width="@dimen/dp_50"
+                android:layout_height="@dimen/dp_50"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="@dimen/dp_50"
+                android:layout_marginRight="@dimen/dp_20"
+                android:layout_toStartOf="@+id/recordAudio"
+                android:layout_toLeftOf="@+id/recordAudio"
+                android:background="@drawable/aar_ic_restart"
+
+                android:backgroundTint="@color/colorPrimary"
+                android:scaleType="fitCenter"
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/recordAudio"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="@dimen/dp_80"
+                android:layout_height="80dp"
+                android:layout_centerInParent="true"
+                android:layout_margin="15dp"
+                android:layout_marginTop="50dp"
+                android:background="@drawable/ic_start_audio"
+                android:padding="10dp"
+                android:scaleType="fitCenter" />
+
+            <ImageView
+                android:id="@+id/play"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/dp_20"
+                android:layout_marginTop="@dimen/dp_50"
+                android:layout_toEndOf="@+id/recordAudio"
+                android:layout_toRightOf="@+id/recordAudio"
+                android:background="@drawable/aar_ic_play"
+                android:backgroundTint="@color/colorPrimary"
+                android:scaleType="fitCenter"
+                android:visibility="gone" />
+
+        </RelativeLayout>
     </RelativeLayout>
-
 </RelativeLayout>

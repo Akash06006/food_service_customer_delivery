@@ -80,7 +80,8 @@
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
                         android:text="@string/no_record_found"
-                        android:visibility="gone" />
+                        android:visibility="gone"
+                        app:font="@{`regular`}" />
 
 
                     <LinearLayout
@@ -215,10 +216,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:elevation="@dimen/dp_5"
-                        app:cardCornerRadius="@dimen/dp_10"
+                        android:elevation="@dimen/dp_10"
                         android:paddingLeft="@dimen/dp_10"
-                        android:paddingRight="@dimen/dp_10">
+                        android:paddingRight="@dimen/dp_10"
+                        app:cardCornerRadius="@dimen/dp_10">
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -387,11 +388,11 @@
                             <View
                                 android:layout_width="wrap_content"
                                 android:layout_height="0.2dp"
-                                android:alpha="0.5"
                                 android:layout_marginLeft="@dimen/dp_10"
                                 android:layout_marginTop="@dimen/dp_5"
                                 android:layout_marginRight="@dimen/dp_10"
                                 android:layout_marginBottom="@dimen/dp_5"
+                                android:alpha="0.5"
                                 android:background="@color/colorGrey" />
 
                             <RelativeLayout
@@ -431,11 +432,11 @@
                             <View
                                 android:layout_width="wrap_content"
                                 android:layout_height="0.2dp"
-                                android:alpha="0.5"
                                 android:layout_marginLeft="@dimen/dp_10"
                                 android:layout_marginTop="@dimen/dp_5"
                                 android:layout_marginRight="@dimen/dp_10"
                                 android:layout_marginBottom="@dimen/dp_5"
+                                android:alpha="0.5"
                                 android:background="@color/colorGrey" />
 
                             <LinearLayout
@@ -541,10 +542,10 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:elevation="@dimen/dp_5"
-                                app:cardCornerRadius="@dimen/dp_10"
+                                android:elevation="@dimen/dp_10"
                                 android:paddingLeft="@dimen/dp_10"
-                                android:paddingRight="@dimen/dp_10">
+                                android:paddingRight="@dimen/dp_10"
+                                app:cardCornerRadius="@dimen/dp_10">
 
                                 <LinearLayout
                                     android:layout_width="match_parent"
@@ -632,11 +633,11 @@
                                     <View
                                         android:layout_width="wrap_content"
                                         android:layout_height="0.2dp"
-                                        android:alpha="0.5"
                                         android:layout_marginLeft="@dimen/dp_10"
                                         android:layout_marginTop="@dimen/dp_5"
                                         android:layout_marginRight="@dimen/dp_10"
                                         android:layout_marginBottom="@dimen/dp_5"
+                                        android:alpha="0.5"
                                         android:background="@color/colorGrey" />
 
                                     <RelativeLayout
@@ -708,7 +709,7 @@
                                         android:paddingTop="@dimen/dp_15"
                                         android:paddingEnd="@dimen/dp_5"
                                         android:paddingBottom="@dimen/dp_10"
-                                        android:visibility="gone">
+                                        android:visibility="visible">
                                         <!--                            android:background="@drawable/round_back_transparent"
                                         -->
                                         <ImageView
@@ -717,31 +718,32 @@
                                             android:layout_height="@dimen/dp_30"
                                             android:layout_gravity="center_vertical"
                                             android:scaleType="fitXY"
-                                            android:src="@drawable/ic_coupon" />
+                                            android:src="@drawable/ic_coupon"
+                                            android:visibility="gone" />
 
                                         <TextView
+                                            android:id="@+id/txtLoyalMes"
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
-                                            android:layout_marginLeft="@dimen/dp_10"
                                             android:layout_marginRight="@dimen/dp_5"
                                             android:layout_toLeftOf="@+id/chkLoyalty"
-                                            android:layout_toRightOf="@+id/imgLoyalty"
                                             android:onClick="@{(v) -> cartViewModel.clickListener(v)}"
                                             android:padding="@dimen/dp_2"
-                                            android:text="Your Total Loyality points are : 20 "
+                                            android:text=""
                                             android:textAppearance="@style/TextAppearance.AppCompat.Small"
                                             android:textColor="@color/tabSelection"
                                             android:textStyle="bold"
                                             app:font="@{`bold`}" />
 
                                         <TextView
+                                            android:id="@+id/txtloyalDes"
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
-                                            android:layout_below="@+id/imgLoyalty"
+                                            android:layout_below="@+id/txtLoyalMes"
                                             android:layout_marginRight="@dimen/dp_5"
                                             android:onClick="@{(v) -> cartViewModel.clickListener(v)}"
                                             android:padding="@dimen/dp_2"
-                                            android:text="Use loyalty point to redeem price, 1 Point= Rs 1"
+                                            android:text=""
                                             android:textAppearance="@style/TextAppearance.AppCompat.Small"
                                             android:textColor="@color/success"
                                             android:textSize="12sp"
@@ -783,7 +785,7 @@
                                                 android:singleLine="true"
                                                 android:text="@string/items"
                                                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                                                android:textStyle="bold"
+
                                                 app:font="@{`bold`}" />
 
                                             <TextView
@@ -796,7 +798,7 @@
                                                 android:text="10"
                                                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                                                 android:textColor="@android:color/black"
-                                                app:font="@{`bold`}" />
+                                                app:font="@{`regular`}" />
                                         </LinearLayout>
 
                                         <View
@@ -822,7 +824,7 @@
                                                 android:singleLine="true"
                                                 android:text="Delivery Charges"
                                                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                                                android:textStyle="bold"
+
                                                 app:font="@{`bold`}" />
 
                                             <TextView
@@ -835,7 +837,7 @@
                                                 android:text="0"
                                                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                                                 android:textColor="@android:color/black"
-                                                app:font="@{`bold`}" />
+                                                app:font="@{`regular`}" />
                                         </LinearLayout>
 
                                         <View
@@ -861,7 +863,7 @@
                                                 android:singleLine="true"
                                                 android:text="Loyalty Points"
                                                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                                                android:textStyle="bold"
+
                                                 app:font="@{`bold`}" />
 
                                             <TextView
@@ -874,7 +876,7 @@
                                                 android:text=""
                                                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                                                 android:textColor="@android:color/black"
-                                                app:font="@{`bold`}" />
+                                                app:font="@{`regular`}" />
                                         </LinearLayout>
 
                                         <View
@@ -902,7 +904,7 @@
                                                 android:text="@string/total_price"
                                                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                                                 android:textColor="@android:color/black"
-                                                android:textStyle="bold"
+
                                                 app:font="@{`bold`}" />
 
                                             <TextView
@@ -915,7 +917,7 @@
                                                 android:text="Rs. 1000"
                                                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                                                 android:textColor="@color/colorPrimary"
-                                                android:textStyle="bold"
+
                                                 android:visibility="gone"
                                                 app:font="@{`bold`}" />
 
@@ -933,7 +935,7 @@
                                                     android:padding="@dimen/dp_1"
                                                     android:text=""
                                                     android:textColor="@color/colorPrimary"
-                                                    android:textStyle="bold" />
+                                                    app:font="@{`regular`}" />
 
                                                 <RelativeLayout
                                                     android:id="@+id/rl_real_price"
@@ -952,7 +954,7 @@
                                                         android:text="Rs.150"
                                                         android:textColor="@color/colorGrey"
                                                         android:textSize="@dimen/sp_10"
-                                                        android:textStyle="bold" />
+                                                        app:font="@{`regular`}" />
 
                                                     <View
                                                         android:layout_width="wrap_content"

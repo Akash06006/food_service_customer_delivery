@@ -24,12 +24,17 @@ class RatingReviewsViewModel : BaseViewModel() {
     private var reviewsList = MutableLiveData<ReviewsListResponse>()
     private var orderDetail = MutableLiveData<OrdersDetailResponse>()
     private var ratingReview = MutableLiveData<CommonModel>()
+    private var addImages = MutableLiveData<CommonModel>()
     private var ratingReviewsRepository = RatingReviewsRepository()
     private val mIsUpdating = MutableLiveData<Boolean>()
     private val btnClick = MutableLiveData<String>()
 
     init {
         if (UtilsFunctions.isNetworkConnectedWithoutToast()) {
+            addImages = ratingReviewsRepository.addImages(
+                null,
+                null
+            )
             reviewsList = ratingReviewsRepository.reviewsListList("", "")
             orderDetail = ratingReviewsRepository.getOrderDetail("")
             ratingReview = ratingReviewsRepository.addRatings(
@@ -38,9 +43,11 @@ class RatingReviewsViewModel : BaseViewModel() {
                 null,
                 null
             )
-
         }
+    }
 
+    fun addImagesRes(): LiveData<CommonModel> {
+        return addImages
     }
 
     fun getReviewsRes(): LiveData<ReviewsListResponse> {
@@ -90,7 +97,19 @@ class RatingReviewsViewModel : BaseViewModel() {
         mHashMap: HashMap<String, RequestBody>
     ) {
         if (UtilsFunctions.isNetworkConnected()) {
-            ratingReview = ratingReviewsRepository.addRatings(params,imagesParts,contributorsMap,mHashMap)
+            ratingReview =
+                ratingReviewsRepository.addRatings(params, imagesParts, contributorsMap, mHashMap)
+            mIsUpdating.postValue(true)
+        }
+
+    }
+
+    fun addImages(
+        imagesParts: Array<MultipartBody.Part?>?,
+        mHashMap: HashMap<String, RequestBody>
+    ) {
+        if (UtilsFunctions.isNetworkConnected()) {
+            ratingReview = ratingReviewsRepository.addImages(imagesParts, mHashMap)
             mIsUpdating.postValue(true)
         }
 

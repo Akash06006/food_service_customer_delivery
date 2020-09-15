@@ -34,6 +34,7 @@ import com.example.services.views.notifications.NotificationsListActivity
 import com.example.services.views.orders.OrdersHistoryListActivity
 import com.example.services.views.orders.OrdersListActivity
 import com.example.services.views.profile.ProfileActivity
+import com.example.services.views.referandearn.ReferAndEarn
 import com.example.services.views.settings.MyAccountsActivity
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.tabs.TabLayout
@@ -121,6 +122,10 @@ class LandingMainActivity : BaseActivity(),
                     }
                     "tv_nav_cart" -> {
                         val intent = Intent(this, CartListActivity::class.java)
+                        startActivity(intent)
+                    }
+                    "tv_nav_refer" -> {
+                        val intent = Intent(this, ReferAndEarn::class.java)
                         startActivity(intent)
                     }
                     "img_right" -> {

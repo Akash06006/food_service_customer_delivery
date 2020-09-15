@@ -12,21 +12,24 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.services.R
 import com.example.services.databinding.ImageItemBinding
-import com.example.services.model.ratnigreviews.RatingReviewListInput
+import com.example.services.views.home.AddImagesActivity
 import com.example.services.views.ratingreviews.AddRatingReviewsListActivity
 
 class ImagesListAdapter(
-    context: AddRatingReviewsListActivity,
+    context: AddRatingReviewsListActivity?,
+    addimageContext: AddImagesActivity?,
     addressList: ArrayList<String>,
     var activity: Context
 ) :
     RecyclerView.Adapter<ImagesListAdapter.ViewHolder>() {
-    private val mContext: AddRatingReviewsListActivity
+    private val addReviewContext: AddRatingReviewsListActivity?
+    private val addImageContext: AddImagesActivity?
     private var viewHolder: ViewHolder? = null
     private var addressList: ArrayList<String>
 
     init {
-        this.mContext = context
+        this.addReviewContext = context
+        this.addImageContext = addimageContext
         this.addressList = addressList
     }
 
@@ -38,21 +41,34 @@ class ImagesListAdapter(
             parent,
             false
         ) as ImageItemBinding
-        return ViewHolder(binding.root, viewType, binding, mContext, addressList)
+        return ViewHolder(binding.root, viewType, binding, addressList)
     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onBindViewHolder(@NonNull holder: ViewHolder, position: Int) {
         viewHolder = holder
-        Glide.with(mContext)
-            .load(addressList[position])
-            //.apply(RequestOptions.bitmapTransform(RoundedCorners(20)))
-            .placeholder(R.drawable.ic_category)
-            .into(holder.binding!!.imgReview)
+        if (addImageContext != null) {
+            Glide.with(addImageContext)
+                .load(addressList[position])
+                //.apply(RequestOptions.bitmapTransform(RoundedCorners(20)))
+                .placeholder(R.drawable.ic_category)
+                .into(holder.binding!!.imgReview)
 
-        holder.binding!!.imgCross.setOnClickListener {
-            mContext.removeImage(position/*, holder.binding!!.imgCart.getText().toString()*/)
+            holder.binding!!.imgCross.setOnClickListener {
+                addImageContext.removeImage(position/*, holder.binding!!.imgCart.getText().toString()*/)
+            }
+        } else {
+            Glide.with(addReviewContext!!)
+                .load(addressList[position])
+                //.apply(RequestOptions.bitmapTransform(RoundedCorners(20)))
+                .placeholder(R.drawable.ic_category)
+                .into(holder.binding!!.imgReview)
+
+            holder.binding!!.imgCross.setOnClickListener {
+                addReviewContext.removeImage(position/*, holder.binding!!.imgCart.getText().toString()*/)
+            }
         }
+
 
     }
 
@@ -66,7 +82,6 @@ class ImagesListAdapter(
         (
         v: View, val viewType: Int, //These are the general elements in the RecyclerView
         val binding: ImageItemBinding?,
-        mContext: AddRatingReviewsListActivity,
         addressList: ArrayList<String>
     ) : RecyclerView.ViewHolder(v) {
         /*init {

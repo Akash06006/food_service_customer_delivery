@@ -98,9 +98,9 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
     var addressId = ""
     var strCookingInstructions = ""
     var points = ""
-    var singlePointValue = 0
-    var totalPoints = 0
-    var maxRangePoints = 0
+    var singlePointValue = 0.0
+    var totalPoints = 0.0
+    var maxRangePoints = 0.0
 
     // var addressType = ""
     lateinit var servicesViewModel: ServicesViewModel
@@ -198,13 +198,15 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
                         response.code == 200 -> {
                             cartList.addAll(response.body!!.data!!)
                             points = response.body?.lPoints?.maxRange.toString()
-                            /*singlePointValue = response.body?.lPoints?.onePointValue!!.toDouble()
+                            singlePointValue = response.body?.lPoints?.onePointValue!!.toDouble()
                             if (points!!.toDouble() > 0) {
                                 cartBinding.rlLoyalty.visibility = View.VISIBLE
                                 maxRangePoints = response.body?.lPoints?.maxRange!!.toDouble()
+                                cartBinding.txtLoyalMes.setText("Your can use loyalty points : " + response.body?.lPoints?.maxRange + "/" + response.body?.lPoints?.balance)
+                                cartBinding.txtloyalDes.setText("Use loyalty point to redeem price, 1 point = " + GlobalConstants.Currency + response.body?.lPoints?.onePointValue)
                             } else {
                                 cartBinding.rlLoyalty.visibility = View.GONE
-                            }*/
+                            }
                             payableAmount = response.body?.sum.toString()
                             cartBinding.tvTotalItems.setText(cartList.size.toString())
                             var total =
@@ -601,7 +603,7 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
                 cartBinding.tvLoyalityPoints.setText(totalPoints.toString())
                 payableAmount =
                     payableAmount.toDouble().plus(totalPoints).toString()
-                totalPoints = 0
+                totalPoints = 0.0
                 cartBinding.tvOfferPrice.setText(GlobalConstants.Currency + "" + payableAmount)
                 cartBinding!!.llLoyalityPoints.visibility = View.GONE
                 cartBinding.tvLoyalityPoints.setText("")
@@ -865,10 +867,15 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
         val cancel = confirmationDialog?.findViewById<Button>(R.id.btnCookingSubmit)
         val etInstruction = confirmationDialog?.findViewById<EditText>(R.id.etInstruction)
         val imgCross = confirmationDialog?.findViewById<ImageView>(R.id.img_cross)
+        val txtAddAudio = confirmationDialog?.findViewById<TextView>(R.id.txtAddAudio)
 
         etInstruction.setText(cartBinding.tvCookingInstructions.text.toString())
 
         imgCross?.setOnClickListener {
+            confirmationDialog?.dismiss()
+        }
+        txtAddAudio?.setOnClickListener {
+            recordAudio()
             confirmationDialog?.dismiss()
         }
         cancel?.setOnClickListener {
@@ -877,7 +884,7 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
                 showToastError("Please enter cookings instructions")
             } else {
                 strCookingInstructions = etInstruction.text.toString()
-                cartBinding.tvCookingInstructions.setText(etInstruction.text.toString())
+                cartBinding.tvCookingInstructions.setText("Instructions  added"/*etInstruction.text.toString()*/)
             }
         }
 

@@ -29,27 +29,53 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginLeft="5dp"
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/card_view"
+            <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:elevation="@dimen/dp_5"
-                app:cardCornerRadius="@dimen/dp_10">
+                android:layout_height="wrap_content">
 
-                <ImageView
-                    android:id="@+id/cat_img"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/card_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/ic_category"
-                    android:visibility="visible" />
-            </androidx.cardview.widget.CardView>
+                    android:elevation="@dimen/dp_5"
+                    app:cardCornerRadius="@dimen/dp_10">
+
+                    <ImageView
+                        android:id="@+id/cat_img"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:layout_gravity="center"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/ic_category"
+                        android:visibility="visible" />
+
+                    <RelativeLayout
+                        android:id="@+id/rlViewAll"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:background="#50000000">
+
+                        <TextView
+                            android:id="@+id/txtViewAll"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:gravity="center"
+                            android:singleLine="true"
+                            android:text="View All"
+                            android:textAllCaps="false"
+                            android:textColor="@color/colorWhite"
+                            app:font="@{`regular`}" />
+                    </RelativeLayout>
+                </androidx.cardview.widget.CardView>
+
+
+            </RelativeLayout>
 
             <TextView
                 android:id="@+id/cat_header"

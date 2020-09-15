@@ -137,5 +137,42 @@ class RatingReviewsRepository {
 
     }
 
+    fun addImages(
+        imagesParts: Array<MultipartBody.Part?>?,
+        mHashMap: HashMap<String, RequestBody>?
+    ): MutableLiveData<CommonModel> {
+        if (imagesParts != null) {
+            val mApiService = ApiService<JsonObject>()
+            mApiService.get(
+                object : ApiResponse<JsonObject> {
+                    override fun onResponse(mResponse: Response<JsonObject>) {
+                        val loginResponse = if (mResponse.body() != null)
+                            gson.fromJson<CommonModel>(
+                                "" + mResponse.body(),
+                                CommonModel::class.java
+                            )
+                        else {
+                            gson.fromJson<CommonModel>(
+                                mResponse.errorBody()!!.charStream(),
+                                CommonModel::class.java
+                            )
+                        }
+                        data3!!.postValue(loginResponse)
+                    }
+
+                    override fun onError(mKey: String) {
+                        UtilsFunctions.showToastError(MyApplication.instance.getString(R.string.internal_server_error))
+                        data3!!.postValue(null)
+                    }
+
+                },
+                ApiClient.getApiInterface().addImages(/*id*/mHashMap, imagesParts)
+            )
+
+        }
+        return data3!!
+
+    }
+
 
 }

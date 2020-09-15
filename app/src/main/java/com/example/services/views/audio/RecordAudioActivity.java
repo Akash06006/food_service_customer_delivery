@@ -42,9 +42,9 @@ public class RecordAudioActivity extends AppCompatActivity {
     private long milisecont;
     private boolean timerStart = false;
     MediaPlayer mp;
-    String playStatus="0",pause="0";
-    boolean ispause=false;
-    long audioTime=60000;
+    String playStatus = "0", pause = "0";
+    boolean ispause = false;
+    long audioTime = 60000;
 
 
     @Override
@@ -83,32 +83,32 @@ public class RecordAudioActivity extends AppCompatActivity {
         btnPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-              if(playStatus.equals("0")) {
-                  playStatus="1";
-                  btnPlay.setBackgroundResource(R.drawable.ic_pause);
+                if (playStatus.equals("0")) {
+                    playStatus = "1";
+                    btnPlay.setBackgroundResource(R.drawable.ic_pause);
 
-                  mp = new MediaPlayer();
-                  try {
-                      mp.setDataSource(AudioSavePathInDevice);//Write your location here
-                      mp.prepare();
-                      // mp.start();
-                      playSound(mp);
+                    mp = new MediaPlayer();
+                    try {
+                        mp.setDataSource(AudioSavePathInDevice);//Write your location here
+                        mp.prepare();
+                        // mp.start();
+                        playSound(mp);
 
-                  } catch (Exception e) {
-                      e.printStackTrace();
-                  }
-              }else {
-                  if(pause.equals("0")){
-                      mp.pause();
-                      pause="1";
-                      btnPlay.setBackgroundResource(R.drawable.aar_ic_play);
-                  } else {
-                      playSound(mp);
-                      pause="0";
-                      btnPlay.setBackgroundResource(R.drawable.ic_pause);
-                  }
-              }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    if (pause.equals("0")) {
+                        mp.pause();
+                        pause = "1";
+                        btnPlay.setBackgroundResource(R.drawable.aar_ic_play);
+                    } else {
+                        playSound(mp);
+                        pause = "0";
+                        btnPlay.setBackgroundResource(R.drawable.ic_pause);
+                    }
                 }
+            }
         });
 
         btnRestart.setOnClickListener(new View.OnClickListener() {
@@ -119,8 +119,8 @@ public class RecordAudioActivity extends AppCompatActivity {
                         mp.stop();
                     }
                 }
-                playStatus="0";
-                pause="0";
+                playStatus = "0";
+                pause = "0";
                 AudioSavePathInDevice = "";
                 tvTime.setText("00:00");
                 startRecording = false;
@@ -156,7 +156,7 @@ public class RecordAudioActivity extends AppCompatActivity {
         super.onPause();
         if (mp != null) {
             mp.pause();
-            pause="1";
+            pause = "1";
             btnPlay.setBackgroundResource(R.drawable.aar_ic_play);
         }
     }
@@ -196,7 +196,7 @@ public class RecordAudioActivity extends AppCompatActivity {
 //                                    if (mp != null) {
 //                                        mp.stop();
 //                                    }
-                                 //   pause="0";
+                                    //   pause="0";
                                 }
                             }
                         });
@@ -218,14 +218,14 @@ public class RecordAudioActivity extends AppCompatActivity {
 
                 MediaRecorderReady();
                 try {
-                    recordAudio.setBackground(getDrawable(R.drawable.ic_pause));
+                   // recordAudio.setBackground(getDrawable(R.drawable.ic_pause));
                     //     recordAudio.setBackground(getDrawable(R.drawable.ic_stop_audio));
                     startRecording = true;
-                    playStatus="0";
-                    pause="0";
+                    playStatus = "0";
+                    pause = "0";
                     mediaRecorder.prepare();
                     mediaRecorder.start();
-                    ispause=true;
+                    ispause = true;
                     btnRestart.setVisibility(View.GONE);
                     btnPlay.setVisibility(View.GONE);
                     ivCheck.setVisibility(View.GONE);
@@ -242,7 +242,7 @@ public class RecordAudioActivity extends AppCompatActivity {
                             tvTime.setText("00:" + milisecont);
                             mediaRecorder.stop();
                             //   btnDone.setVisibility(View.VISIBLE);
-                            recordAudio.setBackground(getDrawable(R.drawable.aar_ic_rec));
+                           // recordAudio.setBackground(getDrawable(R.drawable.aar_ic_rec));
                             btnRestart.setVisibility(View.VISIBLE);
                             btnPlay.setVisibility(View.VISIBLE);
                             ivCheck.setVisibility(View.VISIBLE);
@@ -261,7 +261,7 @@ public class RecordAudioActivity extends AppCompatActivity {
             }
 
         } else {
-            recordAudio.setBackground(getDrawable(R.drawable.aar_ic_rec));
+          //  recordAudio.setBackground(getDrawable(R.drawable.aar_ic_rec));
             countDownTimer.cancel();
             countDownTimer.onFinish();
             startRecording = false;

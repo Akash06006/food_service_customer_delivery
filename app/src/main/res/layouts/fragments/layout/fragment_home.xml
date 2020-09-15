@@ -261,8 +261,7 @@
                                     android:textAllCaps="false"
                                     android:textColor="@color/colorWhite"
                                     android:textSize="11sp"
-                                    android:textStyle="bold"
-                                    app:font="@{`semibold`}" />
+                                    app:font="@{`regular`}" />
                             </RelativeLayout>
 
                             <LinearLayout
@@ -677,21 +676,48 @@
                     </LinearLayout>
                 </LinearLayout>
 
-                <TextView
-                    android:id="@+id/foodGallery"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/dp_20"
-                    android:layout_marginTop="@dimen/dp_20"
-                    android:layout_toRightOf="@+id/imgAbout"
-                    android:onClick="@{(v) -> homeViewModel.clickListener(v)}"
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-                    android:text="Gallery"
-                    android:textAllCaps="false"
-                    android:textColor="@color/colorBlack"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    app:font="@{`semibold`}" />
+                    <TextView
+                        android:id="@+id/foodGallery"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/dp_20"
+                        android:layout_marginTop="@dimen/dp_20"
+                        android:layout_toRightOf="@+id/imgAbout"
+                        android:onClick="@{(v) -> homeViewModel.clickListener(v)}"
+
+                        android:text="Gallery"
+                        android:textAllCaps="false"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        app:font="@{`semibold`}" />
+
+                    <TextView
+                        android:id="@+id/txtAddImge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginTop="@dimen/dp_20"
+                        android:layout_marginRight="@dimen/dp_20"
+                        android:background="@drawable/shape_purple"
+                        android:elevation="5dp"
+                        android:onClick="@{(v) -> homeViewModel.clickListener(v)}"
+                        android:paddingLeft="10dp"
+                        android:paddingTop="5dp"
+                        android:paddingRight="10dp"
+                        android:paddingBottom="5dp"
+                        android:text="Add image"
+                        android:textAllCaps="false"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="14sp"
+                        app:font="@{`regular`}" />
+
+                </RelativeLayout>
+
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
@@ -866,6 +892,7 @@
             </LinearLayout>
         </ScrollView>
 
+
         <Button
             android:id="@+id/btnOrderHere"
             android:layout_width="match_parent"
@@ -879,6 +906,33 @@
             android:textAllCaps="false"
             android:textColor="@color/colorWhite"
             app:font="@{`regular`}" />
+
+        <RelativeLayout
+            android:id="@+id/rlGalleryViewPager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#000000"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/imgCloseGallery"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:onClick="@{(v) -> homeViewModel.clickListener(v)}"
+                android:src="@drawable/ic_profile_back" />
+
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/galleryViewPager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/imgCloseGallery"
+                android:elevation="@dimen/dp_20"
+                tools:ignore="UnusedAttribute" />
+
+            <!--
+                android:layout_margin="@dimen/dp_5"-->
+        </RelativeLayout>
     </RelativeLayout>
 
 </layout>

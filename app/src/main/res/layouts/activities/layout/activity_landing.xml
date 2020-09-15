@@ -375,10 +375,28 @@
                             android:paddingBottom="@dimen/dp_5"
                             android:text="@string/chat_support"
                             android:textAllCaps="false"
-
                             android:textColor="@color/colorBlack"
                             android:textSize="@dimen/sp_14"
-                            android:visibility="visible"
+                            android:visibility="gone"
+                            app:font="@{`regular`}"
+                            tools:ignore="RtlSymmetry" />
+
+                        <TextView
+                            android:id="@+id/tv_nav_refer"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dp_15"
+                            android:drawableLeft="@drawable/ic_nav_refer_earn"
+                            android:drawablePadding="@dimen/dp_10"
+                            android:gravity="center_vertical"
+                            android:onClick="@{(v) -> dashboardViewModel.clickListener(v)}"
+                            android:paddingStart="@dimen/dp_10"
+                            android:paddingLeft="@dimen/dp_10"
+                            android:paddingBottom="@dimen/dp_5"
+                            android:text="@string/refer_earn"
+                            android:textAllCaps="false"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="@dimen/sp_14"
                             app:font="@{`regular`}"
                             tools:ignore="RtlSymmetry" />
 

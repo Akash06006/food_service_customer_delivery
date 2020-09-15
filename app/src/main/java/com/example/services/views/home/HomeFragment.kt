@@ -323,6 +323,16 @@ HomeFragment : BaseFragment(), SocketInterface, OnMapReadyCallback {
             this, Observer<String>(function =
             fun(it: String?) {
                 when (it) {
+                    "imgCloseGallery" -> {
+                        fragmentHomeBinding.btnOrderHere.visibility = View.VISIBLE
+                        fragmentHomeBinding.rlGalleryViewPager.visibility = View.GONE
+                    }
+
+                    "txtAddImge" -> {
+                        val intent = Intent(activity!!, AddImagesActivity::class.java)
+                        //intent.putExtra("catId", ""/*categoriesList[position].id*/)
+                        startActivity(intent)
+                    }
 
                     "txtAboutHeading" -> {
                         if (fragmentHomeBinding.txtAbout.visibility == View.VISIBLE) {
@@ -385,8 +395,8 @@ HomeFragment : BaseFragment(), SocketInterface, OnMapReadyCallback {
 
     }
 
-   /* private fun initRecyclerView() {
-        *//*val adapter = CategoriesGridListAdapter(this@HomeFragment, categoriesList, activity!!)
+    /* private fun initRecyclerView() {
+         *//*val adapter = CategoriesGridListAdapter(this@HomeFragment, categoriesList, activity!!)
         fragmentHomeBinding.gridview.adapter = adapter*//*
         if (categoriesList.size > 0) {
             fragmentHomeBinding.foodGallery.visibility = View.VISIBLE
@@ -468,6 +478,20 @@ HomeFragment : BaseFragment(), SocketInterface, OnMapReadyCallback {
         })
 
     }
+
+    fun openGalleryFullView() {
+        galleryListViewPager()
+    }
+
+    private fun galleryListViewPager() {
+        fragmentHomeBinding.btnOrderHere.visibility = View.GONE
+        fragmentHomeBinding.rlGalleryViewPager.visibility = View.VISIBLE
+        fragmentHomeBinding.galleryViewPager.visibility = View.VISIBLE
+        val adapter = GalleryListAdapter(this, galleryList, activity!!)
+        fragmentHomeBinding.galleryViewPager.adapter = adapter
+
+    }
+
 
     private fun trendingServiceListViewPager() {
         val adapter = TrendingServiceListAdapter(this@HomeFragment, trendingServiceList, activity!!)
@@ -811,6 +835,8 @@ HomeFragment : BaseFragment(), SocketInterface, OnMapReadyCallback {
         mMap.moveCamera(CameraUpdateFactory.newCameraPosition(mCameraPosition))
         mMap.uiSettings.isZoomControlsEnabled = true
     }
+
+
     //endregion
 
 }

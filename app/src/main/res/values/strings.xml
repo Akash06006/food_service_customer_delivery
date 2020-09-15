@@ -399,6 +399,7 @@
     <string name="faq">FAQ</string>
 
     <string name="chat_support">Chat and Support</string>
+    <string name="refer_earn">Refer  &amp; Earn</string>
     <string name="cart_quotes">I just do not want to look back and think  I could have eaten that </string>
     <string name="filter_title">Filter your search</string>
     <string name="sort">Sort</string>
@@ -427,7 +428,12 @@
     <string name="write_thoughts">Write your thoughts</string>
     <string name="review_rating">Reviews &amp; Rating</string>
     <string name="delivery_address">Delivery Address</string>
-
+    <string name="cooking_title">Do you have any instruction for us?</string>
+    <string name="add_audio_msg">Or click on record button to send audio instructions</string>
+    <string name="write_description">Write description here</string>
+    <string name="write_title">Enter Title</string>
+    <string name="upload_images">Upload Images</string>
+    <string name="referral_code">Referral Code (Optional)</string>
 
 
 </resources>

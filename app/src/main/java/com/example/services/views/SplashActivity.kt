@@ -15,6 +15,7 @@ import com.example.services.sharedpreference.SharedPrefClass
 import com.example.services.socket.TrackingActivity
 import com.example.services.utils.BaseActivity
 import com.example.services.views.address.AddAddressActivity
+import com.example.services.views.audio.RecordAudioActivity
 import com.example.services.views.authentication.LoginActivity
 import com.example.services.views.cart.CheckoutAddressActivity
 import com.example.services.views.home.DashboardActivity
@@ -96,7 +97,10 @@ class SplashActivity : BaseActivity() {
                 Intent(this, DatesActivity::class.java)
             } else {
                 Intent(this, LandingMainActivity::class.java)
-                //     Intent(this, SearchActivity::class.java)
+
+                // Intent(this, RecordAudioActivity::class.java)
+
+
             }
 
             // Intent(this, PaymentActivity::class.java)
