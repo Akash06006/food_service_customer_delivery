@@ -12,6 +12,9 @@ interface ApiInterface {
     @POST("mobile/auth/login")
     fun callLogin(@Body jsonObject: JsonObject): Call<JsonObject>
 
+    @POST("mobile/auth/useReferral")
+    fun userReferralCode(@Body jsonObject: JsonObject): Call<JsonObject>
+
     /*@POST("login/")
     fun callLogin(@Body jsonObject : JsonObject) : Call<JsonObject>*/
     @Multipart

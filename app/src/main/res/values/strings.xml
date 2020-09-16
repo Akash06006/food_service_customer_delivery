@@ -294,14 +294,14 @@
     <string name="resend">Resend</string>
 
     <string name="create_profile">Profile</string>
-    <string name="house_no">House No.</string>
+    <string name="house_no">House Number</string>
     <string name="city">City</string>
-    <string name="address_type">Address Type</string>
+    <string name="address_type">Select Address Type</string>
 
     <string name="work">Work</string>
     <string name="add_address">Add Address</string>
     <string name="locations">Locations</string>
-    <string name="confirm_location_and_proceed">Confirm Location and Proceed</string>
+    <string name="confirm_location_and_proceed">Confirm &amp; Proceed</string>
     <string name="your_address">Your Address</string>
     <string name="select_address">Select Address</string>
     <string name="enter_address_details">Enter address details</string>
@@ -436,5 +436,8 @@
     <string name="referral_code">Referral Code (Optional)</string>
     <string name="referral_msg"> This referral code gives 50 loyalty points to your friends when they will login in Delicio using this code, and you will receive 100 loyalty points for a referral.
 </string>
+    <string name="complete_address">Complete Address</string>
+    <string name="save_address">Save Address</string>
+    <string name="skip">Skip</string>
 
 </resources>

@@ -1,287 +1,443 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
         <variable
-                name="addressViewModel"
-                type="com.example.services.viewmodels.address.AddressViewModel" />
+            name="addressViewModel"
+            type="com.example.services.viewmodels.address.AddressViewModel" />
 
         <variable
-                name="profileModel"
-                type="com.example.services.model.LoginResponse.Body" />
+            name="profileModel"
+            type="com.example.services.model.LoginResponse.Body" />
 
     </data>
 
     <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/colorWhite"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:orientation="vertical">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorWhite"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:orientation="vertical">
 
         <include
 
-                android:id="@+id/common_tool_bar"
-                layout="@layout/common_toolbar_back"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:onClick="@{(v) -> addressViewModel.clickListener(v)}" />
+            android:id="@+id/common_tool_bar"
+            layout="@layout/common_toolbar_back"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="@{(v) -> addressViewModel.clickListener(v)}"
+            android:visibility="gone" />
 
         <ScrollView
-                android:id="@+id/parent_layout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:fillViewport="true">
+            android:id="@+id/parent_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true">
 
             <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/colorBlack2"
-                    android:orientation="vertical">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorBlack2"
+                android:orientation="vertical">
+
 
                 <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-                        xmlns:map="http://schemas.android.com/apk/res-auto"
-                        xmlns:tools="http://schemas.android.com/tools"
-                        android:id="@+id/map"
-                        android:name="com.google.android.gms.maps.SupportMapFragment"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        tools:context=".views.address.AddAddressActivity" />
+                    xmlns:map="http://schemas.android.com/apk/res-auto"
+                    xmlns:tools="http://schemas.android.com/tools"
+                    android:id="@+id/map"
+                    android:name="com.google.android.gms.maps.SupportMapFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    tools:context=".views.address.AddAddressActivity" />
 
                 <ImageView
-                        android:id="@+id/map_pin"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:src="@drawable/ic_map_pin" />
+                    android:id="@+id/imgBack"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/dp_10"
+                    android:onClick="@{(v) -> addressViewModel.clickListener(v)}"
+                    android:src="@drawable/ic_profile_back" />
+
+                <ImageView
+                    android:id="@+id/map_pin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/ic_map_pin" />
 
                 <LinearLayout
-                        android:id="@+id/confirm_layout"
+                    android:id="@+id/confirm_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="230dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="@drawable/ic_top_rounded_back"
+                    android:elevation="@dimen/dp_5"
+                    android:orientation="vertical"
+                    android:padding="@dimen/dp_5"
+                    android:visibility="visible">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_margin="@dimen/dp_5"
+                        android:text="@string/select_address"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/sp_16"
+                        app:font="@{`regular`}" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_1"
+                        android:layout_marginLeft="@dimen/dp_10"
+                        android:layout_marginTop="@dimen/dp_5"
+                        android:layout_marginRight="@dimen/dp_10"
+                        android:alpha="0.5"
+                        android:background="@color/colorGrey1" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/dp_5"
+                        android:layout_marginTop="@dimen/dp_5"
+                        android:text="@string/your_address"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/sp_15"
+                        android:textStyle="bold"
+                        app:font="@{`bold`}" />
+
+                    <TextView
+                        android:id="@+id/tv_address"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/dp_5"
+                        android:layout_marginTop="@dimen/dp_5"
+                        android:layout_marginBottom="@dimen/dp_5"
+                        android:drawableLeft="@drawable/ic_address_checkout"
+                        android:drawablePadding="10dp"
+                        android:maxLines="2"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/sp_14"
+                        app:font="@{`regular`}" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_1"
+                        android:layout_marginLeft="@dimen/dp_10"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:layout_marginRight="@dimen/dp_10"
+                        android:layout_marginBottom="@dimen/dp_10"
+                        android:background="@color/colorGrey1" />
+
+                    <Button
+                        android:id="@+id/btn_confirm"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_alignParentBottom="true"
-                    android:background="@color/colorBlack2"
-                        android:elevation="@dimen/dp_5"
-                        android:orientation="vertical"
-                        android:padding="@dimen/dp_5"
-                        android:visibility="visible">
-
-                    <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/dp_5"
-                        android:textColor="@color/white"
-                            android:text="@string/select_address"
-                            android:textSize="@dimen/sp_16" />
-
-                    <View
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/dp_1"
-                            android:layout_marginTop="@dimen/dp_5"
-                            android:background="@color/colorGrey1" />
-
-                    <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/dp_5"
-                        android:textColor="@color/colorPrimary"
-                            android:layout_marginTop="@dimen/dp_5"
-                            android:text="@string/your_address"
-                            android:textSize="@dimen/sp_12" />
-
-                    <TextView
-                            android:id="@+id/tv_address"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/dp_5"
-                            android:textColor="@color/white"
-                            android:textSize="@dimen/sp_14" />
-
-                    <View
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/dp_1"
-                            android:layout_marginTop="@dimen/dp_5"
-                            android:background="@color/colorGrey1" />
-
-                    <Button
-                            android:id="@+id/btn_confirm"
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/dp_40"
-                            android:layout_alignParentBottom="true"
-                            android:layout_gravity="center"
-                            android:layout_margin="@dimen/dp_10"
-                            android:background="@drawable/shape_round_stroke"
-                            android:elevation="@dimen/dp_10"
-                            android:onClick="@{(v) -> addressViewModel.clickListener(v)}"
-                            android:paddingLeft="@dimen/dp_20"
-                            android:paddingRight="@dimen/dp_20"
-                            android:text="@string/confirm_location_and_proceed"
-                            android:textAllCaps="false"
-                            android:textColor="@color/buttonTextColor" />
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/dp_10"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:layout_marginRight="@dimen/dp_10"
+                        android:layout_marginBottom="@dimen/dp_10"
+                        android:background="@drawable/shape_purple"
+                        android:elevation="@dimen/dp_10"
+                        android:onClick="@{(v) -> addressViewModel.clickListener(v)}"
+                        android:paddingLeft="@dimen/dp_20"
+                        android:paddingRight="@dimen/dp_20"
+                        android:text="@string/confirm_location_and_proceed"
+                        android:textAllCaps="false"
+                        android:textColor="@color/buttonTextColor"
+                        app:font="@{`regular`}" />
 
                 </LinearLayout>
 
                 <LinearLayout
-                        android:id="@+id/detail_layout"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentBottom="true"
-                        android:layout_marginTop="@dimen/dp_20"
-                        android:background="@color/colorBlack2"
-                        android:orientation="vertical"
-                        android:padding="@dimen/dp_10"
-                        android:visibility="gone">
+                    android:id="@+id/detail_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginTop="@dimen/dp_20"
+                    android:background="@drawable/ic_top_rounded_back"
+                    android:orientation="vertical"
+                    android:padding="@dimen/dp_10"
+                    android:visibility="gone">
 
                     <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:padding="@dimen/dp_10">
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/dp_10">
 
                         <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerInParent="true"
-                                android:textColor="@color/colorWhite"
-                                android:layout_marginLeft="@dimen/dp_5"
-                                android:text="@string/enter_address_details"
-                                android:textSize="@dimen/sp_16" />
-
-                        <ImageView
-                                android:id="@+id/img_cross"
-                                android:layout_width="wrap_content"
-                                android:onClick="@{(v) -> addressViewModel.clickListener(v)}"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentRight="true"
-                                android:src="@drawable/ic_cross" />
-
-                    </RelativeLayout>
-
-                    <EditText
-                            android:id="@+id/et_address"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/ic_editttext_bg"
-                            android:elevation="@dimen/dp_5"
-                            android:hint="@string/address"
-                            android:inputType="text"
-                            android:focusable="false"
-                            android:focusableInTouchMode="false"
-                            android:editable="false"
-                            android:paddingLeft="@dimen/dp_15"
-                            android:paddingRight="@dimen/dp_15"
-                            android:singleLine="true"
-                            android:textColor="@color/colorblack"
-                            android:textColorHint="@color/colorGrey"
-                            android:textSize="@dimen/sp_14"
-                            app:font="@{`regular`}"
-                            tools:ignore="MissingConstraints" />
-
-                    <EditText
-                            android:id="@+id/et_house_no"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/dp_5"
-                            android:background="@drawable/ic_editttext_bg"
-                            android:elevation="@dimen/dp_5"
-                            android:hint="@string/house_no"
-                            android:inputType="text"
-                            android:maxLength="30"
-                            android:paddingLeft="@dimen/dp_15"
-                            android:paddingRight="@dimen/dp_15"
-                            android:singleLine="true"
-                            android:textColor="@color/colorblack"
-                            android:textColorHint="@color/colorGrey"
-                            android:textSize="@dimen/sp_14"
-                            app:font="@{`regular`}"
-                            tools:ignore="MissingConstraints" />
-
-
-
-                    <EditText
-                            android:id="@+id/et_city"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/ic_editttext_bg"
-                            android:elevation="@dimen/dp_5"
-                            android:hint="@string/city"
-                            android:inputType="text"
-                            android:maxLength="12"
-                            android:paddingLeft="@dimen/dp_15"
-                            android:paddingRight="@dimen/dp_15"
-                            android:singleLine="true"
-                            android:textColor="@color/colorblack"
-                            android:textColorHint="@color/colorGrey"
-                            android:textSize="@dimen/sp_14"
-                            app:font="@{`regular`}"
-                            tools:ignore="MissingConstraints,TextFields" />
-
-                    <TextView
-                            android:id="@+id/iv_profile_picture"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/dp_5"
-                            android:paddingLeft="@dimen/dp_15"
-                            android:text="@string/address_type"
-                            android:textAllCaps="false"
-                            android:textColor="@color/colorWhite"
+                            android:layout_marginLeft="@dimen/dp_5"
+                            android:text="@string/complete_address"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="@dimen/sp_16"
                             android:textStyle="bold"
                             app:font="@{`bold`}" />
 
-                    <RadioGroup
-                            android:id="@+id/radio_group"
+                        <ImageView
+                            android:id="@+id/img_cross"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:onClick="@{(v) -> addressViewModel.clickListener(v)}"
+                            android:src="@drawable/ic_cross" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="@dimen/dp_15"
+                        android:paddingRight="@dimen/dp_15">
+
+                        <ImageView
+                            android:id="@+id/imgAddress"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_address_checkout" />
+
+
+                        <EditText
+                            android:id="@+id/et_address"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:padding="@dimen/dp_15">
+                            android:layout_marginLeft="@dimen/dp_10"
+                            android:layout_toRightOf="@+id/imgAddress"
+                            android:background="@null"
+                            android:editable="false"
+                            android:focusable="false"
+                            android:focusableInTouchMode="false"
+                            android:hint="@string/address"
+                            android:inputType="text"
+                            android:paddingRight="@dimen/dp_15"
+                            android:textColor="@color/colorBlack"
+                            android:textColorHint="@color/colorGrey"
+                            android:textSize="@dimen/sp_12"
+                            app:font="@{`regular`}"
+                            tools:ignore="MissingConstraints" />
+
+                        <View
+                            android:layout_width="wrap_content"
+                            android:layout_height="0.5dp"
+                            android:layout_below="@+id/et_address"
+                            android:layout_alignStart="@+id/et_address"
+                            android:layout_marginTop="@dimen/dp_10"
+                            android:layout_marginRight="@dimen/dp_15"
+                            android:layout_marginBottom="@dimen/dp_5"
+                            android:alpha="0.5"
+                            android:background="@color/colorGrey" />
+                    </RelativeLayout>
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/dp_15"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:text="@string/house_no"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/sp_16"
+                        android:textStyle="bold"
+                        app:font="@{`bold`}" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:paddingLeft="@dimen/dp_15"
+                        android:paddingRight="@dimen/dp_15">
+
+                        <ImageView
+                            android:id="@+id/imgAddress1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_address_checkout" />
+
+                        <EditText
+                            android:id="@+id/et_house_no"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/dp_10"
+                            android:layout_toRightOf="@+id/imgAddress1"
+                            android:background="@null"
+                            android:hint="@string/house_no"
+                            android:inputType="text"
+                            android:maxLength="30"
+                            android:paddingRight="@dimen/dp_15"
+                            android:singleLine="true"
+                            android:textColor="@color/colorblack"
+                            android:textColorHint="@color/colorGrey"
+                            android:textSize="@dimen/sp_12"
+                            app:font="@{`regular`}"
+                            tools:ignore="MissingConstraints" />
+
+                        <View
+                            android:layout_width="wrap_content"
+                            android:layout_height="0.5dp"
+                            android:layout_below="@+id/et_house_no"
+                            android:layout_alignStart="@+id/et_house_no"
+                            android:layout_marginTop="@dimen/dp_10"
+                            android:layout_marginRight="@dimen/dp_15"
+                            android:layout_marginBottom="@dimen/dp_5"
+                            android:alpha="0.5"
+                            android:background="@color/colorGrey" />
+                    </RelativeLayout>
+
+
+                    <!--<EditText
+                        android:id="@+id/et_house_no"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_5"
+                        android:background="@drawable/ic_editttext_bg"
+                        android:elevation="@dimen/dp_5"
+                        android:hint="@string/house_no"
+                        android:inputType="text"
+                        android:maxLength="30"
+                        android:paddingLeft="@dimen/dp_15"
+                        android:paddingRight="@dimen/dp_15"
+                        android:singleLine="true"
+                        android:textColor="@color/colorblack"
+                        android:textColorHint="@color/colorGrey"
+                        android:textSize="@dimen/sp_14"
+                        app:font="@{`regular`}"
+                        tools:ignore="MissingConstraints" />-->
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/dp_15"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:text="@string/city"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/sp_16"
+                        android:textStyle="bold"
+                        app:font="@{`bold`}" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:paddingLeft="@dimen/dp_15"
+                        android:paddingRight="@dimen/dp_15">
+
+                        <ImageView
+                            android:id="@+id/imgAddress2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_address_checkout" />
+
+                        <EditText
+                            android:id="@+id/et_city"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/dp_10"
+                            android:layout_toRightOf="@+id/imgAddress2"
+                            android:background="@null"
+                            android:hint="@string/city"
+                            android:inputType="text"
+                            android:maxLength="32"
+                            android:paddingRight="@dimen/dp_15"
+                            android:singleLine="true"
+                            android:textColor="@color/colorblack"
+                            android:textColorHint="@color/colorGrey"
+                            android:textSize="@dimen/sp_12"
+                            app:font="@{`regular`}"
+                            tools:ignore="MissingConstraints,TextFields" />
+
+                        <View
+                            android:layout_width="wrap_content"
+                            android:layout_height="0.5dp"
+                            android:layout_below="@+id/et_city"
+                            android:layout_alignStart="@+id/et_city"
+                            android:layout_marginTop="@dimen/dp_10"
+                            android:layout_marginRight="@dimen/dp_15"
+                            android:layout_marginBottom="@dimen/dp_5"
+                            android:alpha="0.5"
+                            android:background="@color/colorGrey" />
+                    </RelativeLayout>
+
+
+                    <TextView
+                        android:id="@+id/iv_profile_picture"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_15"
+                        android:paddingLeft="@dimen/dp_15"
+                        android:text="@string/address_type"
+                        android:textAllCaps="false"
+                        android:textColor="@color/colorBlack"
+                        android:textStyle="bold"
+                        app:font="@{`bold`}" />
+
+                    <RadioGroup
+                        android:id="@+id/radio_group"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/dp_15">
 
                         <RadioButton
-                                android:id="@+id/rd_home"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:checked="true"
-                                android:backgroundTint="@color/colorWhite"
-                                android:textColor="@color/colorWhite"
-                                android:text="@string/home" />
+                            android:id="@+id/rd_home"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:button="@drawable/radio_selector"
+                            android:checked="true"
+                            android:padding="10dp"
+                            android:text="@string/home"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="12sp"
+                            app:font="@{`regular`}" />
 
                         <RadioButton
-                                android:id="@+id/rd_work"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:backgroundTint="@color/colorWhite"
-                                android:textColor="@color/colorWhite"
-                                android:layout_marginLeft="@dimen/dp_15"
-                                android:text="@string/work" />
+                            android:id="@+id/rd_work"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/dp_20"
+                            android:button="@drawable/radio_selector"
+                            android:padding="10dp"
+                            android:text="@string/work"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="12sp"
+                            app:font="@{`regular`}" />
 
                         <RadioButton
-                                android:id="@+id/rd_other"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:backgroundTint="@color/colorWhite"
-                                android:textColor="@color/colorWhite"
-                                android:layout_marginLeft="@dimen/dp_15"
-                                android:text="@string/other" />
+                            android:id="@+id/rd_other"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/dp_20"
+                            android:button="@drawable/radio_selector"
+                            android:padding="10dp"
+                            android:text="@string/other"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="12sp"
+                            app:font="@{`regular`}" />
 
                     </RadioGroup>
 
                     <Button
-                            android:id="@+id/btn_submit"
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/dp_40"
-                            android:layout_gravity="center"
-                            android:layout_marginLeft="@dimen/dp_20"
-                            android:layout_marginRight="@dimen/dp_20"
-                            android:background="@drawable/shape_round_stroke"
-                            android:elevation="@dimen/dp_10"
-                            android:onClick="@{(v) -> addressViewModel.clickListener(v)}"
-                            android:paddingLeft="@dimen/dp_20"
-                            android:paddingRight="@dimen/dp_20"
-                            android:text="@string/continues"
-                            android:textAllCaps="true"
-                            android:textColor="@color/buttonTextColor" />
+                        android:id="@+id/btn_submit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/dp_20"
+                        android:layout_marginRight="@dimen/dp_20"
+                        android:background="@drawable/shape_purple"
+                        android:elevation="@dimen/dp_10"
+                        android:onClick="@{(v) -> addressViewModel.clickListener(v)}"
+                        android:paddingLeft="@dimen/dp_20"
+                        android:paddingRight="@dimen/dp_20"
+                        android:text="@string/save_address"
+                        android:textAllCaps="false"
+                        android:textColor="@color/buttonTextColor"
+                        app:font="@{`regular`}" />
 
                 </LinearLayout>
             </RelativeLayout>

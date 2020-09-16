@@ -15,27 +15,32 @@ import org.json.JSONObject
 import retrofit2.Response
 
 class LoginRepository {
-    private var data : MutableLiveData<LoginResponse>? = null
-    private var data1 : MutableLiveData<CommonModel>? = null
+    private var data: MutableLiveData<LoginResponse>? = null
+    private var data2: MutableLiveData<CommonModel>? = null
+    private var data1: MutableLiveData<CommonModel>? = null
     private val gson = GsonBuilder().serializeNulls().create()
 
     init {
         data = MutableLiveData()
         data1 = MutableLiveData()
+        data2 = MutableLiveData()
 
     }
 
-    fun getLoginData(jsonObject : JsonObject?) : MutableLiveData<LoginResponse> {
+    fun getLoginData(jsonObject: JsonObject?): MutableLiveData<LoginResponse> {
         if (jsonObject != null) {
             val mApiService = ApiService<JsonObject>()
             mApiService.get(
                 object : ApiResponse<JsonObject> {
-                    override fun onResponse(mResponse : Response<JsonObject>) {
+                    override fun onResponse(mResponse: Response<JsonObject>) {
                         val loginResponse = if (mResponse.body() != null)
-                            gson.fromJson<LoginResponse>("" + mResponse.body(), LoginResponse::class.java)
+                            gson.fromJson<LoginResponse>(
+                                "" + mResponse.body(),
+                                LoginResponse::class.java
+                            )
                         else {
                             gson.fromJson<LoginResponse>(
-                                 mResponse.errorBody()!!.charStream(),
+                                mResponse.errorBody()!!.charStream(),
                                 LoginResponse::class.java
                             )
                         }
@@ -45,7 +50,7 @@ class LoginRepository {
 
                     }
 
-                    override fun onError(mKey : String) {
+                    override fun onError(mKey: String) {
                         UtilsFunctions.showToastError(MyApplication.instance.getString(R.string.internal_server_error))
                         data!!.postValue(null)
 
@@ -60,14 +65,55 @@ class LoginRepository {
 
     }
 
-    fun checkPhoneExistence(jsonObject : JsonObject?) : MutableLiveData<CommonModel> {
+    fun userReferralCode(jsonObject: JsonObject?): MutableLiveData<CommonModel> {
         if (jsonObject != null) {
             val mApiService = ApiService<JsonObject>()
             mApiService.get(
                 object : ApiResponse<JsonObject> {
-                    override fun onResponse(mResponse : Response<JsonObject>) {
+                    override fun onResponse(mResponse: Response<JsonObject>) {
+                        val commonModel = if (mResponse.body() != null)
+                            gson.fromJson<CommonModel>(
+                                "" + mResponse.body(),
+                                CommonModel::class.java
+                            )
+                        else {
+                            gson.fromJson<CommonModel>(
+                                mResponse.errorBody()!!.charStream(),
+                                CommonModel::class.java
+                            )
+                        }
+
+
+                        data2!!.postValue(commonModel)
+
+                    }
+
+                    override fun onError(mKey: String) {
+                        UtilsFunctions.showToastError(MyApplication.instance.getString(R.string.internal_server_error))
+                        data2!!.postValue(null)
+
+                    }
+
+                }, ApiClient.getApiInterface().userReferralCode(jsonObject)
+
+            )
+
+        }
+        return data2!!
+
+    }
+
+    fun checkPhoneExistence(jsonObject: JsonObject?): MutableLiveData<CommonModel> {
+        if (jsonObject != null) {
+            val mApiService = ApiService<JsonObject>()
+            mApiService.get(
+                object : ApiResponse<JsonObject> {
+                    override fun onResponse(mResponse: Response<JsonObject>) {
                         val loginResponse = if (mResponse.body() != null)
-                            gson.fromJson<CommonModel>("" + mResponse.body(), CommonModel::class.java)
+                            gson.fromJson<CommonModel>(
+                                "" + mResponse.body(),
+                                CommonModel::class.java
+                            )
                         else {
                             gson.fromJson<CommonModel>(
                                 mResponse.errorBody()!!.charStream(),
@@ -80,7 +126,7 @@ class LoginRepository {
 
                     }
 
-                    override fun onError(mKey : String) {
+                    override fun onError(mKey: String) {
                         UtilsFunctions.showToastError(MyApplication.instance.getString(R.string.internal_server_error))
                         data1!!.postValue(null)
 
@@ -96,14 +142,17 @@ class LoginRepository {
     }
 
 
-    fun getLogoutResonse(jsonObject : JsonObject?) : MutableLiveData<CommonModel> {
+    fun getLogoutResonse(jsonObject: JsonObject?): MutableLiveData<CommonModel> {
         if (jsonObject != null) {
             val mApiService = ApiService<JsonObject>()
             mApiService.get(
                 object : ApiResponse<JsonObject> {
-                    override fun onResponse(mResponse : Response<JsonObject>) {
+                    override fun onResponse(mResponse: Response<JsonObject>) {
                         val logoutResponse = if (mResponse.body() != null)
-                            gson.fromJson<CommonModel>("" + mResponse.body(), CommonModel::class.java)
+                            gson.fromJson<CommonModel>(
+                                "" + mResponse.body(),
+                                CommonModel::class.java
+                            )
                         else {
                             gson.fromJson<CommonModel>(
                                 mResponse.errorBody()!!.charStream(),
@@ -115,7 +164,7 @@ class LoginRepository {
 
                     }
 
-                    override fun onError(mKey : String) {
+                    override fun onError(mKey: String) {
                         UtilsFunctions.showToastError(MyApplication.instance.getString(R.string.internal_server_error))
                         data1!!.postValue(null)
 

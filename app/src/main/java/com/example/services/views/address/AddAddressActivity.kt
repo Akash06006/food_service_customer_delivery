@@ -78,14 +78,14 @@ class AddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationListener,
                 )
             )/*mContext.getResources().getColorStateList(R.color.colorOrange)*/
         )
-        addressBinding.btnSubmit.setBackgroundTintList(
-            ColorStateList.valueOf(
-                Color.parseColor(
-                    GlobalConstants.COLOR_CODE
-                )
-            )/*mContext.getResources().getColorStateList(R.color.colorOrange)*/
+        /* addressBinding.btnSubmit.setBackgroundTintList(
+             ColorStateList.valueOf(
+                 Color.parseColor(
+                     GlobalConstants.COLOR_CODE
+                 )
+             )*//*mContext.getResources().getColorStateList(R.color.colorOrange)*//*
         )
-
+*/
 
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
@@ -126,6 +126,9 @@ class AddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationListener,
             this, Observer<String>(function =
             fun(it: String?) {
                 when (it) {
+                    "imgBack" -> {
+                        finish()
+                    }
                     "btn_confirm" -> {
                         if (!TextUtils.isEmpty(addressBinding.etAddress.text.toString()) && !addressBinding.etAddress.text.toString().equals(
                                 "null"
@@ -335,7 +338,10 @@ class AddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationListener,
     override fun onCameraIdle() {
         var loc = mMap?.cameraPosition?.target
         Log.d("Location", "---" + loc)
-        getAddress(loc)
+
+        if (UtilsFunctions.isNetworkConnected()) {
+            getAddress(loc)
+        }
     }
 
     private fun getAddress(loc: LatLng?) {

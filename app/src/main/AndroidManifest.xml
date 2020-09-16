@@ -175,7 +175,8 @@
         <activity
             android:name=".views.authentication.LoginActivity"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".views.authentication.LoginPasswordActivity"
             android:launchMode="singleTop"

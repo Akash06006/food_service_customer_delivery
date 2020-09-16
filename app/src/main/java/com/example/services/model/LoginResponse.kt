@@ -15,7 +15,12 @@ class LoginResponse {
     var data: Body? = null
 
     inner class Body {
-
+        @SerializedName("isFirst")
+        @Expose
+        var isFirst: String? = null
+        @SerializedName("referralCode")
+        @Expose
+        var referralCode: String? = null
         @SerializedName("id")
         @Expose
         var id: String? = null
