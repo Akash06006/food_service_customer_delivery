@@ -60,5 +60,38 @@ class MembershipRepository {
 
     }
 
+    fun purchasePlan(jsonObject: JsonObject?): MutableLiveData<CommonModel> {
+        if (jsonObject != null) {
+            val mApiService = ApiService<JsonObject>()
+            mApiService.get(
+                object : ApiResponse<JsonObject> {
+                    override fun onResponse(mResponse: Response<JsonObject>) {
+                        val loginResponse = if (mResponse.body() != null)
+                            gson.fromJson<CommonModel>(
+                                "" + mResponse.body(),
+                                CommonModel::class.java
+                            )
+                        else {
+                            gson.fromJson<CommonModel>(
+                                mResponse.errorBody()!!.charStream(),
+                                CommonModel::class.java
+                            )
+                        }
+                        data2!!.postValue(loginResponse)
+                    }
+
+                    override fun onError(mKey: String) {
+                        UtilsFunctions.showToastError(MyApplication.instance.getString(R.string.internal_server_error))
+                        data2!!.postValue(null)
+                    }
+
+                }, ApiClient.getApiInterface().purchasePlan(jsonObject)
+            )
+
+        }
+        return data2!!
+
+    }
+
 
 }
