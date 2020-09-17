@@ -105,7 +105,7 @@ class ProfileActivity : BaseActivity(), ChoiceCallBack {
                     when {
                         response.code == 200 -> {
                             profileBinding.profileModel = response.data
-                            maritalStatus = response.data?.maritalStatus?
+                            maritalStatus = response.data?.maritalStatus!!
                             profileBinding.tvName.setText(response.data?.firstName + " " + response.data?.lastName)
                             profileBinding.tvPoints.setText("My loyalty points: " + response.data?.lPoints)
                         }

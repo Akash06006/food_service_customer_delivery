@@ -19,7 +19,7 @@
         android:id="@+id/cl_mainLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorPrimary"
+        android:background="@color/colorWhite"
 
         app:hideKeyBoardOnClick="@{`back`}">
         <!--android:background="@drawable/ic_login_background"-->
@@ -27,55 +27,58 @@
             android:id="@+id/toolbarCommon"
             layout="@layout/common_toolbar_back"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_50" />
+            android:layout_height="@dimen/dp_50"
+            android:visibility="gone" />
 
-<!--        <ScrollView-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent">-->
+        <!--        <ScrollView-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="match_parent">-->
 
         <ImageView
             android:id="@+id/imgViewLogo"
-            android:layout_marginTop="@dimen/dp_20"
-            android:layout_below="@+id/toolbarCommon"
-             android:layout_centerHorizontal="true"
-            android:background="@drawable/ic_logo"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/toolbarCommon"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/dp_20"
+            android:background="@drawable/ic_logo" />
 
-<!--            <RelativeLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="match_parent">-->
-<!--                -->
+        <!--            <RelativeLayout-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="match_parent">-->
+        <!--                -->
 
 
         <TextView
 
-            android:layout_centerHorizontal="true"
-            android:layout_below="@+id/imgViewLogo"
             android:id="@+id/tv_verifyEmail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/imgViewLogo"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/dp_30"
             android:gravity="center"
             android:text="@string/verification_code"
             android:textAllCaps="true"
             android:textColor="@color/colorWhite"
             android:textSize="@dimen/sp_20"
+            android:visibility="gone"
             app:font="@{`bold`}"
 
             />
 
         <TextView
-            android:layout_centerHorizontal="true"
-            android:layout_below="@+id/tv_verifyEmail"
             android:id="@+id/tv_otp_sent"
             android:layout_width="@dimen/dp_300"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_verifyEmail"
+            android:layout_centerHorizontal="true"
             android:layout_margin="@dimen/dp_10"
             android:gravity="center"
             android:text="@string/verification_code_msg"
             android:textColor="@color/colorWhite"
             android:textSize="@dimen/sp_14"
+            android:visibility="invisible"
             app:font="@{`regular`}"
             tools:ignore="MissingConstraints"
             tools:layout_editor_absoluteX="116dp"
@@ -83,12 +86,12 @@
 
 
         <RelativeLayout
-            android:layout_alignParentBottom="true"
-            android:layout_below="@+id/tv_otp_sent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_otp_sent"
+            android:layout_alignParentBottom="true"
             android:layout_marginTop="@dimen/dp_10"
-            android:background="@drawable/ic_otp_background">
+            android:background="@drawable/ic_login_back">
 
             <!--                <de.hdodenhof.circleimageview.CircleImageView-->
             <!--                    android:id="@+id/img_profile"-->
@@ -114,9 +117,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_80"
                 android:layout_marginLeft="@dimen/dp_10"
+                android:layout_marginTop="@dimen/dp_30"
                 android:layout_marginRight="@dimen/dp_10"
                 app:cursorVisible="false"
-                android:layout_marginTop="@dimen/dp_30"
                 app:forceKeyboard="false"
                 app:hint=""
                 app:inputType="number"
@@ -130,40 +133,39 @@
 
             <RelativeLayout
                 android:id="@+id/parent"
-                android:layout_marginRight="@dimen/dp_40"
-                android:layout_alignParentRight="true"
-                android:layout_below="@+id/pinview"
-                android:layout_marginTop="@dimen/dp_20"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/pinview"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="@dimen/dp_20"
+                android:layout_marginRight="@dimen/dp_40"
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/tvConfirm"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Confirm "
                     android:layout_centerVertical="true"
-                    android:id="@+id/tvConfirm"
-                    app:font="@{`bold`}"
-                    android:textColor="@color/colorBlack"
-                    android:textSize="@dimen/dp_20" />
+                    android:text="Confirm "
+                    android:textColor="@color/colorWhite"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:font="@{`bold`}" />
 
                 <TextView
                     android:id="@+id/btn_send"
-                    android:layout_centerVertical="true"
-
-                    android:layout_toRightOf="@+id/tvConfirm"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/round_shape"
-                    android:drawableLeft="@drawable/ic_right_arrow"
-                    android:paddingLeft="@dimen/dp_15"
-                    android:onClick="@{(v) -> verifViewModel.clickListener(v)}"
 
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
                     android:layout_marginLeft="@dimen/dp_10"
-                    android:drawableTint="@color/white"
+                    android:layout_toRightOf="@+id/tvConfirm"
+                    android:background="@drawable/ic_arrow_back"
+                    android:drawableLeft="@drawable/ic_left_arrow"
+                    android:gravity="center"
+                    android:onClick="@{(v) -> verifViewModel.clickListener(v)}"
+                    android:paddingLeft="20dp"
                     android:paddingTop="@dimen/dp_5"
-                    android:paddingRight="@dimen/dp_15"
                     android:paddingBottom="@dimen/dp_5"
 
                     />
@@ -173,12 +175,12 @@
 
             <LinearLayout
 
-                android:layout_centerHorizontal="true"
                 android:layout_width="wrap_content"
-                android:layout_marginBottom="@dimen/dp_50"
-                android:layout_alignParentBottom="true"
                 android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
                 android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="@dimen/dp_20"
                 android:orientation="horizontal">
 
                 <TextView
@@ -186,7 +188,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="@string/otp_not_received_text"
-                    android:textColor="@color/colorBlack"
+                    android:textColor="@color/colorWhite"
                     android:textSize="@dimen/sp_14"
                     app:font="@{`bold`}"
                     tools:ignore="MissingConstraints"
@@ -197,14 +199,14 @@
                     android:id="@+id/tv_resend"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/dp_10"
+                    android:layout_marginLeft="@dimen/dp_5"
                     android:gravity="center"
-
                     android:onClick="@{(v) -> verifViewModel.clickListener(v)}"
                     android:text="@string/resend"
-                    android:textAllCaps="true"
-                    android:textColor="@color/btnBackground"
+                    android:textAllCaps="false"
+                    android:textColor="@color/colorWhite"
                     android:textSize="@dimen/sp_14"
+                    android:textStyle="bold"
                     android:visibility="@{resendOTP==0}"
                     app:font="@{`bold`}"
                     tools:ignore="MissingConstraints"
@@ -240,25 +242,25 @@
                 app:font="@{`regular`}" />
             <!--                android:visibility="@{resendOTP==1}"-->
 
-<!--            <Button-->
-<!--                android:id="@+id/btn_send"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="@dimen/btn_height"-->
-<!--                android:layout_marginLeft="@dimen/dp_10"-->
-<!--                android:layout_marginTop="@dimen/dp_20"-->
-<!--                android:layout_marginRight="@dimen/dp_10"-->
-<!--                android:background="@drawable/btn_bg_shape_colored"-->
-<!--                android:onClick="@{(v) -> verifViewModel.clickListener(v)}"-->
-<!--                android:paddingLeft="@dimen/dp_40"-->
-<!--                android:paddingRight="@dimen/dp_40"-->
-<!--                android:text="@string/proceed"-->
-<!--                android:textAllCaps="false"-->
-<!--                android:textColor="@color/colorWhite"-->
-<!--                android:textSize="@dimen/btn_text"-->
-<!--                app:font="@{`regular`}"-->
-<!--                android:visibility="gone"-->
-<!--                app:layout_constraintEnd_toEndOf="parent"-->
-<!--                app:layout_constraintStart_toStartOf="parent" />-->
+            <!--            <Button-->
+            <!--                android:id="@+id/btn_send"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="@dimen/btn_height"-->
+            <!--                android:layout_marginLeft="@dimen/dp_10"-->
+            <!--                android:layout_marginTop="@dimen/dp_20"-->
+            <!--                android:layout_marginRight="@dimen/dp_10"-->
+            <!--                android:background="@drawable/btn_bg_shape_colored"-->
+            <!--                android:onClick="@{(v) -> verifViewModel.clickListener(v)}"-->
+            <!--                android:paddingLeft="@dimen/dp_40"-->
+            <!--                android:paddingRight="@dimen/dp_40"-->
+            <!--                android:text="@string/proceed"-->
+            <!--                android:textAllCaps="false"-->
+            <!--                android:textColor="@color/colorWhite"-->
+            <!--                android:textSize="@dimen/btn_text"-->
+            <!--                app:font="@{`regular`}"-->
+            <!--                android:visibility="gone"-->
+            <!--                app:layout_constraintEnd_toEndOf="parent"-->
+            <!--                app:layout_constraintStart_toStartOf="parent" />-->
 
             <TextView
                 android:id="@+id/tv_resend1"
@@ -277,6 +279,6 @@
 
         </RelativeLayout>
         <!--            </RelativeLayout>-->
-       <!-- </ScrollView>-->
+        <!-- </ScrollView>-->
     </RelativeLayout>
 </layout>

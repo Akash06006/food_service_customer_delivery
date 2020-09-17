@@ -129,15 +129,17 @@ class LoginActivity : BaseActivity() {
                                 activityLoginbinding.btnCcp.isEnabled = false
                                 activityLoginbinding.etPhoneNo.isEnabled = false
                                 activityLoginbinding.referralLay.visibility = View.VISIBLE
+                                activityLoginbinding.txtLogin.setText("Use Referral Code")
                                 showToastSuccess("Please enter if you have any referral code")
                             } else {
-                                val intent = Intent(this, LandingMainActivity::class.java)
-                                //val intent = Intent(this, OTPVerificationActivity::class.java)
-                                intent.flags =
-                                    Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                                intent.putExtra("data", mJsonObject.toString())
-                                startActivity(intent)
-                                finish()
+                                FirebaseFunctions.sendOTP("login", mJsonObject, this)
+                                /* val intent = Intent(this, LandingMainActivity::class.java)
+                                 //val intent = Intent(this, OTPVerificationActivity::class.java)
+                                 intent.flags =
+                                     Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                 intent.putExtra("data", mJsonObject.toString())
+                                 startActivity(intent)
+                                 finish()*/
                             }
 
 
@@ -270,6 +272,8 @@ class LoginActivity : BaseActivity() {
                 val phone = activityLoginbinding.etPhoneNo.text.toString()
                 when (it) {
                     "txtSkip" -> {
+
+                        /*TODO---FirebaseFunctions.sendOTP("login", mJsonObject, this)*/
                         val intent = Intent(this, LandingMainActivity::class.java)
                         intent.flags =
                             Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
