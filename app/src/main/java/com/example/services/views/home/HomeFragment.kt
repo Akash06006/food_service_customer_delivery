@@ -120,12 +120,12 @@ HomeFragment : BaseFragment(), SocketInterface, OnMapReadyCallback {
         // baseActivity.startProgressDialog()
         categoriesList.clear()
 
-        var mapFragment: SupportMapFragment? = null
-        mapFragment = fragmentManager?.findFragmentById(R.id.map) as SupportMapFragment?
-        mapFragment?.getMapAsync(this)
+
+      /*var  mapFragment = fragmentManager?.findFragmentById(R.id.map) as SupportMapFragment?
+        mapFragment?.getMapAsync(this)*/
 
 
-        /* val mapFragment = activity!!.supportFragmentManager
+     /*    val mapFragment = childFragmentManager
              .findFragmentById(R.id.map) as SupportMapFragment
          mapFragment.getMapAsync(this)*/
 
@@ -171,8 +171,7 @@ HomeFragment : BaseFragment(), SocketInterface, OnMapReadyCallback {
                     when {
                         response.code == 200 -> {
                             //  details = Details()
-
-                            val mCameraPosition = CameraPosition.Builder()
+                           /* val mCameraPosition = CameraPosition.Builder()
                                 .target(
                                     LatLng(
                                         java.lang.Double.parseDouble(GlobalConstants.CURRENT_LAT),
@@ -181,8 +180,8 @@ HomeFragment : BaseFragment(), SocketInterface, OnMapReadyCallback {
                                 )
                                 .zoom(15.5f)
                                 .tilt(30f)
-                                .build()
-                            //   mMap.moveCamera(CameraUpdateFactory.newCameraPosition(mCameraPosition))
+                                .build()*/
+                           // mMap.moveCamera(CameraUpdateFactory.newCameraPosition(mCameraPosition))
 
 
                             details = response.body.details
@@ -196,6 +195,12 @@ HomeFragment : BaseFragment(), SocketInterface, OnMapReadyCallback {
                             offersList.addAll(response.body.offers)
                             bannersList.addAll(response.body.banners)
                             fragmentHomeBinding.rvJobs.visibility = View.VISIBLE
+
+                            //Map initializaion
+                            val mapFragment = childFragmentManager
+                                .findFragmentById(R.id.map) as SupportMapFragment
+                            mapFragment.getMapAsync(this)
+
 
                             galleryList.addAll(response.body.gallery)
                             //Vendor Detail
@@ -352,7 +357,20 @@ HomeFragment : BaseFragment(), SocketInterface, OnMapReadyCallback {
                         intent.putExtra("catId", ""/*categoriesList[position].id*/)
                         startActivity(intent)
                     }
-
+                    "imgShare" -> {
+                        try {
+                            val shareIntent = Intent(Intent.ACTION_SEND)
+                            shareIntent.type = "text/plain"
+                            shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Delicio App")
+                            var shareMessage =
+                                "\nLet me recommend you this application\n\n"
+                            shareMessage = shareMessage+" Google.com\n"
+                            shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage)
+                            startActivity(Intent.createChooser(shareIntent, "choose one"))
+                        } catch (e: Exception) {
+                            //e.toString();
+                        }
+                    }
                     "txtAddRating" -> {
                         //addRating()
                         val intent = Intent(activity!!, AddRatingReviewsListActivity::class.java)
@@ -801,36 +819,36 @@ HomeFragment : BaseFragment(), SocketInterface, OnMapReadyCallback {
          mMap.moveCamera(CameraUpdateFactory.newLatLng(myLocation))*/
 
 
-        googleMap.apply {
+       /* googleMap.apply {
             val sydney = LatLng(40.7138353, -73.9920178)
             addMarker(
                 MarkerOptions()
                     .position(sydney)
                     .title("Marker in Sydney")
             )
-        }
+        }*/
 
 
         val mCameraPosition = CameraPosition.Builder()
             .target(
                 LatLng(
-                    java.lang.Double.parseDouble(GlobalConstants.CURRENT_LAT),
-                    java.lang.Double.parseDouble(GlobalConstants.CURRENT_LONG)
+                    java.lang.Double.parseDouble(details!!.latitude),
+                    java.lang.Double.parseDouble(details!!.longitude)
                 )
             )
             .zoom(15.5f)
             .tilt(30f)
             .build()
         val myLocation = LatLng(
-            java.lang.Double.parseDouble(GlobalConstants.CURRENT_LAT),
-            java.lang.Double.parseDouble(GlobalConstants.CURRENT_LONG)
+            java.lang.Double.parseDouble(details!!.latitude),
+            java.lang.Double.parseDouble(details!!.longitude)
         )
         mMap.addMarker(
             MarkerOptions().position(myLocation).icon(
                 BitmapDescriptorFactory.defaultMarker(
-                    BitmapDescriptorFactory.HUE_ORANGE
+                    BitmapDescriptorFactory.HUE_RED
                 )
-            ).title("Marker in India")
+            ).title(details!!.companyName)
         )
         mMap.moveCamera(CameraUpdateFactory.newCameraPosition(mCameraPosition))
         mMap.uiSettings.isZoomControlsEnabled = true

@@ -45,4 +45,10 @@ class SharedPrefClass {
         mEditor.apply()
     }
 
+    fun removeParticularKey(mContext : Context ,mObjectKey : String) {
+        val mPreferences = mContext.getSharedPreferences(GlobalConstants.SHARED_PREF, Context.MODE_PRIVATE)
+        val mEditor = mPreferences.edit()
+            mEditor.remove(mObjectKey)
+        mEditor.apply()
+    }
 }

@@ -2,8 +2,6 @@ package com.example.services.views.home
 
 import android.app.Dialog
 import android.content.Intent
-import android.content.res.ColorStateList
-import android.graphics.Color
 import android.os.Build
 import android.os.Handler
 import android.text.TextUtils
@@ -29,6 +27,7 @@ import com.example.services.utils.DialogssInterface
 import com.example.services.views.address.AddressListActivity
 import com.example.services.views.authentication.LoginActivity
 import com.example.services.views.cart.CartListActivity
+import com.example.services.views.chat.ChatActivity
 import com.example.services.views.favorite.FavoriteListActivity
 import com.example.services.views.notifications.NotificationsListActivity
 import com.example.services.views.orders.OrdersHistoryListActivity
@@ -179,8 +178,10 @@ class LandingMainActivity : BaseActivity(),
                         activityLandingBinding!!.drawerLayout.closeDrawers()
                     }
                     "tv_nav_chat" -> {
+                        val intent = Intent(this, ChatActivity::class.java)
+                        startActivity(intent)
                         // Drift.showCreateConversationActivity(this)
-                        showToastSuccess("Coming Soon")
+                      //  showToastSuccess("Coming Soon")
                     }
 
                     "tv_nav_logout" -> {

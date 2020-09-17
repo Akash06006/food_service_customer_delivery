@@ -16,6 +16,7 @@ import com.example.services.model.orders.OrdersListResponse
 import com.example.services.sharedpreference.SharedPrefClass
 import com.example.services.utils.BaseActivity
 import com.example.services.utils.Utils
+import com.example.services.views.chat.ChatActivity
 import com.example.services.views.orders.OrdersDetailActivity
 import com.example.services.views.orders.OrdersListActivity
 import com.example.services.views.ratingreviews.AddRatingReviewsListActivity
@@ -169,7 +170,9 @@ class OrderListAdapter(
             mContext.startActivity(intent)
         }
         holder.binding!!.btnHelp.setOnClickListener {
-            mContext.showToastSuccess("Open Chat")
+            val intent = Intent(mContext, ChatActivity::class.java)
+            intent.putExtra("orderId", orderList[position].id.toString())
+            mContext.startActivity(intent)
         }
 
         holder.binding!!.tvCancel.setOnClickListener {
