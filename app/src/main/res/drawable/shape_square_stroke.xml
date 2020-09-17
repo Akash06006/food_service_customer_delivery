@@ -3,8 +3,8 @@
     <solid android:color="@color/colorWhite" />
 
     <stroke
-        android:width="0.2dp"
-        android:strokeAlpha="0.5"
-        android:color="@color/screenBackgroundColor" />
+        android:width="0.3dp"
+        android:color="@color/screenBackgroundColor"
+        android:strokeAlpha="0.7" />
     <corners android:radius="10dp" />
 </shape>

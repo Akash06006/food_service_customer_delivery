@@ -150,9 +150,9 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
                         android:orientation="horizontal"
-                        android:paddingTop="15dp"
-                        android:paddingBottom="10dp">
+                         >
 
                         <ImageView
                             android:id="@+id/imgNavigation"
@@ -175,6 +175,9 @@
                             android:layout_centerHorizontal="true"
                             android:layout_centerVertical="true"
                             android:layout_marginLeft="5dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginBottom="5dp"
+
                             android:background="@drawable/del_pickup_back"
                             android:checkedButton="@+id/offer"
                             android:orientation="horizontal"

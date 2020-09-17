@@ -58,6 +58,8 @@ class OrdersListActivity : BaseActivity(), DialogssInterface {
         orderBinding.commonToolBar.imgRight.setImageResource(R.drawable.ic_cart)
         orderBinding.commonToolBar.imgToolbarText.text =
             resources.getString(R.string.orders)
+        orderBinding.txtTitle.text =
+            resources.getString(R.string.orders)
         orderBinding.cartViewModel = ordersViewModel
         val userId = SharedPrefClass()!!.getPrefValue(
             MyApplication.instance,
@@ -145,9 +147,9 @@ class OrdersListActivity : BaseActivity(), DialogssInterface {
             this, Observer<String>(function =
             fun(it: String?) {
                 when (it) {
-                    /* "tvPromo" -> {
-
-                     }*/
+                    "imgBack" -> {
+                        finish()
+                    }
                 }
             })
         )

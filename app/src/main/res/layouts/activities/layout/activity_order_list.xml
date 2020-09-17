@@ -17,6 +17,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/colorWhite"
         android:orientation="vertical">
 
         <include
@@ -25,12 +26,85 @@
             layout="@layout/common_toolbar_back"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="@{(v) -> cartViewModel.clickListener(v)}" />
+            android:onClick="@{(v) -> cartViewModel.clickListener(v)}"
+            android:visibility="gone" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:background="@drawable/ic_purple_rounded_back">
+
+            <ImageView
+                android:id="@+id/imgBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:onClick="@{(v) -> cartViewModel.clickListener(v)}"
+                android:src="@drawable/ic_profile_back" />
+
+            <TextView
+                android:id="@+id/txtTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:singleLine="true"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textColor="@color/colorWhite"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:visibility="visible"
+                app:font="@{`bold`}" />
+
+
+        </RelativeLayout>
+
+        <RadioGroup
+            android:id="@+id/rdComCancelled"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/del_pickup_back"
+            android:checkedButton="@+id/offer"
+            android:orientation="horizontal"
+            android:padding="2dp"
+            android:visibility="gone">
+
+            <!---->
+
+            <!--                                android:background="@drawable/round_back_transparent_new"
+            -->
+            <RadioButton
+                android:id="@+id/rdCompleted"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/round_back_transparent_new"
+                android:button="@null"
+                android:gravity="center"
+                android:text="Completed"
+                android:textColor="@color/colorWhite"
+                app:font="@{`regular`}" />
+
+            <RadioButton
+                android:id="@+id/rdCancelled"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="1"
+                android:button="@null"
+                android:checked="false"
+                android:gravity="center"
+                android:text="Cancelled"
+                android:textColor="@color/colorBlack"
+                app:font="@{`regular`}" />
+        </RadioGroup>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/dp_5">
+            android:layout_marginTop="@dimen/dp_10">
 
             <TextView
                 android:id="@+id/tv_no_record"
@@ -46,7 +120,6 @@
                 android:layout_height="match_parent"
                 android:layout_above="@+id/rlCoupon"
                 android:layout_marginBottom="@dimen/dp_5" />
-
 
 
         </RelativeLayout>

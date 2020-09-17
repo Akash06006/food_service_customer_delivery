@@ -263,6 +263,8 @@ class AddRatingReviewsListActivity : BaseActivity(), DialogssInterface, ChoiceCa
                         // mHashMap["rating"] = Utils(this).createPartFromString("0")
                         //  mHashMap["ratingData"] =Utils(this).createPartFromString(ratingData.ratingData.toString())
 
+                        
+                        
                         if (imagesList.size > 0) {
                             imagesParts = arrayOfNulls<MultipartBody.Part>(imagesList.count())
                             for (i in 0 until imagesList.count()) {

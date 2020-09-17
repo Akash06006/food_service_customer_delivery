@@ -12,6 +12,11 @@
             name="cartViewModel"
             type="com.example.services.viewmodels.cart.CartViewModel" />
 
+
+        <variable
+            name="favoriteViewModel"
+            type="com.example.services.viewmodels.favorite.FavoriteViewModel" />
+
     </data>
 
     <LinearLayout
@@ -27,7 +32,39 @@
             layout="@layout/common_toolbar_back"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="@{(v) -> cartViewModel.clickListener(v)}" />
+            android:onClick="@{(v) -> cartViewModel.clickListener(v)}"
+            android:visibility="gone" />
+
+        <RelativeLayout
+            android:id="@+id/rlToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:background="@drawable/ic_pink_rounded_back">
+
+            <ImageView
+                android:id="@+id/imgBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:onClick="@{(v) -> favoriteViewModel.clickListener(v)}"
+                android:src="@drawable/ic_profile_back" />
+
+            <TextView
+                android:id="@+id/txtTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:singleLine="true"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textColor="@color/colorWhite"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:visibility="visible"
+                app:font="@{`bold`}" />
+
+
+        </RelativeLayout>
 
         <com.google.android.material.switchmaterial.SwitchMaterial
             android:id="@+id/switchMaterial"

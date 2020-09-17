@@ -3,6 +3,7 @@ package com.uniongoods.adapters
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,11 +23,11 @@ import com.example.services.sharedpreference.SharedPrefClass
 import com.example.services.views.favorite.FavoriteListActivity
 
 class FavoriteListAdapter(
-        context: FavoriteListActivity,
-        addressList: ArrayList<FavListResponse.Body>,
-        var activity: Context
+    context: FavoriteListActivity,
+    addressList: ArrayList<FavListResponse.Body>,
+    var activity: Context
 ) :
-        RecyclerView.Adapter<FavoriteListAdapter.ViewHolder>() {
+    RecyclerView.Adapter<FavoriteListAdapter.ViewHolder>() {
     private val mContext: FavoriteListActivity
     private var viewHolder: ViewHolder? = null
     private var addressList: ArrayList<FavListResponse.Body>
@@ -39,10 +40,10 @@ class FavoriteListAdapter(
     @NonNull
     override fun onCreateViewHolder(@NonNull parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = DataBindingUtil.inflate(
-                LayoutInflater.from(parent.context),
-                R.layout.services_item,
-                parent,
-                false
+            LayoutInflater.from(parent.context),
+            R.layout.services_item,
+            parent,
+            false
         ) as ServicesItemBinding
         return ViewHolder(binding.root, viewType, binding, mContext, addressList)
     }
@@ -51,10 +52,14 @@ class FavoriteListAdapter(
         viewHolder = holder
 
         holder.binding!!.tvCatName.text = addressList[position].service?.name
-        holder.binding!!.tvOfferPrice.text = GlobalConstants.Currency + "" + addressList[position].service?.price.toString()
+        holder.binding!!.tvOfferPrice.text =
+            GlobalConstants.Currency + "" + addressList[position].service?.price.toString()
         holder.binding!!.tvDuration.setText(mContext.resources.getString(R.string.duration) + ": " + addressList[position].service?.duration)
-        holder.binding!!.tvAdd.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(GlobalConstants.COLOR_CODE))/*mContext.getResources().getColorStateList(R.color.colorOrange)*/)
+        //holder.binding!!.tvAdd.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(GlobalConstants.COLOR_CODE))/*mContext.getResources().getColorStateList(R.color.colorOrange)*/)
 
+        holder.binding!!.tvAdd.text = "Order now"
+       // holder.binding!!.tvAdd.setTextSize(TypedValue.COMPLEX_UNIT_SP, 10)
+        holder.binding!!.tvAdd.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
         if (addressList[position].service?.itemType.equals("0")) {
             holder.binding!!.imgVegNonVeg.setImageResource(R.drawable.veg)
         } else {
@@ -66,9 +71,9 @@ class FavoriteListAdapter(
             GlobalConstants.PRODUCT_TYPE
         ).toString()
 
-        if (applicationType.equals(GlobalConstants.PRODUCT_DELIVERY)){
+        if (applicationType.equals(GlobalConstants.PRODUCT_DELIVERY)) {
             holder.binding!!.tvAdd.text =
-                  activity.resources.getString(R.string.order)
+                activity.resources.getString(R.string.order)
         } else if (applicationType.equals(GlobalConstants.PRODUCT_SERVICES)) {
             holder.binding!!.tvAdd.text =
                 activity.resources.getString(R.string.book)
@@ -76,10 +81,10 @@ class FavoriteListAdapter(
         holder.binding.imgFavourite.setImageResource(R.drawable.ic_delete)
         //holder.binding!!.rBar.setRating(addressList[position].rating?.toFloat())
         Glide.with(mContext)
-                .load(addressList[position].service?.icon)
-                .apply(RequestOptions.bitmapTransform(RoundedCorners(20)))
-                .placeholder(R.drawable.ic_category)
-                .into(holder.binding.imgCat)
+            .load(addressList[position].service?.icon)
+            .apply(RequestOptions.bitmapTransform(RoundedCorners(20)))
+            .placeholder(R.drawable.ic_category)
+            .into(holder.binding.imgCat)
 
         holder.binding!!.serviceItem.setOnClickListener {
             mContext.callServiceDetail(addressList[position].service?.id!!)
@@ -96,11 +101,11 @@ class FavoriteListAdapter(
     }
 
     inner class ViewHolder//This constructor would switch what to findViewBy according to the type of viewType
-    (
-            v: View, val viewType: Int, //These are the general elements in the RecyclerView
-            val binding: ServicesItemBinding?,
-            mContext: FavoriteListActivity,
-            addressList: ArrayList<FavListResponse.Body>?
+        (
+        v: View, val viewType: Int, //These are the general elements in the RecyclerView
+        val binding: ServicesItemBinding?,
+        mContext: FavoriteListActivity,
+        addressList: ArrayList<FavListResponse.Body>?
     ) : RecyclerView.ViewHolder(v) {
         /*init {
             binding.linAddress.setOnClickListener {

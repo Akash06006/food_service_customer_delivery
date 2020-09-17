@@ -153,7 +153,7 @@
                     android:layout_alignBottom="@+id/tv_offer_price"
                     android:layout_marginLeft="@dimen/dp_5"
                     android:layout_toEndOf="@+id/tv_offer_price"
-                    android:visibility="visible">
+                    android:visibility="gone">
 
                     <TextView
                         android:id="@+id/tv_real_price"
@@ -221,7 +221,6 @@
                         android:src="@drawable/ic_pluss" />
                     <!--android:background="@drawable/ic_plus_back"-->
                 </LinearLayout>
-
 
                 <TextView
                     android:id="@+id/tv_add"

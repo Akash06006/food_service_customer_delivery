@@ -46,7 +46,13 @@ class FavoriteListActivity : BaseActivity(), DialogssInterface {
         favoriteBinding = viewDataBinding as ActivityFavoriteListBinding
         favoriteViewModel = ViewModelProviders.of(this).get(FavoriteViewModel::class.java)
         servicesViewModel = ViewModelProviders.of(this).get(ServicesViewModel::class.java)
+        favoriteBinding.favoriteViewModel = favoriteViewModel
 
+        favoriteBinding.rlToolbar.visibility = View.VISIBLE
+        favoriteBinding.txtTitle.text =
+            resources.getString(R.string.favorite)
+
+        //  favoriteBinding.commonToolBar.visibility = View.GONE
         favoriteBinding.commonToolBar.imgRight.visibility = View.GONE
         favoriteBinding.switchMaterial.visibility = View.GONE
 
@@ -102,6 +108,19 @@ class FavoriteListActivity : BaseActivity(), DialogssInterface {
 
                 }
             })
+
+        favoriteViewModel.isClick().observe(
+            this, Observer<String>(function =
+            fun(it: String?) {
+                when (it) {
+
+                    "imgBack" -> {
+                        finish()
+                    }
+
+                }
+            })
+        )
 
     }
 

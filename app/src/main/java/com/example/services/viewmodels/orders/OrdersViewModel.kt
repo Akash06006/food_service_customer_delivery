@@ -29,7 +29,7 @@ class OrdersViewModel : BaseViewModel() {
     init {
         if (UtilsFunctions.isNetworkConnectedWithoutToast()) {
             ordersList = ordersRepository.orderList()
-            ordersHistoryList = ordersRepository.orderHistoryList()
+            ordersHistoryList = ordersRepository.orderHistoryList("")
             cancelOrder = ordersRepository.cancelOrder(null)
             completeOrder = ordersRepository.completeOrder(null)
         }
@@ -96,5 +96,14 @@ class OrdersViewModel : BaseViewModel() {
         }
 
     }
+
+    fun getOrderHistoryList(filter: String) {
+        if (UtilsFunctions.isNetworkConnected()) {
+            ordersHistoryList = ordersRepository.orderHistoryList(filter)
+            mIsUpdating.postValue(true)
+        }
+
+    }
+
 
 }

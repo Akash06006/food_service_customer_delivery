@@ -53,23 +53,25 @@ class OrderListAdapter(
 
     override fun onBindViewHolder(@NonNull holder: ViewHolder, position: Int) {
         viewHolder = holder
-        holder.binding!!.tvOrderOn.text = Utils(mContext).getDate(
+        holder.binding!!.tvOrderOn.text = "Ordered on " + Utils(mContext).getDate(
             "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'",
             orderList[position].createdAt,
             "HH:mm yyyy-MM-dd"
         )
-        holder.binding!!.tvServiceOn.text = Utils(mContext).getDate(
+        holder.binding!!.tvServiceOn.text = "Delivered on  " + Utils(mContext).getDate(
             "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'",
             orderList[position].serviceDateTime,
             "HH:mm yyyy-MM-dd"
         )
+
+        holder.binding!!.txtItemsCount.text = "Items: " + orderList[position].suborders?.size
 
         val applicationType = SharedPrefClass()!!.getPrefValue(
             MyApplication.instance,
             GlobalConstants.PRODUCT_TYPE
         ).toString()
 
-        if (applicationType.equals(GlobalConstants.PRODUCT_DELIVERY)) {
+        /*if (applicationType.equals(GlobalConstants.PRODUCT_DELIVERY)) {
             holder.binding!!.tvCatName.text =
                 mContext.resources.getString(R.string.products)
             holder.binding!!.tvServiceDate.text =
@@ -83,7 +85,7 @@ class OrderListAdapter(
                 mContext.resources.getString(R.string.service_date)
             holder.binding!!.tvBookedOn.text =
                 mContext.resources.getString(R.string.booked_on)
-        }
+        }*/
 
         holder.binding!!.tvTotal.setText(GlobalConstants.Currency + "" + orderList[position].totalOrderPrice)
 ////0-Pending/Not Confirmed, 1-> Confirmed , 2->Cancelled , 3->Processing,4//cancelled by company, 5->Completed
@@ -175,6 +177,11 @@ class OrderListAdapter(
             mContext.startActivity(intent)
         }
 
+        if (orderListActivity != null) {
+            holder.binding.llButtons.visibility = View.GONE
+        } else {
+            holder.binding.llButtons.visibility = View.VISIBLE
+        }
         holder.binding!!.tvCancel.setOnClickListener {
             if (orderListActivity != null) {
 
@@ -185,7 +192,7 @@ class OrderListAdapter(
                     if (orderListActivity != null)
                         orderListActivity!!.completeOrder(position)
                 }
-                holder.binding.llButtons.visibility = View.GONE
+
                 /*val mJsonObjectStartJob = JsonObject()
                 mJsonObjectStartJob.addProperty(
                     "orderId", addressList[position].id
@@ -219,18 +226,18 @@ class OrderListAdapter(
         } else {
             holder.binding!!.tvCancel.visibility = View.VISIBLE
         }
-        val orderListAdapter =
-            OrderServicesListAdapter(mContext, orderList[position].suborders, mContext)
-        val linearLayoutManager = LinearLayoutManager(mContext)
-        linearLayoutManager.orientation = RecyclerView.VERTICAL
-        holder.binding!!.rvOrderService.layoutManager = linearLayoutManager
-        holder.binding!!.rvOrderService.adapter = orderListAdapter
-        holder.binding!!.rvOrderService.addOnScrollListener(object :
-            RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+        /* val orderListAdapter =
+             OrderServicesListAdapter(mContext, orderList[position].suborders, mContext)
+         val linearLayoutManager = LinearLayoutManager(mContext)
+         linearLayoutManager.orientation = RecyclerView.VERTICAL
+         holder.binding!!.rvOrderService.layoutManager = linearLayoutManager
+         holder.binding!!.rvOrderService.adapter = orderListAdapter
+         holder.binding!!.rvOrderService.addOnScrollListener(object :
+             RecyclerView.OnScrollListener() {
+             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
 
-            }
-        })
+             }
+         })*/
 
     }
 
