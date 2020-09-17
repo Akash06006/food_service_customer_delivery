@@ -26,6 +26,46 @@
         app:layout_constraintBottom_toTopOf="@+id/view">
     </androidx.recyclerview.widget.RecyclerView>
 
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/boat_message_view"
+        android:layout_width="300dp"
+        android:layout_height="0dp"
+        app:cardCornerRadius="20dp"
+        android:layout_margin="@dimen/dp_10"
+        android:visibility="gone"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/view">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_gravity="center"
+            android:maxWidth="240dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/sp_18"
+                android:text="How can we help you today?"
+                android:gravity="center"
+                android:padding="@dimen/dp_5"
+                android:textColor="@color/purple"
+                android:textStyle="bold"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvMessages"
+                android:padding="@dimen/dp_5"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:maxWidth="240dp"/>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
     <!-- A horizontal line between the chatbox and RecyclerView -->
     <View
         android:id="@+id/view"

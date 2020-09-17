@@ -221,12 +221,8 @@ public class MessageListAdapter extends RecyclerView.Adapter {
 
      private String getDateCurrentTimeZone(long timestamp) {
         try{
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTimeInMillis(timestamp * 1000);
-            calendar.add(Calendar.MILLISECOND, (int) calendar.getTimeInMillis());
-            Date currenTimeZone = (Date) calendar.getTime();
-            SimpleDateFormat localDateFormat = new SimpleDateFormat("HH:mm");
-            return localDateFormat.format(currenTimeZone);
+            SimpleDateFormat localDateFormat = new SimpleDateFormat("hh:mm a");
+            return localDateFormat.format(new Date(timestamp * 1000));
         }catch (Exception e) {
             return "";
         }

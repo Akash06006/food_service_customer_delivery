@@ -255,4 +255,7 @@ interface ApiInterface {
 
     @GET("mobile/getFaq")
     fun getFAQList(@Query("limit") limit: String, @Query("page") page: String, @Query("category") category: String): Call<JsonObject>
+
+    @GET("mobile/subscription")
+    fun getMembershipData(): Call<JsonObject>
 }//

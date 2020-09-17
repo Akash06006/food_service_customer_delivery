@@ -171,6 +171,7 @@ class OrderListAdapter(
         }
         holder.binding!!.btnHelp.setOnClickListener {
             val intent = Intent(mContext, ChatActivity::class.java)
+            intent.putExtra("orderId", orderList[position].id.toString())
             mContext.startActivity(intent)
         }
 
