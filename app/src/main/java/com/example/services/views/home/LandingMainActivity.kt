@@ -29,6 +29,7 @@ import com.example.services.views.authentication.LoginActivity
 import com.example.services.views.cart.CartListActivity
 import com.example.services.views.chat.ChatActivity
 import com.example.services.views.favorite.FavoriteListActivity
+import com.example.services.views.membership.MembershipActivity
 import com.example.services.views.notifications.NotificationsListActivity
 import com.example.services.views.orders.OrdersHistoryListActivity
 import com.example.services.views.orders.OrdersListActivity
@@ -173,7 +174,7 @@ class LandingMainActivity : BaseActivity(),
                         activityLandingBinding!!.drawerLayout.closeDrawers()
                     }
                     "tv_nav_chat" -> {
-                        val intent = Intent(this, ChatActivity::class.java)
+                        val intent = Intent(this, MembershipActivity::class.java)
                         startActivity(intent)
                         // Drift.showCreateConversationActivity(this)
                       //  showToastSuccess("Coming Soon")

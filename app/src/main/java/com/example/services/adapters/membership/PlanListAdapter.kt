@@ -61,6 +61,9 @@ class PlanListAdapter(
         holder.binding!!.btnPayNow.setOnClickListener {
             mContext.cliCKOnPayNow(position)
         }
+        holder.binding!!.tvCurrentPlan.setOnClickListener {
+            mContext.clickOnCurrentPlan()
+        }
     }
 
     override fun getItemCount() : Int {
