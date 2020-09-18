@@ -99,11 +99,20 @@ object GlobalConstants {
     val SOCKET_URL = "http://51.79.40.224:9075/"
     @JvmStatic
     val SOCKET_CHAT_URL = "http://51.79.40.224:9070/"*/
-
-    @JvmStatic
+//http://stgcerb.cerebruminfotech.com:9061/
+    /*@JvmStatic
     val BASE_URL = "http://10.8.14.242:9061/api/"
     @JvmStatic
     val BASE_SERVER = "http://10.8.14.242:9061"
+    @JvmStatic
+    val SOCKET_URL = "http://51.79.40.224:9075/"
+    @JvmStatic
+    val SOCKET_CHAT_URL = "http://51.79.40.224:9070/"*/
+
+    @JvmStatic
+    val BASE_URL = "http://stgcerb.cerebruminfotech.com:9061/api/"
+    @JvmStatic
+    val BASE_SERVER = "http://stgcerb.cerebruminfotech.com:9061"
     @JvmStatic
     val SOCKET_URL = "http://51.79.40.224:9075/"
     @JvmStatic

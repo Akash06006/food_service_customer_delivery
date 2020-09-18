@@ -8,6 +8,7 @@ import androidx.annotation.NonNull
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.services.R
 import com.example.services.application.MyApplication
 import com.example.services.constants.GlobalConstants
@@ -64,7 +65,11 @@ class OrderListAdapter(
             "HH:mm yyyy-MM-dd"
         )
 
+        holder.binding!!.tvCatName.text = orderList[position].company?.companyName
+
         holder.binding!!.txtItemsCount.text = "Items: " + orderList[position].suborders?.size
+
+        Glide.with(mContext).load(orderList[position].company?.logo1).into(holder.binding.restImage)
 
         val applicationType = SharedPrefClass()!!.getPrefValue(
             MyApplication.instance,

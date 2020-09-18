@@ -186,6 +186,7 @@ class ServicesListActivity : BaseActivity(), CompoundButton.OnCheckedChangeListe
                             if (categoriesList.size > 0) {
                                 if (UtilsFunctions.isNetworkConnected()) {
                                     categoriesList[0].selected = "true"
+                                    catId = categoriesList[0].id.toString()
                                     servicesViewModel.getServices(categoriesList[0].id, vegOnly)
                                     startProgressDialog()
                                 }

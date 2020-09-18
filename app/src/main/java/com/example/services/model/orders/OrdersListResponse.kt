@@ -96,6 +96,10 @@ class OrdersListResponse {
         @Expose
         var orderStatus: OrderStatus? = null
 
+        @SerializedName("company")
+        @Expose
+        var company: Company? = null
+
     }
 
     inner class OrderStatus {
@@ -106,6 +110,23 @@ class OrdersListResponse {
         @Expose
         var id: String? = null
     }
+
+    inner class Company {
+        @SerializedName("logo1")
+        @Expose
+        var logo1: String? = null
+        @SerializedName("companyName")
+        @Expose
+        var companyName: String? = null
+        @SerializedName("totalRatings")
+        @Expose
+        var totalRatings: String? = null
+        @SerializedName("rating")
+        @Expose
+        var rating: String? = null
+
+    }
+
 
     inner class CompanyAddress {
         @SerializedName("lat")

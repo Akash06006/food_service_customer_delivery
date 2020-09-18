@@ -106,6 +106,9 @@ class NotificationsListActivity : BaseActivity() {
             this, Observer<String>(function =
             fun(it: String?) {
                 when (it) {
+                    "imgBack" -> {
+                        finish()
+                    }
                     "btn_clear" -> {
                         notificationsViewModel.clearAllNotification(userId)
                     }

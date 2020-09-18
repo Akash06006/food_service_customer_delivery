@@ -80,6 +80,12 @@ class SplashActivity : BaseActivity() {
     }
 
     private fun checkScreenType() {
+
+        sharedPrefClass!!.putObject(
+            applicationContext,
+            GlobalConstants.NOTIFICATION_TOKEN,
+            GlobalConstants.NOTIFICATION_TOKEN
+        )
         var login = ""
         if (checkObjectNull(
                 SharedPrefClass().getPrefValue(
