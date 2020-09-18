@@ -53,7 +53,8 @@
                         android:layout_margin="10dp"
                         android:gravity="center_vertical"
                         android:orientation="horizontal"
-                        android:padding="10dp">
+                        android:padding="10dp"
+                        android:visibility="gone">
 
                         <de.hdodenhof.circleimageview.CircleImageView
                             android:id="@+id/user_img"
@@ -95,14 +96,19 @@
 
                     </RelativeLayout>
 
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_del_boy" />
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@color/purple"
                         android:gravity="center"
                         android:padding="5dp"
-                        android:text="Rate your delivery partner"
-                        android:textColor="@color/colorWhite"
+                        android:text="Rate Your Delivery Partner"
+                        android:textColor="@color/colorBlack"
                         android:textSize="16sp"
                         app:font="@{`regular`}" />
 
@@ -125,7 +131,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/dp_150"
                         android:layout_margin="@dimen/dp_15"
-                        android:background="@drawable/shape_square_stroke"
+                        android:background="@drawable/ic_edittext_back"
                         android:gravity="top"
                         android:hint="@string/enter_review"
                         android:imeOptions="actionDone"

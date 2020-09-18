@@ -86,19 +86,29 @@ object GlobalConstants {
     var SESSION_TOKEN = "session_token"
     @JvmStatic
     var JOB_STARTED = "job_started"
-    //
+    //http://10.8.14.242:9061/
     /* @JvmStatic
      val BASE_URL = "http://10.8.23.202:9062/"*/
-    @JvmStatic
+    /*@JvmStatic
     val BASE_URL = "http://51.79.40.224:9075/api/"
     @JvmStatic
     val BASE_SERVER = "http://51.79.40.224:9075"
-    /* @JvmStatic
-     val SOCKET_URL = "http://10.8.23.202:9062"*/
+    *//* @JvmStatic
+     val SOCKET_URL = "http://10.8.23.202:9062"*//*
+    @JvmStatic
+    val SOCKET_URL = "http://51.79.40.224:9075/"
+    @JvmStatic
+    val SOCKET_CHAT_URL = "http://51.79.40.224:9070/"*/
+
+    @JvmStatic
+    val BASE_URL = "http://10.8.14.242:9061/api/"
+    @JvmStatic
+    val BASE_SERVER = "http://10.8.14.242:9061"
     @JvmStatic
     val SOCKET_URL = "http://51.79.40.224:9075/"
     @JvmStatic
     val SOCKET_CHAT_URL = "http://51.79.40.224:9070/"
+
     const val PLATFORM = "android"
     @JvmStatic
     var LOGIN = "every"
