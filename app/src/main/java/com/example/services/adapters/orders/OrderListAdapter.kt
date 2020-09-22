@@ -21,6 +21,7 @@ import com.example.services.views.chat.ChatActivity
 import com.example.services.views.orders.OrdersDetailActivity
 import com.example.services.views.orders.OrdersListActivity
 import com.example.services.views.ratingreviews.AddRatingReviewsListActivity
+import kotlinx.android.synthetic.main.order_item.view.*
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -187,6 +188,15 @@ class OrderListAdapter(
         } else {
             holder.binding.llButtons.visibility = View.VISIBLE
         }
+
+        if (orderList[position].isRated.equals("false")) {
+            holder.binding.btnRate.isEnabled = true
+            holder.binding.btnRate.alpha = 1f
+        } else {
+            holder.binding.btnRate.isEnabled = false
+            holder.binding.btnRate.alpha = 0.5f
+        }
+
         holder.binding!!.tvCancel.setOnClickListener {
             if (orderListActivity != null) {
 

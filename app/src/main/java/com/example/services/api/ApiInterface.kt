@@ -133,8 +133,8 @@ interface ApiInterface {
     @Multipart
     @POST("mobile/rating/addRating")
     fun addRatings(
-        @PartMap partMap: HashMap<String, RequestBody>?, @Part imagesParts: Array<MultipartBody.Part?>?,
-        @PartMap contributorsMap: HashMap<String, String>?
+        @PartMap partMap: HashMap<String, RequestBody>?, @Part imagesParts: Array<MultipartBody.Part?>?/*,
+        @PartMap contributorsMap: HashMap<String, String>?*/
     ): Call<JsonObject>
 
     @Multipart

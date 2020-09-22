@@ -62,6 +62,7 @@ import com.google.gson.JsonObject
 import com.uniongoods.adapters.*
 import okhttp3.MultipartBody
 import org.json.JSONObject
+import java.io.Serializable
 import kotlin.collections.ArrayList
 
 class
@@ -71,6 +72,7 @@ HomeFragment : BaseFragment(), SocketInterface, OnMapReadyCallback {
     private lateinit var mMap: GoogleMap
     private var categoriesList = ArrayList<Subcat>()
     private var details: Details? = null
+    private var ratingInfo: RatingInfo? = null
     private var bannersList = ArrayList<Banners>()
     private var trendingServiceList =
         ArrayList<com.example.services.viewmodels.home.Trending>()
@@ -121,13 +123,13 @@ HomeFragment : BaseFragment(), SocketInterface, OnMapReadyCallback {
         categoriesList.clear()
 
 
-      /*var  mapFragment = fragmentManager?.findFragmentById(R.id.map) as SupportMapFragment?
-        mapFragment?.getMapAsync(this)*/
+        /*var  mapFragment = fragmentManager?.findFragmentById(R.id.map) as SupportMapFragment?
+          mapFragment?.getMapAsync(this)*/
 
 
-     /*    val mapFragment = childFragmentManager
-             .findFragmentById(R.id.map) as SupportMapFragment
-         mapFragment.getMapAsync(this)*/
+        /*    val mapFragment = childFragmentManager
+                .findFragmentById(R.id.map) as SupportMapFragment
+            mapFragment.getMapAsync(this)*/
 
         fragmentHomeBinding.txtRestName.setText(GlobalConstants.CATEGORY_SELECTED_NAME)
         val applicationType = SharedPrefClass()!!.getPrefValue(
@@ -171,19 +173,19 @@ HomeFragment : BaseFragment(), SocketInterface, OnMapReadyCallback {
                     when {
                         response.code == 200 -> {
                             //  details = Details()
-                           /* val mCameraPosition = CameraPosition.Builder()
-                                .target(
-                                    LatLng(
-                                        java.lang.Double.parseDouble(GlobalConstants.CURRENT_LAT),
-                                        java.lang.Double.parseDouble(GlobalConstants.CURRENT_LONG)
-                                    )
-                                )
-                                .zoom(15.5f)
-                                .tilt(30f)
-                                .build()*/
-                           // mMap.moveCamera(CameraUpdateFactory.newCameraPosition(mCameraPosition))
+                            /* val mCameraPosition = CameraPosition.Builder()
+                                 .target(
+                                     LatLng(
+                                         java.lang.Double.parseDouble(GlobalConstants.CURRENT_LAT),
+                                         java.lang.Double.parseDouble(GlobalConstants.CURRENT_LONG)
+                                     )
+                                 )
+                                 .zoom(15.5f)
+                                 .tilt(30f)
+                                 .build()*/
+                            // mMap.moveCamera(CameraUpdateFactory.newCameraPosition(mCameraPosition))
 
-
+                            ratingInfo = response.body.ratingInfo
                             details = response.body.details
                             categoriesList.clear()
                             trendingServiceList.clear()
@@ -230,10 +232,11 @@ HomeFragment : BaseFragment(), SocketInterface, OnMapReadyCallback {
                                     "null"
                                 )
                             ) {
-                                fragmentHomeBinding.txtTime.visibility = View.GONE
-                                fragmentHomeBinding.llTime.visibility = View.GONE
+                                fragmentHomeBinding.txtDeliveryTime.visibility = View.GONE
+                                //  fragmentHomeBinding.llTime.visibility = View.GONE
                             } else {
-                                fragmentHomeBinding.txtTime.setText(details?.startTime + " - " + details?.endTime)
+                                fragmentHomeBinding.txtDeliveryTime.visibility = View.VISIBLE
+                                fragmentHomeBinding.txtDeliveryTime.setText(details?.startTime + " - " + details?.endTime)
                             }
                             if (details?.rating?.toDouble()!! > 0) {
                                 fragmentHomeBinding.rBar.setRating(1f)
@@ -364,7 +367,7 @@ HomeFragment : BaseFragment(), SocketInterface, OnMapReadyCallback {
                             shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Delicio App")
                             var shareMessage =
                                 "\nLet me recommend you this application\n\n"
-                            shareMessage = shareMessage+" Google.com\n"
+                            shareMessage = shareMessage + " Google.com\n"
                             shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage)
                             startActivity(Intent.createChooser(shareIntent, "choose one"))
                         } catch (e: Exception) {
@@ -379,6 +382,9 @@ HomeFragment : BaseFragment(), SocketInterface, OnMapReadyCallback {
                         intent.putExtra("name", details?.companyName)
                         intent.putExtra("id", GlobalConstants.COMPANY_ID)
                         intent.putExtra("image", details?.logo1)
+                        // intent.putExtra("rating", ratingInfo?.rating)
+                        //intent.putExtra("review", ratingInfo?.review)
+                        intent.putExtra("data", ratingInfo)
                         startActivity(intent)
                     }
                     "imgBack" -> {
@@ -819,14 +825,14 @@ HomeFragment : BaseFragment(), SocketInterface, OnMapReadyCallback {
          mMap.moveCamera(CameraUpdateFactory.newLatLng(myLocation))*/
 
 
-       /* googleMap.apply {
-            val sydney = LatLng(40.7138353, -73.9920178)
-            addMarker(
-                MarkerOptions()
-                    .position(sydney)
-                    .title("Marker in Sydney")
-            )
-        }*/
+        /* googleMap.apply {
+             val sydney = LatLng(40.7138353, -73.9920178)
+             addMarker(
+                 MarkerOptions()
+                     .position(sydney)
+                     .title("Marker in Sydney")
+             )
+         }*/
 
 
         val mCameraPosition = CameraPosition.Builder()

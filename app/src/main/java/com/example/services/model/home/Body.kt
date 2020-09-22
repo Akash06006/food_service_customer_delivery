@@ -10,6 +10,7 @@ data class Body(
     val cartCategoryType: String,
     val currency: String,
     val details: Details,
+    val ratingInfo: RatingInfo,
     val gallery: List<Gallery>
 
 )

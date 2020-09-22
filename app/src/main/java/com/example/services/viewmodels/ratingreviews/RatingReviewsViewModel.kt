@@ -40,8 +40,8 @@ class RatingReviewsViewModel : BaseViewModel() {
             ratingReview = ratingReviewsRepository.addRatings(
                 null,
                 null,
-                null,
-                null
+                null/*,
+                null*/
             )
         }
     }
@@ -93,12 +93,12 @@ class RatingReviewsViewModel : BaseViewModel() {
     fun addRatings(
         params: RatingReviewListInput,
         imagesParts: Array<MultipartBody.Part?>?,
-        contributorsMap: HashMap<String, String>,
+       /* contributorsMap: HashMap<String, String>,*/
         mHashMap: HashMap<String, RequestBody>
     ) {
         if (UtilsFunctions.isNetworkConnected()) {
             ratingReview =
-                ratingReviewsRepository.addRatings(params, imagesParts, contributorsMap, mHashMap)
+                ratingReviewsRepository.addRatings(params, imagesParts,/* contributorsMap,*/ mHashMap)
             mIsUpdating.postValue(true)
         }
 

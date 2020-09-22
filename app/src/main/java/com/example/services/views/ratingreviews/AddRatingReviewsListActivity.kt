@@ -9,6 +9,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.Window
@@ -34,12 +35,14 @@ import com.example.services.utils.BaseActivity
 import com.example.services.utils.DialogClass
 import com.example.services.utils.DialogssInterface
 import com.example.services.utils.Utils
+import com.example.services.viewmodels.home.RatingInfo
 import com.example.services.viewmodels.ratingreviews.RatingReviewsViewModel
 import com.google.gson.JsonObject
 import com.uniongoods.adapters.AddRatingReviewsListAdapter
 import com.uniongoods.adapters.ImagesListAdapter
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import org.json.JSONObject
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
@@ -129,15 +132,39 @@ class AddRatingReviewsListActivity : BaseActivity(), DialogssInterface, ChoiceCa
             val image = intent.extras?.get("image").toString()
             companyId = intent.extras?.get("id").toString()
             reviewsBinding.txtRestname.setText(comapnyName)
-            //companyId = response.data?.companyId.toString()
+            val mJsonObject = intent.getSerializableExtra("data") as? RatingInfo
+            // val mJsonObject = JSONObject(intent.extras?.get("data")?.toString())
+
             Glide.with(this).load(image)
                 .into(reviewsBinding.imgRest)
+
+
+            if (mJsonObject != null) {
+                val restRating = mJsonObject?.rating//mJsonObject.get("rating").toString()
+                val review = mJsonObject?.review//mJsonObject.get("review").toString()
+                if (!TextUtils.isEmpty(restRating)) {
+                    reviewsBinding.rBar.setRating(mJsonObject?.rating!!.toFloat()/*restRating?.toFloat()*/)
+                }
+                reviewsBinding.rbQuality.setRating(mJsonObject?.foodQuality!!.toFloat()/*restRating?.toFloat()*/)
+                reviewsBinding.rbMoneyValue.setRating(mJsonObject?.foodQuantity!!.toFloat()/*restRating?.toFloat()*/)
+                reviewsBinding.rbPackaging.setRating(mJsonObject?.packingPres!!.toFloat()/*restRating?.toFloat()*/)
+                reviewsBinding.edtReviews.setText(review)
+            }
+
+
+/*mHashMap["foodQuality"] =
+                Utils(this).createPartFromString(reviewsBinding.rbQuality.getRating().toString())
+            mHashMap["foodQuantity"] =
+                Utils(this).createPartFromString(reviewsBinding.rbMoneyValue.getRating().toString())
+            mHashMap["packingPres"] =
+                Utils(this).createPartFromString(reviewsBinding.rbPackaging.getRating().toString())*/
+
 
             reviewsBinding.txtItemsRating.visibility = View.GONE
             reviewsBinding.rvReviews.visibility = View.GONE
 
         }
-        imagesListAdapter = ImagesListAdapter(this,null, imagesList, this)
+        imagesListAdapter = ImagesListAdapter(this, null, imagesList, this)
         reviewsBinding.rvImages.setHasFixedSize(true)
         linearLayoutManager1.orientation = RecyclerView.HORIZONTAL
         reviewsBinding.rvImages.layoutManager = linearLayoutManager1
@@ -242,7 +269,7 @@ class AddRatingReviewsListActivity : BaseActivity(), DialogssInterface, ChoiceCa
                         onBackPressed()
                     }
                     "btnSubmit" -> {
-
+/*["review": "Niceeeee", "ratingData": [], "rating": "5.0", "companyId": "6b9a100c-f8ca-484a-a29d-ecb4bd5e7b00", "orderId": "", "foodQuality": "0.0", "foodQuantity": "0.0", "packingPres": "0.0", "images": []]*/
                         val mHashMap = HashMap<String, RequestBody>()
                         mHashMap["foodQuality"] =
                             Utils(this).createPartFromString(reviewsBinding.rbQuality.getRating().toString())
@@ -254,7 +281,7 @@ class AddRatingReviewsListActivity : BaseActivity(), DialogssInterface, ChoiceCa
                         mHashMap["companyId"] =
                             Utils(this).createPartFromString(companyId)
                         mHashMap["orderId"] =
-                            Utils(this).createPartFromString(ratingData.orderId.toString())
+                            Utils(this).createPartFromString(orderId.toString())
                         mHashMap["rating"] =
                             Utils(this).createPartFromString(reviewsBinding.rBar.getRating().toString())
                         mHashMap["review"] =
@@ -263,8 +290,7 @@ class AddRatingReviewsListActivity : BaseActivity(), DialogssInterface, ChoiceCa
                         // mHashMap["rating"] = Utils(this).createPartFromString("0")
                         //  mHashMap["ratingData"] =Utils(this).createPartFromString(ratingData.ratingData.toString())
 
-                        
-                        
+
                         if (imagesList.size > 0) {
                             imagesParts = arrayOfNulls<MultipartBody.Part>(imagesList.count())
                             for (i in 0 until imagesList.count()) {
@@ -273,26 +299,32 @@ class AddRatingReviewsListActivity : BaseActivity(), DialogssInterface, ChoiceCa
 
                             }
                         }
-                        val contributorsMap: HashMap<String, String> = HashMap()
+                        // val contributorsMap: HashMap<String, String> = HashMap()
+                        val ratingDataArray = ArrayList<JsonObject>()
                         if (ratingData.ratingData.size > 0) {
                             for (i in 0 until ratingData.ratingData.count()) {
-                                /*val obj = JsonObject()
+                                val obj = JsonObject()
                                 obj.addProperty("rating", ratingData.ratingData[i].rating)
-                                obj.addProperty("serviceId", ratingData.ratingData[i].serviceId)*/
-                                contributorsMap["rating[${i}]"] =
-                                    ratingData.ratingData[i].rating.toString()
-                                contributorsMap["serviceId[${i}]"] =
-                                    ratingData.ratingData[i].serviceId.toString()
+                                obj.addProperty("serviceId", ratingData.ratingData[i].serviceId)
+                                ratingDataArray.add(obj)
+
+                                /* contributorsMap["rating[${i}]"] =
+                                     ratingData.ratingData[i].rating.toString()
+                                 contributorsMap["serviceId[${i}]"] =
+                                     ratingData.ratingData[i].serviceId.toString()*/
 
                             }
                         }
+
+                        mHashMap["ratingData"] =
+                            Utils(this).createPartFromString(ratingDataArray.toString())
 
                         if (UtilsFunctions.isNetworkConnected()) {
                             startProgressDialog()
                             reviewsViewModel.addRatings(
                                 ratingData,
                                 imagesParts,
-                                contributorsMap,
+                                /*contributorsMap,*/
                                 mHashMap
                             )
                         }

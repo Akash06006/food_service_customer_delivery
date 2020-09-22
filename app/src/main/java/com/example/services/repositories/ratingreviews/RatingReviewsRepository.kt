@@ -101,7 +101,7 @@ class RatingReviewsRepository {
     fun addRatings(
         id: RatingReviewListInput?,
         imagesParts: Array<MultipartBody.Part?>?,
-        contributorsMap: HashMap<String, String>?,
+        /*contributorsMap: HashMap<String, String>?,*/
         mHashMap: HashMap<String, RequestBody>?
     ): MutableLiveData<CommonModel> {
         if (id != null) {
@@ -129,7 +129,7 @@ class RatingReviewsRepository {
                     }
 
                 },
-                ApiClient.getApiInterface().addRatings(/*id*/mHashMap, imagesParts, contributorsMap)
+                ApiClient.getApiInterface().addRatings(/*id*/mHashMap, imagesParts/*, contributorsMap*/)
             )
 
         }

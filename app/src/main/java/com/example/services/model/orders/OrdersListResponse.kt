@@ -27,6 +27,9 @@ class OrdersListResponse {
         @SerializedName("id")
         @Expose
         var id: String? = null
+        @SerializedName("isRated")
+        @Expose
+        var isRated: String? = null
         @SerializedName("serviceDateTime")
         @Expose
         var serviceDateTime: String? = null
