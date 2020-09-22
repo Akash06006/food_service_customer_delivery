@@ -174,6 +174,7 @@ class ChatActivity: com.example.services.utils.BaseActivity(), ConnectionListene
                 objectChatHistory.put("type", 1)
                 objectChatHistory.put("message", chatBinding.edittextChatbox.text.toString())
                 objectChatHistory.put("usertype", "user")
+                objectChatHistory.put("receiverId", "25cbf58b-46ba-4ba2-b25d-8f8f653e9f13")
                 SocketConnectionManager.getInstance().socket.emit("sendMessage", objectChatHistory)
                 chatBinding.edittextChatbox.setText("")
             }else{

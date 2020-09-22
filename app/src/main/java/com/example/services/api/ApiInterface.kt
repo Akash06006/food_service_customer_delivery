@@ -267,4 +267,7 @@ interface ApiInterface {
 
     @GET("mobile/subscription")
     fun getMembershipData(): Call<JsonObject>
+
+    @GET("/api/mobile/subscription/purchasePlan")
+    fun purchasePlan(@Body mJsonObject: JsonObject): Call<JsonObject>
 }//
