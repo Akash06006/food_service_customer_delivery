@@ -146,7 +146,7 @@
                 android:layout_marginTop="@dimen/dp_15"
                 android:layout_marginRight="@dimen/dp_20"
                 android:layout_marginBottom="@dimen/dp_15"
-                android:background="@drawable/shape_round_stroke"
+                android:background="@drawable/shape_purple"
                 android:elevation="@dimen/dp_15"
                 android:gravity="center"
                 android:onClick="@{(v) -> profileViewModel.clickListener(v)}"

@@ -108,7 +108,13 @@ HomeFragment : BaseFragment(), SocketInterface, OnMapReadyCallback {
 
     override fun onResume() {
         super.onResume()
-
+        if (UtilsFunctions.isNetworkConnected()) {
+            homeViewModel.getSubServices(
+                "b21a7c8f-078f-4323-b914-8f59054c4467",
+                ""/*GlobalConstants.CATEGORY_SELECTED*/
+            )
+            baseActivity.startProgressDialog()
+        }
     }
 
     //api/mobile/services/getSubcat/b21a7c8f-078f-4323-b914-8f59054c4467
@@ -158,13 +164,13 @@ HomeFragment : BaseFragment(), SocketInterface, OnMapReadyCallback {
         )
         // initRecyclerView()
 
-        if (UtilsFunctions.isNetworkConnected()) {
+        /*if (UtilsFunctions.isNetworkConnected()) {
             homeViewModel.getSubServices(
                 "b21a7c8f-078f-4323-b914-8f59054c4467",
-                ""/*GlobalConstants.CATEGORY_SELECTED*/
+                ""*//*GlobalConstants.CATEGORY_SELECTED*//*
             )
             baseActivity.startProgressDialog()
-        }
+        }*/
         homeViewModel.getGetSubServices().observe(this,
             Observer<CategoriesListResponse> { response ->
                 baseActivity.stopProgressDialog()

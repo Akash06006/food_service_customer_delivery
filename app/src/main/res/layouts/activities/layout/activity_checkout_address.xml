@@ -177,7 +177,7 @@
                             android:text="@string/select_time"
                             android:textAllCaps="false"
                             android:textColor="@color/colorBlack"
-                            android:visibility="visible"
+                            android:visibility="gone"
                             app:font="@{`bold`}"
                             tools:ignore="AllCaps" />
 
@@ -198,7 +198,7 @@
                             android:text="@string/no_time_slots_available"
                             android:textAllCaps="false"
                             android:textColor="@color/colorBlack"
-                            android:visibility="visible"
+                            android:visibility="gone"
                             app:font="@{`bold`}"
                             tools:ignore="AllCaps" />
 
@@ -709,7 +709,7 @@
                                         android:paddingTop="@dimen/dp_15"
                                         android:paddingEnd="@dimen/dp_5"
                                         android:paddingBottom="@dimen/dp_10"
-                                        android:visibility="visible">
+                                        android:visibility="gone">
                                         <!--                            android:background="@drawable/round_back_transparent"
                                         -->
                                         <ImageView

@@ -16,14 +16,14 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class PlanListAdapter(
-    context : MembershipActivity,
-    subscriptionPlanList : ArrayList<MembershipResponse.SubscriptionDurations>,
+    context: MembershipActivity,
+    subscriptionPlanList: ArrayList<MembershipResponse.SubscriptionDurations>,
     featureList: ArrayList<String>
 ) :
     RecyclerView.Adapter<PlanListAdapter.ViewHolder>() {
-    private val mContext : MembershipActivity
-    private var viewHolder : ViewHolder? = null
-    private var subscriptionPlanList : ArrayList<MembershipResponse.SubscriptionDurations>
+    private val mContext: MembershipActivity
+    private var viewHolder: ViewHolder? = null
+    private var subscriptionPlanList: ArrayList<MembershipResponse.SubscriptionDurations>
     private var featureList: ArrayList<String>
 
     init {
@@ -33,7 +33,7 @@ class PlanListAdapter(
     }
 
     @NonNull
-    override fun onCreateViewHolder(@NonNull parent : ViewGroup, viewType : Int) : ViewHolder {
+    override fun onCreateViewHolder(@NonNull parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = DataBindingUtil.inflate(
             LayoutInflater.from(parent.context),
             R.layout.membership_item,
@@ -43,22 +43,26 @@ class PlanListAdapter(
         return ViewHolder(binding.root, viewType, binding, mContext, subscriptionPlanList)
     }
 
-    override fun onBindViewHolder(@NonNull holder : ViewHolder, position : Int) {
+    override fun onBindViewHolder(@NonNull holder: ViewHolder, position: Int) {
         viewHolder = holder
         holder.binding!!.tvTime.text = subscriptionPlanList[position].duration
-        holder.binding!!.tvPrice.text = "Price: "+GlobalConstants.Currency+subscriptionPlanList[position].price
+        holder.binding!!.tvPrice.text =
+            "Price: " + GlobalConstants.Currency + subscriptionPlanList[position].price
         var features = featureList.joinToString("\n")
         /* for (i in 0 until featureList.size){
              features = fe
          }*/
-        holder.binding!!.tvFromDate.text = "Starts from "+DateFormat.getDateInstance(DateFormat.MEDIUM).format(Date())
+        holder.binding!!.tvFromDate.text =
+            "Starts from " + DateFormat.getDateInstance(DateFormat.MEDIUM).format(Date())
         val cal: Calendar = Calendar.getInstance()
-        val durations = subscriptionPlanList[position].duration!!.substring(0,1)
+        val durations = subscriptionPlanList[position].duration!!.substring(0, 1)
         cal.add(Calendar.MONTH, durations.toInt())
         val date = cal.time
-        holder.binding!!.tvEndDate.text = "Expires on "+DateFormat.getDateInstance(DateFormat.MEDIUM).format(date)
+        holder.binding!!.tvEndDate.text =
+            "Expires on " + DateFormat.getDateInstance(DateFormat.MEDIUM).format(date)
         holder.binding.tvBenefitsList.text = features
         holder.binding!!.btnPayNow.setOnClickListener {
+            mContext.durationId = subscriptionPlanList[position].id.toString()
             mContext.cliCKOnPayNow(position)
         }
         holder.binding!!.tvCurrentPlan.setOnClickListener {
@@ -66,16 +70,16 @@ class PlanListAdapter(
         }
     }
 
-    override fun getItemCount() : Int {
+    override fun getItemCount(): Int {
         return subscriptionPlanList.count()
     }
 
     inner class ViewHolder//This constructor would switch what to findViewBy according to the type of viewType
         (
-        v : View, val viewType : Int, //These are the general elements in the RecyclerView
-        val binding : MembershipItemBinding?,
-        mContext : MembershipActivity,
-        subscriptionPlanList : ArrayList<MembershipResponse.SubscriptionDurations>?
+        v: View, val viewType: Int, //These are the general elements in the RecyclerView
+        val binding: MembershipItemBinding?,
+        mContext: MembershipActivity,
+        subscriptionPlanList: ArrayList<MembershipResponse.SubscriptionDurations>?
     ) : RecyclerView.ViewHolder(v) {
         /*init {
             binding.linAddress.setOnClickListener {

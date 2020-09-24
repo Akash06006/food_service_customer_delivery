@@ -443,5 +443,8 @@
     <string name="complete_address">Complete Address</string>
     <string name="save_address">Save Address</string>
     <string name="skip">Skip</string>
+    <string name="membership">Membership</string>
+    <string name="view_current_plan" tools:ignore="ExtraTranslation"><u>View Current Plan</u></string>
+
 
 </resources>

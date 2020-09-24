@@ -130,15 +130,14 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
         cartBinding.commonToolBar.imgToolbarText.text =
             resources.getString(R.string.checkout)
 
-
         /* val bottomSheetBehavior = BottomSheetBehavior.from(cartBinding.bottomLayout)
-
          bottomSheetBehavior.state == BottomSheetBehavior.STATE_COLLAPSED*/
 
         val applicationType = SharedPrefClass()!!.getPrefValue(
             MyApplication.instance,
             GlobalConstants.PRODUCT_TYPE
         ).toString()
+
 
         if (applicationType.equals(GlobalConstants.PRODUCT_DELIVERY)) {
             cartBinding.tvSelectdateMsg.text =
@@ -198,8 +197,9 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
                         response.code == 200 -> {
                             cartList.addAll(response.body!!.data!!)
                             points = response.body?.lPoints?.maxRange.toString()
+                            val balance = response.body?.lPoints?.balance.toString()
                             singlePointValue = response.body?.lPoints?.onePointValue!!.toDouble()
-                            if (points!!.toDouble() > 0) {
+                            if (balance!!.toDouble() > 0) {
                                 cartBinding.rlLoyalty.visibility = View.VISIBLE
                                 maxRangePoints = response.body?.lPoints?.maxRange!!.toDouble()
                                 cartBinding.txtLoyalMes.setText("Your can use loyalty points : " + response.body?.lPoints?.usablePoints + "/" + response.body?.lPoints?.balance)
@@ -477,7 +477,12 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
                             cartBinding.llDevCharges.visibility = View.GONE
                             cartBinding.txtNotDelivery.visibility = View.VISIBLE
                             cartBinding.btnCheckout.visibility = View.GONE
-                            cartBinding.txtNotDelivery.setText(message)
+                            if (TextUtils.isEmpty(addressId)) {
+                                cartBinding.txtNotDelivery.setText("Please add address first")
+                            } else {
+                                cartBinding.txtNotDelivery.setText(message)
+                            }
+
                         }
                         else -> message?.let {
                             cartBinding.llDevCharges.visibility = View.GONE

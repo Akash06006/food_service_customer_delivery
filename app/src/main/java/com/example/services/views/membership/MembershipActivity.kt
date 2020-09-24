@@ -36,9 +36,10 @@ import kotlin.collections.ArrayList
 class MembershipActivity : BaseActivity() {
     private lateinit var binding: ActivityMembershipBinding
     private lateinit var membershipViewModel: MembershipViewModel
-    private var planAdapter: PlanListAdapter ?=null
+    private var planAdapter: PlanListAdapter? = null
     private var planList: ArrayList<MembershipResponse.SubscriptionDurations>? = null
     private var position = 0
+    var durationId = ""
     private var mResponse = MembershipResponse()
 
 
@@ -72,16 +73,19 @@ class MembershipActivity : BaseActivity() {
                             if (planList!!.size > 0) {
                                 mResponse = response
                                 binding.reyclerviewMembershipPlanList.visibility = View.VISIBLE
-                               // binding.tvNoRecord.visibility = View.GONE
-                                planAdapter = PlanListAdapter(this, planList!!, response.data!![0].features!!)
-                               // binding.reyclerviewMembershipPlanList.setLayoutManager(LinearLayoutManager(this))
-                                binding.reyclerviewMembershipPlanList.layoutManager = LinearLayoutManager(this)
-                                binding.reyclerviewMembershipPlanList.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL ,false)
+                                // binding.tvNoRecord.visibility = View.GONE
+                                planAdapter =
+                                    PlanListAdapter(this, planList!!, response.data!![0].features!!)
+                                // binding.reyclerviewMembershipPlanList.setLayoutManager(LinearLayoutManager(this))
+                                binding.reyclerviewMembershipPlanList.layoutManager =
+                                    LinearLayoutManager(this)
+                                binding.reyclerviewMembershipPlanList.layoutManager =
+                                    LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
                                 binding.reyclerviewMembershipPlanList.setAdapter(planAdapter)
-                               // showCurrentPlanDialog(response)
+                                // showCurrentPlanDialog(response)
                             } else {
                                 binding.reyclerviewMembershipPlanList.visibility = View.GONE
-                             //   binding.tvNoRecord.visibility = View.VISIBLE
+                                //   binding.tvNoRecord.visibility = View.VISIBLE
                             }
 
                         }
@@ -102,6 +106,7 @@ class MembershipActivity : BaseActivity() {
                     val message = response.message
                     when {
                         response.code == 200 -> {
+                            showToastSuccess(response.message)
                             finish()
                         }
                         else -> message?.let {
@@ -123,23 +128,23 @@ class MembershipActivity : BaseActivity() {
 
                 val addressObject = JsonObject()
                 addressObject.addProperty(
-                    "subscriptionId", planList!![position].id
+                    "subscriptionId", mResponse.data!![0].id //planList!![position].id
                 )
                 addressObject.addProperty(
                     "amount", planList!![position].price
                 )
                 addressObject.addProperty(
-                    "durationId", "1"
+                    "durationId", durationId/*"1"*/
                 )
                 Log.d("addressObject", addressObject.toString())
-                startProgressDialog()
+                //startProgressDialog()
                 membershipViewModel.buyMembership(addressObject)
                 //   showPaymentSuccessDialog()
             }
         }
     }
 
-    fun cliCKOnPayNow(pos: Int){
+    fun cliCKOnPayNow(pos: Int) {
         position = pos
         val intent = Intent(this, PaymentActivity::class.java)
         intent.putExtra("amount", planList!![pos].price)
@@ -148,38 +153,39 @@ class MembershipActivity : BaseActivity() {
         startActivityForResult(intent, 200)
     }
 
-    fun clickOnCurrentPlan(){
+    fun clickOnCurrentPlan() {
         showCurrentPlanDialog(mResponse)
     }
 
 
-    private fun showCurrentPlanDialog(response: MembershipResponse){
+    private fun showCurrentPlanDialog(response: MembershipResponse) {
 
         var boatMessageDialog = Dialog(this)
-          boatMessageDialog!!.setContentView(R.layout.current_plan_dialog)
+        boatMessageDialog!!.setContentView(R.layout.current_plan_dialog)
         val window = boatMessageDialog.window
         window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-          val wmpl = window!!.attributes
-          wmpl.gravity = Gravity.BOTTOM
+        val wmpl = window!!.attributes
+        wmpl.gravity = Gravity.BOTTOM
         window.setLayout(
             LinearLayout.LayoutParams.MATCH_PARENT,
             LinearLayout.LayoutParams.WRAP_CONTENT
         )
         window.attributes = wmpl
-         val tvPlan: TextView = boatMessageDialog!!.findViewById(R.id.tvPlanName) as TextView
-         val tvStartDate: TextView = boatMessageDialog!!.findViewById(R.id.tvStartDate) as TextView
-         val tvEndDate: TextView = boatMessageDialog!!.findViewById(R.id.tvEndDate) as TextView
-         val tvPrice: TextView = boatMessageDialog!!.findViewById(R.id.tvPrice) as TextView
+        val tvPlan: TextView = boatMessageDialog!!.findViewById(R.id.tvPlanName) as TextView
+        val tvStartDate: TextView = boatMessageDialog!!.findViewById(R.id.tvStartDate) as TextView
+        val tvEndDate: TextView = boatMessageDialog!!.findViewById(R.id.tvEndDate) as TextView
+        val tvPrice: TextView = boatMessageDialog!!.findViewById(R.id.tvPrice) as TextView
 
-        tvPlan.text = response.data!![0].userSubscription!!.duration!!.toString()+" Month"
+        tvPlan.text = response.data!![0].userSubscription!!.duration!!.toString() + " Month"
         val sdf = SimpleDateFormat("yyyy-MM-dd")
         val convertedStartDate = sdf.parse(response.data!![0].userSubscription!!.startDate)
         val convertedEndDate = sdf.parse(response.data!![0].userSubscription!!.endDate)
-        tvStartDate.text = "Starts from "+ DateFormat.getDateInstance(DateFormat.MEDIUM)
+        tvStartDate.text = "Starts from " + DateFormat.getDateInstance(DateFormat.MEDIUM)
             .format(convertedStartDate)
-        tvEndDate.text = "Expires on "+DateFormat.getDateInstance(DateFormat.MEDIUM)
+        tvEndDate.text = "Expires on " + DateFormat.getDateInstance(DateFormat.MEDIUM)
             .format(convertedEndDate)
-        tvPrice.text  = GlobalConstants.Currency+"\n"+response.data!![0].userSubscription!!.amount
+        tvPrice.text =
+            GlobalConstants.Currency + "\n" + response.data!![0].userSubscription!!.amount
 
 
         boatMessageDialog!!.show()

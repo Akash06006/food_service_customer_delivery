@@ -21,7 +21,6 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.example.services.R
 import com.example.services.application.MyApplication
 import com.example.services.common.UtilsFunctions
@@ -39,19 +38,16 @@ import com.example.services.viewmodels.home.HomeViewModel
 import com.example.services.viewmodels.home.Subcat
 import com.example.services.viewmodels.services.ServicesViewModel
 import com.example.services.views.cart.CartListActivity
-import com.google.android.gms.maps.model.CameraPosition
-import com.google.android.gms.maps.model.LatLng
 import com.google.gson.JsonObject
 import com.uniongoods.adapters.CatsListAdapter
 import com.uniongoods.adapters.ServicesListAdapter
 import com.uniongoods.adapters.SubCategoriesFilterListAdapter
-import java.lang.Double
 
 class ServicesListActivity : BaseActivity(), CompoundButton.OnCheckedChangeListener,
     DialogssInterface {
     var quantityCount = 0
-    var price = 0
-    var priceAmount = 0
+    var price = 0.0
+    var priceAmount = 0.0
     var position = 0
     lateinit var servicesBinding: ActivityServicesBinding
     lateinit var servicesViewModel: ServicesViewModel
@@ -615,9 +611,9 @@ class ServicesListActivity : BaseActivity(), CompoundButton.OnCheckedChangeListe
         if (TextUtils.isEmpty(cartCategory)) {
             position = pos
             serviceId = serVicesList[pos].id
-            priceAmount = serVicesList[pos].price.toInt()
+            priceAmount = serVicesList[pos].price.toDouble()
             serviceId = serVicesList[pos].id
-            price = serVicesList[pos].price.toInt()
+            price = serVicesList[pos].price.toDouble()
             quantityCount = 1
             callAddRemoveCartApi(true, serviceId)
             //  showCartInfoLayout(pos)
@@ -626,12 +622,13 @@ class ServicesListActivity : BaseActivity(), CompoundButton.OnCheckedChangeListe
                 position = pos
                 //showCartInfoLayout(pos)
                 serviceId = serVicesList[pos].id
-                priceAmount = serVicesList[pos].price.toInt()
+                priceAmount = serVicesList[pos].price.toDouble()
                 serviceId = serVicesList[pos].id
-                price = serVicesList[pos].price.toInt()
+                price = serVicesList[pos].price.toDouble()
                 quantityCount = 1
                 callAddRemoveCartApi(true, serviceId)
             } else {
+                servicesListAdapter?.notifyDataSetChanged()
                 showClearCartDialog()
             }
         }
@@ -691,12 +688,12 @@ class ServicesListActivity : BaseActivity(), CompoundButton.OnCheckedChangeListe
         llSlots?.setAnimation(animation)
         llSlots?.animate()
         animation.start()
-        priceAmount = serVicesList[this.pos].price.toInt()
+        priceAmount = serVicesList[this.pos].price.toDouble()
         serviceId = serVicesList[pos].id
         imgMinus?.setOnClickListener {
             if (quantityCount > 0) {
                 quantityCount--
-                price = quantityCount * serVicesList[this.pos].price.toInt()
+                price = quantityCount * serVicesList[this.pos].price.toDouble()
                 tvTotalPrice?.setText(GlobalConstants.Currency + "" + price.toString())
                 //callGetTimeSlotsApi()
             }
@@ -713,7 +710,7 @@ class ServicesListActivity : BaseActivity(), CompoundButton.OnCheckedChangeListe
                 tvQuantity?.setText(quantityCount.toString())
                 //   serviceDetailBinding.btnSubmit.visibility = View.VISIBLE
                 //callGetTimeSlotsApi()
-                price = quantityCount * serVicesList[this.pos].price.toInt()
+                price = quantityCount * serVicesList[this.pos].price.toDouble()
                 tvTotalPrice?.setText(GlobalConstants.Currency + "" + price.toString())
             }
         }
@@ -849,9 +846,9 @@ class ServicesListActivity : BaseActivity(), CompoundButton.OnCheckedChangeListe
          confirmationDialog?.show()*/
     }
 
-    fun clickMinusButton(pos: Int, mPrice: Int, quantity: Int) {
+    fun clickMinusButton(pos: Int, mPrice: kotlin.Double, quantity: Int) {
         position = pos
-        priceAmount = serVicesList[pos].price.toInt()
+        priceAmount = serVicesList[pos].price.toDouble()
         serviceId = serVicesList[pos].id
         price = mPrice
         quantityCount = quantity/*serVicesList[pos].cart?.quantity!!.toInt()*/
@@ -862,9 +859,9 @@ class ServicesListActivity : BaseActivity(), CompoundButton.OnCheckedChangeListe
         //  }
     }
 
-    fun clickAddButton(pos: Int, mPrice: Int, quantity: Int) {
+    fun clickAddButton(pos: Int, mPrice: Double, quantity: Int) {
         position = pos
-        priceAmount = serVicesList[pos].price.toInt()
+        priceAmount = serVicesList[pos].price.toDouble()
         serviceId = serVicesList[pos].id
         price = mPrice
         quantityCount = quantity
