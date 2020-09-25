@@ -7,6 +7,7 @@ import com.example.services.common.UtilsFunctions
 import com.example.services.model.tiffinModel.TiffinDetailResponse
 import com.example.services.model.tiffinModel.TiffinMainResponse
 import com.example.services.model.tiffinModel.TiffinMyOrderResponse
+import com.example.services.model.tiffinModel.TiffinOrderDetailResponse
 import com.example.services.repositories.tffinRepo.TiffinRepository
 import com.example.services.viewmodels.BaseViewModel
 import com.google.gson.JsonObject
@@ -14,6 +15,7 @@ import com.google.gson.JsonObject
 class TiffinViewModel : BaseViewModel()  {
     var tiffinHomeData: MutableLiveData<TiffinMainResponse>? = null
     var tiffinDetailData: MutableLiveData<TiffinDetailResponse>? = null
+    var tiffinOrderDetailData: MutableLiveData<TiffinOrderDetailResponse>? = null
     var tiffinAddToCartData: MutableLiveData<TiffinMyOrderResponse>? = null
 
     private var tiffinRepository = TiffinRepository()
@@ -25,12 +27,17 @@ class TiffinViewModel : BaseViewModel()  {
     init {
         tiffinHomeData = tiffinRepository.loadTiffinVendors(null)
         tiffinDetailData = tiffinRepository.getTiffinDetail(null)
+        tiffinOrderDetailData = tiffinRepository.getOrderTiffinDetail(null)
         tiffinAddToCartData = tiffinRepository.addToTiffinCart(null)
 
     }
 
     fun loadVendorData(): LiveData<TiffinMainResponse> {
         return tiffinHomeData!!
+    }
+
+    fun getOrderTiffinDetail(): LiveData<TiffinOrderDetailResponse> {
+        return tiffinOrderDetailData!!
     }
 
     fun getTiffinDetail(): LiveData<TiffinDetailResponse> {
@@ -65,6 +72,13 @@ class TiffinViewModel : BaseViewModel()  {
     fun hitDetailTiffinApi(jsonObject : String?) {
         if (UtilsFunctions.isNetworkConnected()) {
             tiffinDetailData = tiffinRepository.getTiffinDetail(jsonObject)
+            mIsUpdating.postValue(true)
+        }
+    }
+
+    fun hitOrderDetailTiffinApi(jsonObject : String?) {
+        if (UtilsFunctions.isNetworkConnected()) {
+            tiffinOrderDetailData = tiffinRepository.getOrderTiffinDetail(jsonObject)
             mIsUpdating.postValue(true)
         }
     }

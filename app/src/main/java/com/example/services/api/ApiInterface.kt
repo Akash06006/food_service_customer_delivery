@@ -45,6 +45,9 @@ interface ApiInterface {
     @GET("mobile/tiffin/detail")
     fun getTiffinDetail(@Query("tiffinId") tiffinId: String): Call<JsonObject>
 
+    @GET("mobile/tiffin/orders/detail")
+    fun getTiffinOrderDetail(@Query("orderId") tiffinId: String): Call<JsonObject>
+
     @POST("mobile/tiffin/cart/add")
     fun addTiffinCart(@Body mJsonObject: JsonObject?): Call<JsonObject>
 

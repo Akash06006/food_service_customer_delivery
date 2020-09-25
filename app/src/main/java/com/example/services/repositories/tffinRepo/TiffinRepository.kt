@@ -14,6 +14,7 @@ import com.example.services.model.LoginResponse
 import com.example.services.model.tiffinModel.TiffinDetailResponse
 import com.example.services.model.tiffinModel.TiffinMainResponse
 import com.example.services.model.tiffinModel.TiffinMyOrderResponse
+import com.example.services.model.tiffinModel.TiffinOrderDetailResponse
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonObject
 import retrofit2.Response
@@ -21,6 +22,7 @@ import retrofit2.Response
 class TiffinRepository {
     private var tiffinHomedata: MutableLiveData<TiffinMainResponse>? = null
     private var tiffinDetaildata: MutableLiveData<TiffinDetailResponse>? = null
+    private var tiffinOrderDetaildata: MutableLiveData<TiffinOrderDetailResponse>? = null
     private var tiffinAddToCartdata: MutableLiveData<TiffinMyOrderResponse>? = null
 
     private val gson = GsonBuilder().serializeNulls().create()
@@ -28,6 +30,7 @@ class TiffinRepository {
     init {
         tiffinHomedata = MutableLiveData()
         tiffinDetaildata = MutableLiveData()
+        tiffinOrderDetaildata = MutableLiveData()
         tiffinAddToCartdata = MutableLiveData()
 
     }
@@ -102,6 +105,43 @@ class TiffinRepository {
 
         }
         return tiffinDetaildata!!
+
+    }
+
+    fun getOrderTiffinDetail(jsonObject : String?) : MutableLiveData<TiffinOrderDetailResponse> {
+        if (!TextUtils.isEmpty(jsonObject)) {
+            var tiffinIdObject = JsonObject()
+            tiffinIdObject.addProperty(
+                "orderId", jsonObject
+            )
+            val mApiService = ApiService<JsonObject>()
+            mApiService.get(
+                object : ApiResponse<JsonObject> {
+                    override fun onResponse(mResponse : Response<JsonObject>) {
+                        val tiffinOrderDetailResponse = if (mResponse.body() != null)
+                            gson.fromJson<TiffinOrderDetailResponse>(
+                                "" + mResponse.body(),
+                                TiffinOrderDetailResponse::class.java
+                            )
+                        else {
+                            gson.fromJson<TiffinOrderDetailResponse>(
+                                mResponse.errorBody()!!.charStream(),
+                                TiffinOrderDetailResponse::class.java
+                            )
+                        }
+                        tiffinOrderDetaildata!!.postValue(tiffinOrderDetailResponse)
+                    }
+
+                    override fun onError(mKey : String) {
+                        UtilsFunctions.showToastError(MyApplication.instance.getString(R.string.internal_server_error))
+                        tiffinOrderDetaildata!!.postValue(null)
+                    }
+
+                }, ApiClient.getApiInterface().getTiffinOrderDetail(jsonObject!!)
+            )
+
+        }
+        return tiffinOrderDetaildata!!
 
     }
 
