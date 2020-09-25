@@ -1,6 +1,5 @@
 package com.example.services.api
 
-import com.example.services.model.ratnigreviews.RatingReviewListInput
 import com.google.gson.JsonObject
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -13,6 +12,9 @@ interface ApiInterface {
     @POST("mobile/auth/login")
     fun callLogin(@Body jsonObject: JsonObject): Call<JsonObject>
 
+    @POST("mobile/auth/useReferral")
+    fun userReferralCode(@Body jsonObject: JsonObject): Call<JsonObject>
+
     /*@POST("login/")
     fun callLogin(@Body jsonObject : JsonObject) : Call<JsonObject>*/
     @Multipart
@@ -22,12 +24,6 @@ interface ApiInterface {
                 RequestBody>, @Part image: MultipartBody.Part?
     ): Call<JsonObject>
 
-    @Multipart
-    @POST("mobile/profile/updateprofile")
-    fun callUpdateProfile(
-        @PartMap mHashMap: HashMap<String,
-                RequestBody>, @Part image: MultipartBody.Part?
-    ): Call<JsonObject>
 
     @Headers("Content-Type: application/json")
     @POST("checkPhoneNumber/")
@@ -69,7 +65,7 @@ interface ApiInterface {
     fun getFuelEntryList(): Call<JsonObject>
 
     @GET("notification/driver/getList")
-    fun getNotificationList(): Call<JsonObject>
+    fun getNotificationList1(): Call<JsonObject>
 
     @DELETE("mobile/address/delete")
     fun deleteAddress(@Query("addressId") addressId: String): Call<JsonObject>
@@ -91,7 +87,7 @@ interface ApiInterface {
     fun clearCart(): Call<JsonObject>
 
     @GET("mobile/services/getSubcat")
-    fun getSubServices(@Query("category") id: String,@Query("itemType") itemType: String): Call<JsonObject>
+    fun getSubServices(@Query("category") id: String, @Query("itemType") itemType: String): Call<JsonObject>
 
     @GET("mobile/services/getServices")//{id}/{itemType}
     fun getServices(@Query("category") id: String, @Query("itemType") itemType: String): Call<JsonObject>
@@ -99,9 +95,14 @@ interface ApiInterface {
     @POST("job/driver/changeJobStatus")
     fun startCompleteJob(@Body mJsonObject: JsonObject): Call<JsonObject>
 
-
     @POST("mobile/address/add")
     fun addAddress(@Body mJsonObject: JsonObject): Call<JsonObject>
+
+    @POST("mobile/rating/addStaffRating")
+    fun addDriverRating(@Body mJsonObject: JsonObject): Call<JsonObject>
+
+    @POST("mobile/rating/addCompanyRating")
+    fun addCompanyRating(@Body mJsonObject: JsonObject): Call<JsonObject>
 
     @POST("/api/mobile/services/search")
     fun searchResult(@Body mJsonObject: JsonObject): Call<JsonObject>
@@ -129,16 +130,45 @@ interface ApiInterface {
     fun vendorList(
         @Query("deliveryType") serviceId: String, @Query("page") page: String, @Query("limit") limit: String, @Query(
             "lat"
-        ) lat: String, @Query("lng") lng: String, @Query("itemType") itemType: String
+        ) lat: String, @Query("lng") lng: String, @Query("itemType") itemType: String, @Query("discount") discount: String
     ): Call<JsonObject>
 
 
     @GET("mobile/orders/detail/{id}")
     fun orderDetail(@Path("id") id: String): Call<JsonObject>
 
-    @POST("mobile/rating/addRating")
-    fun addRatings(@Body mJsonObject: RatingReviewListInput): Call<JsonObject>
 
+    /* @POST("mobile/rating/addRating")
+    fun addRatings(@Body mJsonObject: RatingReviewListInput): Call<JsonObject>*/
+
+
+    @Multipart
+    @POST("mobile/rating/addRating")
+    fun addRatings(
+        @PartMap partMap: HashMap<String, RequestBody>?, @Part imagesParts: Array<MultipartBody.Part?>?/*,
+        @PartMap contributorsMap: HashMap<String, String>?*/
+    ): Call<JsonObject>
+
+    @Multipart
+    @POST("mobile/company/gallery/add")
+    fun addImages(
+        @PartMap partMap: HashMap<String, RequestBody>?, @Part imagesParts: Array<MultipartBody.Part?>?
+    ): Call<JsonObject>
+
+    @Multipart
+    @POST("mobile/profile/updateprofile")
+    fun callUpdateProfile(
+        @PartMap mHashMap: HashMap<String,
+                RequestBody>, @Part image: MultipartBody.Part?
+    ): Call<JsonObject>
+
+    /* @Multipart
+     @POST("service/updateServiceEntry")
+     fun callUpdateService(
+         @PartMap mHashMap: HashMap<String,
+                 RequestBody>, @Part image: MultipartBody.Part?
+     ): Call<JsonObject>*/
+///api/mobile/rating/addRating
     //    {id}
 //service_id
     @Multipart
@@ -161,6 +191,9 @@ interface ApiInterface {
 
     @POST("mobile/cart/add")
     fun addCart(@Body mJsonObject: JsonObject): Call<JsonObject>
+
+    @PUT("mobile/cart/update")
+    fun updateCart(@Body mJsonObject: JsonObject): Call<JsonObject>
 
     @DELETE("mobile/cart/remove")
     fun removeCart(@Query("cartId") cartId: String): Call<JsonObject>
@@ -186,8 +219,15 @@ interface ApiInterface {
     @POST("mobile/coupan/removeCoupan")
     fun removeCoupon(@Body mJsonObject: JsonObject): Call<JsonObject>
 
+    @Multipart
     @POST("mobile/orders/create")
-    fun ordePlace(@Body mJsonObject: JsonObject): Call<JsonObject>
+    fun ordePlace(@PartMap mJsonObject: HashMap<String, RequestBody>, @Part audio: MultipartBody.Part?): Call<JsonObject>
+
+
+//    @Multipart
+//    @POST("mobile/orders/create")
+//    fun ordePlace(): Call<JsonObject>
+
 
     @POST("mobile/orders/paymentStatus")
     fun updatePaymentSuccess(@Body mJsonObject: JsonObject): Call<JsonObject>
@@ -202,11 +242,14 @@ interface ApiInterface {
     @POST("mobile/orders/status")
     fun completeOrder(@Body mJsonObject: JsonObject): Call<JsonObject>
 
+    @POST("mobile/orders/reorder")
+    fun reOrder(@Body mJsonObject: JsonObject): Call<JsonObject>
+
     @GET("mobile/services/detail")
     fun getServiceDetail(@Query("serviceId") addressId: String): Call<JsonObject>
 
     @GET("mobile/orders/instructions")
-    fun delivetInstuctions(@Query("companyId") companyId: String,@Query("deliveryType") deliveryType: String): Call<JsonObject>
+    fun delivetInstuctions(@Query("companyId") companyId: String, @Query("deliveryType") deliveryType: String): Call<JsonObject>
 
     @GET("mobile/orders/list")
     fun orderList(@Query("progressStatus") progressStatus: String): Call<JsonObject>
@@ -217,4 +260,26 @@ interface ApiInterface {
     @POST("mobile/profile/updateDatesInfo")
     fun updateDates(@Body mJsonObject: JsonObject): Call<JsonObject>
 
-}
+    @POST("mobile/contactus")
+    fun contactUs(@Body mJsonObject: JsonObject): Call<JsonObject>
+
+    @GET("mobile/notification")
+    fun getNotificationList(): Call<JsonObject>
+
+    /*@Path("id") id: String*/
+    @DELETE("/mobile/notification/clearAll")
+    fun clearAllNotification(): Call<JsonObject>
+/*@Path("id") id: String*/
+
+    @GET("mobile/document")
+    fun getLinks(): Call<JsonObject>
+
+    @GET("mobile/getFaq")
+    fun getFAQList(@Query("limit") limit: String, @Query("page") page: String, @Query("category") category: String): Call<JsonObject>
+
+    @GET("mobile/subscription")
+    fun getMembershipData(): Call<JsonObject>
+
+    @POST("mobile/subscription/purchasePlan")
+    fun purchasePlan(@Body mJsonObject: JsonObject): Call<JsonObject>
+}//

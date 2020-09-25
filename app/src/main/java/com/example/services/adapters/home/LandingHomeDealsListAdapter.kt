@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.request.RequestOptions
 import com.example.services.R
 import com.example.services.databinding.CategoryItemBinding
 import com.example.services.model.home.LandingResponse
@@ -42,13 +44,13 @@ class LandingHomeDealsListAdapter(
         inflater = activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val view = inflater!!.inflate(R.layout.deals_item, null)
         // view.imageView_slide.setImageResource(images[position])
-        view.txtDeal.setText(dealsList[position].dealName)// =
-        view.txtCode!!.setText("Use code " + dealsList[position].code + " to get " + dealsList[position].discount + "% off") //= /*dealsList[position].name*/
+        /// view.txtDeal.setText(dealsList[position].dealName)// =
+        //  view.txtCode!!.setText("Use code " + dealsList[position].code + " to get " + dealsList[position].discount + "% off") //= /*dealsList[position].name*/
 
         // view.tv_service_name!!.visibility = View.GONE
         Glide.with(mContext)
             .load(dealsList[position].thumbnail)
-            // .apply(RequestOptions.bitmapTransform(RoundedCorners(20)))
+            .apply(RequestOptions.bitmapTransform(RoundedCorners(20)))
             .placeholder(R.drawable.brthday)
             .into(view.imgDeal!!)
         val vp = container as ViewPager

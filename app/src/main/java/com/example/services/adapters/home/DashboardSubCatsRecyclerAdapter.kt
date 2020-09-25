@@ -13,7 +13,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.example.services.R
 import com.example.services.databinding.CategoryItemBinding
-import com.example.services.viewmodels.home.Subcat
+import com.example.services.viewmodels.home.Gallery
 import com.example.services.views.home.HomeFragment
 import com.example.services.views.subcategories.ServicesListActivity
 import kotlin.collections.ArrayList
@@ -21,17 +21,17 @@ import kotlin.collections.ArrayList
 
 class DashboardSubCatsRecyclerAdapter(
     context: HomeFragment,
-    addressList: ArrayList<Subcat>,
+    addressList: ArrayList<Gallery>,
     var activity: Context
 ) :
     RecyclerView.Adapter<DashboardSubCatsRecyclerAdapter.ViewHolder>() {
     private val mContext: HomeFragment
     private var viewHolder: ViewHolder? = null
-    private var categoriesList: ArrayList<Subcat>
+    private var galleryList: ArrayList<Gallery>
 
     init {
         this.mContext = context
-        this.categoriesList = addressList
+        this.galleryList = addressList
     }
 
     @NonNull
@@ -42,32 +42,38 @@ class DashboardSubCatsRecyclerAdapter(
             parent,
             false
         ) as CategoryItemBinding
-        return ViewHolder(binding.root, viewType, binding, mContext, categoriesList)
+        return ViewHolder(binding.root, viewType, binding, mContext, galleryList)
     }
 
     override fun onBindViewHolder(@NonNull holder: ViewHolder, position: Int) {
         viewHolder = holder
-        holder.binding!!.catHeader.setText(categoriesList[position].name)
+        //holder.binding!!.catHeader.setText(galleryList[position].name)
+        holder.binding!!.catHeader.visibility = View.GONE
 
+        /* if (position == 4) {
+             holder.binding!!.rlViewAll.visibility = View.VISIBLE
+         } else {
+             holder.binding!!.rlViewAll.visibility = View.GONE
+         }*/
         Glide.with(mContext)
-            .load(categoriesList[position].icon)
+            .load(galleryList[position].mediaHttpUrl)
             .apply(RequestOptions.bitmapTransform(RoundedCorners(20)))
             .placeholder(R.drawable.ic_category)
             .into(holder.binding.catImg)
 
-
         holder.binding.catImg.setOnClickListener {
 
-            val intent = Intent(activity, ServicesListActivity::class.java)
-            intent.putExtra("catId", categoriesList[position].id)
-            mContext.startActivity(intent)
+            mContext.openGalleryFullView()
         }
-
-
     }
 
     override fun getItemCount(): Int {
-        return categoriesList.count()
+        /* if (galleryList.count() > 4) {
+             return 4
+         } else {*/
+        return galleryList.count()
+        //}
+
     }
 
     inner class ViewHolder//This constructor would switch what to findViewBy according to the type of viewType
@@ -75,7 +81,7 @@ class DashboardSubCatsRecyclerAdapter(
         v: View, val viewType: Int, //These are the general elements in the RecyclerView
         val binding: CategoryItemBinding?,
         mContext: HomeFragment,
-        addressList: ArrayList<Subcat>
+        addressList: ArrayList<Gallery>
     ) : RecyclerView.ViewHolder(v) {
         /*init {
             binding.linAddress.setOnClickListener {

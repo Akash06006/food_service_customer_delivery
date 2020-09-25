@@ -50,7 +50,7 @@ class DashboardBannersRecyclerAdapter(
         holder.binding!!.tvVendorName.visibility = View.GONE//text = categoriesList[position].name
 
         Glide.with(mContext)
-            .load(categoriesList[position].icon)
+            .load(categoriesList[position].url)
             .apply(RequestOptions.bitmapTransform(RoundedCorners(20)))
             .placeholder(R.drawable.ic_category)
             .into(holder.binding.tvVendorImage)

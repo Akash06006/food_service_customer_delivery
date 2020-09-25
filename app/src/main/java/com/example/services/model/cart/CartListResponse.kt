@@ -14,20 +14,37 @@ class CartListResponse {
     @Expose
     var body: Body? = null
 
-    @SerializedName("coupanDetails")
-    @Expose
-    var coupanDetails: CoupanDetails? = null
-
-
     inner class Body {
         @SerializedName("data")
         @Expose
         var data: ArrayList<Data>? = null
-
+        @SerializedName("addOns")
+        @Expose
+        val addOns: ArrayList<AddOns>? = null
+        @SerializedName("totalQunatity")
+        val totalQunatity: Int? = null
         @SerializedName("sum")
         @Expose
         var sum: String? = null
+        @SerializedName("lPoints")
+        @Expose
+        var lPoints: Points? = null
 
+    }
+
+    inner class Points {
+        @SerializedName("maxRange")
+        @Expose
+        var maxRange: String? = null
+        @SerializedName("balance")
+        @Expose
+        var balance: String? = null
+        @SerializedName("onePointValue")
+        @Expose
+        var onePointValue: String? = null
+        @SerializedName("usablePoints")
+        @Expose
+        var usablePoints: String? = null
 
     }
 
@@ -60,6 +77,54 @@ class CartListResponse {
         @SerializedName("deliveryType")
         @Expose
         var deliveryType: String? = null
+    }
+
+    inner class AddOns {
+        @SerializedName("icon")
+        @Expose
+        var icon: String? = null
+        @SerializedName("thumbnail")
+        @Expose
+        var thumbnail: String? = null
+        @SerializedName("id")
+        @Expose
+        var id: String? = null
+        @SerializedName("name")
+        @Expose
+        var name: String? = null
+        @SerializedName("productType")
+        @Expose
+        var productType: String? = null
+        @SerializedName("description")
+        @Expose
+        var description: String? = null
+        @SerializedName("price")
+        @Expose
+        var price: String? = null
+        @SerializedName("type")
+        @Expose
+        var type: String? = null
+        @SerializedName("duration")
+        @Expose
+        var duration: String? = null
+        @SerializedName("includedServices")
+        @Expose
+        var includedServices: String? = null
+        @SerializedName("excludedServices")
+        @Expose
+        var excludedServices: String? = null
+        @SerializedName("status")
+        @Expose
+        var status: String? = null
+        @SerializedName("originalPrice")
+        @Expose
+        var originalPrice: String? = null
+        @SerializedName("offer")
+        @Expose
+        var offer: String? = null
+        @SerializedName("offerName")
+        @Expose
+        var offerName: String? = null
     }
 
     inner class Service {

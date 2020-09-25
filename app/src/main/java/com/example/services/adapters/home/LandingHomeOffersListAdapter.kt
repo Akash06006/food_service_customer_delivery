@@ -1,6 +1,7 @@
 package com.uniongoods.adapters
 
 import android.content.Context
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -49,6 +50,11 @@ class LandingHomeOffersListAdapter(
             // .apply(RequestOptions.bitmapTransform(RoundedCorners(20)))
             .placeholder(R.drawable.ic_category)
             .into(view.img_service!!)
+
+        view.img_service.setOnClickListener {
+            mContext.showOfferInformation(position)
+        }
+
         val vp = container as ViewPager
         vp.addView(view, 0)
         return view

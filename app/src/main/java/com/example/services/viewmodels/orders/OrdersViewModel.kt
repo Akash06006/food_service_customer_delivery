@@ -8,6 +8,7 @@ import com.example.services.model.CommonModel
 import com.example.services.model.LoginResponse
 import com.example.services.model.address.AddressResponse
 import com.example.services.model.orders.OrdersListResponse
+import com.example.services.model.orders.ReorderResponse
 import com.example.services.repositories.orders.OrdersRepository
 import com.example.services.viewmodels.BaseViewModel
 import com.google.gson.JsonObject
@@ -17,6 +18,7 @@ class OrdersViewModel : BaseViewModel() {
     private var addressDetail = MutableLiveData<AddressResponse>()
     private var deleteAddress = MutableLiveData<CommonModel>()
     private var cancelOrder = MutableLiveData<CommonModel>()
+    private var reOrder = MutableLiveData<ReorderResponse>()
     private var completeOrder = MutableLiveData<CommonModel>()
     private var ordersList = MutableLiveData<OrdersListResponse>()
     private var ordersHistoryList = MutableLiveData<OrdersListResponse>()
@@ -27,7 +29,7 @@ class OrdersViewModel : BaseViewModel() {
     init {
         if (UtilsFunctions.isNetworkConnectedWithoutToast()) {
             ordersList = ordersRepository.orderList()
-            ordersHistoryList = ordersRepository.orderHistoryList()
+            ordersHistoryList = ordersRepository.orderHistoryList("")
             cancelOrder = ordersRepository.cancelOrder(null)
             completeOrder = ordersRepository.completeOrder(null)
         }
@@ -44,6 +46,10 @@ class OrdersViewModel : BaseViewModel() {
 
     fun getCancelOrderRes(): LiveData<CommonModel> {
         return cancelOrder
+    }
+
+    fun getReOrderRes(): LiveData<ReorderResponse> {
+        return reOrder
     }
 
     fun getCompleteOrderRes(): LiveData<CommonModel> {
@@ -76,6 +82,13 @@ class OrdersViewModel : BaseViewModel() {
         }
     }
 
+    fun reOrder(mJsonObject: JsonObject) {
+        if (UtilsFunctions.isNetworkConnected()) {
+            reOrder = ordersRepository.reOrder(mJsonObject)
+            mIsUpdating.postValue(true)
+        }
+    }
+
     fun getOrderList() {
         if (UtilsFunctions.isNetworkConnected()) {
             ordersList = ordersRepository.orderList()
@@ -83,5 +96,14 @@ class OrdersViewModel : BaseViewModel() {
         }
 
     }
+
+    fun getOrderHistoryList(filter: String) {
+        if (UtilsFunctions.isNetworkConnected()) {
+            ordersHistoryList = ordersRepository.orderHistoryList(filter)
+            mIsUpdating.postValue(true)
+        }
+
+    }
+
 
 }

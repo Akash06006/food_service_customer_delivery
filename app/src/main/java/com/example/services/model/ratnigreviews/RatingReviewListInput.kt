@@ -38,4 +38,7 @@ class RatingData {
     @SerializedName("icon")
     @Expose
     var icon: String? = null
+    @SerializedName("price")
+    @Expose
+    var price: String? = null
 }

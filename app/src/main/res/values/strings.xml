@@ -1,4 +1,4 @@
-<!DOCTYPE resources [<!ENTITY app_name "Services App">]>
+<!DOCTYPE resources [<!ENTITY app_name "Delicio">]>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="app_name">&app_name;</string>
     <string name="internal_server_error">Internal server error, so please try after some time!</string>
@@ -200,6 +200,8 @@
     <string name="help_and_info">Help and info</string>
     <string name="feedback">Feedback</string>
     <string name="contact_us">Contact Us</string>
+    <string name="rate_us">Rate Us</string>
+    <string name="share_app">Share App</string>
     <string name="booked">Booked</string>
     <string name="your_upcoming_booking">Upcoming Booking :</string>
     <string name="key_activity">activity</string>
@@ -290,32 +292,32 @@
     <string name="your_mobile_number">Your Mobile Number</string>
     <string name="verification_code">Verification Code</string>
     <string name="verification_code_msg">Please enter the code that has been sent to you at</string>
-    <string name="otp_not_received_text">Didn\'t Received Code?</string>
+    <string name="otp_not_received_text">Didn\'t get OTP? </string>
     <string name="resend">Resend</string>
 
-    <string name="create_profile">Create Profile</string>
-    <string name="house_no">House No.</string>
+    <string name="create_profile">Profile</string>
+    <string name="house_no">House Number</string>
     <string name="city">City</string>
-    <string name="address_type">Address Type</string>
+    <string name="address_type">Select Address Type</string>
 
     <string name="work">Work</string>
     <string name="add_address">Add Address</string>
     <string name="locations">Locations</string>
-    <string name="confirm_location_and_proceed">Confirm Location and Proceed</string>
+    <string name="confirm_location_and_proceed">Confirm &amp; Proceed</string>
     <string name="your_address">Your Address</string>
     <string name="select_address">Select Address</string>
     <string name="enter_address_details">Enter address details</string>
     <string name="warning_delete_address">Do you really want to delete this address?</string>
     <string name="warning_default_address">Do you really want to make this to default address?</string>
-    <string name="address_management">Address Management</string>
+    <string name="address_management">Addresses</string>
     <string name="search_saved_locations">Search Saved Locations</string>
     <string name="select_location">Select Location</string>
     <string name="saved_locations">Saved Locations</string>
     <string name="add_a_location">Add new Location</string>
-    <string name="most_booked_services_in_this_week">Most booked services in this week</string>
+    <string name="most_booked_services_in_this_week">Most ordered items this week</string>
     <string name="most_booked_products_in_this_week">Most booked products in this week</string>
     <string name="trending_services">Trending Items</string>
-    <string name="trending_products">Trending Products</string>
+    <string name="trending_products">Trending Items</string>
     <string name="sub_categories">Sub Categories</string>
     <string name="offers">Offers</string>
     <string name="add">Add</string>
@@ -323,9 +325,9 @@
     <string name="add_to_cart">Add To Cart</string>
     <string name="remove_to_cart">Remove From Cart</string>
     <string name="services">Services</string>
-    <string name="products">Products</string>
+    <string name="products">Items</string>
     <string name="services_detail">Services details</string>
-    <string name="products_detail">Products details</string>
+    <string name="products_detail">Item details</string>
     <string name="cart">Cart</string>
     <string name="favorite">Favorites</string>
     <string name="warning_remove_cart">Do you really want to remove item?</string>
@@ -336,7 +338,7 @@
     <string name="no_time_slots_available">No Time Slots Available</string>
     <string name="no_date_slots_available">No Date Slots Available</string>
     <string name="when_do_you_want_this_service">When do you want this Service</string>
-    <string name="when_do_you_want_this_product">When do you want this Product</string>
+    <string name="when_do_you_want_this_product">When do you want this item</string>
     <string name="select_time">Please Select Time</string>
     <string name="visit_shop">Visit Shop</string>
     <string name="at_home">At Home</string>
@@ -350,7 +352,7 @@
     <string name="apply_coupon">Apply Coupon</string>
     <string name="add_address_msg">Please add address in Address Management Section</string>
     <string name="orders">Orders</string>
-    <string name="orders_history">Orders History</string>
+    <string name="orders_history">History</string>
     <string name="terms_condition">Terms and Conditions</string>
     <string name="booked_on">Booked On</string>
     <string name="ordered_on">Ordered On</string>
@@ -366,7 +368,7 @@
     <string name="book">Add</string>
     <string name="order">Order</string>
     <string name="current_location">Current Location</string>
-    <string name="duration">Duration</string>
+    <string name="duration">Prepration Time</string>
     <string name="service_date">Service Date</string>
     <string name="order_date">Order Date</string>
     <string name="reviews">Reviews</string>
@@ -377,17 +379,72 @@
     <string name="warning_rate_order">Do you want to rate this order?</string>
     <string name="warning_rate_cancel">Do you want to leave this screen?</string>
     <string name="warning_complete_order">Do you really want to complete this order?</string>
-    <string name="warning_clear_cart">Remove Cart Message</string>
+    <string name="warning_clear_cart">Your cart contains items from a different restaurant. Would you like to reset your cart before adding this item?</string>
     <string name="enter_promo_code">Enter Promo Code</string>
     <string name="order_services_msg">Thank you for using our services</string>
     <string name="done">Done</string>
     <string name="success">Success</string>
     <string name="vendor">Vendors</string>
-    <string name="title_for_dates"> Please Add Birthday ans Anniversary details for getting offers and discount</string>
+    <string name="title_for_dates"> Please Add Birthday and Anniversary details for getting offers and discount</string>
     <string name="single"> Single</string>
     <string name="married"> Married</string>
     <string name="anniversary_date"> Select Anniversary Date</string>
     <string name="select_dob">  Select DOB</string>
+    <string name="cancel_order">Cancel Order</string>
+    <string name="complete_order">Complete Order</string>
+    <string name="delivery_partner_detail">Delivery Partner Detail</string>
+    <string name="by_services">By Services</string>
+    <string name="add_rating">Add Review</string>
+    <string name="quality">Quality</string>
+    <string name="pack_presentation">Packaging</string>
+    <string name="food_quantity">Delivery</string>
+    <string name="faq">FAQ</string>
+
+    <string name="chat_support">Chat and Support</string>
+    <string name="refer_earn">Refer  &amp; Earn</string>
+    <string name="cart_quotes">I just do not want to look back and think  I could have eaten that </string>
+    <string name="filter_title">Filter your search</string>
+    <string name="sort">Sort</string>
+    <string name="popularity">Popularity</string>
+    <string name="high_to_low">High to Low</string>
+    <string name="low_to_high">Low to High</string>
+
+    <string name="more_filters">More Filters</string>
+
+    <string name="del_under">Delivery under 30 Mins</string>
+    <string name="great_offers">Great offers</string>
+    <string name="open_now">Open Now</string>
+    <string name="distance">Distance</string>
+    <string name="apply_filter">Apply Filters</string>
+    <string name="clear_filters">Clear Filters</string>
+    <string name="previously_ordered">Previously Ordered</string>
+    <string name="order_from_here">Order From Here</string>
+    <string name="view_direction">View Direction</string>
+    <string name="food_cats">Food Categories</string>
+    <string name="rate">Rate</string>
+    <string name="help">Help</string>
+
+    <string name="add_items_rating">Add items Rating</string>
+    <string name="add_rest_rating">Add Restaurant Rating</string>
+    <string name="add_images">Add Images</string>
+    <string name="write_thoughts">Write your thoughts</string>
+    <string name="review_rating">Reviews &amp; Rating</string>
+    <string name="folder">Folder</string>
+    <string name="gallery_select_title_msg">Tap to select</string>
+    <string name="delivery_address">Delivery Address</string>
+    <string name="cooking_title">Do you have any instruction for us?</string>
+    <string name="add_audio_msg">Or click on record button to send audio instructions</string>
+    <string name="write_description">Write description here</string>
+    <string name="write_title">Enter Title</string>
+    <string name="upload_images">Upload Images</string>
+    <string name="referral_code">Referral Code (Optional)</string>
+    <string name="referral_msg"> This referral code gives 50 loyalty points to your friends when they will login in Delicio using this code, and you will receive 100 loyalty points for a referral.
+</string>
+    <string name="complete_address">Complete Address</string>
+    <string name="save_address">Save Address</string>
+    <string name="skip">Skip</string>
+    <string name="membership">Membership</string>
+    <string name="view_current_plan" tools:ignore="ExtraTranslation"><u>View Current Plan</u></string>
 
 
 </resources>

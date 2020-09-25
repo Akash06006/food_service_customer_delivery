@@ -12,12 +12,8 @@ import android.text.TextUtils
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.Window
-import android.widget.Button
-import android.widget.CompoundButton
-import android.widget.LinearLayout
+import android.view.*
+import android.widget.*
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
@@ -29,8 +25,6 @@ import com.example.services.R
 import com.example.services.application.MyApplication
 import com.example.services.common.UtilsFunctions
 import com.example.services.constants.GlobalConstants
-import com.example.services.utils.BaseActivity
-import com.example.services.viewmodels.cart.CartViewModel
 import com.example.services.databinding.ActivityCheckoutAddressBinding
 import com.example.services.model.CommonModel
 import com.example.services.model.address.AddressListResponse
@@ -42,19 +36,27 @@ import com.example.services.model.orders.CreateOrdersResponse
 import com.example.services.model.services.DateSlotsResponse
 import com.example.services.model.services.TimeSlotsResponse
 import com.example.services.sharedpreference.SharedPrefClass
+import com.example.services.utils.BaseActivity
 import com.example.services.utils.DialogClass
 import com.example.services.utils.DialogssInterface
 import com.example.services.utils.Utils
 import com.example.services.viewmodels.address.AddressViewModel
+import com.example.services.viewmodels.cart.CartViewModel
 import com.example.services.viewmodels.promocode.PromoCodeViewModel
 import com.example.services.viewmodels.services.ServicesViewModel
 import com.example.services.views.address.AddAddressActivity
+import com.example.services.views.audio.RecordAudioActivity
 import com.example.services.views.home.LandingMainActivity
 import com.example.services.views.payment.PaymentActivity
 import com.example.services.views.promocode.PromoCodeActivity
 import com.google.gson.JsonObject
 import com.uniongoods.adapters.*
+import kotlinx.android.synthetic.main.upload_document_dialog.*
+import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import org.json.JSONObject
+import java.io.File
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -85,13 +87,21 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
     var price = 0
     var payableAmount = ""
     var orderNo = ""
+    var paymentStatus = ""
     var orderId = ""
+    var file: File? = null
     var selectedDeliveryInstructionsList = ArrayList<String>()
     var selectedPickupInstructionsList = ArrayList<String>()
     lateinit var addressViewModel: AddressViewModel
     private var addressesList = ArrayList<AddressListResponse.Body>()
     var instructionResponse: DeliveryTipInstructionListResponse.Body? = null
     var addressId = ""
+    var strCookingInstructions = ""
+    var points = ""
+    var singlePointValue = 0.0
+    var totalPoints = 0.0
+    var maxRangePoints = 0.0
+
     // var addressType = ""
     lateinit var servicesViewModel: ServicesViewModel
     lateinit var promcodeViewModel: PromoCodeViewModel
@@ -104,9 +114,9 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
 
     override fun onResume() {
         super.onResume()
-        if (cartBinding.tvChange.getText().toString().equals(getString(R.string.add_address))) {
-            addressViewModel.addressList()
-        }
+        /* if (cartBinding.tvChange.getText().toString().equals(getString(R.string.add_address))) {
+             addressViewModel.addressList()
+         }*/
     }
 
     override fun initViews() {
@@ -120,11 +130,14 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
         cartBinding.commonToolBar.imgToolbarText.text =
             resources.getString(R.string.checkout)
 
+        /* val bottomSheetBehavior = BottomSheetBehavior.from(cartBinding.bottomLayout)
+         bottomSheetBehavior.state == BottomSheetBehavior.STATE_COLLAPSED*/
 
         val applicationType = SharedPrefClass()!!.getPrefValue(
             MyApplication.instance,
             GlobalConstants.PRODUCT_TYPE
         ).toString()
+
 
         if (applicationType.equals(GlobalConstants.PRODUCT_DELIVERY)) {
             cartBinding.tvSelectdateMsg.text =
@@ -142,20 +155,20 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
             startProgressDialog()
             //cartViewModel.getcartList(userId)
         }
-        cartBinding.tvChange.setBackgroundTintList(
+        /* cartBinding.tvChange.setBackgroundTintList(
+             ColorStateList.valueOf(
+                 Color.parseColor(
+                     GlobalConstants.COLOR_CODE
+                 )
+             )*//*mContext.getResources().getColorStateList(R.color.colorOrange)*//*
+        )*/
+        /*cartBinding.btnCheckout.setBackgroundTintList(
             ColorStateList.valueOf(
                 Color.parseColor(
                     GlobalConstants.COLOR_CODE
                 )
-            )/*mContext.getResources().getColorStateList(R.color.colorOrange)*/
-        )
-        cartBinding.btnCheckout.setBackgroundTintList(
-            ColorStateList.valueOf(
-                Color.parseColor(
-                    GlobalConstants.COLOR_CODE
-                )
-            )/*mContext.getResources().getColorStateList(R.color.colorOrange)*/
-        )
+            )*//*mContext.getResources().getColorStateList(R.color.colorOrange)*//*
+        )*/
 
         for (i in 0..4) {
             val item = DateSlotsResponse()
@@ -183,13 +196,28 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
                     when {
                         response.code == 200 -> {
                             cartList.addAll(response.body!!.data!!)
+                            points = response.body?.lPoints?.maxRange.toString()
+                            val balance = response.body?.lPoints?.balance.toString()
+                            singlePointValue = response.body?.lPoints?.onePointValue!!.toDouble()
+                            if (balance!!.toDouble() > 0) {
+                                cartBinding.rlLoyalty.visibility = View.VISIBLE
+                                maxRangePoints = response.body?.lPoints?.maxRange!!.toDouble()
+                                cartBinding.txtLoyalMes.setText("Your can use loyalty points : " + response.body?.lPoints?.usablePoints + "/" + response.body?.lPoints?.balance)
+                                cartBinding.txtloyalDes.setText("Use loyalty point to redeem price, 1 point = " + GlobalConstants.Currency + response.body?.lPoints?.onePointValue)
+                            } else {
+                                cartBinding.rlLoyalty.visibility = View.GONE
+                            }
                             payableAmount = response.body?.sum.toString()
                             cartBinding.tvTotalItems.setText(cartList.size.toString())
                             var total =
-                                deliveryCharges?.plus(payableAmount.toDouble().plus(tipSelected.toDouble()))
+                                deliveryCharges?.plus(
+                                    payableAmount.toDouble().plus(tipSelected.toDouble())
+                                )
                             payableAmount =
-                                (deliveryCharges?.plus(payableAmount.toDouble().plus(tipSelected.toDouble()))).toString()
-                            cartBinding.tvOfferPrice.setText(GlobalConstants.Currency + " " + total/*response.body?.sum*/)
+                                (deliveryCharges?.plus(
+                                    payableAmount.toDouble().plus(tipSelected.toDouble())
+                                )).toString()
+                            cartBinding.tvOfferPrice.setText(GlobalConstants.Currency + "" + total/*response.body?.sum*/)
                             cartBinding.tvPromo.setText(getString(R.string.apply_coupon))
                             cartBinding.rlRealPrice.visibility = View.GONE
                             if (response.body!!.data?.size!! > 0) {
@@ -334,11 +362,17 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
                             // showPaymentSuccessDialog()
                             orderId = response.data?.id!!
                             orderNo = response.data?.orderNo!!
-                            val intent = Intent(this, PaymentActivity::class.java)
-                            intent.putExtra("amount", payableAmount)
-                            intent.putExtra("currency", GlobalConstants.Currency)
-                            intent.putExtra("totalItems", cartList.size.toString())
-                            startActivityForResult(intent, 200)
+
+                            if (paymentStatus.equals("1")) {
+                                val intent = Intent(this, PaymentActivity::class.java)
+                                intent.putExtra("amount", payableAmount)
+                                intent.putExtra("currency", GlobalConstants.Currency)
+                                intent.putExtra("totalItems", cartList.size.toString())
+                                startActivityForResult(intent, 200)
+                            } else {
+
+                                showPaymentSuccessDialog()
+                            }
 
                         }
                         else -> message?.let {
@@ -358,7 +392,7 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
                         response.code == 200 -> {
                             addressesList.addAll(response.data!!)
                             var default = "false"
-                            cartBinding.tvChange.setText(getString(R.string.change))
+                            // cartBinding.tvChange.setText(getString(R.string.change))
                             for (item in addressesList) {
                                 if (item.default.equals("1")) {
                                     default = "true"
@@ -399,7 +433,7 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
                             /*message?.let {
                                 UtilsFunctions.showToastError(it)
                             }*/
-                            cartBinding.tvChange.setText(getString(R.string.add_address))
+                            // cartBinding.tvChange.setText(getString(R.string.add_address))
                             cartBinding.addressItem.visibility = View.GONE
                         }
                     }
@@ -425,11 +459,15 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
                                 payableAmount =
                                     (payableAmount.toDouble().minus(deliveryCharges)).toString()
                                 deliveryCharges = response.data?.shipment?.toDouble()!!
+                                /* payableAmount =
+                                     payableAmount.toDouble().minus(totalPoints).toString()
+ */
                                 val totalCharges =
                                     deliveryCharges?.plus(payableAmount.toDouble())
+
                                 payableAmount = totalCharges.toString()
-                                cartBinding.tvDelCharges.setText(GlobalConstants.Currency + " " + response.data?.shipment)
-                                cartBinding.tvOfferPrice.setText(GlobalConstants.Currency + " " + totalCharges)
+                                cartBinding.tvDelCharges.setText(GlobalConstants.Currency + "" + response.data?.shipment)
+                                cartBinding.tvOfferPrice.setText(GlobalConstants.Currency + "" + totalCharges)
                             } else {
                                 cartBinding.llDevCharges.visibility = View.GONE
                             }
@@ -439,7 +477,12 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
                             cartBinding.llDevCharges.visibility = View.GONE
                             cartBinding.txtNotDelivery.visibility = View.VISIBLE
                             cartBinding.btnCheckout.visibility = View.GONE
-                            cartBinding.txtNotDelivery.setText(message)
+                            if (TextUtils.isEmpty(addressId)) {
+                                cartBinding.txtNotDelivery.setText("Please add address first")
+                            } else {
+                                cartBinding.txtNotDelivery.setText(message)
+                            }
+
                         }
                         else -> message?.let {
                             cartBinding.llDevCharges.visibility = View.GONE
@@ -470,12 +513,15 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
                 }
             })
 
+
         cartViewModel.isClick().observe(
             this, Observer<String>(function =
             fun(it: String?) {
                 when (it) {
                     "tvPromo" -> {
-                        if (cartBinding.tvPromo.getText().toString().equals(getString(R.string.apply_coupon))) {
+                        if (cartBinding.tvPromo.getText().toString()
+                                .equals(getString(R.string.apply_coupon))
+                        ) {
                             val intent = Intent(this, PromoCodeActivity::class.java)
                             startActivityForResult(intent, SECOND_ACTIVITY_REQUEST_CODE)
                         } else {
@@ -489,16 +535,46 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
 
                         }
                     }
+                    "imgBack" -> {
+                        finish()
+                    }
                     "tvChange" -> {
-                        if (cartBinding.tvChange.getText().toString().equals(getString(R.string.add_address))) {
+                        if (TextUtils.isEmpty(addressId)) {
                             val intent = Intent(this, AddAddressActivity::class.java)
                             startActivity(intent)
                         } else {
                             addressDialog()
                         }
 
+                        /*if (cartBinding.tvChange.getText().toString()
+                                .equals(getString(R.string.add_address))
+                        ) {
+                            val intent = Intent(this, AddAddressActivity::class.java)
+                            startActivity(intent)
+                        } else {
+                            addressDialog()
+                        }*/
+
                     }
+
+                    "tvCookingInstructions" -> {
+                        showAddCookingInstructionDialog()
+                    }
+                    "tvAddAudio" -> {
+                        recordAudio()
+                    }
+                    "icCross" -> {
+                        if (!cartBinding.tvAddAudio.text.equals("Add Audio")) {
+                            cartBinding.tvAddAudio.setText("Add Audio")
+                            cartBinding.icCross.visibility = View.GONE
+                            file = null
+                        }
+
+
+                    }
+
                     "btnCheckout" -> {
+
 
                         if (TextUtils.isEmpty(selectedDate)) {
                             showToastError("Please Select Date For The Service")
@@ -510,70 +586,44 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
                         ) {
                             showToastError("Please Select Address")
                         } else {
-                            var deliveryInstruction = ""
-                            var pickupInstruction = ""
-                            for (item in selectedDeliveryInstructionsList) {
-                                if (TextUtils.isEmpty(deliveryInstruction)) {
-                                    deliveryInstruction = item.toString()
-                                } else {
-                                    deliveryInstruction =
-                                        deliveryInstruction + "," + item.toString()
-                                }
-                            }
-                            for (item in selectedPickupInstructionsList) {
-                                if (TextUtils.isEmpty(deliveryInstruction)) {
-                                    pickupInstruction = item
-                                } else {
-                                    pickupInstruction =
-                                        pickupInstruction + "," + item
-                                }
-                            }
 
-                            val addressObject = JsonObject()
-                            addressObject.addProperty(
-                                "addressId", addressId
-                            )
-                            addressObject.addProperty(
-                                "deliveryType", DELIVERY_PICKUP_TYPE
-                            )
-                            addressObject.addProperty(
-                                "serviceDateTime", selectedDate + " " + selectedTime
-                            )
-                            addressObject.addProperty(
-                                "orderPrice", payableAmount
-                            )
-                            addressObject.addProperty(
-                                "serviceCharges", deliveryCharges.toString()
-                            )
-                            addressObject.addProperty(
-                                "promoCode", couponCodeId
-                            )
-                            addressObject.addProperty(
-                                "companyId", GlobalConstants.COMPANY_ID
-                            )
-                            addressObject.addProperty(
-                                "cookingInstructions", "Testing"
-                            )
-                            addressObject.addProperty(
-                                "pickupInstructions", pickupInstruction
-                            )
-                            addressObject.addProperty(
-                                "deliveryInstructions", deliveryInstruction
-                            )
-                            addressObject.addProperty(
-                                "tip", tipSelected.toString()
-                            )
-
-
-
-                            cartViewModel.orderPlace(addressObject)
+                            payDialog()
 
                         }
                     }
                 }
             })
         )
+
+        cartBinding!!.chkLoyalty.setOnClickListener(View.OnClickListener {
+            if (cartBinding!!.chkLoyalty.isChecked) {
+                cartBinding!!.llLoyalityPoints.visibility = View.VISIBLE
+                totalPoints = (singlePointValue * maxRangePoints)
+                cartBinding.tvLoyalityPoints.setText(totalPoints.toString())
+                payableAmount =
+                    payableAmount.toDouble().minus(totalPoints).toString()
+                cartBinding.tvOfferPrice.setText(GlobalConstants.Currency + "" + payableAmount)
+            } else {
+                totalPoints = (singlePointValue * maxRangePoints)
+                cartBinding.tvLoyalityPoints.setText(totalPoints.toString())
+                payableAmount =
+                    payableAmount.toDouble().plus(totalPoints).toString()
+                totalPoints = 0.0
+                cartBinding.tvOfferPrice.setText(GlobalConstants.Currency + "" + payableAmount)
+                cartBinding!!.llLoyalityPoints.visibility = View.GONE
+                cartBinding.tvLoyalityPoints.setText("")
+            }
+        })
+
     }
+
+    fun recordAudio() {
+
+        var intent = Intent(this@CheckoutAddressActivity, RecordAudioActivity::class.java)
+        startActivityForResult(intent, 1)
+
+    }
+
 
     private fun callCheckDelivery() {
         Log.e("address", "Method Enter")
@@ -687,13 +737,13 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
         cartBinding.tvAddress.text = addressesList[pos].addressType
         cartBinding.tvAddressDetail.text = addressesList[pos].addressName
 
-        if (addressesList[pos].addressType.equals(getString(R.string.home))) {
+        /*if (addressesList[pos].addressType.equals(getString(R.string.home))) {
             cartBinding.addresssImg.setImageDrawable(resources.getDrawable(R.drawable.ic_home))
         } else if (addressesList[pos].addressType.equals(getString(R.string.work))) {
             cartBinding.addresssImg.setImageDrawable(resources.getDrawable(R.drawable.ic_work))
         } else {
             cartBinding.addresssImg.setImageDrawable(resources.getDrawable(R.drawable.ic_other))
-        }
+        }*/
         callCheckDelivery()
     }
 
@@ -800,6 +850,52 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
         confirmationDialog?.show()
     }
 
+    private fun showAddCookingInstructionDialog() {
+        var confirmationDialog = Dialog(this, R.style.dialogAnimation_animation)
+        confirmationDialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        val binding =
+            DataBindingUtil.inflate<ViewDataBinding>(
+                LayoutInflater.from(this),
+                R.layout.layout_bottom_sheet,
+                null,
+                false
+            )
+
+        confirmationDialog?.setContentView(binding.root)
+        confirmationDialog?.setCancelable(false)
+
+        confirmationDialog?.window!!.setLayout(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.MATCH_PARENT
+        )
+        confirmationDialog?.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        val cancel = confirmationDialog?.findViewById<Button>(R.id.btnCookingSubmit)
+        val etInstruction = confirmationDialog?.findViewById<EditText>(R.id.etInstruction)
+        val imgCross = confirmationDialog?.findViewById<ImageView>(R.id.img_cross)
+        val txtAddAudio = confirmationDialog?.findViewById<TextView>(R.id.txtAddAudio)
+
+        etInstruction.setText(cartBinding.tvCookingInstructions.text.toString())
+
+        imgCross?.setOnClickListener {
+            confirmationDialog?.dismiss()
+        }
+        txtAddAudio?.setOnClickListener {
+            recordAudio()
+            confirmationDialog?.dismiss()
+        }
+        cancel?.setOnClickListener {
+            confirmationDialog?.dismiss()
+            if (TextUtils.isEmpty(etInstruction.text.toString())) {
+                showToastError("Please enter cookings instructions")
+            } else {
+                strCookingInstructions = etInstruction.text.toString()
+                cartBinding.tvCookingInstructions.setText("Instructions  added"/*etInstruction.text.toString()*/)
+            }
+        }
+
+        confirmationDialog?.show()
+    }
+
     // This method is called when the second activity finishes
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -819,16 +915,16 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
                 // couponCode = response.coupanDetails?.coupanCode.toString()
                 cartBinding.tvPromo.setText(dis + "% " + "Discount coupon applied. Remove?")
                 cartBinding.rlRealPrice.visibility = View.VISIBLE
-
                 payableAmount = (deliveryCharges?.plus(payableAmount.toDouble())).toString()
                 payableAmount = (payableAmount.toDouble().plus(tipSelected.toDouble())).toString()
+                //payableAmount = payableAmount.toDouble().minus(totalPoints).toString()
                 cartBinding.tvOfferPrice.setText(
-                    GlobalConstants.Currency + " " +
+                    GlobalConstants.Currency + "" +
                             payableAmount
                     /*payableAmount*/
                 )
                 cartBinding.tvRealPrice.setText(
-                    GlobalConstants.Currency + " " + deliveryCharges?.plus(
+                    GlobalConstants.Currency + "" + deliveryCharges?.plus(
                         totalAmount.toDouble()
                     )/*totalAmount*/
                 )
@@ -870,7 +966,7 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
                         "paymentMode", "Net Banking"
                     )
                     addressObject.addProperty(
-                        "status", "2"
+                        "status", "1"
                     )
                     addressObject.addProperty(
                         "orderId", orderId
@@ -886,8 +982,20 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
                 } else {
                     showToastError("Something went wrong.")
                 }
+            } else if (requestCode == 1 && resultCode == RESULT_OK) {
+
+                if (data != null) {
+                    val bundle = data!!.getExtras();
+                    var fileUri = bundle!!.getString("data")!!
+                    file = File(fileUri)
+                    var calendar = Calendar.getInstance();
+                    var timeMilli2 = calendar.getTimeInMillis();
+                    cartBinding!!.tvAddAudio.setText("Audio_" + timeMilli2)
+                    cartBinding!!.icCross.visibility = View.VISIBLE
+                }
             }
         }
+
     }
 
     private fun initTipsRecyclerView() {
@@ -924,15 +1032,17 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
             tipSelected = tipList[position].tips!!
             // payableAmount = (deliveryCharges?.plus(payableAmount.toDouble())).toString()
             payableAmount = (payableAmount.toDouble().plus(tipSelected.toDouble())).toString()
+            //payableAmount = payableAmount.toDouble().minus(totalPoints).toString()
             cartBinding.tvOfferPrice.setText(
-                GlobalConstants.Currency + " " +
+                GlobalConstants.Currency + "" +
                         payableAmount
                 /*payableAmount*/
             )
         } else {
             payableAmount = (payableAmount.toDouble().minus(tipSelected.toDouble())).toString()
+            // payableAmount = payableAmount.toDouble().minus(totalPoints).toString()
             cartBinding.tvOfferPrice.setText(
-                GlobalConstants.Currency + " " +
+                GlobalConstants.Currency + "" +
                         payableAmount
                 /*payableAmount*/
             )
@@ -976,6 +1086,97 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
         instructionAdapter?.notifyDataSetChanged()
 
     }
+
+
+    private fun payDialog() {
+        val uploadImage = Dialog(this, R.style.Theme_Dialog);
+        uploadImage.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        uploadImage.setContentView(R.layout.upload_document_dialog)
+        uploadImage.window!!.setLayout(
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.WRAP_CONTENT
+        )
+        uploadImage.setCancelable(true)
+        uploadImage.setCanceledOnTouchOutside(true)
+        uploadImage.window!!.setGravity(Gravity.BOTTOM)
+        uploadImage.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        uploadImage.tvCashDelivery.setOnClickListener {
+            uploadImage.dismiss()
+            paymentStatus = "2"
+            payNow()
+        }
+        uploadImage.tvPayNow.setOnClickListener {
+            uploadImage.dismiss()
+            payNow()
+            paymentStatus = "1"
+        }
+        uploadImage.tv_cancel.setOnClickListener {
+            uploadImage.dismiss()
+        }
+        uploadImage.show()
+    }
+
+    fun payNow() {
+        var deliveryInstruction = ""
+        var pickupInstruction = ""
+        for (item in selectedDeliveryInstructionsList) {
+            if (TextUtils.isEmpty(deliveryInstruction)) {
+                deliveryInstruction = item.toString()
+            } else {
+                deliveryInstruction =
+                    deliveryInstruction + "," + item.toString()
+            }
+        }
+        for (item in selectedPickupInstructionsList) {
+            if (TextUtils.isEmpty(deliveryInstruction)) {
+                pickupInstruction = item
+            } else {
+                pickupInstruction =
+                    pickupInstruction + "," + item
+            }
+        }
+//        val addressObj
+
+        val mHashMap = HashMap<String, RequestBody>()
+        mHashMap["addressId"] = Utils(this).createPartFromString(addressId)
+        mHashMap["deliveryType"] = Utils(this).createPartFromString(DELIVERY_PICKUP_TYPE)
+        mHashMap["serviceDateTime"] =
+            Utils(this).createPartFromString(selectedDate + " " + selectedTime)
+        mHashMap["orderPrice"] = Utils(this).createPartFromString(payableAmount)
+        mHashMap["serviceCharges"] = Utils(this).createPartFromString(deliveryCharges.toString())
+        mHashMap["usedLPoints"] = Utils(this).createPartFromString("0")
+        mHashMap["LPointsPrice"] = Utils(this).createPartFromString("0")
+        mHashMap["promoCode"] = Utils(this).createPartFromString(couponCodeId)
+        mHashMap["companyId"] = Utils(this).createPartFromString(GlobalConstants.COMPANY_ID)
+        mHashMap["cookingInstructions"] = Utils(this).createPartFromString(strCookingInstructions)
+        mHashMap["pickupInstructions"] = Utils(this).createPartFromString(pickupInstruction)
+        mHashMap["deliveryInstructions"] = Utils(this).createPartFromString(deliveryInstruction)
+        mHashMap["tip"] = Utils(this).createPartFromString(tipSelected.toString())
+        mHashMap["paymentType"] = Utils(this).createPartFromString(paymentStatus)
+
+
+        var audio: MultipartBody.Part? = null
+        var IMAGE_EXTENSION = "audio/*"
+        if (file != null) {
+
+            //   audio= Utils(this).prepareFilePart("cookingInstMedia",file!!)
+
+            audio = MultipartBody.Part.createFormData(
+                "cookingInstMedia", file!!.name,
+                RequestBody.create(MediaType.parse("audio/*"), file!!)
+            )
+
+        } else {
+            audio = MultipartBody.Part.createFormData(
+                "cookingInstMedia", "",
+                RequestBody.create(MediaType.parse("audio/*"), "")
+            )
+
+        }
+
+        cartViewModel.orderPlace(mHashMap, audio)
+    }
+
 }
 
 

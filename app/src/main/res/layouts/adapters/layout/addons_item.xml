@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="com.example.services.common.BindingUtils" />
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="170dp"
+        android:layout_height="80dp"
+        android:layout_margin="@dimen/dp_5"
+        android:background="@drawable/ic_add_on_back"
+        android:gravity="center"
+        android:padding="@dimen/dp_5">
+        <!---->
+
+
+        <RelativeLayout
+            android:id="@+id/service_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="@dimen/dp_5">
+
+                <ImageView
+                    android:id="@+id/img_cart"
+                    android:layout_width="@dimen/dp_60"
+                    android:layout_height="@dimen/dp_60"
+                    android:layout_gravity="center_vertical"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ic_category" />
+            </androidx.cardview.widget.CardView>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/card_view">
+                <!--
+                                android:layout_alignTop="@+id/card_view"
+                                android:layout_alignBottom="@+id/card_view"-->
+                <TextView
+                    android:id="@+id/tv_cat_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginLeft="@dimen/dp_5"
+                    android:layout_marginRight="@dimen/dp_5"
+                    android:singleLine="true"
+                    android:text="Name"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textColor="@android:color/black"
+                    android:textSize="11sp"
+                    app:font="@{`bold`}" />
+
+                <TextView
+                    android:id="@+id/tv_offer_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_cat_name"
+                    android:layout_marginLeft="@dimen/dp_5"
+                    android:layout_marginTop="@dimen/dp_2"
+                    android:layout_marginBottom="@dimen/dp_5"
+                    android:text="Rs.100"
+                    android:textColor="@color/prepColor"
+                    android:textSize="9sp"
+                    app:font="@{`regular`}" />
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/tv_offer_price"
+                    android:layout_marginLeft="@dimen/dp_5"
+                    android:layout_toRightOf="@+id/tv_offer_price"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/tv_real_price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:text="Rs.150"
+                        android:textColor="@color/colorGrey"
+                        android:textSize="@dimen/sp_8"
+                        android:textStyle="bold" />
+
+                    <View
+                        android:layout_width="wrap_content"
+                        android:layout_height="1dp"
+                        android:layout_alignLeft="@+id/tv_real_price"
+                        android:layout_alignRight="@+id/tv_real_price"
+                        android:layout_centerInParent="true"
+                        android:background="@color/colorGrey" />
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/tv_add"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_offer_price"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/dp_5"
+                    android:layout_marginTop="@dimen/dp_2"
+                    android:background="@drawable/ic_round_back"
+                    android:drawableRight="@drawable/ic_pluss"
+                    android:drawablePadding="5dp"
+                    android:gravity="center"
+                    android:paddingLeft="@dimen/dp_5"
+                    android:paddingTop="@dimen/dp_5"
+                    android:paddingRight="@dimen/dp_5"
+                    android:paddingBottom="@dimen/dp_5"
+                    android:text="@string/book"
+                    android:textAllCaps="false"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="10sp"
+                    app:font="@{`regular`}" />
+
+
+                <ImageView
+                    android:id="@+id/img_remove"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/dp_5"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ic_delete"
+                    android:visibility="gone" />
+
+            </RelativeLayout>
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</layout>

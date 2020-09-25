@@ -64,6 +64,10 @@ class CreateOrdersResponse {
         @Expose
         var companyId: String? = null
 
+        @SerializedName("cookingInstMedia")
+        @Expose
+        var cookingInstMedia: String? = null
+
 
     }
 

@@ -20,9 +20,9 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorWhite"
+        android:background="#ffffff"
         android:orientation="vertical">
-
+        <!--@drawable/back_image-->
         <include
             android:id="@+id/common_tool_bar"
             layout="@layout/common_toolbar_back"
@@ -59,6 +59,8 @@
                             android:elevation="@dimen/dp_5"
                             android:scaleType="centerCrop"
                             android:src="@drawable/ic_category" />
+
+
                         <!--android:src="@{serviceDetail.icon!=null ?  serviceDetail.icon.toString():@string/todo,default=@drawable/ic_category}" />-->
                         <RelativeLayout
                             android:layout_width="match_parent"
@@ -68,6 +70,16 @@
                         </RelativeLayout>
 
                     </RelativeLayout>
+
+                    <ImageView
+                        android:id="@+id/imgVegNonVeg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_margin="10dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/veg"
+                        android:visibility="visible" />
 
                     <RelativeLayout
                         android:id="@+id/name_lay"
@@ -91,7 +103,7 @@
                             android:textStyle="bold"
                             app:font="@{`bold`}"
                             tools:ignore="AllCaps" />
-
+                        <!--android:text="@{serviceDetail.name}"-->
                         <RatingBar
                             android:id="@+id/rBar"
                             style="@android:style/Widget.Material.RatingBar.Small"
@@ -141,8 +153,8 @@
                             android:id="@+id/rl_real_price"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginRight="@dimen/dp_5"
                             android:layout_alignBottom="@+id/tv_offer_price"
+                            android:layout_marginRight="@dimen/dp_5"
                             android:layout_toLeftOf="@+id/tv_offer_price"
                             android:visibility="gone">
 
@@ -173,11 +185,13 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/name_lay"
+                        android:layout_marginLeft="@dimen/dp_5"
                         android:layout_marginTop="@dimen/dp_5"
                         android:minHeight="@dimen/dp_100"
                         android:padding="@dimen/dp_5"
                         android:text="@{serviceDetail.description}"
                         android:textAllCaps="false"
+                        android:textColor="@color/colorBlack"
                         app:font="@{`regular`}"
                         tools:ignore="AllCaps" />
 
@@ -186,9 +200,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/tv_service_detail"
-                        android:layout_marginLeft="@dimen/dp_5"
+                        android:layout_marginLeft="@dimen/dp_10"
                         android:gravity="left"
-                        android:text="Detail"
+                        android:text="Others"
                         android:textAllCaps="false"
                         android:textColor="@color/colorBlack"
                         android:textSize="@dimen/sp_18"
@@ -215,17 +229,6 @@
             </RelativeLayout>
         </ScrollView>
 
-        <Button
-            android:id="@+id/AddCart"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_margin="@dimen/dp_10"
-            android:background="@drawable/btn_bg_shape_colored"
-            android:onClick="@{(v) -> servicesViewModel.clickListener(v)}"
-            android:text="@string/add_to_cart"
-            android:textColor="@color/colorWhite"
-            app:font="@{`bold`}" />
 
         <LinearLayout
             android:id="@+id/ll_slots"
@@ -438,12 +441,59 @@
                 android:layout_marginLeft="@dimen/dp_20"
                 android:layout_marginTop="@dimen/dp_30"
                 android:layout_marginRight="@dimen/dp_20"
-                android:background="@drawable/btn_bg_shape_colored"
+                android:background="@drawable/shape_round_stroke"
                 android:onClick="@{(v) -> servicesViewModel.clickListener(v)}"
                 android:text="@string/proceed"
-                android:textColor="@color/colorWhite"
+                android:textColor="@color/buttonTextColor"
                 android:visibility="visible"
                 app:font="@{`bold`}" />
         </LinearLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/img_right"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_above="@+id/AddCart"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/ic_cart_back"
+            android:onClick="@{(v) -> servicesViewModel.clickListener(v)}">
+
+            <ImageView
+                android:id="@+id/imgCart"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerInParent="true"
+                android:src="@drawable/ic_cart" />
+
+            <TextView
+                android:id="@+id/txtCount"
+                android:layout_width="17dp"
+                android:layout_height="17dp"
+                android:layout_alignTop="@+id/imgCart"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="-5dp"
+                android:layout_marginRight="15dp"
+                android:background="@drawable/ic_count_back"
+                android:gravity="center"
+                android:text="1"
+                android:textColor="@color/colorWhite"
+                android:textSize="10sp" />
+
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/AddCart"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="@dimen/dp_10"
+            android:background="@drawable/shape_purple"
+            android:onClick="@{(v) -> servicesViewModel.clickListener(v)}"
+            android:text="@string/add_to_cart"
+            android:textColor="@color/buttonTextColor"
+            app:font="@{`bold`}" />
+
     </RelativeLayout>
 </layout>

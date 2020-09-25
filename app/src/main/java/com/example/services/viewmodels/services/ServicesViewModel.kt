@@ -6,10 +6,8 @@ import android.view.View
 import com.example.services.common.UtilsFunctions
 import com.example.services.model.CommonModel
 import com.example.services.model.LoginResponse
-import com.example.services.model.services.DateSlotsResponse
-import com.example.services.model.services.ServicesDetailResponse
-import com.example.services.model.services.ServicesListResponse
-import com.example.services.model.services.TimeSlotsResponse
+import com.example.services.model.cart.AddCartResponse
+import com.example.services.model.services.*
 import com.example.services.repositories.services.ServicesRepository
 import com.example.services.viewmodels.BaseViewModel
 import com.google.gson.JsonObject
@@ -18,7 +16,9 @@ class ServicesViewModel : BaseViewModel() {
     private var data: MutableLiveData<LoginResponse>? = null
     private var servicesList = MutableLiveData<ServicesListResponse>()
     private var servicesDetail = MutableLiveData<ServicesDetailResponse>()
-    private var carRes = MutableLiveData<CommonModel>()
+    private var carRes = MutableLiveData<AddCartResponse>()
+    private var removeCartRes = MutableLiveData<CommonModel>()
+    private var updateCartRes = MutableLiveData<UpdateCartResponse>()
     private var favRes = MutableLiveData<CommonModel>()
     private var timeSlotsList = MutableLiveData<TimeSlotsResponse>()
     private var dateSlots = MutableLiveData<DateSlotsResponse>()
@@ -28,23 +28,34 @@ class ServicesViewModel : BaseViewModel() {
 
     init {
         if (UtilsFunctions.isNetworkConnectedWithoutToast()) {
-            servicesList = servicesRepository.getServicesList("","")
+            servicesList = servicesRepository.getServicesList("", "")
             servicesDetail = servicesRepository.getServiceDetail("")
             carRes = servicesRepository.addCart(null)
             favRes = servicesRepository.addFav(null)
             favRes = servicesRepository.removeFav("")
+            removeCartRes = servicesRepository.removeCart("")
             timeSlotsList = servicesRepository.getTimeSlots("")
+            updateCartRes = servicesRepository.updateCart(null)
             // dateSlots = servicesRepository.getDateSlots()
         }
 
     }
 
-    fun addRemoveCartRes(): LiveData<CommonModel> {
+    fun addRemoveCartRes(): LiveData<AddCartResponse> {
         return carRes
     }
 
+    fun removeCartRes(): LiveData<CommonModel> {
+        return removeCartRes
+    }
+
+
     fun addRemovefavRes(): LiveData<CommonModel> {
         return favRes
+    }
+
+    fun updateCartRes(): LiveData<UpdateCartResponse> {
+        return updateCartRes
     }
 
     fun getTimeSlotsRes(): LiveData<TimeSlotsResponse> {
@@ -75,9 +86,9 @@ class ServicesViewModel : BaseViewModel() {
         btnClick.value = v.resources.getResourceName(v.id).split("/")[1]
     }
 
-    fun getServices(mJsonObject: String,vegNonVeg: String) {
+    fun getServices(mJsonObject: String, vegNonVeg: String) {
         if (UtilsFunctions.isNetworkConnected()) {
-            servicesList = servicesRepository.getServicesList(mJsonObject,vegNonVeg)
+            servicesList = servicesRepository.getServicesList(mJsonObject, vegNonVeg)
             mIsUpdating.postValue(true)
         }
     }
@@ -89,9 +100,16 @@ class ServicesViewModel : BaseViewModel() {
         }
     }
 
+    fun updateCart(mJsonObject: JsonObject) {
+        if (UtilsFunctions.isNetworkConnected()) {
+            updateCartRes = servicesRepository.updateCart(mJsonObject)
+            mIsUpdating.postValue(true)
+        }
+    }
+
     fun removeCart(mJsonObject: String) {
         if (UtilsFunctions.isNetworkConnected()) {
-            carRes = servicesRepository.removeCart(mJsonObject)
+            removeCartRes = servicesRepository.removeCart(mJsonObject)
             mIsUpdating.postValue(true)
         }
     }

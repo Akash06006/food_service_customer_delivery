@@ -30,7 +30,7 @@ class VendorsRepository {
     fun vendorList(
         mJsonObject: String,
         lat: String,
-        longi: String, vegNonVeg: String
+        longi: String, vegNonVeg: String, discount: String
     ): MutableLiveData<VendorListResponse> {
         if (!TextUtils.isEmpty(mJsonObject)) {
             val mApiService = ApiService<JsonObject>()
@@ -63,7 +63,7 @@ class VendorsRepository {
                     "10000",
                     lat,
                     longi,
-                    vegNonVeg
+                    vegNonVeg,discount
                 )
             )
 

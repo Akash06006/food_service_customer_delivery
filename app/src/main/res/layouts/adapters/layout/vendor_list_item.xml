@@ -17,138 +17,363 @@
 
 
     <!---->
-    <androidx.cardview.widget.CardView
-        android:id="@+id/card_view"
+    <!-- <androidx.cardview.widget.CardView
+         android:id="@+id/card_view"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:layout_margin="@dimen/dp_5"
+         app:cardCornerRadius="@dimen/dp_15">-->
+    <!--
+            app:cardPreventCornerOverlap="true"-->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/dp_5"
-        android:elevation="@dimen/dp_20"
-        app:cardCornerRadius="@dimen/dp_10"
-        app:cardPreventCornerOverlap="true">
+        android:layout_marginLeft="@dimen/dp_5"
+        android:layout_marginTop="@dimen/dp_5"
+        android:layout_marginRight="@dimen/dp_5"
+        android:orientation="vertical"
+        android:visibility="visible">
 
         <LinearLayout
             android:id="@+id/llVendor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:background="@drawable/shape_square_stroke"
+            android:orientation="vertical"
+            android:padding="5dp"
             android:visibility="visible">
-
+            <!-- -->
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:id="@+id/imgVendorImage"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/ic_category"
-                    android:visibility="visible" />
-
-                <LinearLayout
-                    android:id="@+id/llOffer"
-                    android:layout_width="80dp"
-                    android:layout_height="30dp"
-                    android:layout_marginTop="-15dp"
-                    android:background="@drawable/shape_round_top_corner"
-                    android:elevation="5dp"
-                    android:gravity="center"
-                    android:visibility="visible">
-
-                    <TextView
-                        android:id="@+id/txtOffer"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="15% OFF"
-                        android:textColor="@color/colorWhite"
-                        android:textStyle="bold" />
-
-                </LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout
-
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="@dimen/dp_5"
-                android:orientation="vertical">
+                android:orientation="horizontal"
+                android:visibility="visible">
 
-                <TextView
-                    android:id="@+id/txtRestName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Brew Masters"
-                    android:textAllCaps="false"
-                    android:textColor="@color/colorBlack"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/txtAddress"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dp_5"
-                    android:text="7 Phase Mohali"
-                    android:textAllCaps="false"
-                    android:textSize="@dimen/sp_10" />
-
-                <TextView
-                    android:id="@+id/txtTime"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dp_5"
-                    android:text="9:00 AM-8:00 PM"
-                    android:textAllCaps="false"
-                    android:textSize="@dimen/sp_10" />
-
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:orientation="horizontal">
+                    android:gravity="center"
+                    android:orientation="vertical">
 
-                    <RatingBar
-                        android:id="@+id/rBar"
-                        style="@android:style/Widget.Material.RatingBar.Small"
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/card_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:numStars="1"
-                        android:rating="0"
-                        android:theme="@style/RatingBar"
-                        android:visibility="visible" />
+                        app:cardCornerRadius="@dimen/dp_10">
+
+                        <ImageView
+                            android:id="@+id/imgVendorImage"
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/ic_category"
+                            android:visibility="visible" />
+                    </androidx.cardview.widget.CardView>
+                </LinearLayout>
+
+                <LinearLayout
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/dp_5"
+                    android:orientation="vertical">
+
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:id="@+id/llOffer"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_alignParentRight="true"
+                            android:background="@drawable/ic_offer_back"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:visibility="gone">
+
+
+                            <TextView
+                                android:id="@+id/txtOffer1"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:text="15% "
+                                android:textColor="@color/colorWhite"
+                                android:textStyle="bold"
+                                app:font="@{`bold`}" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="off"
+                                android:textColor="@color/colorWhite"
+                                android:textStyle="bold"
+                                app:font="@{`bold`}" />
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/txtOffer"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginRight="5dp"
+                            android:gravity="center"
+                            android:text="15% OFF"
+                            android:textColor="@color/offerColor"
+                            android:textSize="@dimen/sp_12"
+                            android:visibility="gone" />
+
+                        <TextView
+                            android:id="@+id/txtRestName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="5dp"
+                            android:layout_toLeftOf="@+id/txtOffer"
+                            android:gravity="left"
+                            android:text="Brew Masters"
+                            android:textAllCaps="false"
+                            android:textColor="@color/colorBlack"
+                            android:textStyle="bold"
+                            android:visibility="visible"
+                            app:font="@{`regular`}" />
+
+                        <TextView
+                            android:id="@+id/txtAddress"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/txtRestName"
+                            android:layout_marginRight="5dp"
+                            android:layout_toLeftOf="@+id/llOffer"
+                            android:gravity="left"
+                            android:text="7 Phase Mohali"
+                            android:textAllCaps="false"
+                            android:textSize="@dimen/sp_10"
+                            android:visibility="gone"
+                            app:font="@{`regular`}" />
+
+
+                        <TextView
+                            android:id="@+id/txtTime"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/txtAddress"
+                            android:layout_marginTop="@dimen/dp_5"
+                            android:layout_marginRight="5dp"
+                            android:layout_toLeftOf="@+id/llOffer"
+                            android:gravity="left"
+                            android:text="9:00 AM-8:00 PM"
+                            android:textAllCaps="false"
+                            android:textSize="@dimen/sp_10"
+                            android:visibility="gone"
+                            app:font="@{`regular`}" />
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <RatingBar
+                            android:id="@+id/rBar"
+                            style="@android:style/Widget.Material.RatingBar.Small"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:numStars="1"
+                            android:rating="0"
+                            android:theme="@style/RatingBar"
+                            android:visibility="visible" />
+
+                        <TextView
+                            android:id="@+id/txtRatingCount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="2dp"
+                            android:text="0"
+                            android:textAllCaps="false"
+                            android:textColor="@color/textColor"
+                            android:textSize="9sp"
+                            app:font="@{`regular`}" />
+
+                        <View
+                            android:layout_width="1.5dp"
+                            android:layout_height="1.5dp"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="5dp"
+                            android:background="@color/textColor"
+                            android:gravity="center"
+                            android:text="."
+                            android:textAllCaps="false" />
+
+
+                        <TextView
+                            android:id="@+id/txtDistance"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/dp_5"
+                            android:drawableLeft="@drawable/ic_mins_drawable"
+                            android:drawablePadding="5dp"
+                            android:text="15 mins"
+                            android:textAllCaps="false"
+                            android:textColor="@color/textColor"
+                            android:textSize="@dimen/sp_9"
+                            app:font="@{`regular`}" />
+
+                        <View
+                            android:layout_width="1.5dp"
+                            android:layout_height="1.5dp"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="5dp"
+                            android:background="@color/textColor"
+                            android:gravity="center"
+                            android:text="."
+                            android:textAllCaps="false" />
+
+
+                        <TextView
+
+                            android:id="@+id/txtTotal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/dp_5"
+                            android:drawablePadding="5dp"
+                            android:text="Orders in past 24 hrs: "
+                            android:textAllCaps="false"
+                            android:textColor="@color/textColor"
+                            android:textSize="@dimen/sp_9"
+                            app:font="@{`regular`}" />
+
+                        <TextView
+                            android:id="@+id/txtTotalOrders"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="10"
+                            android:textAllCaps="false"
+                            android:textColor="@color/textColor"
+                            android:textSize="9sp"
+                            android:textStyle="bold"
+                            app:font="@{`regular`}" />
+                    </LinearLayout>
 
                     <TextView
-                        android:id="@+id/txtRating"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/txtMarqueText"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_toRightOf="@+id/rBar"
-                        android:text="(0)"
+                        android:layout_marginTop="5dp"
                         android:textAllCaps="false"
-                        android:textSize="@dimen/sp_10" />
+                        android:textColor="@color/textColor"
+                        android:textSize="@dimen/sp_10"
+                        android:visibility="gone"
+                        app:font="@{`regular`}" />
 
-                    <TextView
-                        android:id="@+id/txtDistance"
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginTop="@dimen/dp_5"
-                        android:layout_marginRight="@dimen/dp_5"
-                        android:text=""
-                        android:textAllCaps="false"
-                        android:textSize="@dimen/sp_10" />
-                </RelativeLayout>
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:id="@+id/txtTotalOrders1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:paddingTop="2dp"
+                            android:paddingRight="5dp"
+                            android:paddingBottom="2dp"
+                            android:text="10"
+                            android:textAllCaps="false"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="14dp"
+                            android:textStyle="bold"
+                            app:font="@{`regular`}" />
+                        <!--                            android:background="@drawable/shape_round_top_corner"
+                        -->
+                        <TextView
+                            android:id="@+id/txtTotal1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="Orders in past 24 hrs "
+                            android:textAllCaps="false"
+                            android:textSize="11dp"
+                            app:font="@{`regular`}" />
+
+
+                    </LinearLayout>
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:visibility="gone">
+
+                        <RatingBar
+                            android:id="@+id/rBar1"
+                            style="@android:style/Widget.Material.RatingBar.Small"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:numStars="5"
+                            android:rating="0"
+                            android:theme="@style/RatingBar"
+                            android:visibility="visible" />
+
+                        <TextView
+                            android:id="@+id/txtRating"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:text="(0)"
+                            android:textAllCaps="false"
+                            android:textSize="@dimen/sp_10"
+                            android:visibility="gone"
+                            app:font="@{`regular`}" />
+
+                        <TextView
+                            android:id="@+id/txtDistance2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginTop="@dimen/dp_5"
+                            android:layout_marginRight="@dimen/dp_5"
+                            android:text=""
+                            android:textAllCaps="false"
+                            android:textSize="@dimen/sp_10"
+                            android:textStyle="bold"
+                            app:font="@{`regular`}" />
+                    </RelativeLayout>
+                </LinearLayout>
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/txtMarqueText1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="2dp"
+                android:singleLine="true"
+                android:text=""
+                android:textAllCaps="false"
+                android:textSize="@dimen/sp_12"
+                android:textStyle="bold"
+                android:visibility="gone"
+                app:font="@{`regular`}" />
+
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/service_item"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/ic_vendor_back"
             android:orientation="horizontal"
             android:visibility="gone">
 
@@ -176,7 +401,7 @@
                     android:layout_alignParentTop="true"
                     android:layout_marginLeft="@dimen/dp_10"
                     android:layout_marginRight="@dimen/dp_5"
-                    android:layout_toLeftOf="@+id/img_favourite"
+                    android:layout_toLeftOf="@+id/imgVegNonVeg"
                     android:singleLine="true"
                     android:text="Name"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
@@ -185,13 +410,13 @@
                     app:font="@{`bold`}" />
 
                 <ImageView
-                    android:id="@+id/img_favourite"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:id="@+id/imgVegNonVeg"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:layout_alignParentRight="true"
-                    android:padding="@dimen/dp_5"
-                    android:src="@drawable/ic_unfavorite"
-                    android:visibility="gone" />
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/veg"
+                    android:visibility="visible" />
 
                 <TextView
                     android:id="@+id/tv_duration"
@@ -234,7 +459,8 @@
                         android:layout_toRightOf="@+id/rbDishRating"
                         android:text=""
                         android:textAllCaps="false"
-                        android:textSize="@dimen/sp_10" />
+                        android:textSize="@dimen/sp_10"
+                        app:font="@{`regular`}" />
 
                     <TextView
                         android:id="@+id/txtDistance1"
@@ -246,7 +472,8 @@
                         android:text="150 KM"
                         android:textAllCaps="false"
                         android:textSize="@dimen/sp_10"
-                        android:visibility="gone" />
+                        android:visibility="gone"
+                        app:font="@{`regular`}" />
                 </RelativeLayout>
 
                 <TextView
@@ -260,7 +487,7 @@
                     android:layout_marginBottom="@dimen/dp_5"
                     android:text="Rs.100"
                     android:textColor="@color/colorPrice"
-                    android:textStyle="bold" />
+                    app:font="@{`regular`}" />
 
                 <RelativeLayout
                     android:id="@+id/rlOriginalPrice"
@@ -279,7 +506,7 @@
                         android:text="Rs.150"
                         android:textColor="@color/colorGrey"
                         android:textSize="@dimen/sp_10"
-                        android:textStyle="bold" />
+                        app:font="@{`regular`}" />
 
                     <View
                         android:layout_width="wrap_content"
@@ -302,26 +529,27 @@
                     android:text="@string/book"
                     android:textAllCaps="true"
                     android:textColor="@color/colorBlack"
-                    android:textSize="@dimen/sp_12" />
+                    android:textSize="@dimen/sp_12"
+                    app:font="@{`regular`}" />
 
                 <TextView
                     android:id="@+id/tv_off"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tv_offer_price"
-
                     android:layout_alignLeft="@+id/tv_offer_price"
                     android:gravity="center"
                     android:text="25% Off"
                     android:textColor="@color/btnBackground"
-                    android:visibility="gone" />
+                    android:visibility="gone"
+                    app:font="@{`regular`}" />
                 <!--   android:layout_alignTop="@+id/tv_add"
                     android:layout_alignBottom="@+id/tv_add"-->
             </RelativeLayout>
         </LinearLayout>
 
-
-    </androidx.cardview.widget.CardView>
+    </LinearLayout>
+    <!-- </androidx.cardview.widget.CardView>-->
 
 
 </layout>

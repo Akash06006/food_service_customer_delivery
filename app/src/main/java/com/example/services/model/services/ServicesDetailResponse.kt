@@ -65,6 +65,9 @@ class ServicesDetailResponse {
         @SerializedName("rating")
         @Expose
         var rating: String? = null
+        @SerializedName("itemType")
+        @Expose
+        var itemType: String? = null
         /* @SerializedName("category")
          @Expose
          var category: String? = null*/

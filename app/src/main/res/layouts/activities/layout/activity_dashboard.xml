@@ -12,75 +12,97 @@
 
     </data>
 
-    <androidx.drawerlayout.widget.DrawerLayout
-        android:id="@+id/drawer_layout"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:openDrawer="start">
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <!--<include
+            android:id="@+id/toolbar_common"
+            layout="@layout/common_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_toobar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:onClick="@{(v) -> dashboardViewModel.clickListener(v)}" />
+-->
+        <include
+            android:id="@+id/common_tool_bar"
+            layout="@layout/common_toolbar_back"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="@{(v) -> dashboardViewModel.clickListener(v)}"
+            android:visibility="gone" />
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tablayout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_tablayout"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/common_tool_bar"
+            app:tabBackground="@color/colorWhite"
+            app:tabIndicatorColor="@color/tabSelection"
+            app:tabTextAppearance="@style/customizeTabText"
+            app:tabTextColor="@color/colorBlack">
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/my_jobs" />
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/job_requests" />
+
+        </com.google.android.material.tabs.TabLayout>
+
+        <FrameLayout
+            android:id="@+id/frame_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent">
+            android:layout_below="@+id/common_tool_bar" />
 
-            <!--<include
-                android:id="@+id/toolbar_common"
-                layout="@layout/common_toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_toobar"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:onClick="@{(v) -> dashboardViewModel.clickListener(v)}" />
--->
-            <include
-                android:id="@+id/common_tool_bar"
-                layout="@layout/common_toolbar_back"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:onClick="@{(v) -> dashboardViewModel.clickListener(v)}" />
+        <RelativeLayout
+            android:id="@+id/img_right"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="40dp"
+            android:background="@drawable/ic_cart_back"
+            android:onClick="@{(v) -> dashboardViewModel.clickListener(v)}">
 
-            <com.google.android.material.tabs.TabLayout
-                android:id="@+id/tablayout"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_tablayout"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/common_tool_bar"
-                app:tabBackground="@color/colorWhite"
-                app:tabIndicatorColor="@color/tabSelection"
-                app:tabTextAppearance="@style/customizeTabText"
-                app:tabTextColor="@color/colorBlack">
+            <ImageView
+                android:id="@+id/imgCart"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerInParent="true"
+                android:src="@drawable/ic_cart" />
 
-                <com.google.android.material.tabs.TabItem
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/my_jobs" />
+            <TextView
+                android:id="@+id/txtCount"
+                android:layout_width="17dp"
+                android:layout_height="17dp"
+                android:layout_alignTop="@+id/imgCart"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="-5dp"
+                android:layout_marginRight="15dp"
+                android:background="@drawable/ic_count_back"
+                android:gravity="center"
+                android:text="1"
+                android:textColor="@color/colorWhite"
+                android:textSize="10sp" />
 
-                <com.google.android.material.tabs.TabItem
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/job_requests" />
+        </RelativeLayout>
 
-            </com.google.android.material.tabs.TabLayout>
+    </RelativeLayout>
 
-            <FrameLayout
-                android:id="@+id/frame_layout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="@dimen/dp_58"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/common_tool_bar"></FrameLayout>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
-    </androidx.drawerlayout.widget.DrawerLayout>
 </layout>

@@ -25,10 +25,10 @@
         android:elevation="@dimen/dp_20"
         app:cardCornerRadius="@dimen/dp_10"
         app:cardPreventCornerOverlap="true">
-GL
+
 
         <LinearLayout
-
+            android:id="@+id/item"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

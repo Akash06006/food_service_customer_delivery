@@ -2,7 +2,10 @@ package com.example.services.views
 
 import android.content.Context
 import android.content.Intent
+import android.os.Handler
 import android.text.TextUtils
+import android.view.View
+import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.DataBindingUtil
 import com.example.services.R
 import com.example.services.application.MyApplication
@@ -12,6 +15,7 @@ import com.example.services.sharedpreference.SharedPrefClass
 import com.example.services.socket.TrackingActivity
 import com.example.services.utils.BaseActivity
 import com.example.services.views.address.AddAddressActivity
+import com.example.services.views.audio.RecordAudioActivity
 import com.example.services.views.authentication.LoginActivity
 import com.example.services.views.cart.CheckoutAddressActivity
 import com.example.services.views.home.DashboardActivity
@@ -36,29 +40,52 @@ class SplashActivity : BaseActivity() {
 
     override fun initViews() {
         mContext = this
-        mActivitySplashBinding = DataBindingUtil.setContentView(this, R.layout.activity_splash)
+        mActivitySplashBinding = viewDataBinding as ActivitySplashBinding
 
         sharedPrefClass = SharedPrefClass()
-        val token: String? = "sd"
-
-        if (token != null) {
-            sharedPrefClass!!.putObject(
-                applicationContext,
-                GlobalConstants.NOTIFICATION_TOKEN,
-                token
-            )
+        //var token = ""
+        if (TextUtils.isEmpty(GlobalConstants.NOTIFICATION_TOKEN)) {
+            //  token = "sd"
+            GlobalConstants.NOTIFICATION_TOKEN = "sd"
         }
+        //if (GlobalConstants.NOTIFICATION_TOKEN != null) {
+        sharedPrefClass!!.putObject(
+            applicationContext,
+            GlobalConstants.NOTIFICATION_TOKEN,
+            GlobalConstants.NOTIFICATION_TOKEN
+        )
+        // }
 
+        callAnimation()
+        /*  Handler().postDelayed({
+
+              callAnimation()
+          }, 2500)
+  */
+    }
+
+    private fun callAnimation() {
+        mActivitySplashBinding!!.txtQuote.typeface =
+            ResourcesCompat.getFont(this, R.font.sixty_nine_demo)
+        mActivitySplashBinding!!.imgIcon.visibility = View.GONE
+        mActivitySplashBinding!!.imgText.visibility = View.VISIBLE
+        mActivitySplashBinding!!.animationView.visibility = View.VISIBLE
         Timer().schedule(object : TimerTask() {
             override fun run() {
                 runOnUiThread {
                     checkScreenType()
                 }
             }
-        }, 3000)
+        }, 3600)
     }
 
     private fun checkScreenType() {
+
+        sharedPrefClass!!.putObject(
+            applicationContext,
+            GlobalConstants.NOTIFICATION_TOKEN,
+            GlobalConstants.NOTIFICATION_TOKEN
+        )
         var login = ""
         if (checkObjectNull(
                 SharedPrefClass().getPrefValue(
@@ -76,7 +103,10 @@ class SplashActivity : BaseActivity() {
                 Intent(this, DatesActivity::class.java)
             } else {
                 Intent(this, LandingMainActivity::class.java)
-                //     Intent(this, SearchActivity::class.java)
+
+                // Intent(this, RecordAudioActivity::class.java)
+
+
             }
 
             // Intent(this, PaymentActivity::class.java)

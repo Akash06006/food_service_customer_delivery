@@ -73,7 +73,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/toolbar_common"></FrameLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
+        <!-- android:alpha="0.9"-->
         <com.google.android.material.navigation.NavigationView
             android:id="@+id/nav_view"
             android:layout_width="match_parent"
@@ -81,7 +81,6 @@
             android:layout_gravity="start"
             android:layout_marginEnd="-65dp"
             android:layout_marginRight="-65dp"
-            android:alpha="0.9"
             android:background="@color/colorWhite"
             android:fitsSystemWindows="true"
             android:visibility="visible"
@@ -102,92 +101,167 @@
                      app:menu="@menu/activity_home_drawer"
                      app:theme="@style/NavigationViewStyle" />-->
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="start"
-                android:gravity="center_horizontal"
+                android:background="#ffffff"
                 android:orientation="vertical">
                 <!-- <include
                      layout="@layout/header_view"/>-->
 
-                <LinearLayout
+                <RelativeLayout
                     android:id="@+id/topBannerLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/nav_header_height"
-                    android:background="@drawable/profile_back"
-                    android:gravity="bottom"
+                    android:layout_height="wrap_content"
+
+                    android:background="@drawable/ic_nav_back"
                     android:orientation="vertical"
                     android:paddingLeft="@dimen/dp_16"
-                    android:paddingTop="@dimen/dp_16"
                     android:paddingRight="@dimen/dp_16"
                     android:paddingBottom="@dimen/dp_16"
                     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
                     <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/ic_profile"
-                        android:layout_width="@dimen/dp_100"
-                        android:layout_height="@dimen/dp_100"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_centerVertical="true"
                         android:layout_gravity="center_horizontal"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginTop="25dp"
                         android:onClick="@{(v) -> dashboardViewModel.clickListener(v)}"
                         android:src="@drawable/ic_user" />
 
                     <TextView
                         android:id="@+id/tv_name"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp_4"
+                        android:layout_alignTop="@+id/ic_profile"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginTop="35dp"
+                        android:layout_toRightOf="@+id/ic_profile"
                         android:gravity="center_horizontal"
                         android:onClick="@{(v) -> dashboardViewModel.clickListener(v)}"
                         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                        android:textColor="@color/colorWhite" />
+                        android:textColor="@color/colorWhite"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        app:font="@{`semibold`}"
+                        tools:text="Akash" />
 
-                </LinearLayout>
+                    <TextView
+                        android:id="@+id/tvLoc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tv_name"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginTop="3dp"
+                        android:layout_toRightOf="@+id/ic_profile"
+                        android:gravity="center_horizontal"
+                        android:onClick="@{(v) -> dashboardViewModel.clickListener(v)}"
+                        android:text="India"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="13sp"
+                        android:visibility="gone"
+                        app:font="@{`regular`}" />
+
+                    <ImageView
+                        android:id="@+id/img_nav_cancel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:contentDescription="@string/todo"
+                        android:onClick="@{(v) -> dashboardViewModel.clickListener(v)}"
+                        android:src="@drawable/ic_cross_filter"
+                        android:tint="@color/colorWhite" />
+                    <!-- android:background="@drawable/text_back"-->
+                </RelativeLayout>
+
+                <ImageView
+                    android:id="@+id/imgSidePhone"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:layout_above="@+id/llBottom"
+                    android:layout_below="@+id/topBannerLayout"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="-30dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/side_phone" />
+
+                <ImageView
+                    android:id="@+id/imgSidePhoneTwo"
+                    android:layout_width="30dp"
+                    android:layout_height="match_parent"
+                    android:layout_above="@+id/llBottom"
+                    android:layout_below="@+id/topBannerLayout"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="-10dp"
+                    android:layout_marginBottom="30dp"
+                    android:layout_toLeftOf="@+id/imgSidePhone"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/side_phone_two" />
 
                 <ScrollView
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content"
+                    android:layout_above="@+id/llBottom"
+                    android:layout_below="@+id/topBannerLayout"
+                    android:layout_marginBottom="20dp"
+                    android:layout_toLeftOf="@+id/imgSidePhoneTwo">
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="start"
-                        android:gravity="center_horizontal"
+                        android:background="#ffffff"
                         android:orientation="vertical"
+                        android:paddingLeft="10dp"
                         android:paddingBottom="@dimen/dp_5">
-
+                        <!--
+                                                android:gravity="center_horizontal"-->
                         <TextView
                             android:id="@+id/tv_nav_home"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/dp_10"
+                            android:layout_marginTop="@dimen/dp_15"
+                            android:drawableLeft="@drawable/ic_nav_home"
+                            android:drawablePadding="@dimen/dp_10"
                             android:gravity="center_vertical"
                             android:onClick="@{(v) -> dashboardViewModel.clickListener(v)}"
                             android:paddingStart="@dimen/dp_10"
                             android:paddingLeft="@dimen/dp_10"
                             android:paddingBottom="@dimen/dp_5"
                             android:text="@string/home"
-                            android:textAllCaps="true"
+                            android:textAllCaps="false"
                             android:textColor="@color/colorBlack"
-                            android:textSize="@dimen/sp_18"
-                            app:font="@{`semibold`}"
+                            android:textSize="@dimen/sp_14"
+                            app:font="@{`regular`}"
                             tools:ignore="RtlSymmetry" />
 
                         <TextView
                             android:id="@+id/tv_nav_address"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/dp_10"
+                            android:layout_marginTop="@dimen/dp_15"
+                            android:drawableLeft="@drawable/ic_nav_addresses"
+                            android:drawablePadding="@dimen/dp_12"
                             android:gravity="center_vertical"
                             android:onClick="@{(v) -> dashboardViewModel.clickListener(v)}"
-                            android:paddingStart="@dimen/dp_10"
-                            android:paddingLeft="@dimen/dp_10"
+                            android:paddingStart="@dimen/dp_12"
+
+                            android:paddingLeft="12sp"
                             android:paddingBottom="@dimen/dp_5"
                             android:text="@string/address_management"
-                            android:textAllCaps="true"
+                            android:textAllCaps="false"
                             android:textColor="@color/colorBlack"
-                            android:textSize="@dimen/sp_18"
-                            app:font="@{`semibold`}"
+                            android:textSize="@dimen/sp_14"
+                            app:font="@{`regular`}"
                             tools:ignore="RtlSymmetry" />
 
                         <TextView
@@ -201,28 +275,30 @@
                             android:paddingLeft="@dimen/dp_10"
                             android:paddingBottom="@dimen/dp_5"
                             android:text="@string/cart"
-                            android:textAllCaps="true"
+                            android:textAllCaps="false"
                             android:textColor="@color/colorBlack"
-                            android:textSize="@dimen/sp_18"
+                            android:textSize="@dimen/sp_14"
                             android:visibility="gone"
-                            app:font="@{`semibold`}"
+                            app:font="@{`regular`}"
                             tools:ignore="RtlSymmetry" />
 
                         <TextView
                             android:id="@+id/tv_nav_fav"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/dp_10"
-                            android:gravity="center_vertical"
+                            android:layout_marginTop="@dimen/dp_15"
+                            android:drawableLeft="@drawable/ic_nav_fav"
+                            android:drawablePadding="@dimen/dp_10"
+                            android:gravity="center"
                             android:onClick="@{(v) -> dashboardViewModel.clickListener(v)}"
                             android:paddingStart="@dimen/dp_10"
                             android:paddingLeft="@dimen/dp_10"
                             android:paddingBottom="@dimen/dp_5"
                             android:text="@string/favorite"
-                            android:textAllCaps="true"
+                            android:textAllCaps="false"
                             android:textColor="@color/colorBlack"
-                            android:textSize="@dimen/sp_18"
-                            app:font="@{`semibold`}"
+                            android:textSize="@dimen/sp_14"
+                            app:font="@{`regular`}"
                             tools:ignore="RtlSymmetry" />
 
                         <TextView
@@ -246,69 +322,122 @@
                             android:id="@+id/tv_nav_order"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/dp_10"
+                            android:layout_marginTop="@dimen/dp_15"
+                            android:drawableLeft="@drawable/ic_nav_orders"
+                            android:drawablePadding="@dimen/dp_10"
                             android:gravity="center_vertical"
                             android:onClick="@{(v) -> dashboardViewModel.clickListener(v)}"
                             android:paddingStart="@dimen/dp_10"
+
                             android:paddingLeft="@dimen/dp_10"
                             android:paddingBottom="@dimen/dp_5"
                             android:text="@string/orders"
-                            android:textAllCaps="true"
+
+                            android:textAllCaps="false"
                             android:textColor="@color/colorBlack"
-                            android:textSize="@dimen/sp_18"
-                            app:font="@{`semibold`}"
+                            android:textSize="@dimen/sp_14"
+                            app:font="@{`regular`}"
                             tools:ignore="RtlSymmetry" />
 
                         <TextView
                             android:id="@+id/tv_nav_order_history"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/dp_10"
+                            android:layout_marginTop="@dimen/dp_15"
+                            android:drawableLeft="@drawable/ic_nav_history"
+                            android:drawablePadding="@dimen/dp_10"
                             android:gravity="center_vertical"
                             android:onClick="@{(v) -> dashboardViewModel.clickListener(v)}"
                             android:paddingStart="@dimen/dp_10"
                             android:paddingLeft="@dimen/dp_10"
                             android:paddingBottom="@dimen/dp_5"
+
                             android:text="@string/orders_history"
-                            android:textAllCaps="true"
+                            android:textAllCaps="false"
                             android:textColor="@color/colorBlack"
-                            android:textSize="@dimen/sp_18"
-                            app:font="@{`semibold`}"
+                            android:textSize="@dimen/sp_14"
+                            app:font="@{`regular`}"
+                            tools:ignore="RtlSymmetry" />
+
+                        <TextView
+                            android:id="@+id/tv_nav_membership"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dp_15"
+                            android:drawableLeft="@drawable/ic_nav_member"
+                            android:drawablePadding="@dimen/dp_10"
+                            android:gravity="center_vertical"
+                            android:onClick="@{(v) -> dashboardViewModel.clickListener(v)}"
+                            android:paddingStart="@dimen/dp_10"
+                            android:paddingLeft="@dimen/dp_10"
+                            android:paddingBottom="@dimen/dp_5"
+
+                            android:text="@string/membership"
+                            android:textAllCaps="false"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="@dimen/sp_14"
+                            app:font="@{`regular`}"
                             tools:ignore="RtlSymmetry" />
 
                         <TextView
                             android:id="@+id/tv_nav_notification"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/dp_10"
+                            android:layout_marginTop="@dimen/dp_15"
+                            android:drawableLeft="@drawable/ic_nav_notification"
+                            android:drawablePadding="@dimen/dp_10"
                             android:gravity="center_vertical"
                             android:onClick="@{(v) -> dashboardViewModel.clickListener(v)}"
                             android:paddingStart="@dimen/dp_10"
                             android:paddingLeft="@dimen/dp_10"
                             android:paddingBottom="@dimen/dp_5"
                             android:text="@string/notifications"
-                            android:textAllCaps="true"
+                            android:textAllCaps="false"
                             android:textColor="@color/colorBlack"
-                            android:textSize="@dimen/sp_18"
-                            app:font="@{`semibold`}"
+                            android:textSize="@dimen/sp_14"
+                            app:font="@{`regular`}"
                             tools:ignore="RtlSymmetry" />
 
+
                         <TextView
-                            android:id="@+id/tv_nav_setting"
+                            android:id="@+id/tv_nav_chat"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/dp_10"
+                            android:layout_marginTop="@dimen/dp_15"
+                            android:drawableLeft="@drawable/ic_nav_chat_sup"
+                            android:drawablePadding="@dimen/dp_10"
                             android:gravity="center_vertical"
                             android:onClick="@{(v) -> dashboardViewModel.clickListener(v)}"
                             android:paddingStart="@dimen/dp_10"
                             android:paddingLeft="@dimen/dp_10"
                             android:paddingBottom="@dimen/dp_5"
-                            android:text="@string/settings"
-                            android:textAllCaps="true"
+                            android:text="@string/chat_support"
+                            android:textAllCaps="false"
                             android:textColor="@color/colorBlack"
-                            android:textSize="@dimen/sp_18"
-                            app:font="@{`semibold`}"
+                            android:textSize="@dimen/sp_14"
+                            android:visibility="gone"
+                            app:font="@{`regular`}"
                             tools:ignore="RtlSymmetry" />
+
+                        <TextView
+                            android:id="@+id/tv_nav_refer"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dp_15"
+                            android:drawableLeft="@drawable/ic_nav_refer_earn"
+                            android:drawablePadding="@dimen/dp_10"
+                            android:gravity="center_vertical"
+                            android:onClick="@{(v) -> dashboardViewModel.clickListener(v)}"
+                            android:paddingStart="@dimen/dp_10"
+                            android:paddingLeft="@dimen/dp_10"
+                            android:paddingBottom="@dimen/dp_5"
+                            android:text="@string/refer_earn"
+                            android:textAllCaps="false"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="@dimen/sp_14"
+                            app:font="@{`regular`}"
+                            tools:ignore="RtlSymmetry" />
+
 
                         <TextView
                             android:id="@+id/tv_nav_account"
@@ -325,7 +454,7 @@
                             android:textColor="@color/colorBlack"
                             android:textSize="@dimen/sp_18"
                             android:visibility="gone"
-                            app:font="@{`semibold`}"
+                            app:font="@{`regular`}"
                             tools:ignore="RtlSymmetry" />
 
                         <TextView
@@ -344,7 +473,7 @@
                             android:textColor="@color/colorBlack"
                             android:textSize="@dimen/sp_18"
                             android:visibility="gone"
-                            app:font="@{`semibold`}"
+                            app:font="@{`regular`}"
                             tools:ignore="RtlSymmetry" />
 
                         <TextView
@@ -362,38 +491,71 @@
                             android:textAllCaps="true"
                             android:textColor="@color/colorBlack"
                             android:textSize="@dimen/sp_18"
-                            app:font="@{`semibold`}"
+                            android:visibility="gone"
+                            app:font="@{`regular`}"
                             tools:ignore="RtlSymmetry" />
 
-                        <TextView
-                            android:id="@+id/tv_nav_logout"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/dp_10"
-                            android:gravity="center_vertical"
-                            android:onClick="@{(v) -> dashboardViewModel.clickListener(v)}"
-                            android:paddingStart="@dimen/dp_10"
-                            android:paddingLeft="@dimen/dp_10"
-                            android:paddingBottom="@dimen/dp_5"
-                            android:text="@string/logout"
-                            android:textAllCaps="true"
-                            android:textColor="@color/colorBlack"
-                            android:textSize="@dimen/sp_18"
-                            app:font="@{`semibold`}"
-                            tools:ignore="RtlSymmetry" />
 
-                        <ImageView
-                            android:id="@+id/img_nav_cancel"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/dp_20"
-                            android:contentDescription="@string/todo"
-                            android:onClick="@{(v) -> dashboardViewModel.clickListener(v)}"
-                            android:src="@drawable/ic_cross"
-                            android:tint="@color/colorBlack" />
                     </LinearLayout>
                 </ScrollView>
-            </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/llBottom"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingStart="@dimen/dp_20">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_nav_setting" />
+
+                    <TextView
+                        android:id="@+id/tv_nav_setting"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="@dimen/dp_10"
+                        android:gravity="center_vertical"
+                        android:onClick="@{(v) -> dashboardViewModel.clickListener(v)}"
+                        android:paddingStart="@dimen/dp_10"
+                        android:paddingLeft="@dimen/dp_10"
+                        android:text="@string/settings"
+                        android:textAllCaps="false"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/sp_14"
+                        android:visibility="visible"
+                        app:font="@{`regular`}"
+                        tools:ignore="RtlSymmetry" />
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="20dp"
+                        android:layout_marginLeft="15dp"
+                        android:background="@color/colorBlack" />
+
+                    <TextView
+                        android:id="@+id/tv_nav_logout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/dp_15"
+                        android:drawablePadding="@dimen/dp_10"
+                        android:gravity="center_vertical"
+                        android:onClick="@{(v) -> dashboardViewModel.clickListener(v)}"
+
+                        android:text="@string/logout"
+                        android:textAllCaps="false"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/sp_14"
+                        app:font="@{`regular`}"
+                        tools:ignore="RtlSymmetry" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
 
         </com.google.android.material.navigation.NavigationView>
 

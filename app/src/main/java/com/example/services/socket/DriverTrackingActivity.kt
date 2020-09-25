@@ -73,7 +73,7 @@ import org.json.JSONObject
 import java.security.Provider
 import kotlin.collections.ArrayList
 
- open class DriverTrackingActivity : BaseActivity(), OnMapReadyCallback, LocationListener,
+open class DriverTrackingActivity : BaseActivity(), OnMapReadyCallback, LocationListener,
     SocketInterface,
     GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks, MapInterface,
     DialogssInterface,
@@ -140,9 +140,10 @@ import kotlin.collections.ArrayList
 
     override fun onBackPressed() {
         //  super.onBackPressed()
-        var intent = Intent(Intent.ACTION_MAIN)
-        intent.addCategory(Intent.CATEGORY_HOME)
-        startActivity(intent)
+        /* var intent = Intent(Intent.ACTION_MAIN)
+         intent.addCategory(Intent.CATEGORY_HOME)
+         startActivity(intent)*/
+        finish()
 
     }
 
@@ -480,7 +481,7 @@ import kotlin.collections.ArrayList
         when (methodName) {
             "getLocation" -> try {
                 object5.put("methodName", methodName)
-                object5.put("orderId", "83863a5f-80f8-466f-a4d4-1e3882d1089d"/*jobId*/)
+                object5.put("orderId", jobId)
 
                 socket.sendDataToServer(methodName, object5)
             } catch (e: Exception) {
@@ -516,9 +517,9 @@ import kotlin.collections.ArrayList
                                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
                         )
 
-                        Handler().postDelayed({
-                            callSocketMethods("getLocation")
-                        }, 2000)
+                        /* Handler().postDelayed({
+                             callSocketMethods("getLocation")
+                         }, 2000)*/
                     } catch (e1: Exception) {
                         e1.printStackTrace()
                     }
@@ -528,6 +529,9 @@ import kotlin.collections.ArrayList
             e.printStackTrace()
         }
 
+        Handler().postDelayed({
+            callSocketMethods("getLocation")
+        }, 5000)
     }
 
     override fun onSocketConnect(vararg args: Any) {
@@ -620,11 +624,11 @@ import kotlin.collections.ArrayList
 
     }
 
-     override fun onCheckedChanged(p0: CompoundButton?, p1: Boolean) {
-         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-     }
+    override fun onCheckedChanged(p0: CompoundButton?, p1: Boolean) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
-     fun checkGPS() {
+    fun checkGPS() {
         val mLocationManager =
             mContext!!.getSystemService(Context.LOCATION_SERVICE) as LocationManager
         var gps_enabled = false

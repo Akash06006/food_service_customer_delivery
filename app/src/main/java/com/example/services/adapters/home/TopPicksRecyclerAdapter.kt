@@ -2,6 +2,8 @@ package com.uniongoods.adapters
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.*
+import android.graphics.drawable.BitmapDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +11,8 @@ import androidx.annotation.NonNull
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.request.RequestOptions
 import com.example.services.R
 import com.example.services.constants.GlobalConstants
 import com.example.services.databinding.TopPicksItemBinding
@@ -49,11 +53,13 @@ class TopPicksRecyclerAdapter(
 
         holder.binding!!.txtVendorName.setText(topPicksList[position].companyName)
         Glide.with(mContext).load(topPicksList[position].logo1)
+            //  .apply(RequestOptions.bitmapTransform(RoundedCorners(30)))
             .into(holder.binding!!.imgVendor)
+
 
         holder.binding!!.llVendor.setOnClickListener {
             GlobalConstants.COMPANY_ID = topPicksList[position].id.toString()
-            GlobalConstants.CATEGORY_SELECTED_NAME= topPicksList[position].companyName.toString()
+            GlobalConstants.CATEGORY_SELECTED_NAME = topPicksList[position].companyName.toString()
             GlobalConstants.CATEGORY_SELECTED = topPicksList[position].id.toString()
             val intent = Intent(activity, DashboardActivity::class.java)
             mContext.startActivity(intent)

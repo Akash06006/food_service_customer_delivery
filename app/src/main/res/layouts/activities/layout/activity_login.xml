@@ -1,142 +1,265 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
         <import type="com.example.services.common.BindingUtils" />
 
         <variable
-                name="loginViewModel"
-                type="com.example.services.viewmodels.LoginViewModel" />
+            name="loginViewModel"
+            type="com.example.services.viewmodels.LoginViewModel" />
 
     </data>
 
-    <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/ic_login_background"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:padding="@dimen/dp_5"
-            android:paddingLeft="@dimen/dp_15"
-            android:paddingRight="@dimen/dp_15"
-            app:hideKeyBoardOnClick="@{`back` }">
-
-        <ImageView
-                android:id="@+id/splsh_image"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:background="@drawable/ic_makeup"
-                android:contentDescription="@string/todo" />
-
-        <TextView
-                android:id="@+id/tv_heading"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_5"
-                android:text="@string/hello"
-                android:textAllCaps="false"
-                android:textColor="@color/colorBlack"
-                android:textSize="@dimen/sp_18"
-                android:textStyle="bold"
-                app:font="@{`bold`}"
-                tools:ignore="AllCaps" />
-
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_5"
-                android:text="@string/enter_your_moble_number"
-                android:textAllCaps="false"
-                android:textColor="@color/colorBlack"
-                app:font="@{`regular`}"
-                tools:ignore="AllCaps" />
-
-        <View
-                android:id="@+id/v_underemail"
-                android:layout_width="@dimen/dp_20"
-                android:layout_height="@dimen/dp_2"
-                android:layout_marginLeft="@dimen/dp_10"
-                android:layout_marginTop="@dimen/dp_5"
-                android:layout_marginRight="@dimen/dp_10"
-                android:visibility="gone"
-                android:background="@color/colorPrimary" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <LinearLayout
-                android:id="@+id/ll_login_phone"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:hideKeyBoardOnClick="@{`back` }">
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/dp_10"
-                android:layout_marginTop="@dimen/dp_20"
-                android:layout_marginRight="@dimen/dp_10"
-                android:elevation="@dimen/dp_10"
-                android:orientation="horizontal"
-                android:padding="@dimen/dp_15"
-                android:paddingLeft="@dimen/dp_10"
-
-                >
-
-            <com.hbb20.CountryCodePicker
-                    android:id="@+id/btn_ccp"
-                    android:layout_width="@dimen/dp_120"
+                android:layout_height="320dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                app:hideKeyBoardOnClick="@{`back` }">
+                <!--android:background="@drawable/ic_login_back"-->
+                <ImageView
+                    android:id="@+id/splsh_image"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:background="@drawable/ic_editttext_bg"
-                    android:elevation="@dimen/dp_10"
-                    android:gravity="center"
-                    android:padding="@dimen/dp_5"
-                    app:ccpDialog_showNameCode="false"
-                    app:ccp_arrowSize="@dimen/dp_20"
-                    app:ccp_clickable="true"
-                    app:ccp_contentColor="@color/colorBlack"
-                    app:ccp_defaultPhoneCode="91"
-                    app:ccp_showFlag="true"
-                    app:ccp_showPhoneCode="true"
-                    app:ccp_textSize="@dimen/sp_14" />
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/ic_logo"
+                    android:contentDescription="@string/todo" />
 
-            <EditText
-                    android:id="@+id/et_phone_no"
+                <TextView
+                    android:id="@+id/tv_heading"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:text="Delicio"
+                    android:textAllCaps="false"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/sp_22"
+                    android:textStyle="bold"
+                    android:visibility="gone"
+                    app:font="@{`bold`}"
+                    tools:ignore="AllCaps" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/ic_login_back"
+                android:orientation="vertical"
+                android:padding="5dp">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/dp_5"
+                    android:text="@string/enter_your_moble_number"
+                    android:textAllCaps="false"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="16sp"
+                    android:visibility="gone"
+                    app:font="@{`regular`}"
+                    tools:ignore="AllCaps" />
+
+                <View
+                    android:id="@+id/v_underemail"
+                    android:layout_width="@dimen/dp_20"
+                    android:layout_height="@dimen/dp_2"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:layout_marginTop="@dimen/dp_5"
+                    android:layout_marginRight="@dimen/dp_10"
+                    android:background="@color/colorPrimary"
+                    android:visibility="gone" />
+
+                <LinearLayout
+                    android:id="@+id/ll_login_phone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:background="@drawable/ic_editttext_bg"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:layout_marginTop="@dimen/dp_5"
+                    android:layout_marginRight="@dimen/dp_10"
                     android:elevation="@dimen/dp_10"
-                    android:ellipsize="start"
-                    android:hint="@string/your_mobile_number"
-                    android:imeOptions="actionDone"
-                    android:inputType="number"
-                    android:maxLength="10"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/dp_15"
                     android:paddingLeft="@dimen/dp_10"
-                    android:textColor="@color/colorBlack"
-                    android:textColorHint="@color/colorGrey"
-                    android:textSize="@dimen/sp_14"
-                    app:font="@{`regular`}" />
+
+                    >
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <com.hbb20.CountryCodePicker
+                            android:id="@+id/btn_ccp"
+                            android:layout_width="@dimen/dp_120"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:elevation="@dimen/dp_10"
+                            android:gravity="center"
+                            android:paddingLeft="@dimen/dp_5"
+                            android:paddingTop="@dimen/dp_2"
+                            android:paddingRight="@dimen/dp_5"
+                            android:paddingBottom="@dimen/dp_2"
+                            app:ccpDialog_showNameCode="false"
+                            app:ccp_arrowSize="@dimen/dp_20"
+                            app:ccp_clickable="true"
+                            app:ccp_contentColor="@color/colorWhite"
+                            app:ccp_defaultPhoneCode="91"
+                            app:ccp_showFlag="true"
+                            app:ccp_showPhoneCode="true"
+                            app:ccp_textSize="@dimen/sp_14" />
+
+                        <View
+                            android:layout_width="@dimen/dp_120"
+                            android:layout_height="1.5dp"
+                            android:background="@color/colorWhite" />
+
+                    </LinearLayout>
+                    <!--
+                                            android:background="@drawable/ic_editttext_bg"-->
+                    <EditText
+                        android:id="@+id/et_phone_no"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:backgroundTint="@color/colorWhite"
+                        android:ellipsize="start"
+                        android:hint="@string/your_mobile_number"
+                        android:imeOptions="actionDone"
+                        android:inputType="number"
+                        android:maxLength="10"
+                        android:paddingBottom="@dimen/dp_15"
+                        android:textColor="@color/colorWhite"
+                        android:textColorHint="@color/colorWhite"
+                        android:textCursorDrawable="@drawable/cursor_color"
+                        android:textSize="@dimen/sp_14"
+                        app:font="@{`regular`}" />
+
+                    <!--
+                        android:background="@drawable/ic_editttext_bg"-->
+
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:id="@+id/referralLay"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/txtSkip"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/dp_10"
+                        android:onClick="@{(v) -> loginViewModel.clickListener(v)}"
+                        android:text="@string/skip"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        app:font="@{`bold`}" />
+
+
+                    <EditText
+                        android:id="@+id/edtReferralCode"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="@dimen/dp_20"
+                        android:layout_marginRight="@dimen/dp_20"
+                        android:layout_toLeftOf="@+id/txtSkip"
+                        android:backgroundTint="@color/colorWhite"
+                        android:ellipsize="start"
+                        android:hint="@string/referral_code"
+                        android:imeOptions="actionDone"
+                        android:maxLength="20"
+                        android:paddingLeft="@dimen/dp_10"
+                        android:paddingBottom="@dimen/dp_15"
+                        android:singleLine="true"
+                        android:textColor="@color/colorWhite"
+                        android:textColorHint="@color/colorWhite"
+                        android:textCursorDrawable="@drawable/cursor_color"
+                        android:textSize="@dimen/sp_14"
+
+                        app:font="@{`regular`}" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:gravity="right">
+
+                    <TextView
+                        android:id="@+id/txtLogin"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="10dp"
+                        android:layout_toLeftOf="@+id/btn_login"
+                        android:text="Login"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        app:font="@{`bold`}" />
+
+                    <RelativeLayout
+                        android:id="@+id/btn_login"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+
+                        android:background="@drawable/ic_arrow_back"
+                        android:onClick="@{(v) -> loginViewModel.clickListener(v)}">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:src="@drawable/ic_left_arrow" />
+
+                    </RelativeLayout>
+                </RelativeLayout>
+
+                <Button
+                    android:id="@+id/btn_login1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/dp_20"
+                    android:layout_marginTop="@dimen/dp_35"
+                    android:layout_marginRight="@dimen/dp_20"
+                    android:elevation="@dimen/dp_10"
+                    android:onClick="@{(v) -> loginViewModel.clickListener(v)}"
+                    android:paddingLeft="50dp"
+                    android:paddingTop="@dimen/dp_10"
+                    android:paddingRight="50dp"
+                    android:paddingBottom="@dimen/dp_10"
+                    android:src="@drawable/ic_arrow_forward"
+                    android:text="@string/verify"
+                    android:textColor="@color/buttonTextColor"
+                    android:visibility="gone" />
+
+            </LinearLayout>
 
         </LinearLayout>
-
-        <Button
-                android:id="@+id/btn_login"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="@dimen/dp_10"
-                android:layout_marginTop="@dimen/dp_35"
-            android:drawableRight="@drawable/ic_button_arrow"
-                android:layout_marginRight="@dimen/dp_10"
-                android:background="@drawable/btn_bg_shape_colored_round"
-                android:elevation="@dimen/dp_10"
-                android:onClick="@{(v) -> loginViewModel.clickListener(v)}"
-                android:paddingLeft="@dimen/dp_20"
-                android:paddingTop="@dimen/dp_10"
-                android:paddingRight="@dimen/dp_20"
-                android:paddingBottom="@dimen/dp_10"
-                android:src="@drawable/ic_arrow_forward"
-                android:text="@string/continues"
-                android:textColor="@color/colorWhite" />
-
-    </LinearLayout>
-
+    </ScrollView>
 </layout>

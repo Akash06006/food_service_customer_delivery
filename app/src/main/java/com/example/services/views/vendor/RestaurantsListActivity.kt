@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.services.R
 import com.example.services.application.MyApplication
 import com.example.services.common.UtilsFunctions
@@ -24,6 +25,7 @@ import com.example.services.databinding.ActivityFavoriteListBinding
 import com.example.services.model.fav.FavListResponse
 import com.example.services.model.home.LandingResponse
 import com.example.services.model.vendor.VendorListResponse
+import com.example.services.viewmodels.favorite.FavoriteViewModel
 import com.example.services.viewmodels.vendor.VendorsViewModel
 import com.example.services.views.subcategories.ServiceDetailActivity
 import com.uniongoods.adapters.FavoriteListAdapter
@@ -38,6 +40,8 @@ class RestaurantsListActivity : BaseActivity(), CompoundButton.OnCheckedChangeLi
     private var mDialogClass = DialogClass()
     var cartObject = JsonObject()
     var pos = 0
+    var discount = ""
+    lateinit var favoriteViewModel: FavoriteViewModel
 
     override fun getLayoutId(): Int {
         return R.layout.activity_favorite_list
@@ -46,9 +50,11 @@ class RestaurantsListActivity : BaseActivity(), CompoundButton.OnCheckedChangeLi
     override fun initViews() {
         favoriteBinding = viewDataBinding as ActivityFavoriteListBinding
         vendorsViewModel = ViewModelProviders.of(this).get(VendorsViewModel::class.java)
-
+        favoriteViewModel = ViewModelProviders.of(this).get(FavoriteViewModel::class.java)
         favoriteBinding.commonToolBar.imgRight.visibility = View.GONE
         favoriteBinding.commonToolBar.imgRight.setImageResource(R.drawable.ic_cart)
+
+        favoriteBinding.favoriteViewModel = favoriteViewModel
 
         val applicationType = SharedPrefClass()!!.getPrefValue(
             MyApplication.instance,
@@ -59,21 +65,35 @@ class RestaurantsListActivity : BaseActivity(), CompoundButton.OnCheckedChangeLi
             favoriteBinding.commonToolBar.imgToolbarText.text =
                 resources.getString(R.string.vendor)
         } else if (applicationType.equals(GlobalConstants.PRODUCT_SERVICES)) {*/
-        favoriteBinding.commonToolBar.imgToolbarText.text = "Restaurants"
+        // favoriteBinding.commonToolBar.imgToolbarText.text = "Restaurants"
+        favoriteBinding.txtTitle.text =
+            resources.getString(R.string.restaurants)
         //resources.getString(R.string.restaurants)
         // }
         favoriteBinding.switchMaterial.setOnCheckedChangeListener(this)
-
+        discount = intent.extras?.get("discount").toString()
+        val image = intent.extras?.get("image").toString()
         if (UtilsFunctions.isNetworkConnected()) {
             startProgressDialog()
             vendorsViewModel.getVendorList(
                 GlobalConstants.DELIVERY_PICKUP_TYPE,
                 GlobalConstants.CURRENT_LAT,
                 GlobalConstants.CURRENT_LONG,
-                ""
+                "",
+                discount
             )
             //cartViewModel.getvendorList(userId)
         }
+
+        if (discount.equals("")) {
+            favoriteBinding.imgCoupon.visibility = View.GONE
+        } else {
+            Glide.with(this).load(image).placeholder(resources.getDrawable(R.drawable.ic_category))
+                .into(favoriteBinding.imgCoupon)
+            favoriteBinding.imgCoupon.visibility = View.VISIBLE
+        }
+
+
         vendorsViewModel.getVendorListRes().observe(this,
             Observer<VendorListResponse> { response ->
                 stopProgressDialog()
@@ -96,6 +116,20 @@ class RestaurantsListActivity : BaseActivity(), CompoundButton.OnCheckedChangeLi
 
                 }
             })
+
+        favoriteViewModel.isClick().observe(
+            this, Observer<String>(function =
+            fun(it: String?) {
+                when (it) {
+
+                    "imgBack" -> {
+                        finish()
+                    }
+
+                }
+            })
+        )
+
     }
 
 
@@ -128,7 +162,7 @@ class RestaurantsListActivity : BaseActivity(), CompoundButton.OnCheckedChangeLi
                     GlobalConstants.DELIVERY_PICKUP_TYPE,
                     GlobalConstants.CURRENT_LAT,
                     GlobalConstants.CURRENT_LONG,
-                    "0"
+                    "0", discount
                 )
                 //cartViewModel.getvendorList(userId)
             }
@@ -140,6 +174,7 @@ class RestaurantsListActivity : BaseActivity(), CompoundButton.OnCheckedChangeLi
                     GlobalConstants.CURRENT_LAT,
                     GlobalConstants.CURRENT_LONG,
                     ""
+                    , discount
                 )
                 //cartViewModel.getvendorList(userId)
             }

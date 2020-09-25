@@ -1,10 +1,8 @@
 package com.uniongoods.adapters
 
+import android.annotation.SuppressLint
 import android.content.Context
-import android.content.res.ColorStateList
-import android.graphics.Color
 import android.os.Build
-import android.provider.Settings
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
@@ -48,19 +46,20 @@ class ServicesListAdapter(
         return ViewHolder(binding.root, viewType, binding, mContext, addressList)
     }
 
+    @SuppressLint("NewApi")
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onBindViewHolder(@NonNull holder: ViewHolder, position: Int) {
         viewHolder = holder
         holder.binding!!.tvCatName.text = addressList[position].name
         if (!TextUtils.isEmpty(addressList[position].offer) && !addressList[position].offer.equals("0")) {
             holder.binding.rlOriginalPrice.visibility = View.VISIBLE
-            holder.binding.tvRealPrice.setText(GlobalConstants.Currency + " " + addressList[position].originalPrice)
+            holder.binding.tvRealPrice.setText(GlobalConstants.Currency + "" + addressList[position].originalPrice)
         } else {
             holder.binding.rlOriginalPrice.visibility = View.GONE
         }
 
         holder.binding!!.tvOfferPrice.text =
-            GlobalConstants.Currency + " " + addressList[position].price.toString()
+            GlobalConstants.Currency + "" + addressList[position].price.toString()
         holder.binding!!.tvDuration.setText(mContext.resources.getString(R.string.duration) + ": " + addressList[position].duration)
 
         val applicationType = SharedPrefClass()!!.getPrefValue(
@@ -76,7 +75,7 @@ class ServicesListAdapter(
 
         // holder.binding!!.rBar.setRating(addressList[position].rating.toFloat())
         Glide.with(mContext)
-            .load(addressList[position].icon)
+            .load(addressList[position].thumbnail)
             // .apply(RequestOptions.bitmapTransform(RoundedCorners(20)))
             .placeholder(R.drawable.ic_category)
             .into(holder.binding.imgCat)
@@ -87,14 +86,46 @@ class ServicesListAdapter(
             holder.binding.imgFavourite.setImageResource(R.drawable.ic_favorite)
         }
         //is button ka krna h
+        holder.binding!!.imgPlus.setOnClickListener {
+            if (addressList[position].cart?.quantity!!.toInt() <= 5) {
+                var quantity = addressList[position].cart?.quantity!!.toInt()
+                quantity++
+                // serviceDetailBinding.btnSubmit.isEnabled = false
+                holder.binding!!.tvQuantity.setText(quantity.toString())
+                //   serviceDetailBinding.btnSubmit.visibility = View.VISIBLE
+                //callGetTimeSlotsApi()
+                var price = quantity * addressList[position].price.toDouble()
+                //  tvTotalPrice?.setText(GlobalConstants.Currency + " " + price.toString())
+                mContext.clickAddButton(position, price, quantity)
+            }
+        }
 
-        holder.binding!!.tvAdd.setBackgroundTintList(
-            ColorStateList.valueOf(
-                Color.parseColor(
-                    GlobalConstants.COLOR_CODE
-                )
-            )/*mContext.getResources().getColorStateList(R.color.colorOrange)*/
-        )
+        holder.binding.imgMinus.setOnClickListener {
+            if (addressList[position].cart?.quantity!!.toInt() > 1) {
+                var quantity = addressList[position].cart?.quantity!!.toInt()
+                quantity--
+                var price = quantity * addressList[position].price.toDouble()
+                // tvTotalPrice?.setText(GlobalConstants.Currency + " " + price.toString())
+                //callGetTimeSlotsApi()
+                mContext.clickMinusButton(position, price, quantity)
+                holder.binding!!.tvQuantity?.setText(quantity.toString())
+            }
+            if (addressList[position].cart?.quantity!!.toInt() == 1) {
+                var quantity = addressList[position].cart?.quantity!!.toInt()
+                quantity--
+                holder.binding!!.tvAdd.visibility = View.VISIBLE
+                holder.binding!!.llAddCartValue.visibility = View.GONE
+                mContext.showRemoveCartDialog(position, addressList[position].cart!!.id)
+            }
+        }
+
+        /*  holder.binding!!.tvAdd.setBackgroundTintList(
+              ColorStateList.valueOf(
+                  Color.parseColor(
+                      GlobalConstants.COLOR_CODE
+                  )
+              )
+          )*/
 
         //img_cat
         /* holder.binding!!.tvAdd.setOnClickListener {
@@ -108,6 +139,44 @@ class ServicesListAdapter(
             mContext.addRemovefav(position, addressList[position].favourite)
 
         }
+        if (TextUtils.isEmpty(addressList[position].cart?.id)) {
+            holder.binding!!.tvAdd.setText("Add")
+            /* holder.binding!!.tvAdd.setBackgroundTintList(
+                 ColorStateList.valueOf(
+                     Color.parseColor(
+                         GlobalConstants.COLOR_CODE
+                     )
+                 )
+             )*/
+        } else {
+            holder.binding!!.tvAdd.visibility = View.GONE
+            holder.binding!!.llAddCartValue.visibility = View.VISIBLE
+            holder.binding!!.tvQuantity.text = addressList[position].cart?.quantity
+        }
+
+        if (addressList[position].itemType.equals("0")) {
+            holder.binding!!.imgVegNonVeg.setImageResource(R.drawable.veg)
+        } else {
+            holder.binding!!.imgVegNonVeg.setImageResource(R.drawable.nonveg)
+        }
+
+
+        holder.binding!!.tvAdd.setOnClickListener {
+            //  addressList[position].
+            if (addressList[position].cart == null) {
+                if (TextUtils.isEmpty(mContext.cartCategory)) {
+                    holder.binding!!.tvAdd.visibility = View.GONE
+                    holder.binding!!.llAddCartValue.visibility = View.VISIBLE
+                    holder.binding.tvQuantity.text = "1"
+                }
+                mContext.showAddToCartDialog(position, false)
+            } else {
+                mContext.showRemoveCartDialog(position, addressList[position].cart!!.id)
+            }
+
+        }
+
+
     }
 
     override fun getItemCount(): Int {

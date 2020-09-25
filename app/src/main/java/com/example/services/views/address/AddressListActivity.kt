@@ -47,96 +47,102 @@ class AddressListActivity : BaseActivity(), DialogssInterface {
         addressBinding.commonToolBar.imgRight.visibility = View.GONE
         addressBinding.commonToolBar.imgRight.setImageResource(R.drawable.ic_cart)
         addressBinding.commonToolBar.imgToolbarText.text =
-                resources.getString(R.string.addresses)
-        addressBinding.tvAddAddress.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(GlobalConstants.COLOR_CODE))/*mContext.getResources().getColorStateList(R.color.colorOrange)*/)
+            resources.getString(R.string.addresses)
+        /*addressBinding.tvAddAddress.setBackgroundTintList(
+            ColorStateList.valueOf(
+                Color.parseColor(
+                    GlobalConstants.COLOR_CODE
+                )
+            )*//*mContext.getResources().getColorStateList(R.color.colorOrange)*//*
+        )*/
 
         if (UtilsFunctions.isNetworkConnected()) {
             startProgressDialog()
         }
         addressViewModel.getAddressList().observe(this,
-                Observer<AddressListResponse> { response ->
-                    stopProgressDialog()
-                    if (response != null) {
-                        val message = response.message
-                        when {
-                            response.code == 200 -> {
-                                addressesList.addAll(response.data!!)
-                                addressBinding.rvAddresses.visibility = View.VISIBLE
-                                addressBinding.tvNoRecord.visibility = View.GONE
-                                initRecyclerView()
-                                SharedPrefClass().putObject(
-                                        this,
-                                        GlobalConstants.IsAddressAdded,
-                                        "true"
-                                )
-                            }
-                            else -> message?.let {
-                                UtilsFunctions.showToastError(it)
-                                addressBinding.rvAddresses.visibility = View.GONE
-                                addressBinding.tvNoRecord.visibility = View.VISIBLE
-                                SharedPrefClass().putObject(
-                                        this,
-                                        GlobalConstants.IsAddressAdded,
-                                        "false"
-                                )
-
-                            }
+            Observer<AddressListResponse> { response ->
+                stopProgressDialog()
+                if (response != null) {
+                    val message = response.message
+                    when {
+                        response.code == 200 -> {
+                            addressesList.addAll(response.data!!)
+                            addressBinding.rvAddresses.visibility = View.VISIBLE
+                            addressBinding.tvNoRecord.visibility = View.GONE
+                            initRecyclerView()
+                            SharedPrefClass().putObject(
+                                this,
+                                GlobalConstants.IsAddressAdded,
+                                "true"
+                            )
                         }
+                        else -> message?.let {
+                            UtilsFunctions.showToastError(it)
+                            addressBinding.rvAddresses.visibility = View.GONE
+                            addressBinding.tvNoRecord.visibility = View.VISIBLE
+                            SharedPrefClass().putObject(
+                                this,
+                                GlobalConstants.IsAddressAdded,
+                                "false"
+                            )
 
+                        }
                     }
-                })
+
+                }
+            })
 
         addressViewModel.getAddress().observe(this,
-                Observer<AddressResponse> { response ->
-                    stopProgressDialog()
-                    if (response != null) {
-                        val message = response.message
-                        addressesList.clear()
-                        addressViewModel.addressList()
-                        when {
-                            response.code == 200 -> {
-                                showToastSuccess(message)
-                                // finish()
-                            }
-                            else -> {
-                                showToastError(message)
-                            }
+            Observer<AddressResponse> { response ->
+                stopProgressDialog()
+                if (response != null) {
+                    val message = response.message
+                    addressesList.clear()
+                    addressViewModel.addressList()
+                    when {
+                        response.code == 200 -> {
+                            showToastSuccess(message)
+                            // finish()
                         }
-
+                        else -> {
+                            showToastError(message)
+                        }
                     }
-                })
+
+                }
+            })
         addressViewModel.deleteAddressRes().observe(this,
-                Observer<CommonModel> { response ->
-                    stopProgressDialog()
-                    if (response != null) {
-                        val message = response.message
-                        when {
-                            response.code == 200 -> {
-                                addressesList.clear()
-                                addressViewModel.addressList()
-                            }
-                            else -> message?.let {
-                                UtilsFunctions.showToastError(it)
-                            }
+            Observer<CommonModel> { response ->
+                stopProgressDialog()
+                if (response != null) {
+                    val message = response.message
+                    when {
+                        response.code == 200 -> {
+                            addressesList.clear()
+                            addressViewModel.addressList()
                         }
-
+                        else -> message?.let {
+                            UtilsFunctions.showToastError(it)
+                        }
                     }
-                })
+
+                }
+            })
 
         addressViewModel.isClick().observe(
-                this, Observer<String>(function =
-        fun(it: String?) {
-            when (it) {
-                "tv_add_address" -> {
-                    if (UtilsFunctions.isNetworkConnected()) {
-                        val intent = Intent(this, AddAddressActivity::class.java)
-                        startActivityForResult(intent, SECOND_ACTIVITY_REQUEST_CODE)
-                    }
+            this, Observer<String>(function =
+            fun(it: String?) {
+                when (it) {
+                    "tv_add_address" -> {
+                        if (UtilsFunctions.isNetworkConnected()) {
+                            val intent = Intent(this, AddAddressActivity::class.java)
+                            startActivityForResult(intent, SECOND_ACTIVITY_REQUEST_CODE)
+                        }
 
-                    //startActivity(intent)
+                        //startActivity(intent)
+                    }
                 }
-            }
-        })
+            })
         )
     }
 
@@ -156,45 +162,45 @@ class AddressListActivity : BaseActivity(), DialogssInterface {
     fun deleteAddress(id: String?) {
         deletedAddressId = id!!
         confirmationDialog = mDialogClass.setDefaultDialog(
-                this,
-                this,
-                "Delete Address",
-                getString(R.string.warning_delete_address)
+            this,
+            this,
+            "Delete Address",
+            getString(R.string.warning_delete_address)
         )
         confirmationDialog?.show()
     }
 
     fun makeDefaultAddress(position: Int) {
         updateAddressObject.addProperty(
-                "addressName", addressesList[position].addressName
+            "addressName", addressesList[position].addressName
         )
         updateAddressObject.addProperty(
-                "city", addressesList[position].city
+            "city", addressesList[position].city
         )
         updateAddressObject.addProperty(
-                "default", "1"
+            "default", "1"
         )
         updateAddressObject.addProperty(
-                "latitude", addressesList[position].latitude
+            "latitude", addressesList[position].latitude
         )
         updateAddressObject.addProperty(
-                "longitude", addressesList[position].longitude
+            "longitude", addressesList[position].longitude
         )
         updateAddressObject.addProperty(
-                "addressType", addressesList[position].addressType
+            "addressType", addressesList[position].addressType
         )
         updateAddressObject.addProperty(
-                "houseNo", addressesList[position].houseNo
+            "houseNo", addressesList[position].houseNo
         )
         updateAddressObject.addProperty(
-                "addressId", addressesList[position].id
+            "addressId", addressesList[position].id
         )
 
         confirmationDialog = mDialogClass.setDefaultDialog(
-                this,
-                this,
-                "Default Address",
-                getString(R.string.warning_default_address)
+            this,
+            this,
+            "Default Address",
+            getString(R.string.warning_default_address)
         )
         confirmationDialog?.show()
 

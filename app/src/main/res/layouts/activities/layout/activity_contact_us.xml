@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="com.example.services.common.BindingUtils" />
+
+        <variable
+            name="faqViewModel"
+            type="com.example.services.viewmodels.faq.FAQViewModel" />
+
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <!--android:background="#ffffff"-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:orientation="vertical"
+            android:paddingBottom="10dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/imgBack"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:onClick="@{(v) -> faqViewModel.clickListener(v)}"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_profile_back" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="20dp"
+                    android:text="Contact Us"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="18sp"
+                    app:font="@{`regular`}" />
+            </RelativeLayout>
+            <!--
+                        android:elevation="@dimen/dp_5"-->
+
+            <EditText
+                android:id="@+id/edtQuery"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@drawable/shape_square_stroke"
+                android:gravity="top"
+                android:hint="Please write here about your concerns"
+                android:minLines="5"
+                android:padding="5dp"
+                android:textColor="@color/colorBlack"
+                android:textSize="12sp"
+                app:font="@{`regular`}" />
+
+            <Button
+                android:id="@+id/btnSubmit"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/shape_purple"
+                android:gravity="center"
+                android:onClick="@{(v) -> faqViewModel.clickListener(v)}"
+                android:text="Submit"
+                android:textColor="@color/colorWhite"
+                app:font="@{`regular`}" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="40dp"
+                android:gravity="left"
+                android:text="Call our service agent in case of emergency."
+                android:textColor="@color/red"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:font="@{`regular`}" />
+
+            <TextView
+                android:id="@+id/txtCall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:drawableLeft="@drawable/ic_phone"
+                android:drawablePadding="5dp"
+                android:gravity="center"
+                android:onClick="@{(v) -> faqViewModel.clickListener(v)}"
+                android:text="+91-9530606006"
+                android:textColor="@color/success"
+                android:textStyle="bold"
+                app:font="@{`regular`}" />
+
+
+        </LinearLayout>
+    </ScrollView>
+</layout>

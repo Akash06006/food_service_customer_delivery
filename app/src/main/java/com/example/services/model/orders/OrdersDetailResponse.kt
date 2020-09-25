@@ -52,9 +52,9 @@ class OrdersDetailResponse {
         @SerializedName("trackStatus")
         @Expose
         var trackStatus: String? = null
-        @SerializedName("assignedEmployees")
+        /*@SerializedName("assignedEmployees")
         @Expose
-        var assignedEmployees: String? = null
+        var assignedEmployees: String? = null*/
         @SerializedName("trackingLatitude")
         @Expose
         var trackingLatitude: String? = null
@@ -76,7 +76,98 @@ class OrdersDetailResponse {
         @SerializedName("suborders")
         @Expose
         var suborders: ArrayList<Suborders>? = null
+        @SerializedName("orderStatus")
+        @Expose
+        var orderStatus: OrderStatus? = null
 
+        @SerializedName("assignedEmployees")
+        @Expose
+        var assignedEmployees: ArrayList<AssignedEmployees>? = null
+        @SerializedName("company")
+        @Expose
+        var company: Company? = null
+
+
+    }
+
+    inner class OrderStatus {
+        @SerializedName("statusName")
+        @Expose
+        var statusName: String? = null
+        @SerializedName("status")
+        @Expose
+        var status: String? = null
+        @SerializedName("parentStatus")
+        @Expose
+        var parentStatus: String? = null
+    }
+
+    inner class Company {
+        @SerializedName("logo1")
+        @Expose
+        var logo1: String? = null
+        @SerializedName("companyName")
+        @Expose
+        var companyName: String? = null
+        @SerializedName("rating")
+        @Expose
+        var rating: String? = null
+        @SerializedName("totalRatings")
+        @Expose
+        var totalRatings: String? = null
+        @SerializedName("address1")
+        @Expose
+        var address1: String? = null
+        @SerializedName("latitude")
+        @Expose
+        var latitude: String? = null
+        @SerializedName("longitude")
+        @Expose
+        var longitude: String? = null
+    }
+
+
+    inner class Employee {
+        @SerializedName("image")
+        @Expose
+        var image: String? = null
+        @SerializedName("id")
+        @Expose
+        var id: String? = null
+        @SerializedName("firstName")
+        @Expose
+        var firstName: String? = null
+        @SerializedName("lastName")
+        @Expose
+        var lastName: String? = null
+        @SerializedName("countryCode")
+        @Expose
+        var countryCode: String? = null
+        @SerializedName("phoneNumber")
+        @Expose
+        var phoneNumber: String? = null
+        @SerializedName("rating")
+        @Expose
+        var rating: String? = null
+        @SerializedName("totalRatings")
+        @Expose
+        var totalRatings: String? = null
+
+        @SerializedName("totalOrders")
+        @Expose
+        var totalOrders: String? = null
+    }
+
+    inner class AssignedEmployees {
+        @SerializedName("id")
+        @Expose
+        var id: String? = null
+        @SerializedName("jobStatus")
+        @Expose
+        var jobStatus: String? = null
+        @SerializedName("employee")
+        @Expose
+        var employee: Employee? = null
 
     }
 

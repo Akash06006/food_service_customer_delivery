@@ -11,10 +11,8 @@ import com.example.services.common.UtilsFunctions
 import com.example.services.model.CommonModel
 import com.example.services.model.address.AddressListResponse
 import com.example.services.model.address.AddressResponse
-import com.example.services.model.services.DateSlotsResponse
-import com.example.services.model.services.ServicesDetailResponse
-import com.example.services.model.services.ServicesListResponse
-import com.example.services.model.services.TimeSlotsResponse
+import com.example.services.model.cart.AddCartResponse
+import com.example.services.model.services.*
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonObject
 import retrofit2.Response
@@ -22,10 +20,12 @@ import retrofit2.Response
 class ServicesRepository {
     private var data: MutableLiveData<ServicesListResponse>? = null
     private var data2: MutableLiveData<ServicesDetailResponse>? = null
-    private var data1: MutableLiveData<CommonModel>? = null
+    private var data1: MutableLiveData<AddCartResponse>? = null
+    private var data6: MutableLiveData<CommonModel>? = null
     private var data3: MutableLiveData<CommonModel>? = null
     private var data4: MutableLiveData<TimeSlotsResponse>? = null
     private var data5: MutableLiveData<DateSlotsResponse>? = null
+    private var dataUpdateCart: MutableLiveData<UpdateCartResponse>? = null
     private val gson = GsonBuilder().serializeNulls().create()
 
     init {
@@ -35,6 +35,8 @@ class ServicesRepository {
         data3 = MutableLiveData()
         data4 = MutableLiveData()
         data5 = MutableLiveData()
+        data6 = MutableLiveData()
+        dataUpdateCart= MutableLiveData()
     }
 
     fun getServicesList(
@@ -106,21 +108,21 @@ class ServicesRepository {
 
     }
 
-    fun addCart(jsonObject: JsonObject?): MutableLiveData<CommonModel> {
+    fun addCart(jsonObject: JsonObject?): MutableLiveData<AddCartResponse> {
         if (jsonObject != null) {
             val mApiService = ApiService<JsonObject>()
             mApiService.get(
                 object : ApiResponse<JsonObject> {
                     override fun onResponse(mResponse: Response<JsonObject>) {
                         val loginResponse = if (mResponse.body() != null)
-                            gson.fromJson<CommonModel>(
+                            gson.fromJson<AddCartResponse>(
                                 "" + mResponse.body(),
-                                CommonModel::class.java
+                                AddCartResponse::class.java
                             )
                         else {
-                            gson.fromJson<CommonModel>(
+                            gson.fromJson<AddCartResponse>(
                                 mResponse.errorBody()!!.charStream(),
-                                CommonModel::class.java
+                                AddCartResponse::class.java
                             )
                         }
                         data1!!.postValue(loginResponse)
@@ -136,6 +138,39 @@ class ServicesRepository {
 
         }
         return data1!!
+
+    }
+
+    fun updateCart(jsonObject: JsonObject?): MutableLiveData<UpdateCartResponse> {
+        if (jsonObject != null) {
+            val mApiService = ApiService<JsonObject>()
+            mApiService.get(
+                object : ApiResponse<JsonObject> {
+                    override fun onResponse(mResponse: Response<JsonObject>) {
+                        val loginResponse = if (mResponse.body() != null)
+                            gson.fromJson<UpdateCartResponse>(
+                                "" + mResponse.body(),
+                                UpdateCartResponse::class.java
+                            )
+                        else {
+                            gson.fromJson<UpdateCartResponse>(
+                                mResponse.errorBody()!!.charStream(),
+                                UpdateCartResponse::class.java
+                            )
+                        }
+                        dataUpdateCart!!.postValue(loginResponse)
+                    }
+
+                    override fun onError(mKey: String) {
+                        UtilsFunctions.showToastError(MyApplication.instance.getString(R.string.internal_server_error))
+                        dataUpdateCart!!.postValue(null)
+                    }
+
+                }, ApiClient.getApiInterface().updateCart(jsonObject)
+            )
+
+        }
+        return dataUpdateCart!!
 
     }
 
@@ -156,19 +191,19 @@ class ServicesRepository {
                                 CommonModel::class.java
                             )
                         }
-                        data1!!.postValue(loginResponse)
+                        data6!!.postValue(loginResponse)
                     }
 
                     override fun onError(mKey: String) {
                         UtilsFunctions.showToastError(MyApplication.instance.getString(R.string.internal_server_error))
-                        data1!!.postValue(null)
+                        data6!!.postValue(null)
                     }
 
                 }, ApiClient.getApiInterface().removeCart(jsonObject)
             )
 
         }
-        return data1!!
+        return data6!!
 
     }
 

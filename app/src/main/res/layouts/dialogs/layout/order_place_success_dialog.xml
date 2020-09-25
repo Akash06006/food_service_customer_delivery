@@ -28,8 +28,17 @@
                     android:layout_height="@dimen/dp_100"
                     android:layout_centerInParent="true"
                     android:contentDescription="@string/todo"
-                    android:src="@drawable/ic_tick" />
-                />
+                    android:src="@drawable/ic_tick"
+                    android:visibility="gone" />
+
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/animationView1"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_centerInParent="true"
+                    app:lottie_autoPlay="true"
+                    app:lottie_loop="false"
+                    app:lottie_rawRes="@raw/order_success" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -73,12 +82,12 @@
                     android:layout_marginLeft="@dimen/dp_20"
                     android:layout_marginTop="@dimen/dp_15"
                     android:layout_marginRight="@dimen/dp_20"
-                    android:background="@drawable/btn_bg_shape_colored_primary"
+                    android:background="@drawable/shape_round_stroke"
                     android:elevation="@dimen/dp_15"
                     android:gravity="center"
                     android:text="@string/done"
                     android:textAlignment="center"
-                    android:textColor="@color/colorWhite"
+                    android:textColor="@color/buttonTextColor"
                     android:textStyle="bold"
                     app:font="@{`bold`}" />
 

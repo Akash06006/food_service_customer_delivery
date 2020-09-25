@@ -19,7 +19,9 @@ class LandingResponse {
         @SerializedName("cartCompanyType")
         @Expose
         var cartCompanyType: String? = null
-
+        @SerializedName("restOffers")
+        @Expose
+        var restOffers: ArrayList<RestOffers>? = null
         @SerializedName("offers")
         @Expose
         var offers: ArrayList<Offers>? = null
@@ -41,8 +43,76 @@ class LandingResponse {
         @SerializedName("trending")
         @Expose
         var trending: ArrayList<Trending>? = null
+        @SerializedName("recentOrder")
+        @Expose
+        var recentOrder: RecentOrder? = null
+        @SerializedName("completedorder")
+        @Expose
+        var completedorder: CompletedOrder? = null
+
+
     }
 
+    inner class CompletedOrder {
+        @SerializedName("empId")
+        @Expose
+        var empId: String? = null
+        @SerializedName("orderId")
+        @Expose
+        var orderId: String? = null
+        @SerializedName("firstName")
+        @Expose
+        var firstName: String? = null
+        @SerializedName("lastName")
+        @Expose
+        var lastName: String? = null
+        @SerializedName("image")
+        @Expose
+        var image: String? = null
+        @SerializedName("companyId")
+        @Expose
+        var companyId: String? = null
+    }
+
+    inner class RecentOrder {
+        @SerializedName("orderNo")
+        @Expose
+        var orderNo: String? = null
+        @SerializedName("id")
+        @Expose
+        var id: String? = null
+        @SerializedName("progressStatus")
+        @Expose
+        var progressStatus: String? = null
+        @SerializedName("totalOrderPrice")
+        @Expose
+        var totalOrderPrice: String? = null
+        @SerializedName("orderStatus")
+        @Expose
+        var orderStatus: OrderStatus? = null
+    }
+
+    inner class OrderStatus {
+        @SerializedName("statusName")
+        @Expose
+        var statusName: String? = null
+        @SerializedName("status")
+        @Expose
+        var status: String? = null
+    }
+
+    inner class RestOffers {
+        @SerializedName("discount")
+        @Expose
+        var discount: String? = null
+        @SerializedName("name")
+        @Expose
+        var name: String? = null
+        @SerializedName("thumbnail")
+        @Expose
+        var thumbnail: String? = null
+
+    }
 
     inner class Offers {
         @SerializedName("icon")
@@ -111,7 +181,9 @@ class LandingResponse {
     }
 
     inner class Vendors {
-
+        @SerializedName("totalOrders24")
+        @Expose
+        var totalOrders: String? = null
         @SerializedName("startTime")
         @Expose
         var startTime: String? = null
@@ -139,6 +211,10 @@ class LandingResponse {
         @SerializedName("coupan")
         @Expose
         var coupan: Coupon? = null
+        @SerializedName("tags")
+        @Expose
+        var tags: ArrayList<String>? = null
+
 
     }
 
@@ -170,6 +246,9 @@ class LandingResponse {
         @SerializedName("endTime")
         @Expose
         var endTIme: String? = null
+        @SerializedName("distance")
+        @Expose
+        var distance: String? = null
         @SerializedName("logo1")
         @Expose
         var logo1: String? = null
@@ -185,6 +264,12 @@ class LandingResponse {
         @SerializedName("rating")
         @Expose
         var rating: String? = null
+        @SerializedName("tags")
+        @Expose
+        var tags: ArrayList<String>? = null
+        @SerializedName("totalOrders24")
+        @Expose
+        var totalOrders: String? = null
 
     }
 

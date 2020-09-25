@@ -65,6 +65,10 @@ object GlobalConstants {
     @JvmStatic
     val isCartAdded = "isCartAdded"
     @JvmStatic
+    val cartCategory = "cartCategory"
+    @JvmStatic
+    val cartCount = "cartCount"
+    @JvmStatic
     val USERID = "USERID"
     @JvmStatic
     var COMPANY_ID = ""
@@ -82,17 +86,38 @@ object GlobalConstants {
     var SESSION_TOKEN = "session_token"
     @JvmStatic
     var JOB_STARTED = "job_started"
-    //
+    //http://10.8.14.242:9061/
     /* @JvmStatic
      val BASE_URL = "http://10.8.23.202:9062/"*/
-    @JvmStatic
+    /*@JvmStatic
     val BASE_URL = "http://51.79.40.224:9075/api/"
     @JvmStatic
     val BASE_SERVER = "http://51.79.40.224:9075"
-    /* @JvmStatic
-     val SOCKET_URL = "http://10.8.23.202:9062"*/
+    *//* @JvmStatic
+     val SOCKET_URL = "http://10.8.23.202:9062"*//*
     @JvmStatic
-    val SOCKET_URL = "http://51.79.40.224:9062/"
+    val SOCKET_URL = "http://51.79.40.224:9075/"
+    @JvmStatic
+    val SOCKET_CHAT_URL = "http://51.79.40.224:9070/"*/
+//http://stgcerb.cerebruminfotech.com:9061/
+    /*@JvmStatic
+    val BASE_URL = "http://10.8.14.242:9061/api/"
+    @JvmStatic
+    val BASE_SERVER = "http://10.8.14.242:9061"
+    @JvmStatic
+    val SOCKET_URL = "http://51.79.40.224:9075/"
+    @JvmStatic
+    val SOCKET_CHAT_URL = "http://51.79.40.224:9070/"*/
+
+    @JvmStatic
+    val BASE_URL = "http://stgcerb.cerebruminfotech.com:9061/api/"
+    @JvmStatic
+    val BASE_SERVER = "http://stgcerb.cerebruminfotech.com:9061"
+    @JvmStatic
+    val SOCKET_URL = "http://stgcerb.cerebruminfotech.com:9061/"
+    @JvmStatic
+    val SOCKET_CHAT_URL = "http://stgcerb.cerebruminfotech.com:9061/"
+
     const val PLATFORM = "android"
     @JvmStatic
     var LOGIN = "every"
@@ -123,9 +148,11 @@ object GlobalConstants {
     @JvmStatic
     var CATEGORY_SELECTED_NAME = "CATEGORY_SELECTED_NAME"
     @JvmStatic
-    var Currency = "Rs"
+    var Currency = "$"
     @JvmStatic
-    var COLOR_CODE = "#97D729"
+    var COLOR_CODE = "#F89B94"
+    @JvmStatic
+    var RANDOM_COLOR = "#DC143C"
     @JvmStatic
     var COLOR_GREY2 = "#EAEAEB"
     @JvmStatic
@@ -139,9 +166,25 @@ object GlobalConstants {
     @JvmStatic
     var DELIVERY_PICKUP_TYPE = "1"
     @JvmStatic
-    var CURRENT_LAT = "1"
+    var CURRENT_LAT = "40.7138353"
     @JvmStatic
-    var CURRENT_LONG = "1"
+    var CURRENT_LONG = "-73.9920178"
+    @JvmStatic
+    var TERMS_CONDITION = "TERMS_CONDITION"
+    @JvmStatic
+    var PRIVACY_POLICY = "PRIVACY_POLICY"
+    @JvmStatic
+    var ABOUT_US = "ABOUT_US"
+    @JvmStatic
+    var ROOM_ID = "roomID"
+
+    @JvmStatic
+    var REST_LAT = "REST_LAT"
+    @JvmStatic
+    var REST_LONG = "ABOUT_US"
+
+    @JvmStatic
+    var REFERRAL_CODE = "REFERRAL_CODE"
 
     //Tiffin Filters
     @JvmStatic

@@ -16,6 +16,7 @@ import com.example.services.utils.BaseActivity
 import com.example.services.databinding.ActivityOrderListBinding
 import com.example.services.model.CommonModel
 import com.example.services.model.orders.OrdersListResponse
+import com.example.services.model.orders.ReorderResponse
 import com.example.services.sharedpreference.SharedPrefClass
 import com.example.services.utils.DialogClass
 import com.example.services.utils.DialogssInterface
@@ -45,7 +46,7 @@ class OrdersListActivity : BaseActivity(), DialogssInterface {
         super.onResume()
         if (UtilsFunctions.isNetworkConnected()) {
             // startProgressDialog()
-            orderList.clear()
+            //orderList.clear()
             ordersViewModel.getOrderList()
         }
     }
@@ -56,98 +57,101 @@ class OrdersListActivity : BaseActivity(), DialogssInterface {
         orderBinding.commonToolBar.imgRight.visibility = View.GONE
         orderBinding.commonToolBar.imgRight.setImageResource(R.drawable.ic_cart)
         orderBinding.commonToolBar.imgToolbarText.text =
-                resources.getString(R.string.orders)
+            resources.getString(R.string.orders)
+        orderBinding.txtTitle.text =
+            resources.getString(R.string.orders)
         orderBinding.cartViewModel = ordersViewModel
         val userId = SharedPrefClass()!!.getPrefValue(
-                MyApplication.instance,
-                GlobalConstants.USERID
+            MyApplication.instance,
+            GlobalConstants.USERID
         ).toString()
         if (UtilsFunctions.isNetworkConnected()) {
             startProgressDialog()
         }
         addressType = SharedPrefClass().getPrefValue(
-                MyApplication.instance,
-                GlobalConstants.SelectedAddressType
+            MyApplication.instance,
+            GlobalConstants.SelectedAddressType
         ).toString()
 
         ordersViewModel.getOrdersListRes().observe(this,
-                Observer<OrdersListResponse> { response ->
-                    stopProgressDialog()
-                    if (response != null) {
-                        val message = response.message
-                        when {
-                            response.code == 200 -> {
-                                orderList.clear()
-                                orderList.addAll(response.data!!)
-                                if (orderList.size > 0) {
-                                    orderBinding.rvOrder.visibility = View.VISIBLE
-                                    orderBinding.tvNoRecord.visibility = View.GONE
-                                    initRecyclerView()
-                                } else {
-                                    orderBinding.rvOrder.visibility = View.GONE
-                                    orderBinding.tvNoRecord.visibility = View.VISIBLE
-                                }
-
-                            }
-                            else -> message?.let {
-                                UtilsFunctions.showToastError(it)
+            Observer<OrdersListResponse> { response ->
+                stopProgressDialog()
+                if (response != null) {
+                    val message = response.message
+                    when {
+                        response.code == 200 -> {
+                            orderList.clear()
+                            orderList.addAll(response.data!!)
+                            if (orderList.size > 0) {
+                                orderBinding.rvOrder.visibility = View.VISIBLE
+                                orderBinding.tvNoRecord.visibility = View.GONE
+                                initRecyclerView()
+                            } else {
                                 orderBinding.rvOrder.visibility = View.GONE
                                 orderBinding.tvNoRecord.visibility = View.VISIBLE
-
                             }
-                        }
 
+                        }
+                        else -> message?.let {
+                            UtilsFunctions.showToastError(it)
+                            orderBinding.rvOrder.visibility = View.GONE
+                            orderBinding.tvNoRecord.visibility = View.VISIBLE
+
+                        }
                     }
-                })
+
+                }
+            })
         ordersViewModel.getCancelOrderRes().observe(this,
-                Observer<CommonModel> { response ->
-                    stopProgressDialog()
-                    if (response != null) {
-                        val message = response.message
-                        when {
-                            response.code == 200 -> {
-                                startProgressDialog()
-                                orderList.clear()
-                                showToastSuccess(message)
-                                ordersViewModel.getOrderList()
-                            }
-                            else -> message?.let {
-                                UtilsFunctions.showToastError(it)
-                            }
+            Observer<CommonModel> { response ->
+                stopProgressDialog()
+                if (response != null) {
+                    val message = response.message
+                    when {
+                        response.code == 200 -> {
+                            startProgressDialog()
+                            orderList.clear()
+                            showToastSuccess(message)
+                            ordersViewModel.getOrderList()
                         }
-
+                        else -> message?.let {
+                            UtilsFunctions.showToastError(it)
+                        }
                     }
-                })
+
+                }
+            })
+
 
         ordersViewModel.getCompleteOrderRes().observe(this,
-                Observer<CommonModel> { response ->
-                    stopProgressDialog()
-                    if (response != null) {
-                        val message = response.message
-                        when {
-                            response.code == 200 -> {
-                                startProgressDialog()
-                                //orderList.clear()
-                                // ordersViewModel.getOrderList()
-                                callRatingReviewsActivity(orderId)
-                            }
-                            else -> message?.let {
-                                UtilsFunctions.showToastError(it)
-                            }
+            Observer<CommonModel> { response ->
+                stopProgressDialog()
+                if (response != null) {
+                    val message = response.message
+                    when {
+                        response.code == 200 -> {
+                            startProgressDialog()
+                            orderList.clear()
+                            ordersViewModel.getOrderList()
+                            // callRatingReviewsActivity(orderId)
                         }
-
+                        else -> message?.let {
+                            UtilsFunctions.showToastError(it)
+                        }
                     }
-                })
+
+                }
+            })
 
         ordersViewModel.isClick().observe(
-                this, Observer<String>(function =
-        fun(it: String?) {
-            when (it) {
-                /* "tvPromo" -> {
-
-                 }*/
-            }
-        })
+            this, Observer<String>(function =
+            fun(it: String?) {
+                when (it) {
+                    "imgBack" -> {
+                        finish()
+                    }
+                }
+            })
         )
     }
 
@@ -162,7 +166,7 @@ class OrdersListActivity : BaseActivity(), DialogssInterface {
         orderBinding.rvOrder.layoutManager = linearLayoutManager
         orderBinding.rvOrder.adapter = orderListAdapter
         orderBinding.rvOrder.addOnScrollListener(object :
-                RecyclerView.OnScrollListener() {
+            RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
 
             }
@@ -172,10 +176,10 @@ class OrdersListActivity : BaseActivity(), DialogssInterface {
     fun callRatingReviewsActivity(orderID: String) {
         orderId = orderID
         confirmationDialog = mDialogClass.setDefaultDialog(
-                this,
-                this,
-                "Rating",
-                getString(R.string.warning_rate_order)
+            this,
+            this,
+            "Rating",
+            getString(R.string.warning_rate_order)
         )
         confirmationDialog?.show()
     }
@@ -227,17 +231,17 @@ class OrdersListActivity : BaseActivity(), DialogssInterface {
 
     fun cancelOrder(position: Int) {
         cancelOrderObject.addProperty(
-                "orderId", orderList[position].id
+            "orderId", orderList[position].id
         )
         cancelOrderObject.addProperty(
-                "cancellationReason", "Others"
+            "cancellationReason", "Others"
         )
 
         confirmationDialog = mDialogClass.setDefaultDialog(
-                this,
-                this,
-                "Cancel Order",
-                getString(R.string.warning_cancel_order)
+            this,
+            this,
+            "Cancel Order",
+            getString(R.string.warning_cancel_order)
         )
         confirmationDialog?.show()
 
@@ -246,19 +250,26 @@ class OrdersListActivity : BaseActivity(), DialogssInterface {
     fun completeOrder(position: Int) {
         orderId = orderList[position].id.toString()
         completeOrderObject.addProperty(
-                "id", orderList[position].id
+            "id", orderList[position].id
         )
         completeOrderObject.addProperty(
-                "status", "5"
+            "status", "5"
         )
 
         confirmationDialog = mDialogClass.setDefaultDialog(
-                this,
-                this,
-                "Complete Order",
-                getString(R.string.warning_complete_order)
+            this,
+            this,
+            "Complete Order",
+            getString(R.string.warning_complete_order)
         )
         confirmationDialog?.show()
 
+    }
+
+    fun callDetailActivity(position: Int) {
+        orderList[position].id.toString()
+        val intent = Intent(this, OrdersDetailActivity::class.java)
+        intent.putExtra("orderId", orderList[position].id.toString())
+        startActivity(intent)
     }
 }

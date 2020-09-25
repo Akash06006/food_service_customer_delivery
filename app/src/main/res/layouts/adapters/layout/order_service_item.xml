@@ -38,7 +38,6 @@
                     android:id="@+id/service_item"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/dp_25"
                     android:orientation="vertical">
 
                     <LinearLayout

@@ -27,6 +27,9 @@ class OrdersListResponse {
         @SerializedName("id")
         @Expose
         var id: String? = null
+        @SerializedName("isRated")
+        @Expose
+        var isRated: String? = null
         @SerializedName("serviceDateTime")
         @Expose
         var serviceDateTime: String? = null
@@ -54,9 +57,9 @@ class OrdersListResponse {
         @SerializedName("userId")
         @Expose
         var userId: String? = null
-        @SerializedName("progressStatus")
+        /*@SerializedName("progressStatus")
         @Expose
-        var progressStatus: String? = null
+        var progressStatus: String? = null*/
         @SerializedName("trackStatus")
         @Expose
         var trackStatus: String? = null
@@ -92,7 +95,41 @@ class OrdersListResponse {
         @Expose
         var companyAddress: CompanyAddress? = null
 
+        @SerializedName("orderStatus")
+        @Expose
+        var orderStatus: OrderStatus? = null
+
+        @SerializedName("company")
+        @Expose
+        var company: Company? = null
+
     }
+
+    inner class OrderStatus {
+        @SerializedName("statusName")
+        @Expose
+        var statusName: String? = null
+        @SerializedName("id")
+        @Expose
+        var id: String? = null
+    }
+
+    inner class Company {
+        @SerializedName("logo1")
+        @Expose
+        var logo1: String? = null
+        @SerializedName("companyName")
+        @Expose
+        var companyName: String? = null
+        @SerializedName("totalRatings")
+        @Expose
+        var totalRatings: String? = null
+        @SerializedName("rating")
+        @Expose
+        var rating: String? = null
+
+    }
+
 
     inner class CompanyAddress {
         @SerializedName("lat")

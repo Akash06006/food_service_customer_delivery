@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="com.example.services.common.BindingUtils" />
+
+        <variable
+            name="notificationViewModel"
+            type="com.example.services.viewmodels.notifications.NotificationsViewModel" />
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/dp_10">
+
+        <include
+
+            android:id="@+id/common_tool_bar"
+            layout="@layout/common_toolbar_back"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="@{(v) -> notificationViewModel.clickListener(v)}"
+            android:visibility="gone" />
+
+        <RelativeLayout
+            android:id="@+id/topLay"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:background="@drawable/ic_purple_rounded_back">
+
+            <ImageView
+                android:id="@+id/imgBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:onClick="@{(v) -> notificationViewModel.clickListener(v)}"
+                android:src="@drawable/ic_profile_back" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:singleLine="true"
+                android:text="@string/notifications"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textColor="@color/colorWhite"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:visibility="visible"
+                app:font="@{`bold`}" />
+
+            <ImageView
+                android:id="@+id/btn_clear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/ic_delete_address"
+                android:backgroundTint="#ffffff"
+                android:onClick="@{(v) -> notificationViewModel.clickListener(v)}" />
+
+        </RelativeLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_notification"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/topLay"
+            android:layout_margin="@dimen/dp_10" />
+
+        <TextView
+            android:id="@+id/tv_no_record"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/no_record_found" />
+
+        <Button
+            android:id="@+id/btn_clear1"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_40"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_marginRight="@dimen/dp_10"
+            android:layout_marginBottom="@dimen/dp_20"
+            android:background="@drawable/shape_round_stroke"
+            android:elevation="@dimen/dp_10"
+            android:onClick="@{(v) -> notificationViewModel.clickListener(v)}"
+            android:text="@string/clear_all"
+            android:textAllCaps="true"
+            android:textColor="@color/buttonTextColor"
+            android:visibility="gone" />
+
+    </RelativeLayout>
+
+</layout>

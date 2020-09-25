@@ -12,7 +12,9 @@ import com.example.services.model.ratnigreviews.RatingReviewListInput
 import com.example.services.model.ratnigreviews.ReviewsListResponse
 import com.example.services.repositories.ratingreviews.RatingReviewsRepository
 import com.example.services.viewmodels.BaseViewModel
-import com.google.android.gms.common.internal.service.Common
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import java.util.HashMap
 
 class RatingReviewsViewModel : BaseViewModel() {
     private var data: MutableLiveData<LoginResponse>? = null
@@ -22,18 +24,30 @@ class RatingReviewsViewModel : BaseViewModel() {
     private var reviewsList = MutableLiveData<ReviewsListResponse>()
     private var orderDetail = MutableLiveData<OrdersDetailResponse>()
     private var ratingReview = MutableLiveData<CommonModel>()
+    private var addImages = MutableLiveData<CommonModel>()
     private var ratingReviewsRepository = RatingReviewsRepository()
     private val mIsUpdating = MutableLiveData<Boolean>()
     private val btnClick = MutableLiveData<String>()
 
     init {
         if (UtilsFunctions.isNetworkConnectedWithoutToast()) {
+            addImages = ratingReviewsRepository.addImages(
+                null,
+                null
+            )
             reviewsList = ratingReviewsRepository.reviewsListList("", "")
             orderDetail = ratingReviewsRepository.getOrderDetail("")
-            ratingReview= ratingReviewsRepository.addRatings(null)
-
+            ratingReview = ratingReviewsRepository.addRatings(
+                null,
+                null,
+                null/*,
+                null*/
+            )
         }
+    }
 
+    fun addImagesRes(): LiveData<CommonModel> {
+        return addImages
     }
 
     fun getReviewsRes(): LiveData<ReviewsListResponse> {
@@ -43,6 +57,7 @@ class RatingReviewsViewModel : BaseViewModel() {
     fun getOrderDetail(): LiveData<OrdersDetailResponse> {
         return orderDetail
     }
+
     fun getRatingRes(): LiveData<CommonModel> {
         return ratingReview
     }
@@ -75,9 +90,26 @@ class RatingReviewsViewModel : BaseViewModel() {
 
     }
 
-    fun addRatings(params: RatingReviewListInput) {
+    fun addRatings(
+        params: RatingReviewListInput,
+        imagesParts: Array<MultipartBody.Part?>?,
+       /* contributorsMap: HashMap<String, String>,*/
+        mHashMap: HashMap<String, RequestBody>
+    ) {
         if (UtilsFunctions.isNetworkConnected()) {
-            ratingReview = ratingReviewsRepository.addRatings(params)
+            ratingReview =
+                ratingReviewsRepository.addRatings(params, imagesParts,/* contributorsMap,*/ mHashMap)
+            mIsUpdating.postValue(true)
+        }
+
+    }
+
+    fun addImages(
+        imagesParts: Array<MultipartBody.Part?>?,
+        mHashMap: HashMap<String, RequestBody>
+    ) {
+        if (UtilsFunctions.isNetworkConnected()) {
+            ratingReview = ratingReviewsRepository.addImages(imagesParts, mHashMap)
             mIsUpdating.postValue(true)
         }
 

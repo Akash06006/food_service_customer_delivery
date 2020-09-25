@@ -16,6 +16,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.example.services.R
 import com.example.services.application.MyApplication
+import com.example.services.common.UtilsFunctions
 import com.example.services.constants.GlobalConstants
 import com.example.services.databinding.VendorListItemBinding
 import com.example.services.model.cart.CartListResponse
@@ -59,30 +60,63 @@ class SearchListAdapter(
 
     override fun onBindViewHolder(@NonNull holder: ViewHolder, position: Int) {
         viewHolder = holder
-
+        GlobalConstants.RANDOM_COLOR = UtilsFunctions.getRandomColor()
         if (TextUtils.isEmpty(vendorList[position].duration.toString()) || vendorList[position].duration == null) {
             holder.binding!!.serviceItem.visibility = View.GONE
             holder.binding!!.llVendor.visibility = View.VISIBLE
             holder.binding!!.txtRestName.setText(vendorList[position].companyName)
-            holder.binding!!.txtAddress.setText(vendorList[position].address1)
-            holder.binding!!.txtDistance.setText(vendorList[position].distance + " KM")
-            if (TextUtils.isEmpty(vendorList[position].startTime) || vendorList[position].startTime.equals(
-                    "null"
+            /*holder.binding!!.txtRestName.setTextColor(
+                ColorStateList.valueOf(
+                    Color.parseColor(
+                        GlobalConstants.RANDOM_COLOR
+                        // UtilsFunctions.getRandomColor()
+                    )
                 )
-            ) {
-                holder.binding!!.txtTime.visibility = View.GONE
+            )*/
+            // holder.binding!!.txtAddress.setText(vendorList[position].address1)
+            //holder.binding!!.txtDistance.setText(vendorList[position].distance + " KM")
+            if (vendorList[position].distance!!.contains(".")) {
+                var span = vendorList[position].distance!!.split(".")
+                val ditance = span[0]
+                holder.binding!!.txtDistance.setText(callTimeCalculate(ditance.toInt()).toString() + " mins")
             } else {
-                holder.binding!!.txtTime.setText(vendorList[position].startTime + " - " + vendorList[position].endTime)
+                holder.binding!!.txtDistance.setText(callTimeCalculate(vendorList[position].distance!!.toInt()).toString() + " mins")
             }
+            holder.binding!!.txtTotalOrders.visibility = View.GONE
+            holder.binding!!.txtTotal.visibility = View.GONE
+            /*holder.binding!!.txtTotalOrders.setBackgroundTintList(
+                ColorStateList.valueOf(
+                    Color.parseColor(
+                        GlobalConstants.RANDOM_COLOR
+                        // UtilsFunctions.getRandomColor()
+                    )
+                )
+            )*/
+            /* if (TextUtils.isEmpty(vendorList[position].startTime) || vendorList[position].startTime.equals(
+                     "null"
+                 )
+             ) {
+                 holder.binding!!.txtTime.visibility = View.GONE
+             } else {
+                 holder.binding!!.txtTime.setText(vendorList[position].startTime + " - " + vendorList[position].endTime)
+             }*/
             //holder.binding!!.txtTime.setText(bestSellerList[position].companyName)
             // holder.binding!!.rBar.setRating(vendorList[position].rating!!.toFloat())
-            if (!TextUtils.isEmpty(vendorList[position].rating)) {
-                if (vendorList[position].rating?.toDouble()!! > 0) {
-                    holder.binding!!.rBar.setRating(1f)
-                    holder.binding!!.txtRating.text = vendorList[position].rating.toString()
-                }
+            if (vendorList[position].rating!!.toDouble() > 1) {
+                holder.binding!!.rBar.setRating(1f)
+                var rating = vendorList[position].rating!!.substring(
+                    0,
+                    1
+                )
+                holder.binding!!.txtRatingCount.setText(rating)
+                // holder.binding!!.txtRatingCount.setText(vendorList[position].rating!!)
+            } else {
+                holder.binding!!.rBar.setRating(0f)
+                holder.binding!!.txtRatingCount.setText("0")
             }
+
             Glide.with(mContext).load(vendorList[position].logo1)
+                //.apply(RequestOptions.bitmapTransform(RoundedCorners(20)))
                 .into(holder.binding!!.imgVendorImage)
 
             holder.binding!!.llVendor.setOnClickListener {
@@ -93,19 +127,30 @@ class SearchListAdapter(
                 mContext.startActivity(intent)
             }
 
-            if (vendorList[position].coupan != null) {
+            if (!TextUtils.isEmpty(vendorList[position].coupan?.discount) && !vendorList[position].coupan?.discount.equals(
+                    "0"
+                )
+            ) {
+                holder.binding.txtOffer.setText(vendorList[position].coupan?.discount + "% OFF")
+                holder.binding.txtOffer.visibility = View.VISIBLE
+            } else {
+                holder.binding.txtOffer.visibility = View.GONE
+            }
+
+
+            /*if (vendorList[position].coupan != null) {
                 if (!TextUtils.isEmpty(vendorList[position].coupan?.discount) && !vendorList[position].coupan?.discount.equals(
                         "0"
                     )
                 ) {
-                    holder.binding.txtOffer.setText(vendorList[position].coupan?.discount + "% OFF")
+                    holder.binding.txtOffer.setText(vendorList[position].coupan?.discount + "%")
                     holder.binding.llOffer.visibility = View.VISIBLE
                 } else {
                     holder.binding.llOffer.visibility = View.GONE
                 }
             } else {
                 holder.binding.llOffer.visibility = View.GONE
-            }
+            }*/
         } else {
             holder.binding!!.serviceItem.visibility = View.VISIBLE
             holder.binding!!.llVendor.visibility = View.GONE
@@ -124,13 +169,13 @@ class SearchListAdapter(
                 )
             ) {
                 holder.binding.rlOriginalPrice.visibility = View.VISIBLE
-                holder.binding.tvRealPrice.setText(GlobalConstants.Currency + " " + vendorList[position].originalPrice)
+                holder.binding.tvRealPrice.setText(GlobalConstants.Currency + "" + vendorList[position].originalPrice)
             } else {
                 holder.binding.rlOriginalPrice.visibility = View.INVISIBLE
             }
 
             holder.binding!!.tvOfferPrice.text =
-                GlobalConstants.Currency + " " + vendorList[position].price.toString()
+                GlobalConstants.Currency + "" + vendorList[position].price.toString()
             holder.binding!!.tvDuration.setText(mContext.resources.getString(R.string.duration) + ": " + vendorList[position].duration)
 
             holder.binding!!.txtCompanyName.setText(vendorList[position].company?.companyName)
@@ -144,9 +189,21 @@ class SearchListAdapter(
                 intent.putExtra("serviceId", vendorList[position].id)
                 mContext.startActivity(intent)
             }
+            if (vendorList[position].itemType.equals("0")) {
+                holder.binding!!.imgVegNonVeg.setImageResource(R.drawable.veg)
+            } else {
+                holder.binding!!.imgVegNonVeg.setImageResource(R.drawable.nonveg)
+            }
 
         }
 
+    }
+
+    private fun callTimeCalculate(distance: Int): Any {
+        val pits = distance / 10
+        val time = (pits * 5).toInt()
+        //val actualTime = time / 60
+        return time
     }
 
     override fun getItemCount(): Int {

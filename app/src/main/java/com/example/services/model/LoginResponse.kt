@@ -6,71 +6,82 @@ import com.google.gson.annotations.SerializedName
 class LoginResponse {
     @SerializedName("code")
     @Expose
-    var code : Int? = null
+    var code: Int? = null
     @SerializedName("message")
     @Expose
-    var message : String? = null
+    var message: String? = null
     @SerializedName("body")
     @Expose
-    var data : Body? = null
+    var data: Body? = null
 
     inner class Body {
-
+        @SerializedName("isFirst")
+        @Expose
+        var isFirst: String? = null
+        @SerializedName("referralCode")
+        @Expose
+        var referralCode: String? = null
         @SerializedName("id")
         @Expose
-        var id : String? = null
+        var id: String? = null
         @SerializedName("isAddressAdded")
         @Expose
-        var isAddressAdded : String? = null
+        var isAddressAdded: String? = null
 
         @SerializedName("firstName")
         @Expose
-        var firstName : String? = null
+        var firstName: String? = null
         @SerializedName("lastName")
         @Expose
-        var lastName : String? = null
+        var lastName: String? = null
         @SerializedName("email")
         @Expose
-        var email : String? = null
+        var email: String? = null
         @SerializedName("phoneNumber")
         @Expose
-        var phoneNumber : String? = null
+        var phoneNumber: String? = null
         @SerializedName("countryCode")
         @Expose
-        var countryCode : String? = null
+        var countryCode: String? = null
         @SerializedName("password")
         @Expose
-        var password : String? = null
+        var password: String? = null
         @SerializedName("image")
         @Expose
-        var image : String? = null
+        var image: String? = null
         @SerializedName("deviceToken")
         @Expose
-        var deviceToken : String? = null
+        var deviceToken: String? = null
         @SerializedName("userType")
         @Expose
-        var userType : String? = null
+        var userType: String? = null
         @SerializedName("sessionToken")
         @Expose
-        var sessionToken : String? = null
+        var sessionToken: String? = null
         @SerializedName("moduleType")
         @Expose
-        var moduleType : String? = null
+        var moduleType: String? = null
         @SerializedName("platform")
         @Expose
-        var platform : String? = null
+        var platform: String? = null
         @SerializedName("status")
         @Expose
-        var status : Int? = null
+        var status: Int? = null
         @SerializedName("createdAt")
         @Expose
-        var createdAt : String? = null
+        var createdAt: String? = null
         @SerializedName("updatedAt")
         @Expose
-        var updatedAt : String? = null
+        var updatedAt: String? = null
         @SerializedName("dob")
         @Expose
-        var dob : String? = null
+        var dob: String? = null
+        @SerializedName("lPoints")
+        @Expose
+        var lPoints: String? = null
+        @SerializedName("maritalStatus")
+        @Expose
+        var maritalStatus: String? = null
         /*@SerializedName("user_id")
         @Expose
         var userId : Int? = null
