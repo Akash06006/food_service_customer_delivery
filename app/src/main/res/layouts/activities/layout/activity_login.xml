@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="com.example.services.common.BindingUtils" />
+
+        <variable
+            name="loginViewModel"
+            type="com.example.services.viewmodels.LoginViewModel" />
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="@dimen/dp_5"
+        android:paddingLeft="@dimen/dp_15"
+        android:paddingRight="@dimen/dp_15"
+        app:hideKeyBoardOnClick="@{`back` }">
+
+        <ImageView
+            android:id="@+id/splsh_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_35"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/ic_icon"
+            android:contentDescription="@string/todo" />
+<!--android:background="@drawable/ic_food_delivery_app_icon"-->
+
+        <View
+            android:id="@+id/v_underemail"
+            android:layout_width="@dimen/dp_20"
+            android:layout_height="@dimen/dp_2"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_marginTop="@dimen/dp_5"
+            android:layout_marginRight="@dimen/dp_10"
+            android:layout_below="@id/splsh_image"
+            android:background="@color/colorPrimary"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/splsh_image"
+            android:background="@drawable/ic_home_rect"
+            android:layout_marginTop="@dimen/dp_180"
+            android:orientation="vertical">
+        <LinearLayout
+            android:id="@+id/ll_login_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/splsh_image"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_marginTop="@dimen/dp_20"
+            android:layout_marginRight="@dimen/dp_10"
+            android:elevation="@dimen/dp_10"
+            android:orientation="horizontal"
+            android:padding="@dimen/dp_15"
+            android:paddingLeft="@dimen/dp_10">
+
+            <com.hbb20.CountryCodePicker
+                android:id="@+id/btn_ccp"
+                android:layout_width="@dimen/dp_120"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:elevation="@dimen/dp_10"
+                android:gravity="center"
+                android:padding="@dimen/dp_5"
+                app:ccpDialog_showNameCode="false"
+                app:ccp_arrowSize="@dimen/dp_20"
+                app:ccp_clickable="true"
+                app:ccp_contentColor="@color/colorDeepGrn"
+                app:ccp_defaultPhoneCode="91"
+                app:ccpDialog_textColor="@color/colorDeepGrn"
+                app:ccp_showFlag="true"
+                app:ccp_showPhoneCode="true"
+                app:ccp_textSize="@dimen/sp_14" />
+
+            <EditText
+                android:id="@+id/et_phone_no"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:ellipsize="start"
+                android:hint="@string/mobile_number"
+                android:imeOptions="actionDone"
+                android:inputType="number"
+                android:maxLength="10"
+                android:paddingLeft="@dimen/dp_10"
+                android:textColor="@color/colorDeepGrn"
+                android:textColorHint="@color/colorDeepGrn"
+                android:textSize="@dimen/sp_14"
+                app:font="@{`regular`}" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_login"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_200"
+            android:gravity="right"
+            android:padding="@dimen/dp_15">
+        <TextView
+            android:id="@+id/loginTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/login"
+            android:layout_below="@id/ll_login_phone"
+            android:textSize="@dimen/dimen_24sp"
+            android:textStyle="bold"
+            android:textColor="@color/colorDeepGrn"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_marginTop="@dimen/dp_15"
+            android:layout_marginRight="@dimen/dp_10"
+            android:paddingLeft="@dimen/dp_20"
+            android:paddingTop="@dimen/dp_8"
+            android:paddingRight="@dimen/dp_10"
+            android:paddingBottom="@dimen/dp_10"/>
+
+        <Button
+            android:id="@+id/btn_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ll_login_phone"
+            android:layout_toRightOf="@id/loginTxt"
+            android:layout_marginTop="@dimen/dp_15"
+            android:layout_marginRight="@dimen/dp_10"
+            android:background="@drawable/ic_btnhome"
+            android:onClick="@{(v) -> loginViewModel.clickListener(v)}"
+            android:paddingTop="@dimen/dp_10"
+            android:paddingRight="@dimen/dp_10"
+            android:paddingBottom="@dimen/dp_10"/>
+
+        </LinearLayout>
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+</layout>
