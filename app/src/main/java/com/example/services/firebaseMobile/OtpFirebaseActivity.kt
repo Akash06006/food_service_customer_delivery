@@ -18,11 +18,11 @@ import com.google.gson.JsonObject
 import java.util.concurrent.TimeUnit
 
 class OtpFirebaseActivity {
-    private var mJsonObject : JsonObject? = null
-    private var mBaseActivity : BaseActivity? = null
+    private var mJsonObject: JsonObject? = null
+    private var mBaseActivity: BaseActivity? = null
     private var otpAction = ""
     private val mCallbacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
-        override fun onVerificationCompleted(phoneAuthCredential : PhoneAuthCredential) {
+        override fun onVerificationCompleted(phoneAuthCredential: PhoneAuthCredential) {
             mBaseActivity!!.stopProgressDialog()
             //Getting the code sent by SMS
             val code = phoneAuthCredential.smsCode
@@ -32,14 +32,14 @@ class OtpFirebaseActivity {
         }
 
         @TargetApi(Build.VERSION_CODES.M)
-        override fun onVerificationFailed(e : FirebaseException) {
+        override fun onVerificationFailed(e: FirebaseException) {
             //            if(((FirebaseAuthException)e).getErrorCode().equals("ERROR_INVALID_PHONE_NUMBER"))
             try {
                 if ((e as FirebaseAuthException).errorCode == "ERROR_INVALID_PHONE_NUMBER")
                     mBaseActivity!!.showToastError(e.message.toString().split("\\.".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[0])
                 else
                     mBaseActivity!!.showToastError(mBaseActivity!!.getString(R.string.server_not_reached))
-            } catch (e1 : java.lang.Exception) {
+            } catch (e1: java.lang.Exception) {
                 mBaseActivity!!.showToastError(
                     e.localizedMessage
                 )
@@ -48,8 +48,8 @@ class OtpFirebaseActivity {
         }
 
         override fun onCodeSent(
-            s : String,
-            forceResendingToken : PhoneAuthProvider.ForceResendingToken
+            s: String,
+            forceResendingToken: PhoneAuthProvider.ForceResendingToken
         ) {
             super.onCodeSent(s, forceResendingToken)
             mBaseActivity!!.stopProgressDialog()
@@ -73,10 +73,10 @@ class OtpFirebaseActivity {
     }
 
     fun otpValidation(
-        otpAction : String,
-        phoneNumber : String,
-        mBaseActivity : BaseActivity,
-        mJsonObject : JsonObject
+        otpAction: String,
+        phoneNumber: String,
+        mBaseActivity: BaseActivity,
+        mJsonObject: JsonObject
     ) {
         this.mBaseActivity = mBaseActivity
         this.mJsonObject = mJsonObject
@@ -85,7 +85,7 @@ class OtpFirebaseActivity {
             sendVerificationCode(phoneNumber)
     }
 
-    private fun sendVerificationCode(mobile : String) {
+    private fun sendVerificationCode(mobile: String) {
         val phone = mJsonObject!!.get("countryCode").toString().replace("\"", "") + mobile
 
         PhoneAuthProvider.getInstance().verifyPhoneNumber(

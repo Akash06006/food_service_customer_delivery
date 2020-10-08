@@ -1,5 +1,6 @@
 package com.example.services.repositories.membership
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.example.services.R
 import com.example.services.api.ApiClient
@@ -57,6 +58,76 @@ class MembershipRepository {
 
         }
         return data!!
+
+    }
+
+    fun purchasePlan1(jsonObject: JsonObject?): MutableLiveData<CommonModel> {
+        if (jsonObject != null) {
+            val mApiService = ApiService<JsonObject>()
+            mApiService.get(
+                object : ApiResponse<JsonObject> {
+                    override fun onResponse(mResponse: Response<JsonObject>) {
+                        val loginResponse = if (mResponse.body() != null)
+                            gson.fromJson<CommonModel>(
+                                "" + mResponse.body(),
+                                CommonModel::class.java
+                            )
+                        else {
+                            gson.fromJson<CommonModel>(
+                                mResponse.errorBody()!!.charStream(),
+                                CommonModel::class.java
+                            )
+                        }
+                        data2!!.postValue(loginResponse)
+                    }
+
+                    override fun onError(mKey: String) {
+                        UtilsFunctions.showToastError(MyApplication.instance.getString(R.string.internal_server_error))
+                        data2!!.postValue(null)
+                    }
+
+                }, ApiClient.getApiInterface().purchasePlan(jsonObject)
+            )
+
+        }
+        return data2!!
+
+    }
+
+
+    fun purchasePlan(mJsonObject: JsonObject?): MutableLiveData<CommonModel> {
+        if (mJsonObject != null) {
+            val mApiService = ApiService<JsonObject>()
+            mApiService.get(
+                object : ApiResponse<JsonObject> {
+                    override fun onResponse(mResponse: Response<JsonObject>) {
+                        val loginResponse = if (mResponse.body() != null) {
+                            Log.d("", "" + mResponse.body())
+                            gson.fromJson<CommonModel>(
+                                "" + mResponse.body(),
+                                CommonModel::class.java
+                            )
+                        } else {
+                            Log.d("Purchase Plan", "" + mResponse.errorBody() + "")
+
+                            gson.fromJson<CommonModel>(
+                                mResponse.errorBody()!!.charStream(),
+                                CommonModel::class.java
+                            )
+                        }
+                        data2!!.postValue(loginResponse)
+                    }
+
+                    override fun onError(mKey: String) {
+                        UtilsFunctions.showToastError(MyApplication.instance.getString(R.string.internal_server_error))
+                        data2!!.postValue(null)
+                    }
+
+                }, ApiClient.getApiInterface().purchasePlan(mJsonObject)
+            )
+
+        }
+        return data2!!
 
     }
 

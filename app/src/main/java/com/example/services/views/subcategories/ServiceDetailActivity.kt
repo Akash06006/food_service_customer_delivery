@@ -56,7 +56,7 @@ class ServiceDetailActivity : BaseActivity(), DialogssInterface {
     var selectedTime = ""
     var quantityCount = 0
     var selectedAddressType = "1"
-    var price = 0
+    var price = 0.0
     private var confirmationDialog: Dialog? = null
     private var mDialogClass = DialogClass()
     var timeSlotsAdapter: TimeSlotsListAdapter? = null
@@ -444,7 +444,7 @@ class ServiceDetailActivity : BaseActivity(), DialogssInterface {
                     "imgMinus" -> {
                         if (quantityCount > 0) {
                             quantityCount--
-                            price = quantityCount * priceAmount.toInt()
+                            price = quantityCount * priceAmount.toDouble()
                             serviceDetailBinding.tvTotalPrice.setText(GlobalConstants.Currency + "" + price.toString())
                             //callGetTimeSlotsApi()
                         }
@@ -464,7 +464,7 @@ class ServiceDetailActivity : BaseActivity(), DialogssInterface {
                             serviceDetailBinding.tvQuantity.setText(quantityCount.toString())
                             //   serviceDetailBinding.btnSubmit.visibility = View.VISIBLE
                             //callGetTimeSlotsApi()
-                            price = quantityCount * priceAmount.toInt()
+                            price = quantityCount * priceAmount.toDouble()
                             serviceDetailBinding.tvTotalPrice.setText(GlobalConstants.Currency + "" + price.toString())
                         }
 

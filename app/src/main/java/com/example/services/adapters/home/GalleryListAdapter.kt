@@ -51,9 +51,9 @@ class GalleryListAdapter(
             .placeholder(R.drawable.ic_category)
             .into(view.img_service!!)
 
-       /* view.img_service.setOnClickListener {
-            mContext.showOfferInformation(position)
-        }*/
+        /* view.img_service.setOnClickListener {
+             mContext.showOfferInformation(position)
+         }*/
 
         val vp = container as ViewPager
         vp.addView(view, 0)

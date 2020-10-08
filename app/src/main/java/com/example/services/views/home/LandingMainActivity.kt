@@ -29,6 +29,7 @@ import com.example.services.views.authentication.LoginActivity
 import com.example.services.views.cart.CartListActivity
 import com.example.services.views.chat.ChatActivity
 import com.example.services.views.favorite.FavoriteListActivity
+import com.example.services.views.membership.MembershipActivity
 import com.example.services.views.notifications.NotificationsListActivity
 import com.example.services.views.orders.OrdersHistoryListActivity
 import com.example.services.views.orders.OrdersListActivity
@@ -86,7 +87,7 @@ class LandingMainActivity : BaseActivity(),
         )
         Glide.with(this)
             .load(image)
-            .placeholder(R.drawable.user)
+            .placeholder(R.drawable.ic_person)
             .into(activityLandingBinding!!.icProfile)
         val name = SharedPrefClass().getPrefValue(
             MyApplication.instance.applicationContext,
@@ -105,7 +106,9 @@ class LandingMainActivity : BaseActivity(),
         dashboardViewModel!!.isClick().observe(
             this, Observer<String>(function =
             fun(it: String?) {
+                drawer!!.closeDrawer(Gravity.LEFT)
                 when (it) {
+
                     "tv_nav_fav" -> {
                         val intent = Intent(this, FavoriteListActivity::class.java)
                         startActivity(intent)
@@ -125,6 +128,10 @@ class LandingMainActivity : BaseActivity(),
                     }
                     "tv_nav_refer" -> {
                         val intent = Intent(this, ReferAndEarn::class.java)
+                        startActivity(intent)
+                    }
+                    "tv_nav_membership" -> {
+                        val intent = Intent(this, MembershipActivity::class.java)
                         startActivity(intent)
                     }
                     "img_right" -> {
@@ -181,7 +188,7 @@ class LandingMainActivity : BaseActivity(),
                         val intent = Intent(this, ChatActivity::class.java)
                         startActivity(intent)
                         // Drift.showCreateConversationActivity(this)
-                      //  showToastSuccess("Coming Soon")
+                        //  showToastSuccess("Coming Soon")
                     }
 
                     "tv_nav_logout" -> {
@@ -202,7 +209,7 @@ class LandingMainActivity : BaseActivity(),
                         // ic_profile
                         Glide.with(this)
                             .load(image)
-                            .placeholder(R.drawable.user)
+                            .placeholder(R.drawable.ic_person)
                             .into(activityLandingBinding!!.icProfile)
 
                         if (drawer!!.isDrawerOpen(GravityCompat.START)) {
@@ -347,7 +354,7 @@ class LandingMainActivity : BaseActivity(),
         // ic_profile
         Glide.with(this)
             .load(image)
-            .placeholder(R.drawable.user)
+            .placeholder(R.drawable.ic_person)
             .into(activityLandingBinding!!.icProfile)
 
         val name = SharedPrefClass().getPrefValue(

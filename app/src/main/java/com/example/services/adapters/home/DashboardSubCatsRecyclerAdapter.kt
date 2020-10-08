@@ -50,11 +50,11 @@ class DashboardSubCatsRecyclerAdapter(
         //holder.binding!!.catHeader.setText(galleryList[position].name)
         holder.binding!!.catHeader.visibility = View.GONE
 
-        if (position == 4) {
-            holder.binding!!.rlViewAll.visibility = View.VISIBLE
-        } else {
-            holder.binding!!.rlViewAll.visibility = View.GONE
-        }
+        /* if (position == 4) {
+             holder.binding!!.rlViewAll.visibility = View.VISIBLE
+         } else {
+             holder.binding!!.rlViewAll.visibility = View.GONE
+         }*/
         Glide.with(mContext)
             .load(galleryList[position].mediaHttpUrl)
             .apply(RequestOptions.bitmapTransform(RoundedCorners(20)))
@@ -68,11 +68,11 @@ class DashboardSubCatsRecyclerAdapter(
     }
 
     override fun getItemCount(): Int {
-        if (galleryList.count() > 4) {
-            return 4
-        } else {
-            return galleryList.count()
-        }
+        /* if (galleryList.count() > 4) {
+             return 4
+         } else {*/
+        return galleryList.count()
+        //}
 
     }
 

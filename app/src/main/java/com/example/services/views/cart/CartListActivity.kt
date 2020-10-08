@@ -60,8 +60,8 @@ class CartListActivity : BaseActivity(), DialogssInterface {
     var addressType = ""
 
     var quantityCount = 0
-    var price = 0
-    var priceAmount = 0
+    var price = 0.0
+    var priceAmount = 0.0
     var position = 0
     var serviceId = ""
     var animationView: View? = null
@@ -103,12 +103,12 @@ class CartListActivity : BaseActivity(), DialogssInterface {
             MyApplication.instance,
             GlobalConstants.SelectedAddressType
         ).toString()
-       /* cartBinding.btnCheckout.setBackgroundTintList(
-            ColorStateList.valueOf(
-                Color.parseColor(
-                    GlobalConstants.COLOR_CODE
-                )
-            )*//*mContext.getResources().getColorStateList(R.color.colorOrange)*//*
+        /* cartBinding.btnCheckout.setBackgroundTintList(
+             ColorStateList.valueOf(
+                 Color.parseColor(
+                     GlobalConstants.COLOR_CODE
+                 )
+             )*//*mContext.getResources().getColorStateList(R.color.colorOrange)*//*
         )*/
 
         cartViewModel.getCartListRes().observe(this,
@@ -454,7 +454,7 @@ class CartListActivity : BaseActivity(), DialogssInterface {
     public fun showAddToCartDialog(pos: Int, isCart: Boolean) {
         quantityCount = 0
         position = pos
-        priceAmount = addOnsList[pos].price!!.toInt()
+        priceAmount = addOnsList[pos].price!!.toDouble()
         serviceId = addOnsList[pos].id.toString()
         callAddRemoveCartApi(true)
         /*confirmationDialog = Dialog(this, R.style.dialogAnimation_animation)
@@ -604,7 +604,7 @@ class CartListActivity : BaseActivity(), DialogssInterface {
         }
     }
 
-    fun clickMinusButton(pos: Int, mPrice: Int, quantity: Int) {
+    fun clickMinusButton(pos: Int, mPrice: Double, quantity: Int) {
         position = pos
         quantityCount = quantity/*serVicesList[pos].cart?.quantity!!.toInt()*/
         /*  if (quantityCount == 0) {
@@ -614,7 +614,7 @@ class CartListActivity : BaseActivity(), DialogssInterface {
         //  }
     }
 
-    fun clickAddButton(pos: Int, mPrice: Int, quantity: Int) {
+    fun clickAddButton(pos: Int, mPrice: Double, quantity: Int) {
         position = pos
         quantityCount = quantity
         /*if (quantityCount == 0) {

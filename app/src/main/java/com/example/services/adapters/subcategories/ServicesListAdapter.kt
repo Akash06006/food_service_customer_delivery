@@ -2,10 +2,7 @@ package com.uniongoods.adapters
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.res.ColorStateList
-import android.graphics.Color
 import android.os.Build
-import android.provider.Settings
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
@@ -97,7 +94,7 @@ class ServicesListAdapter(
                 holder.binding!!.tvQuantity.setText(quantity.toString())
                 //   serviceDetailBinding.btnSubmit.visibility = View.VISIBLE
                 //callGetTimeSlotsApi()
-                var price = quantity * addressList[position].price.toInt()
+                var price = quantity * addressList[position].price.toDouble()
                 //  tvTotalPrice?.setText(GlobalConstants.Currency + " " + price.toString())
                 mContext.clickAddButton(position, price, quantity)
             }
@@ -107,7 +104,7 @@ class ServicesListAdapter(
             if (addressList[position].cart?.quantity!!.toInt() > 1) {
                 var quantity = addressList[position].cart?.quantity!!.toInt()
                 quantity--
-                var price = quantity * addressList[position].price.toInt()
+                var price = quantity * addressList[position].price.toDouble()
                 // tvTotalPrice?.setText(GlobalConstants.Currency + " " + price.toString())
                 //callGetTimeSlotsApi()
                 mContext.clickMinusButton(position, price, quantity)
@@ -167,9 +164,11 @@ class ServicesListAdapter(
         holder.binding!!.tvAdd.setOnClickListener {
             //  addressList[position].
             if (addressList[position].cart == null) {
-                holder.binding!!.tvAdd.visibility = View.GONE
-                holder.binding!!.llAddCartValue.visibility = View.VISIBLE
-                holder.binding.tvQuantity.text = "1"
+                if (TextUtils.isEmpty(mContext.cartCategory)) {
+                    holder.binding!!.tvAdd.visibility = View.GONE
+                    holder.binding!!.llAddCartValue.visibility = View.VISIBLE
+                    holder.binding.tvQuantity.text = "1"
+                }
                 mContext.showAddToCartDialog(position, false)
             } else {
                 mContext.showRemoveCartDialog(position, addressList[position].cart!!.id)

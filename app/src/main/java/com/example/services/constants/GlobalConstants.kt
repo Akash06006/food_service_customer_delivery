@@ -114,9 +114,9 @@ object GlobalConstants {
     @JvmStatic
     val BASE_SERVER = "http://stgcerb.cerebruminfotech.com:9061"
     @JvmStatic
-    val SOCKET_URL = "http://51.79.40.224:9075/"
+    val SOCKET_URL = "http://stgcerb.cerebruminfotech.com:9061/"
     @JvmStatic
-    val SOCKET_CHAT_URL = "http://51.79.40.224:9070/"
+    val SOCKET_CHAT_URL = "http://stgcerb.cerebruminfotech.com:9061/"
 
     const val PLATFORM = "android"
     @JvmStatic
