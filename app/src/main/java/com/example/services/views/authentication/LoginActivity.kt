@@ -273,13 +273,13 @@ class LoginActivity : BaseActivity() {
                 when (it) {
                     "txtSkip" -> {
 
-                        /*TODO---FirebaseFunctions.sendOTP("login", mJsonObject, this)*/
-                        val intent = Intent(this, LandingMainActivity::class.java)
+                        FirebaseFunctions.sendOTP("login", mJsonObject, this)
+                        /*val intent = Intent(this, LandingMainActivity::class.java)
                         intent.flags =
                             Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                         intent.putExtra("data", mJsonObject.toString())
                         startActivity(intent)
-                        finish()
+                        finish()*/
                     }
                     "btn_login" -> {
                         if (isLogin.equals("yes")) {

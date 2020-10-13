@@ -137,7 +137,7 @@
                     android:textAllCaps="false"
                     android:textColor="@color/tabSelection"
                     android:textSize="@dimen/sp_13"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     app:font="@{`regular`}" />
 
                 <LinearLayout

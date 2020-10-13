@@ -53,7 +53,7 @@ class PromoCodeActivity : BaseActivity() {
         promoCodeBinding.promcodeViewModel = promcodeViewModel
         val userId = SharedPrefClass()!!.getPrefValue(
             MyApplication.instance,
-            GlobalConstanCts.USERID
+            GlobalConstants.USERID
         ).toString()
         if (UtilsFunctions.isNetworkConnected()) {
             startProgressDialog()
