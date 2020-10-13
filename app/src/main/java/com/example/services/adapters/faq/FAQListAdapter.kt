@@ -91,7 +91,6 @@ class FAQListAdapter(
             mContext.startActivity(intent)
         }
 
-
     }
 
     override fun getItemCount(): Int {

@@ -100,7 +100,7 @@ class SplashActivity : BaseActivity() {
             //Intent(this, LandingMainActivity::class.java)
             var dob = sharedPrefClass!!.getPrefValue(this, "dob").toString()
             if (TextUtils.isEmpty(dob) || dob.equals("null")) {
-                Intent(this, DatesActivity::class.java)
+                Intent(this, LandingMainActivity::class.java)
             } else {
                 Intent(this, LandingMainActivity::class.java)
 
