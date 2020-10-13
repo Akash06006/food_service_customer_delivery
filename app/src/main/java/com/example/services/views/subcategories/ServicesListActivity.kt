@@ -180,6 +180,7 @@ class ServicesListActivity : BaseActivity(), CompoundButton.OnCheckedChangeListe
                             initCategoriesRecyclerView()
 
                             if (categoriesList.size > 0) {
+                                servicesBinding.switchMaterial.visibility = View.VISIBLE
                                 if (UtilsFunctions.isNetworkConnected()) {
                                     categoriesList[0].selected = "true"
                                     catId = categoriesList[0].id.toString()
@@ -190,6 +191,9 @@ class ServicesListActivity : BaseActivity(), CompoundButton.OnCheckedChangeListe
                                 servicesBinding.rvServices.visibility = View.GONE
                                 servicesBinding.foodCats.visibility = View.GONE
                                 servicesBinding.tvNoRecord.visibility = View.VISIBLE
+                                servicesBinding.switchMaterial.visibility = View.GONE
+
+
                             }
                         }
                         else -> message?.let {
@@ -283,6 +287,11 @@ class ServicesListActivity : BaseActivity(), CompoundButton.OnCheckedChangeListe
                                 GlobalConstants.isCartAdded,
                                 "true"
                             )
+                            SharedPrefClass().putObject(
+                                this,
+                                GlobalConstants.cartCategory,
+                                GlobalConstants.COMPANY_ID
+                            )
                             cartCount = cartCount.toInt().plus(1).toString()
                             servicesBinding.txtCount.setText(cartCount)
                             servicesBinding.txtCount.visibility = View.VISIBLE
@@ -334,6 +343,7 @@ class ServicesListActivity : BaseActivity(), CompoundButton.OnCheckedChangeListe
                     val message = response.message
                     when {
                         response.code == 200 -> {
+
                             servicesViewModel.getServices(catId, vegOnly)
                         }
                         else -> message?.let {
@@ -448,6 +458,7 @@ class ServicesListActivity : BaseActivity(), CompoundButton.OnCheckedChangeListe
     }
 
     override fun onCheckedChanged(p0: CompoundButton?, p1: Boolean) {
+
         if (p1) {
             vegOnly = "0"
             if (UtilsFunctions.isNetworkConnected()) {

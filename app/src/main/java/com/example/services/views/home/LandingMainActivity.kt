@@ -60,7 +60,7 @@ class LandingMainActivity : BaseActivity(),
     override fun initViews() {
         activityLandingBinding = viewDataBinding as ActivityLandingBinding
         navigationView = activityLandingBinding!!.navView
-        navigationView!!.alpha = 0.9f
+        // navigationView!!.alpha = 0.9f
         drawer = activityLandingBinding!!.drawerLayout
         dashboardViewModel = ViewModelProviders.of(this).get(DashboardViewModel::class.java)
         activityLandingBinding!!.dashboardViewModel = dashboardViewModel

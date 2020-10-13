@@ -81,7 +81,7 @@ class FavoriteListAdapter(
         holder.binding.imgFavourite.setImageResource(R.drawable.ic_delete)
         //holder.binding!!.rBar.setRating(addressList[position].rating?.toFloat())
         Glide.with(mContext)
-            .load(addressList[position].service?.icon)
+            .load(addressList[position].service?.thumbnail)
             .apply(RequestOptions.bitmapTransform(RoundedCorners(20)))
             .placeholder(R.drawable.ic_category)
             .into(holder.binding.imgCat)

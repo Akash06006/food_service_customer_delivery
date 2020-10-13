@@ -75,9 +75,15 @@ class FavoriteListActivity : BaseActivity(), DialogssInterface {
                     when {
                         response.code == 200 -> {
                             cartList.addAll(response.body!!)
-                            favoriteBinding.rvFavorite.visibility = View.VISIBLE
-                            favoriteBinding.tvNoRecord.visibility = View.GONE
-                            initRecyclerView()
+                            if (cartList.size > 0) {
+                                favoriteBinding.rvFavorite.visibility = View.VISIBLE
+                                favoriteBinding.tvNoRecord.visibility = View.GONE
+                                initRecyclerView()
+                            } else {
+                                favoriteBinding.rvFavorite.visibility = View.GONE
+                                favoriteBinding.tvNoRecord.visibility = View.VISIBLE
+                            }
+
                         }
                         else -> message?.let {
                             UtilsFunctions.showToastError(it)

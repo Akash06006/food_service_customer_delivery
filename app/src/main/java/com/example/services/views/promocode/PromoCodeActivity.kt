@@ -49,82 +49,88 @@ class PromoCodeActivity : BaseActivity() {
         promoCodeBinding.commonToolBar.imgRight.visibility = View.GONE
         promoCodeBinding.commonToolBar.imgRight.setImageResource(R.drawable.ic_cart)
         promoCodeBinding.commonToolBar.imgToolbarText.text =
-                resources.getString(R.string.promo_code)
+            resources.getString(R.string.promo_code)
         promoCodeBinding.promcodeViewModel = promcodeViewModel
         val userId = SharedPrefClass()!!.getPrefValue(
-                MyApplication.instance,
-                GlobalConstants.USERID
+            MyApplication.instance,
+            GlobalConstanCts.USERID
         ).toString()
         if (UtilsFunctions.isNetworkConnected()) {
             startProgressDialog()
             //cartViewModel.getcartList(userId)
         }
         //initRecyclerView()
-        promoCodeBinding.btnApplyPromo.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(GlobalConstants.COLOR_CODE))/*mContext.getResources().getColorStateList(R.color.colorOrange)*/)
+        promoCodeBinding.btnApplyPromo.setBackgroundTintList(
+            ColorStateList.valueOf(
+                Color.parseColor(
+                    GlobalConstants.COLOR_CODE
+                )
+            )/*mContext.getResources().getColorStateList(R.color.colorOrange)*/
+        )
 
         UtilsFunctions.hideKeyBoard(promoCodeBinding.tvNoRecord)
         promcodeViewModel.getPromoListRes().observe(this,
-                Observer<PromoCodeListResponse> { response ->
-                    stopProgressDialog()
-                    if (response != null) {
-                        val message = response.message
-                        when {
-                            response.code == 200 -> {
-                                promoList.addAll(response.data!!)
-                                promoCodeBinding.rvPromo.visibility = View.VISIBLE
-                                promoCodeBinding.tvNoRecord.visibility = View.GONE
-                                initRecyclerView()
-                            }
-                            else -> message?.let {
-                                UtilsFunctions.showToastError(it)
-                                promoCodeBinding.rvPromo.visibility = View.GONE
-                                promoCodeBinding.tvNoRecord.visibility = View.VISIBLE
-                            }
+            Observer<PromoCodeListResponse> { response ->
+                stopProgressDialog()
+                if (response != null) {
+                    val message = response.message
+                    when {
+                        response.code == 200 -> {
+                            promoList.addAll(response.data!!)
+                            promoCodeBinding.rvPromo.visibility = View.VISIBLE
+                            promoCodeBinding.tvNoRecord.visibility = View.GONE
+                            initRecyclerView()
                         }
-
+                        else -> message?.let {
+                            UtilsFunctions.showToastError(it)
+                            promoCodeBinding.rvPromo.visibility = View.GONE
+                            promoCodeBinding.tvNoRecord.visibility = View.VISIBLE
+                        }
                     }
-                })
+
+                }
+            })
 
         promcodeViewModel.getApplyPromoRes().observe(this,
-                Observer<ApplyPromoCodeResponse> { response ->
-                    stopProgressDialog()
-                    if (response != null) {
-                        val message = response.message
-                        when {
-                            response.code == 200 -> {
-                                showToastSuccess(message)
-                                val mJsonObject = JsonObject()
-                                mJsonObject.addProperty("discount", response.data?.coupanDiscount)
-                                mJsonObject.addProperty("payableAmount", response.data?.payableAmount)
-                                mJsonObject.addProperty("totalAmount", response.data?.totalAmount)
-                                mJsonObject.addProperty("couponId", response.data?.coupanId)
-                                mJsonObject.addProperty("code", response.data?.coupanCode)
-                                val intent = Intent()
-                                intent.putExtra("promoCodeData", mJsonObject.toString())
-                                setResult(Activity.RESULT_OK, intent)
-                                finish()
-                            }
-                            else -> message?.let {
-                                UtilsFunctions.showToastError(it)
-
-                            }
+            Observer<ApplyPromoCodeResponse> { response ->
+                stopProgressDialog()
+                if (response != null) {
+                    val message = response.message
+                    when {
+                        response.code == 200 -> {
+                            showToastSuccess(message)
+                            val mJsonObject = JsonObject()
+                            mJsonObject.addProperty("discount", response.data?.coupanDiscount)
+                            mJsonObject.addProperty("payableAmount", response.data?.payableAmount)
+                            mJsonObject.addProperty("totalAmount", response.data?.totalAmount)
+                            mJsonObject.addProperty("couponId", response.data?.coupanId)
+                            mJsonObject.addProperty("code", response.data?.coupanCode)
+                            val intent = Intent()
+                            intent.putExtra("promoCodeData", mJsonObject.toString())
+                            setResult(Activity.RESULT_OK, intent)
+                            finish()
                         }
+                        else -> message?.let {
+                            UtilsFunctions.showToastError(it)
 
+                        }
                     }
-                })
+
+                }
+            })
         promcodeViewModel.isClick().observe(
-                this, Observer<String>(function =
-        fun(it: String?) {
-            when (it) {
-                "btnApplyPromo" -> {
-                    if (TextUtils.isEmpty(promoCodeBinding.etCouponCode.getText().toString())) {
-                        showToastError(getString(R.string.enter_promocode_msg))
-                    } else {
-                        callApplyCouponApi(promoCodeBinding.etCouponCode.getText().toString())
+            this, Observer<String>(function =
+            fun(it: String?) {
+                when (it) {
+                    "btnApplyPromo" -> {
+                        if (TextUtils.isEmpty(promoCodeBinding.etCouponCode.getText().toString())) {
+                            showToastError(getString(R.string.enter_promocode_msg))
+                        } else {
+                            callApplyCouponApi(promoCodeBinding.etCouponCode.getText().toString())
+                        }
                     }
                 }
-            }
-        })
+            })
         )
 
     }
@@ -139,7 +145,7 @@ class PromoCodeActivity : BaseActivity() {
         promoCodeBinding.rvPromo.layoutManager = linearLayoutManager
         promoCodeBinding.rvPromo.adapter = promocodeListAdapter
         promoCodeBinding.rvPromo.addOnScrollListener(object :
-                RecyclerView.OnScrollListener() {
+            RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
 
             }

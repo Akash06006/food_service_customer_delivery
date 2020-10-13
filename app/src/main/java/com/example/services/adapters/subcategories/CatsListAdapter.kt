@@ -56,7 +56,7 @@ class CatsListAdapter(
         viewHolder = holder
         holder.binding!!.txtVendorName.text = addressList[position].name
         Glide.with(mContext)
-            .load(addressList[position].icon)
+            .load(addressList[position].thumbnail)
             // .apply(RequestOptions.bitmapTransform(RoundedCorners(20)))
             .placeholder(R.drawable.ic_category)
             .into(holder.binding.imgVendor)

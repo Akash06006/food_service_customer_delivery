@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Build
+import android.text.Html
 import android.text.TextUtils
 import android.view.View
 import android.view.animation.AnimationUtils
@@ -178,7 +179,7 @@ class ServiceDetailActivity : BaseActivity(), DialogssInterface {
                             } else {
                                 serviceDetailBinding.imgVegNonVeg.setImageResource(R.drawable.nonveg)
                             }
-/*txtCouponDesc.setText(Html.fromHtml(offersList[pos].description).toString())*/
+                            serviceDetailBinding.tvServiceDetail.setText(Html.fromHtml(response.data!!.description).toString())
                             if (!TextUtils.isEmpty(response.data!!.offer) && !response.data!!.offer.equals(
                                     "0"
                                 )
@@ -321,6 +322,12 @@ class ServiceDetailActivity : BaseActivity(), DialogssInterface {
                                     this,
                                     GlobalConstants.cartCount,
                                     cartCount
+                                )
+
+                                SharedPrefClass().putObject(
+                                    this,
+                                    GlobalConstants.cartCategory,
+                                    GlobalConstants.COMPANY_ID
                                 )
                                 val intent = Intent(this, CartListActivity::class.java)
                                 startActivity(intent)

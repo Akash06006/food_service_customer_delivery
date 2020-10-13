@@ -1,4 +1,7 @@
 package com.example.services.utils
+
+import android.widget.Toast
+
 /*
  * Created by admin on 18-12-2017.
  */
@@ -24,6 +27,7 @@ class ValidationsClass {
 
 
     }
+
 
 
     /**

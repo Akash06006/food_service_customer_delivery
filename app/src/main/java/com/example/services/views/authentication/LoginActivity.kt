@@ -118,11 +118,11 @@ class LoginActivity : BaseActivity() {
                                 GlobalConstants.USER_IAMGE,
                                 response.data!!.image
                             )
-                            SharedPrefClass().putObject(
-                                MyApplication.instance.applicationContext,
-                                "isLogin",
-                                true
-                            )
+                            /* SharedPrefClass().putObject(
+                                 MyApplication.instance.applicationContext,
+                                 "isLogin",
+                                 true
+                             )*/
 
                             if (response.data!!.isFirst.equals("true")) {
                                 isLogin = "no"
@@ -132,14 +132,14 @@ class LoginActivity : BaseActivity() {
                                 activityLoginbinding.txtLogin.setText("Use Referral Code")
                                 showToastSuccess("Please enter if you have any referral code")
                             } else {
-                                // FirebaseFunctions.sendOTP("login", mJsonObject, this)
-                                val intent = Intent(this, LandingMainActivity::class.java)
+                                FirebaseFunctions.sendOTP("login", mJsonObject, this)
+                                /*val intent = Intent(this, LandingMainActivity::class.java)
                                 //val intent = Intent(this, OTPVerificationActivity::class.java)
                                 intent.flags =
                                     Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                                 intent.putExtra("data", mJsonObject.toString())
                                 startActivity(intent)
-                                finish()
+                                finish()*/
                             }
 
 
@@ -162,7 +162,7 @@ class LoginActivity : BaseActivity() {
                     val message = response.message
                     when {
                         response.code == 200 -> {
-                            //TODO-- FirebaseFunctions.sendOTP("login", mJsonObject, this)
+                            FirebaseFunctions.sendOTP("login", mJsonObject, this)
 
 
                             /*mJsonObject.addProperty("phoneNumber", response.data?.phoneNumber)
@@ -236,20 +236,20 @@ class LoginActivity : BaseActivity() {
                             )*/
 
 
-                            SharedPrefClass().putObject(
+                            /*SharedPrefClass().putObject(
                                 MyApplication.instance.applicationContext,
                                 "isLogin",
                                 true
-                            )
+                            )*/
 
-
+/*
                             val intent = Intent(this, LandingMainActivity::class.java)
                             //val intent = Intent(this, OTPVerificationActivity::class.java)
                             intent.flags =
                                 Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                             intent.putExtra("data", mJsonObject.toString())
                             startActivity(intent)
-                            finish()
+                            finish()*/
                             // }
 
 
@@ -320,7 +320,7 @@ class LoginActivity : BaseActivity() {
                                         )
                                         mJsonObject.addProperty(
                                             "companyId",
-                                            "25cbf58b-46ba-4ba2-b25d-8f8f653e9f13"
+                                            GlobalConstants.ADMIN_ID
                                         )
                                         mJsonObject.addProperty("device_id", androidId)
                                         mJsonObject.addProperty("app-version", versionName)
