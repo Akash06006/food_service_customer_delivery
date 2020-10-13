@@ -34,7 +34,6 @@
             android:layout_height="75dp"
             android:background="@color/colorPrimary"
             android:gravity="center_vertical"
-            android:onClick="@{(v) -> servicesViewModel.clickListener(v)}"
             android:orientation="horizontal"
             android:paddingTop="5dp"
             android:paddingBottom="5dp">

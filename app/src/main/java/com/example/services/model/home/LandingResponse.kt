@@ -111,6 +111,9 @@ class LandingResponse {
         @SerializedName("thumbnail")
         @Expose
         var thumbnail: String? = null
+        @SerializedName("icon")
+        @Expose
+        var icons: String? = null
 
     }
 

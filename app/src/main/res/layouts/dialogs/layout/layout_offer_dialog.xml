@@ -154,7 +154,7 @@
                                 android:layout_marginTop="@dimen/dp_10"
                                 android:layout_marginRight="@dimen/dp_20"
                                 android:layout_marginBottom="@dimen/dp_20"
-                                android:background="@drawable/shape_round_stroke"
+                                android:background="@drawable/shape_purple"
                                 android:text="@string/done"
                                 android:textColor="@color/buttonTextColor"
                                 android:visibility="visible"

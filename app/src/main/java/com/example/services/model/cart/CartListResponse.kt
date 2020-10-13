@@ -156,6 +156,9 @@ class CartListResponse {
         @SerializedName("price")
         @Expose
         var price: Int? = null
+        @SerializedName("thumbnail")
+        @Expose
+        var thumbnail: String? = null
     }
 
     inner class CoupanDetails {

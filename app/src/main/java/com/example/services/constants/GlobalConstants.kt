@@ -110,13 +110,13 @@ object GlobalConstants {
     val SOCKET_CHAT_URL = "http://51.79.40.224:9070/"*/
 
     @JvmStatic
-    val BASE_URL = "http://stgcerb.cerebruminfotech.com:9061/api/"
+    val BASE_URL = "http://stgcerb.cerebruminfotech.com:9062/api/"
     @JvmStatic
-    val BASE_SERVER = "http://stgcerb.cerebruminfotech.com:9061"
+    val BASE_SERVER = "http://stgcerb.cerebruminfotech.com:9062"
     @JvmStatic
-    val SOCKET_URL = "http://stgcerb.cerebruminfotech.com:9061/"
+    val SOCKET_URL = "http://stgcerb.cerebruminfotech.com:9062/"
     @JvmStatic
-    val SOCKET_CHAT_URL = "http://stgcerb.cerebruminfotech.com:9061/"
+    val SOCKET_CHAT_URL = "http://stgcerb.cerebruminfotech.com:9062/"
 
     const val PLATFORM = "android"
     @JvmStatic
@@ -181,5 +181,7 @@ object GlobalConstants {
 
     @JvmStatic
     var REFERRAL_CODE = "REFERRAL_CODE"
+    @JvmStatic
+    var ADMIN_ID = "25cbf58b-46ba-4ba2-b25d-8f8f653e9f13"
 
 }

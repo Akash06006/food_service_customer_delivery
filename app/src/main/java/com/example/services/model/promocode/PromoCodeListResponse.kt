@@ -33,6 +33,9 @@ class PromoCodeListResponse {
         @SerializedName("icon")
         @Expose
         var icon : String? = null
+        @SerializedName("thumbnail")
+        @Expose
+        var thumbnail : String? = null
 
         @SerializedName("minimumAmount")
         @Expose

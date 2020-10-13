@@ -45,7 +45,7 @@ class CouponsRecyclerAdapter(
         viewHolder = holder
 
         // holder.binding!!.txtVendorName.setText(topPicksList[position].companyName)
-        Glide.with(mContext).load(couponList[position].thumbnail)
+        Glide.with(mContext).load(couponList[position].icons)
             .placeholder(mContext.resources.getDrawable(R.drawable.ic_category))
             .into(holder.binding!!.imgCoupon)
 

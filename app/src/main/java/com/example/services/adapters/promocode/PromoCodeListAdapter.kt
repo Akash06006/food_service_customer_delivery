@@ -59,9 +59,9 @@ class PromoCodeListAdapter(
         viewHolder = holder
         holder.binding!!.tvPromo.text = addressList[position].name
         holder.binding!!.tvPromoCode.text = addressList[position].code
-      // holder.binding!!.tvDiscount.text = addressList[position].discount + "%"
+        // holder.binding!!.tvDiscount.text = addressList[position].discount + "%"
         Glide.with(mContext)
-            .load(addressList[position].icon)
+            .load(addressList[position].thumbnail)
             // .apply(RequestOptions.bitmapTransform(RoundedCorners(20)))
             .placeholder(R.drawable.img_placeholder)
             .into(holder.binding!!.tvDiscount)
@@ -80,7 +80,7 @@ class PromoCodeListAdapter(
 //
 //            holder.binding!!.tvDiscount.setTextColor(Color.WHITE)
         } else {
-          //  holder.binding!!.tvDiscount.setBackgroundTintList(ColorStateList.valueOf(color)/*mContext.getResources().getColorStateList(R.color.colorOrange)*/)
+            //  holder.binding!!.tvDiscount.setBackgroundTintList(ColorStateList.valueOf(color)/*mContext.getResources().getColorStateList(R.color.colorOrange)*/)
 
         }
 
@@ -92,12 +92,11 @@ class PromoCodeListAdapter(
             )
         }
 
-        holder.binding.viewDetail.setText(addressList[position].discount+ "% off on minimum order of "+addressList[position].minimumAmount)
+        holder.binding.viewDetail.setText(addressList[position].discount + "% off on minimum order of " + addressList[position].minimumAmount)
 
         holder.binding.viewDetailButton.setOnClickListener {
             showOfferInformation(position)
         }
-
 
 
         //holder.binding!!.rBar.setRating(addressList[position].rating?.toFloat())
@@ -140,10 +139,10 @@ class PromoCodeListAdapter(
         }*/
     }
 
-    var confirmationDialog:Dialog?=null
+    var confirmationDialog: Dialog? = null
 
     public fun showOfferInformation(pos: Int) {
-         confirmationDialog = Dialog(activity, R.style.dialogAnimation_animation)
+        confirmationDialog = Dialog(activity, R.style.dialogAnimation_animation)
         confirmationDialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
         val binding =
             DataBindingUtil.inflate<ViewDataBinding>(
@@ -163,10 +162,10 @@ class PromoCodeListAdapter(
         confirmationDialog?.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         val btnSubmit = confirmationDialog?.findViewById<Button>(R.id.btnSubmit)
         val imgOffer = confirmationDialog?.findViewById<ImageView>(R.id.imgOffer)
-        imgOffer!!.visibility=View.GONE
+        imgOffer!!.visibility = View.GONE
         val txtCouponName = confirmationDialog?.findViewById<TextView>(R.id.txtCouponName)
         val relatiiveParent = confirmationDialog?.findViewById<RelativeLayout>(R.id.relatiiveParent)
-        relatiiveParent!!.visibility=View.GONE
+        relatiiveParent!!.visibility = View.GONE
         val txtCouponCode = confirmationDialog?.findViewById<TextView>(R.id.txtCouponCode)
         val txtCouponDiscount = confirmationDialog?.findViewById<TextView>(R.id.txtCouponDiscount)
         val txtCouponDesc = confirmationDialog?.findViewById<TextView>(R.id.txtCouponDesc)

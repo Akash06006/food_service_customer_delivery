@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.widget.Button
@@ -38,22 +39,59 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-class ChatActivity: com.example.services.utils.BaseActivity(), ConnectionListener {
+class ChatActivity : com.example.services.utils.BaseActivity(), ConnectionListener {
     private val sharedPrefClass = SharedPrefClass()
-    private var chatList: ArrayList<ChatListModel>?=null
+    private var chatList: ArrayList<ChatListModel>? = null
     private val gson = GsonBuilder().serializeNulls().create()
     lateinit var chatBinding: ActivityChatBinding
-    private var mMessageAdapter: MessageListAdapter ?=null
-    private var boatMessageAdapter: BoatChatMessageListAdapter ?= null
+    private var mMessageAdapter: MessageListAdapter? = null
+    private var boatMessageAdapter: BoatChatMessageListAdapter? = null
     val RC_CODE_PICKER = 2000
     var images: MutableList<com.esafirm.imagepicker.model.Image> = mutableListOf()
     var licenseImageFile: File? = null
     var selectedImage = ""
     var orderId = ""
-    var boatMessageDialog: Dialog?=null
-
+    var boatMessageDialog: Dialog? = null
+    /*
+        var socketConnectionManager: SocketConnectionManager? = null
+    */
     override fun getLayoutId(): Int {
         return R.layout.activity_chat
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.e("Socket", "onResume")
+        /* try {
+             val socketConnectionManager: SocketConnectionManager =
+                 SocketConnectionManager.getInstance()
+             socketConnectionManager?.createConnection(
+                 this,
+                 HashMap<String, Emitter.Listener>()
+             )
+         } catch (e: URISyntaxException) {
+             e.printStackTrace()
+         }*/
+        /*try {
+            val socketConnectionManager: SocketConnectionManager =
+                SocketConnectionManager.getInstance()
+            socketConnectionManager.createConnection(
+                this,
+                HashMap<String, Emitter.Listener>()
+            )
+        } catch (e: URISyntaxException) {
+            e.printStackTrace()
+        }*/
+        /* try {
+            val socketConnectionManager: SocketConnectionManager =
+                SocketConnectionManager.getInstance()
+            socketConnectionManager.createConnection(
+                this,
+                HashMap<String, Emitter.Listener>()
+            )
+        } catch (e: URISyntaxException) {
+            e.printStackTrace()
+        }*/
     }
 
     override fun initViews() {
@@ -66,6 +104,8 @@ class ChatActivity: com.example.services.utils.BaseActivity(), ConnectionListene
         mMessageAdapter = MessageListAdapter(this, chatList, sharedPrefClass)
         chatBinding.reyclerviewMessageList.setLayoutManager(LinearLayoutManager(this))
         chatBinding.reyclerviewMessageList.setAdapter(mMessageAdapter)
+
+        Log.e("Socket", " Init")
 
         try {
             val socketConnectionManager: SocketConnectionManager =
@@ -113,21 +153,29 @@ class ChatActivity: com.example.services.utils.BaseActivity(), ConnectionListene
                     sharedPrefClass.putObject(this, GlobalConstants.ROOM_ID, roomId)
 
                     val objectChatHistory = JSONObject()
-                    objectChatHistory.put("authToken", sharedPrefClass.getPrefValue(
-                        MyApplication.instance,
-                        GlobalConstants.ACCESS_TOKEN
-                    ).toString())
-                    objectChatHistory.put("groupId", sharedPrefClass.getPrefValue(
-                        MyApplication.instance,
-                        GlobalConstants.ROOM_ID
-                    ).toString())
-                    SocketConnectionManager.getInstance().socket.emit("chatHistory", objectChatHistory)
+                    objectChatHistory.put(
+                        "authToken", sharedPrefClass.getPrefValue(
+                            MyApplication.instance,
+                            GlobalConstants.ACCESS_TOKEN
+                        ).toString()
+                    )
+                    objectChatHistory.put(
+                        "groupId", sharedPrefClass.getPrefValue(
+                            MyApplication.instance,
+                            GlobalConstants.ROOM_ID
+                        ).toString()
+                    )
+                    SocketConnectionManager.getInstance().socket.emit(
+                        "chatHistory",
+                        objectChatHistory
+                    )
+                    Log.e("Socket", "Room join")
 
                 } catch (e: JSONException) {
 
                 }
                 runOnUiThread {
-                   // Toast.makeText(this, "roomJoined", Toast.LENGTH_SHORT).show()
+                    // Toast.makeText(this, "roomJoined", Toast.LENGTH_SHORT).show()
                 }
             }
 
@@ -136,8 +184,7 @@ class ChatActivity: com.example.services.utils.BaseActivity(), ConnectionListene
                 val data = args[0] as JSONObject
                 try {
                     sharedPrefClass.removeParticularKey(this, GlobalConstants.ROOM_ID)
-                }
-                catch (e: JSONException) {
+                } catch (e: JSONException) {
 
                 }
             }
@@ -145,11 +192,14 @@ class ChatActivity: com.example.services.utils.BaseActivity(), ConnectionListene
         SocketConnectionManager.getInstance()
             .addEventListener("chatHistory") { args ->
                 val data = args[0] as JSONArray
-              chatList =  (gson.fromJson(""+data, Array<ChatListModel>::class.java)).toCollection(ArrayList())
+                chatList =
+                    (gson.fromJson("" + data, Array<ChatListModel>::class.java)).toCollection(
+                        ArrayList()
+                    )
 
                 runOnUiThread {
-                      if (chatList == null || chatList!!.isEmpty()){
-                    showBoatChatMessages()
+                    if (chatList == null || chatList!!.isEmpty()) {
+                        showBoatChatMessages()
                     }
                     mMessageAdapter!!.setData(chatList)
                     mMessageAdapter!!.notifyDataSetChanged()
@@ -157,7 +207,7 @@ class ChatActivity: com.example.services.utils.BaseActivity(), ConnectionListene
             }
 
         chatBinding.buttonChatboxSend.setOnClickListener {
-            if (! chatBinding.edittextChatbox.text.toString().isEmpty()) {
+            if (!chatBinding.edittextChatbox.text.toString().isEmpty()) {
                 val objectChatHistory = JSONObject()
                 objectChatHistory.put(
                     "authToken", sharedPrefClass.getPrefValue(
@@ -174,10 +224,12 @@ class ChatActivity: com.example.services.utils.BaseActivity(), ConnectionListene
                 objectChatHistory.put("type", 1)
                 objectChatHistory.put("message", chatBinding.edittextChatbox.text.toString())
                 objectChatHistory.put("usertype", "user")
-                objectChatHistory.put("receiverId", "25cbf58b-46ba-4ba2-b25d-8f8f653e9f13")
+                objectChatHistory.put("receiverId", GlobalConstants.ADMIN_ID)
                 SocketConnectionManager.getInstance().socket.emit("sendMessage", objectChatHistory)
+
                 chatBinding.edittextChatbox.setText("")
-            }else{
+                Log.e("Socket", "Message Sent")
+            } else {
                 showToastError("Please enter message")
             }
         }
@@ -185,10 +237,18 @@ class ChatActivity: com.example.services.utils.BaseActivity(), ConnectionListene
         SocketConnectionManager.getInstance()
             .addEventListener("newMessage") { args ->
                 val data = args[0] as JSONObject
+                Log.e("Socket", "New Message")
                 runOnUiThread {
-                    chatList!!.add(gson.fromJson<ChatListModel>(""+data, ChatListModel::class.java))
+
+                    chatList!!.add(
+                        gson.fromJson<ChatListModel>(
+                            "" + data,
+                            ChatListModel::class.java
+                        )
+                    )
                     mMessageAdapter!!.setData(chatList)
                     mMessageAdapter!!.notifyDataSetChanged()
+                   // chatBinding.reyclerviewMessageList.scrollToPosition(chatList?.size?.minus(1))
                 }
             }
 
@@ -198,12 +258,14 @@ class ChatActivity: com.example.services.utils.BaseActivity(), ConnectionListene
     }
 
     override fun onConnectError() {
+        Log.e("Socket", "Error Connected")
         runOnUiThread {
             Toast.makeText(this, "error", Toast.LENGTH_SHORT).show()
         }
     }
 
     override fun onConnected() {
+        Log.e("Socket", "OnConnected")
         runOnUiThread {
             val objectCreateRoom = JSONObject()
             objectCreateRoom.put(
@@ -215,7 +277,7 @@ class ChatActivity: com.example.services.utils.BaseActivity(), ConnectionListene
             objectCreateRoom.put("receiverId", "25cbf58b-46ba-4ba2-b25d-8f8f653e9f13")
             objectCreateRoom.put("orderId", orderId)
             SocketConnectionManager.getInstance().socket.emit("joinRoom", objectCreateRoom)
-           // Toast.makeText(this, "Connected", Toast.LENGTH_SHORT).show()
+            // Toast.makeText(this, "Connected", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -225,32 +287,23 @@ class ChatActivity: com.example.services.utils.BaseActivity(), ConnectionListene
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-       /* try {
-            val socketConnectionManager: SocketConnectionManager =
-                SocketConnectionManager.getInstance()
-            socketConnectionManager.createConnection(
-                this,
-                HashMap<String, Emitter.Listener>()
-            )
-        } catch (e: URISyntaxException) {
-            e.printStackTrace()
-        }*/
-    }
 
     override fun onBackPressed() {
         super.onBackPressed()
 
         val objectChatHistory = JSONObject()
-        objectChatHistory.put("authToken", sharedPrefClass.getPrefValue(
-            MyApplication.instance,
-            GlobalConstants.ACCESS_TOKEN
-        ).toString())
-        objectChatHistory.put("groupId", sharedPrefClass.getPrefValue(
-            MyApplication.instance,
-            GlobalConstants.ROOM_ID
-        ).toString())
+        objectChatHistory.put(
+            "authToken", sharedPrefClass.getPrefValue(
+                MyApplication.instance,
+                GlobalConstants.ACCESS_TOKEN
+            ).toString()
+        )
+        objectChatHistory.put(
+            "groupId", sharedPrefClass.getPrefValue(
+                MyApplication.instance,
+                GlobalConstants.ROOM_ID
+            ).toString()
+        )
         SocketConnectionManager.getInstance().socket.emit("leaveRoom", objectChatHistory)
         val socketConnectionManager = SocketConnectionManager.getInstance()
         socketConnectionManager.closeConnection()
@@ -259,18 +312,28 @@ class ChatActivity: com.example.services.utils.BaseActivity(), ConnectionListene
 
     override fun onDestroy() {
         super.onDestroy()
-       /* val socketConnectionManager = SocketConnectionManager.getInstance()
-        socketConnectionManager.closeConnection()*/
+        /* val socketConnectionManager = SocketConnectionManager.getInstance()
+         socketConnectionManager.closeConnection()*/
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        try {
+            val socketConnectionManager: SocketConnectionManager =
+                SocketConnectionManager.getInstance()
+            socketConnectionManager.createConnection(
+                this,
+                HashMap<String, Emitter.Listener>()
+            )
+        } catch (e: URISyntaxException) {
+            e.printStackTrace()
+        }
         if (requestCode == RC_CODE_PICKER && resultCode == RESULT_OK && data != null) {
             images = ImagePicker.getImages(data)
 
             licenseImageFile = File(images.get(0).path)
             selectedImage = images.get(0).name
-           showImageData(true, images.get(0).path)
+            showImageData(true, images.get(0).path)
         }
     }
 
@@ -285,10 +348,10 @@ class ChatActivity: com.example.services.utils.BaseActivity(), ConnectionListene
             .start(RC_CODE_PICKER)
     }
 
-     fun showImageData(isThrowSelection: Boolean, imagePathOrURL: String){
+    fun showImageData(isThrowSelection: Boolean, imagePathOrURL: String) {
         val dialog = Dialog(this)
         dialog.setContentView(R.layout.show_image_dialog)
-         dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent)
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent)
         // set the custom dialog components - text, image and button
 
         // set the custom dialog components - text, image and button
@@ -296,78 +359,102 @@ class ChatActivity: com.example.services.utils.BaseActivity(), ConnectionListene
         val btnCancel: Button = dialog.findViewById(R.id.btn_cancel) as Button
         val btnSend: Button = dialog.findViewById(R.id.btn_send) as Button
 
-         if (isThrowSelection){
-             Glide.with(this)
-                 .load(imagePathOrURL) //.apply(RequestOptions.bitmapTransform(RoundedCorners(20)))
-                 .placeholder(R.drawable.ic_category)
-                 .into(image)
-             btnSend.visibility = View.VISIBLE
-         }else{
-             Glide.with(this)
-                 .load(SOCKET_CHAT_URL + "" + imagePathOrURL) //.apply(RequestOptions.bitmapTransform(RoundedCorners(20)))
-                 .placeholder(R.drawable.ic_category)
-                 .into(image)
-             btnSend.visibility = View.GONE
-         }
+        if (isThrowSelection) {
+            Glide.with(this)
+                .load(imagePathOrURL) //.apply(RequestOptions.bitmapTransform(RoundedCorners(20)))
+                .placeholder(R.drawable.ic_category)
+                .into(image)
+            btnSend.visibility = View.VISIBLE
+        } else {
+            Glide.with(this)
+                .load(SOCKET_CHAT_URL + "" + imagePathOrURL) //.apply(RequestOptions.bitmapTransform(RoundedCorners(20)))
+                .placeholder(R.drawable.ic_category)
+                .into(image)
+            btnSend.visibility = View.GONE
+        }
 
 
         btnSend.setOnClickListener {
-            var imageExtension = images.get(0).path.substring(images.get(0).path.lastIndexOf(".") + 1)
+            var imageExtension =
+                images.get(0).path.substring(images.get(0).path.lastIndexOf(".") + 1)
             val bm =
                 BitmapFactory.decodeFile(/*"/path/to/image.jpg"*/images.get(0).path)
             val baos = ByteArrayOutputStream()
-            bm.compress(
-                Bitmap.CompressFormat.JPEG,
-                100,
-                baos
-            ) // bm is the bitmap object
+            /* bm.compress(
+                 Bitmap.CompressFormat.JPEG,
+                 100,
+                 baos
+             ) */// bm is the bitmap object
             var image = ConvertBase64.getStringImage(bm)
             val objectChatHistory = JSONObject()
-            objectChatHistory.put("authToken", sharedPrefClass.getPrefValue(
-                MyApplication.instance,
-                GlobalConstants.ACCESS_TOKEN
-            ).toString())
-            objectChatHistory.put("groupId", sharedPrefClass.getPrefValue(
-                MyApplication.instance,
-                GlobalConstants.ROOM_ID
-            ).toString())
+            objectChatHistory.put(
+                "authToken", sharedPrefClass.getPrefValue(
+                    MyApplication.instance,
+                    GlobalConstants.ACCESS_TOKEN
+                ).toString()
+            )
+            objectChatHistory.put(
+                "groupId", sharedPrefClass.getPrefValue(
+                    MyApplication.instance,
+                    GlobalConstants.ROOM_ID
+                ).toString()
+            )
             objectChatHistory.put("type", 2)
             objectChatHistory.put("media", image)
             objectChatHistory.put("extension", imageExtension)
             objectChatHistory.put("usertype", "user")
             SocketConnectionManager.getInstance().socket.emit("sendMessage", objectChatHistory)
+
+            val objChatHistory = JSONObject()
+            objChatHistory.put(
+                "authToken", sharedPrefClass.getPrefValue(
+                    MyApplication.instance,
+                    GlobalConstants.ACCESS_TOKEN
+                ).toString()
+            )
+            objChatHistory.put(
+                "groupId", sharedPrefClass.getPrefValue(
+                    MyApplication.instance,
+                    GlobalConstants.ROOM_ID
+                ).toString()
+            )
+            SocketConnectionManager.getInstance().socket.emit(
+                "chatHistory",
+                objChatHistory
+            )
+            Log.e("Socket", "Image Sent")
             dialog.dismiss()
         }
         btnCancel.setOnClickListener {
-                dialog.dismiss()
-            }
+            dialog.dismiss()
+        }
 
         dialog.show()
     }
 
-   private fun showBoatChatMessages(){
-       chatBinding!!.boatMessageView.visibility = View.VISIBLE
-       chatBinding.edittextChatbox.isEnabled = false
+    private fun showBoatChatMessages() {
+        chatBinding!!.boatMessageView.visibility = View.VISIBLE
+        chatBinding.edittextChatbox.isEnabled = false
         var boatMessageList: ArrayList<String> = ArrayList()
         boatMessageList.add("I have not received my order")
         boatMessageList.add("I have packaging or spillage issue with my order")
         boatMessageList.add("Items are missing or incorrect in my order")
         boatMessageList.add("I have food taste, quality or quantity issue with my order")
-      /*  boatMessageDialog = Dialog(this)
-        boatMessageDialog!!.setContentView(R.layout.boat_chat_message_dialog)
-        boatMessageDialog!!.getWindow().setBackgroundDrawableResource(android.R.color.transparent)
-        val wmpl = boatMessageDialog!!.window.attributes
-        wmpl.gravity = Gravity.BOTTOM or Gravity.LEFT*/
+        /*  boatMessageDialog = Dialog(this)
+          boatMessageDialog!!.setContentView(R.layout.boat_chat_message_dialog)
+          boatMessageDialog!!.getWindow().setBackgroundDrawableResource(android.R.color.transparent)
+          val wmpl = boatMessageDialog!!.window.attributes
+          wmpl.gravity = Gravity.BOTTOM or Gravity.LEFT*/
 
-       // val rvMessages: RecyclerView = boatMessageDialog!!.findViewById(R.id.rvMessages) as RecyclerView
+        // val rvMessages: RecyclerView = boatMessageDialog!!.findViewById(R.id.rvMessages) as RecyclerView
         boatMessageAdapter = BoatChatMessageListAdapter(this, boatMessageList)
         chatBinding.rvMessages.setLayoutManager(LinearLayoutManager(this))
-       chatBinding.rvMessages.setAdapter(boatMessageAdapter)
-      /*  boatMessageDialog!!.show()
-        boatMessageDialog!!.setCancelable(false)*/
+        chatBinding.rvMessages.setAdapter(boatMessageAdapter)
+        /*  boatMessageDialog!!.show()
+          boatMessageDialog!!.setCancelable(false)*/
     }
 
-    fun onClickBoatMessage(message: String){
+    fun onClickBoatMessage(message: String) {
         val objectChatHistory = JSONObject()
         objectChatHistory.put(
             "authToken", sharedPrefClass.getPrefValue(
@@ -387,5 +474,6 @@ class ChatActivity: com.example.services.utils.BaseActivity(), ConnectionListene
         SocketConnectionManager.getInstance().socket.emit("sendMessage", objectChatHistory)
         chatBinding!!.boatMessageView.visibility = View.GONE
         chatBinding.edittextChatbox.isEnabled = true
+
     }
 }

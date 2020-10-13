@@ -238,7 +238,7 @@
                                 android:elevation="@dimen/dp_5"
                                 android:orientation="vertical"
                                 android:paddingTop="@dimen/dp_5"
-                                android:visibility="gone">
+                                android:visibility="visible">
                                 <!--                        android:background="@drawable/round_back_transparent"
                                 -->
                                 <TextView

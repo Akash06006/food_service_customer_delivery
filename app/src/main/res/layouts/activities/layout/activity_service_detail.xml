@@ -189,12 +189,12 @@
                         android:layout_marginTop="@dimen/dp_5"
                         android:minHeight="@dimen/dp_100"
                         android:padding="@dimen/dp_5"
-                        android:text="@{serviceDetail.description}"
+
                         android:textAllCaps="false"
                         android:textColor="@color/colorBlack"
                         app:font="@{`regular`}"
                         tools:ignore="AllCaps" />
-
+                    <!--  android:text="@{serviceDetail.description}"-->
                     <TextView
                         android:id="@+id/tv_serviceDetail"
                         android:layout_width="match_parent"
