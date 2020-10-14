@@ -71,8 +71,8 @@ class DatesActivity : BaseActivity() {
                             this@DatesActivity,
                             DatePickerDialog.OnDateSetListener
                             { view, year, monthOfYear, dayOfMonth ->
-                                var monthh = ""
-                                var dayMonth = ""
+                                var monthh = "" + (monthOfYear + 1)
+                                var dayMonth = "" + dayOfMonth
                                 if ((monthOfYear + 1) < 10) {
                                     monthh = "0" + (monthOfYear + 1).toString()
                                 }
@@ -94,8 +94,8 @@ class DatesActivity : BaseActivity() {
                             this@DatesActivity,
                             DatePickerDialog.OnDateSetListener
                             { view, year, monthOfYear, dayOfMonth ->
-                                var monthh = ""
-                                var dayMonth = ""
+                                var monthh = "" + (monthOfYear + 1)
+                                var dayMonth = "" + dayOfMonth
                                 if ((monthOfYear + 1) < 10) {
                                     monthh = "0" + (monthOfYear + 1).toString()
                                 }

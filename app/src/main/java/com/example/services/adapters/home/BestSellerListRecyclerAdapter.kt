@@ -88,7 +88,7 @@ class BestSellerListRecyclerAdapter(
         }
 
         //ratingBar!!.setRating(ratingData.ratingData.get(position).rating!!.toFloat())
-        // val marquee = AnimationUtils.loadAnimation(activity, R.anim.marquee);
+        val marquee = AnimationUtils.loadAnimation(activity, R.anim.marquee);
         holder.binding!!.txtMarqueText.visibility = View.VISIBLE
         var marqText = ""
         for (item in bestSellerList[position].tags!!) {
@@ -101,7 +101,7 @@ class BestSellerListRecyclerAdapter(
         }
 
         holder.binding!!.txtMarqueText.setText(marqText)
-        //holder.binding!!.txtMarqueText.startAnimation(marquee);
+        holder.binding!!.txtMarqueText.startAnimation(marquee);
 
         val rnd = Random();
         val color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));

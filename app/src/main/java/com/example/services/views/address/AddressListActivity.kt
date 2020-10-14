@@ -133,6 +133,9 @@ class AddressListActivity : BaseActivity(), DialogssInterface {
             this, Observer<String>(function =
             fun(it: String?) {
                 when (it) {
+                    "imgBack" -> {
+                        finish()
+                    }
                     "tv_add_address" -> {
                         if (UtilsFunctions.isNetworkConnected()) {
                             val intent = Intent(this, AddAddressActivity::class.java)
