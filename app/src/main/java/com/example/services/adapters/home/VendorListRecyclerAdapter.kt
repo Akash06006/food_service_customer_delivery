@@ -76,7 +76,7 @@ class VendorListRecyclerAdapter(
                  )
              )
          )*/
-        //  val marquee = AnimationUtils.loadAnimation(activity, R.anim.marquee)
+        val marquee = AnimationUtils.loadAnimation(activity, R.anim.marquee)
         holder.binding!!.txtMarqueText.visibility = View.VISIBLE
         var marqText = ""
         for (item in vendorList[position].tags!!) {
@@ -87,7 +87,7 @@ class VendorListRecyclerAdapter(
             }
         }
         holder.binding!!.txtMarqueText.setText(marqText)
-        // holder.binding!!.txtMarqueText.startAnimation(marquee);
+        holder.binding!!.txtMarqueText.startAnimation(marquee);
 //        addressBinding.tvAddAddress.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(GlobalConstants.COLOR_CODE))/*mContext.getResources().getColorStateList(R.color.colorOrange)*/)
         val rnd = Random();
         val color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
