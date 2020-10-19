@@ -46,11 +46,11 @@ class CouponsRecyclerAdapter(
 
         // holder.binding!!.txtVendorName.setText(topPicksList[position].companyName)
         Glide.with(mContext).load(couponList[position].icons)
-            .placeholder(mContext.resources.getDrawable(R.drawable.ic_category))
+            .placeholder(R.drawable.img_placeholder)
             .into(holder.binding!!.imgCoupon)
 
         holder.binding!!.llVendor.setOnClickListener {
-            mContext.viewOffersRestaurant(position)
+        //    mContext.viewOffersRestaurant(position)
         }
     }
 

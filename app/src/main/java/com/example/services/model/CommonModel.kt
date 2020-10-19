@@ -4,7 +4,6 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
 class CommonModel {
-
     @SerializedName("code")
     @Expose
     var code: Int = 0
@@ -14,8 +13,6 @@ class CommonModel {
    /* @SerializedName("data")
     @Expose
     var data: Any? = null*/
-
-
 }
 
 

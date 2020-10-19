@@ -266,10 +266,10 @@ class LandingMainActivity : BaseActivity(),
 
         dashboardViewModel!!.isLoading().observe(this, Observer<Boolean> { aBoolean ->
             if (aBoolean!!) {
-                this.startProgressDialog()
-            } else {
-                this.stopProgressDialog()
-            }
+            this.startProgressDialog()
+        } else {
+            this.stopProgressDialog()
+        }
         })
 
         activityLandingBinding!!.tablayout.addOnTabSelectedListener(object :
@@ -312,15 +312,15 @@ class LandingMainActivity : BaseActivity(),
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     fun setHeadings() {
         val fragment = supportFragmentManager.findFragmentById(R.id.frame_layout)
-        when (fragment) {
-            is HomeFragment -> {
-                /* activityDashboardBinding!!.toolbarCommon.imgToolbarText.text =
-                     getString(R.string.home)
-                 getString(R.string.calendar)*/
+    when (fragment) {
+        is HomeFragment -> {
+            /* activityDashboardBinding!!.toolbarCommon.imgToolbarText.text =
+                 getString(R.string.home)
+             getString(R.string.calendar)*/
 
-            }
         }
     }
+}
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     fun onResumedForFragment() {
@@ -334,7 +334,7 @@ class LandingMainActivity : BaseActivity(),
         /*  if (GlobalConstants.selectedCheckedFragment == 100) {
               activityDashboardBinding!!.tablayout.getTabAt(GlobalConstants.selectedFragment)!!.select()
               GlobalConstants.selectedCheckedFragment = 0
-          }*/
+          }  */
         // activityLandingBinding!!.topBannerLayout.setBackgroundColor((Color.parseColor(GlobalConstants.COLOR_CODE)))
         // activityLandingBinding!!.topBannerLayout.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(GlobalConstants.COLOR_CODE))/*mContext.getResources().getColorStateList(R.color.colorOrange)*/)
         isCart = SharedPrefClass().getPrefValue(

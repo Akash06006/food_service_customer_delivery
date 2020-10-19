@@ -67,18 +67,31 @@ class NotificationsRepository {
             mApiService.get(
                 object : ApiResponse<JsonObject> {
                     override fun onResponse(mResponse: Response<JsonObject>) {
-                        val loginResponse = if (mResponse.body() != null)
-                            gson.fromJson<CommonModel>(
+
+                        if (mResponse.body() != null){
+                            val loginResponse =  gson.fromJson<CommonModel>(
                                 "" + mResponse.body(),
                                 CommonModel::class.java
                             )
-                        else {
-                            gson.fromJson<CommonModel>(
-                                mResponse.errorBody()!!.charStream(),
-                                CommonModel::class.java
-                            )
+                            data1!!.postValue(loginResponse)
+                        } else{
+                            UtilsFunctions.showToastError(MyApplication.instance.getString(R.string.internal_server_error))
+                            data1!!.postValue(null)
                         }
-                        data1!!.postValue(loginResponse)
+
+//
+//                        val loginResponse = if (mResponse.body() != null)
+//                            gson.fromJson<CommonModel>(
+//                                "" + mResponse.body(),
+//                                CommonModel::class.java
+//                            )
+//                        else {
+//                            gson.fromJson<CommonModel>(
+//                                mResponse.errorBody()!!.charStream(),
+//                                CommonModel::class.java
+//                            )
+//                        }
+
                     }
 
                     override fun onError(mKey: String) {

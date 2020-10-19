@@ -34,9 +34,14 @@ class WebViewActivity : BaseActivity() {
         }
           if (title.equals(resources.getString(R.string.terms_and_conditions))) {
             binding.webView.loadUrl(GlobalConstants.TERMS_CONDITION)
-        } else if (title.equals(resources.getString(R.string.privacy_policy))) {
+        }
+          else if (title.equals(resources.getString(R.string.privacy_policy))) {
             binding.webView.loadUrl(GlobalConstants.PRIVACY_POLICY)
-        } else {
+        }
+          else if (title.equals(resources.getString(R.string.cancel_order_policy))) {
+            binding.webView.loadUrl(GlobalConstants.CANCAL_POLICY)
+        }
+          else {
             binding.webView.loadUrl(GlobalConstants.ABOUT_US)
         }
       //  binding.webView.loadUrl("https://www.cerebruminfotech.com/")

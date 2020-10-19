@@ -83,7 +83,8 @@ object ApiClient {
                     val builder = original.newBuilder()
                         .header("authorization", finalMAuthToken)
                         .header("lang", lang)
-                        .header("companyId", companyId)
+//                        .header("companyId", companyId)
+                        .header("companyId", "89624900-a974-4849-9048-c32d6bed220a")
                     val request = builder.build()
                     val response = chain.proceed(request)
                     return if (response.code() == 401) {

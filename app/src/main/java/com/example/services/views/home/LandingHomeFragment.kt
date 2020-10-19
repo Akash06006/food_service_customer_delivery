@@ -52,6 +52,7 @@ import com.example.services.viewmodels.home.Services
 import com.example.services.views.SearchActivity
 import com.example.services.views.cart.CartListActivity
 import com.example.services.views.orders.OrdersDetailActivity
+import com.example.services.views.subcategories.ServicesListActivity
 import com.example.services.views.vendor.RestaurantsListActivity
 import com.example.services.views.vendor.VendorsListActivity
 import com.github.angads25.toggle.LabeledSwitch
@@ -81,8 +82,8 @@ LandingHomeFragment : BaseFragment(), DialogssInterface, CompoundButton.OnChecke
         ArrayList<LandingResponse.Offers>()
     private var restOffersList =
         ArrayList<LandingResponse.RestOffers>()
-    private var topPicksList =
-        ArrayList<TopPicks>()
+    private var topPicksList = ArrayList<TopPicks>()
+    private var suggestedList = ArrayList<LandingResponse.Suggested>()
     private var bestSellerList =
         ArrayList<LandingResponse.BestSeller>()
     private var vendorsList =
@@ -167,17 +168,17 @@ LandingHomeFragment : BaseFragment(), DialogssInterface, CompoundButton.OnChecke
                             }
                             cartCategoryTypeId = response.data?.cartCompanyType
                             if (TextUtils.isEmpty(cartCategoryTypeId)) {
-                                SharedPrefClass().putObject(
-                                    activity!!,
-                                    GlobalConstants.isCartAdded,
-                                    "false"
-                                )
+//                                SharedPrefClass().putObject(
+//                                    activity!!,
+//                                    GlobalConstants.isCartAdded,
+//                                    "false"
+//                                )
                                 SharedPrefClass().putObject(
                                     activity!!,
                                     GlobalConstants.cartCategory,
                                     ""
                                 )
-                                fragmentHomeBinding.imgRight.visibility = View.GONE
+                              //  fragmentHomeBinding.imgRight.visibility = View.GONE
                                 (activity as LandingMainActivity).onResumedForFragment()
                             } else {
                                 SharedPrefClass().putObject(
@@ -196,27 +197,36 @@ LandingHomeFragment : BaseFragment(), DialogssInterface, CompoundButton.OnChecke
 
                             if (response.data?.recentOrder != null/*!TextUtils.isEmpty("")*/) {
                                 orderId = response.data?.recentOrder?.id.toString()
-                                fragmentHomeBinding.llOrderStatus.visibility = View.VISIBLE
+                                   fragmentHomeBinding.llOrderStatus.visibility = View.VISIBLE
                                 fragmentHomeBinding.txtOrderStatus.setText("Your order is " + response.data?.recentOrder?.orderStatus?.statusName)
                                 fragmentHomeBinding.txtOrderDes.setText("Sit back & relax as your order is " + response.data?.recentOrder?.orderStatus?.statusName)
                                 fragmentHomeBinding.txtOrderNumber.setText("Order No: " + response.data?.recentOrder?.orderNo)
                                 fragmentHomeBinding.txtPrice.setText("Amount: " + response.data?.recentOrder?.totalOrderPrice)
+
+
+                                //fragmentHomeBinding.deliverType.setText("Amount: " + response.data?)
+
                             } else {
                                 fragmentHomeBinding.llOrderStatus.visibility = View.GONE
                             }
+                            if(!cartCategoryTypeId.toString().isEmpty()){
+                                GlobalConstants.COMPANY_ID = cartCategoryTypeId.toString()
+                            }
 
-                            GlobalConstants.COMPANY_ID = cartCategoryTypeId.toString()
                             bannerList.clear()
                             bannerList.addAll(response.data?.banners!!)
 
                             if (bannerList.size > 0) {
-                                bannerListViewPager()
-                                fragmentHomeBinding.bannersViewpager.visibility = View.VISIBLE
+                               // bannerListViewPager()
+                               // fragmentHomeBinding.bannersViewpager.visibility = View.VISIBLE
                             } else {
                                 fragmentHomeBinding.bannersViewpager.visibility = View.GONE
                             }
                             restOffersList.clear()
-                            restOffersList.addAll(response.data?.restOffers!!)
+
+                            if (response.data?.restOffers != null) {
+                                restOffersList.addAll(response.data?.restOffers!!)
+                            }
                             if (restOffersList.size > 0) {
                                 couponListRecyclerView()
                                 fragmentHomeBinding.txtCoupons.visibility = View.VISIBLE
@@ -226,7 +236,9 @@ LandingHomeFragment : BaseFragment(), DialogssInterface, CompoundButton.OnChecke
                                 fragmentHomeBinding.rvCouponsList.visibility = View.GONE
                             }
                             trendingList.clear()
-                            trendingList.addAll(response.data?.trending!!)
+                            if(response.data?.trending!=null){
+                                trendingList.addAll(response.data?.trending!!)
+                            }
                             if (trendingList.size > 0) {
                                 // trendingListViewPager()
                                 trendingRecyclerView()
@@ -253,8 +265,11 @@ LandingHomeFragment : BaseFragment(), DialogssInterface, CompoundButton.OnChecke
                             }*/
                             vendorsList.clear()
                             topPicksList.clear()
+                            suggestedList.clear()
                             bestSellerList.clear()
-                            vendorsList.addAll(response.data?.vendors!!)
+                            if (response.data?.vendors != null) {
+                                vendorsList.addAll(response.data?.vendors!!)
+                            }
                             topPicksList.addAll(response.data?.topPicks!!)
                             if (topPicksList.size > 0) {
                                 fragmentHomeBinding.txtTopPick.visibility = View.VISIBLE
@@ -263,8 +278,21 @@ LandingHomeFragment : BaseFragment(), DialogssInterface, CompoundButton.OnChecke
                                 fragmentHomeBinding.txtTopPick.visibility = View.GONE
                                 fragmentHomeBinding.rvTopPicks.visibility = View.GONE
                             }
+                            suggestedList.addAll(response.data?.suggested!!)
 
-                            bestSellerList.addAll(response.data?.bestSeller!!)
+                            if (suggestedList.size > 0) {
+                                fragmentHomeBinding.txtSuggested.visibility = View.VISIBLE
+                                fragmentHomeBinding.rvSuggested.visibility = View.VISIBLE
+                            } else{
+                                fragmentHomeBinding.txtSuggested.visibility = View.GONE
+                                fragmentHomeBinding.rvSuggested.visibility = View.GONE
+                            }
+
+
+                            if (response.data?.bestSeller != null) {
+                                bestSellerList.addAll(response.data?.bestSeller!!)
+                            }
+                            suggestedRecyclerView()
                             topPicksRecyclerView()
                             vendorListRecyclerView()
                             bestSellerRecyclerView()
@@ -500,6 +528,16 @@ LandingHomeFragment : BaseFragment(), DialogssInterface, CompoundButton.OnChecke
                         intent.putExtra("orderId", orderId)
                         startActivity(intent)
                     }
+                    "imgFilter" -> {
+                        val intent = Intent(activity, DashboardActivity::class.java)
+                        startActivity(intent)
+                    }
+
+                    "menuItems" -> {
+                        val intent = Intent(activity!!, ServicesListActivity::class.java)
+                        intent.putExtra("catId", "")
+                        activity!!.startActivity(intent)
+                    }
                 }
             })
         )
@@ -560,12 +598,11 @@ LandingHomeFragment : BaseFragment(), DialogssInterface, CompoundButton.OnChecke
 
     private fun topPicksRecyclerView() {
         // couponListRecyclerView()
-        val topPicks =
-            TopPicksRecyclerAdapter(
-                this@LandingHomeFragment,
-                topPicksList/*offersList*/,
-                activity!!
-            )
+        val topPicks = TopPicksRecyclerAdapter(
+            this@LandingHomeFragment,
+            topPicksList/*offersList*/,
+            activity!!
+        )
         val linearLayoutManager = LinearLayoutManager(this.baseActivity)
         linearLayoutManager.orientation = RecyclerView.HORIZONTAL
         fragmentHomeBinding.rvTopPicks.layoutManager = linearLayoutManager
@@ -577,6 +614,26 @@ LandingHomeFragment : BaseFragment(), DialogssInterface, CompoundButton.OnChecke
             }
         })
     }
+
+    private fun suggestedRecyclerView() {
+        // couponListRecyclerView()
+        val topPicks = SuggestedRecyclerAdapter(
+            this@LandingHomeFragment,
+            suggestedList,
+            activity!!
+        )
+        val linearLayoutManager = LinearLayoutManager(this.baseActivity)
+        linearLayoutManager.orientation = RecyclerView.HORIZONTAL
+        fragmentHomeBinding.rvSuggested.layoutManager = linearLayoutManager
+        fragmentHomeBinding.rvSuggested.adapter = topPicks
+        fragmentHomeBinding.rvSuggested.addOnScrollListener(object :
+            RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+
+            }
+        })
+    }
+
 
     private fun trendingRecyclerView() {
         // couponListRecyclerView()
@@ -827,27 +884,35 @@ LandingHomeFragment : BaseFragment(), DialogssInterface, CompoundButton.OnChecke
     }
 
     private fun getAddress(loc: LatLng?) {
-        // Geocoder geocoder
-        //  List<Address> addresses;
-        val geocoder = Geocoder(activity, Locale.getDefault());
-        var addresses = geocoder.getFromLocation(
-            loc?.latitude!!,
-            loc.longitude,
-            1
-        ) // Here 1 represent max location result to returned, by documents it recommended 1 to 5
-        if (addresses.size > 0) {
-            //selectedLat = loc?.latitude!!.toString()
-            // selectedLong = loc.longitude.toString()
-            var address = addresses?.get(0)
-                ?.getAddressLine(0) // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
-            var city = addresses.get(0).getLocality()
-            var state = addresses.get(0).getAdminArea()
-            var country = addresses.get(0).getCountryName()
-            var postalCode = addresses.get(0).getPostalCode()
-            var knownName = addresses.get(0).getFeatureName()
-            fragmentHomeBinding.txtLoc.setText(address)
-            // addressBinding.tvAddress.setText(address)
+
+        try {
+
+
+            // Geocoder geocoder
+            //  List<Address> addresses;
+            val geocoder = Geocoder(activity, Locale.getDefault());
+            var addresses = geocoder.getFromLocation(
+                loc?.latitude!!,
+                loc.longitude,
+                1
+            ) // Here 1 represent max location result to returned, by documents it recommended 1 to 5
+            if (addresses.size > 0) {
+                //selectedLat = loc?.latitude!!.toString()
+                // selectedLong = loc.longitude.toString()
+                var address = addresses?.get(0)
+                    ?.getAddressLine(0) // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+                var city = addresses.get(0).getLocality()
+                var state = addresses.get(0).getAdminArea()
+                var country = addresses.get(0).getCountryName()
+                var postalCode = addresses.get(0).getPostalCode()
+                var knownName = addresses.get(0).getFeatureName()
+                fragmentHomeBinding.txtLoc.setText(address)
+                // addressBinding.tvAddress.setText(address)
+            }
+        } catch (e: Exception) {
+
         }
+
     }
     //endregion
 

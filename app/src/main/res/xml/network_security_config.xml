@@ -4,8 +4,7 @@
         <domain includeSubdomains="true">51.79.40.224</domain>
         <domain includeSubdomains="true">infinitywebtechnologies.com</domain>
         <domain includeSubdomains="true">10.8.23.202</domain>
-        <domain includeSubdomains="true">http://stgcerb.cerebruminfotech.com:9061</domain>
-        <domain includeSubdomains="true">http://stgcerb.cerebruminfotech.com:9062</domain>
+        <domain includeSubdomains="true">http://stgcerb.cerebruminfotech.com:9069</domain>
         <domain includeSubdomains="true">http://stgcerb.cerebruminfotech.com</domain>
         <domain includeSubdomains="true">stgcerb.cerebruminfotech.com</domain>
 

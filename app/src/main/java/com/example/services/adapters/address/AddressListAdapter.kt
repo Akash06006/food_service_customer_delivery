@@ -63,7 +63,10 @@ class AddressListAdapter(
             holder.binding.addresssImg.setImageDrawable(mContext.resources.getDrawable(R.drawable.ic_other))
         }
         holder.binding.imgAddress.setOnClickListener {
-            mContext.deleteAddress(addressList[position].id)
+            if(addressList.size>0){
+                mContext.deleteAddress(addressList[position].id)
+
+            }
         }
 
         holder.binding.rdDefault.setOnClickListener {

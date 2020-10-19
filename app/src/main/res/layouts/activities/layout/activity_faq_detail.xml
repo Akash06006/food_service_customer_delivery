@@ -65,12 +65,14 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="40dp"
                 android:gravity="center"
+                android:visibility="gone"
                 android:text="Was this answer helpful?"
                 android:textColor="@color/colorBlack"
                 app:font="@{`regular`}" />
 
 
             <LinearLayout
+                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"

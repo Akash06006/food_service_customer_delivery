@@ -118,11 +118,11 @@ class LoginActivity : BaseActivity() {
                                 GlobalConstants.USER_IAMGE,
                                 response.data!!.image
                             )
-                            /* SharedPrefClass().putObject(
+                             SharedPrefClass().putObject(
                                  MyApplication.instance.applicationContext,
                                  "isLogin",
                                  true
-                             )*/
+                             )
 
                             if (response.data!!.isFirst.equals("true")) {
                                 isLogin = "no"
@@ -132,14 +132,14 @@ class LoginActivity : BaseActivity() {
                                 activityLoginbinding.txtLogin.setText("Use Referral Code")
                                 showToastSuccess("Please enter if you have any referral code")
                             } else {
-                                FirebaseFunctions.sendOTP("login", mJsonObject, this)
-                                /*val intent = Intent(this, LandingMainActivity::class.java)
+                               // FirebaseFunctions.sendOTP("login", mJsonObject, this)
+                                val intent = Intent(this, LandingMainActivity::class.java)
                                 //val intent = Intent(this, OTPVerificationActivity::class.java)
                                 intent.flags =
                                     Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                                 intent.putExtra("data", mJsonObject.toString())
                                 startActivity(intent)
-                                finish()*/
+                                finish()
                             }
 
 
@@ -163,6 +163,7 @@ class LoginActivity : BaseActivity() {
                     when {
                         response.code == 200 -> {
                             FirebaseFunctions.sendOTP("login", mJsonObject, this)
+
 
 
                             /*mJsonObject.addProperty("phoneNumber", response.data?.phoneNumber)
@@ -319,9 +320,7 @@ class LoginActivity : BaseActivity() {
                                             "+" + activityLoginbinding.btnCcp.selectedCountryCode
                                         )
                                         mJsonObject.addProperty(
-                                            "companyId",
-                                            GlobalConstants.ADMIN_ID
-                                        )
+                                            "companyId", GlobalConstants.ADMIN_ID)
                                         mJsonObject.addProperty("device_id", androidId)
                                         mJsonObject.addProperty("app-version", versionName)
                                         loginViewModel.checkPhoneExistence(mJsonObject)

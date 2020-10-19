@@ -623,16 +623,12 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
     }
 
     fun recordAudio() {
-
         var intent = Intent(this@CheckoutAddressActivity, RecordAudioActivity::class.java)
         startActivityForResult(intent, 1)
-
     }
-
 
     private fun callCheckDelivery() {
         Log.e("address", "Method Enter")
-
         if (DELIVERY_PICKUP_TYPE.equals("1")) {
             isCalled = true
             val addressObject = JsonObject()
@@ -1135,22 +1131,39 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
 //        val addressObj
 
         val mHashMap = HashMap<String, RequestBody>()
-        mHashMap["addressId"] = Utils(this).createPartFromString(addressId)
-        mHashMap["deliveryType"] = Utils(this).createPartFromString(DELIVERY_PICKUP_TYPE)
+        mHashMap["addressId"] = toRequestBody(addressId)
+        mHashMap["deliveryType"] =toRequestBody(DELIVERY_PICKUP_TYPE)
         mHashMap["serviceDateTime"] =
-            Utils(this).createPartFromString(selectedDate + " " + selectedTime)
-        mHashMap["orderPrice"] = Utils(this).createPartFromString(payableAmount)
-        mHashMap["serviceCharges"] = Utils(this).createPartFromString(deliveryCharges.toString())
-        mHashMap["usedLPoints"] = Utils(this).createPartFromString("0")
-        mHashMap["LPointsPrice"] = Utils(this).createPartFromString("0")
-        mHashMap["promoCode"] = Utils(this).createPartFromString(couponCodeId)
-        mHashMap["companyId"] =
-            Utils(this).createPartFromString(cartCompanyId/*GlobalConstants.COMPANY_ID*/)
-        mHashMap["cookingInstructions"] = Utils(this).createPartFromString(strCookingInstructions)
-        mHashMap["pickupInstructions"] = Utils(this).createPartFromString(pickupInstruction)
-        mHashMap["deliveryInstructions"] = Utils(this).createPartFromString(deliveryInstruction)
-        mHashMap["tip"] = Utils(this).createPartFromString(tipSelected.toString())
-        mHashMap["paymentType"] = Utils(this).createPartFromString(paymentStatus)
+            toRequestBody(selectedDate + " " + selectedTime)
+        mHashMap["orderPrice"] = toRequestBody(payableAmount)
+        mHashMap["serviceCharges"] =toRequestBody(deliveryCharges.toString())
+        mHashMap["usedLPoints"] = toRequestBody("0")
+        mHashMap["LPointsPrice"] =toRequestBody("0")
+        mHashMap["promoCode"] = toRequestBody(couponCodeId)
+        mHashMap["companyId"] = toRequestBody(cartCompanyId/*GlobalConstants.COMPANY_ID*/)
+//        mHashMap["companyId"] = Utils(this).createPartFromString("89624900-a974-4849-9048-c32d6bed220a")
+        mHashMap["cookingInstructions"] = toRequestBody(strCookingInstructions)
+        mHashMap["pickupInstructions"] =toRequestBody(pickupInstruction)
+        mHashMap["deliveryInstructions"] =toRequestBody(deliveryInstruction)
+        mHashMap["tip"] =toRequestBody(tipSelected.toString())
+        mHashMap["paymentType"] = toRequestBody(paymentStatus)
+//  val mHashMap = HashMap<String, RequestBody>()
+//        mHashMap["addressId"] = Utils(this).createPartFromString(addressId)
+//        mHashMap["deliveryType"] = Utils(this).createPartFromString(DELIVERY_PICKUP_TYPE)
+//        mHashMap["serviceDateTime"] =
+//            Utils(this).createPartFromString(selectedDate + " " + selectedTime)
+//        mHashMap["orderPrice"] = Utils(this).createPartFromString(payableAmount)
+//        mHashMap["serviceCharges"] = Utils(this).createPartFromString(deliveryCharges.toString())
+//        mHashMap["usedLPoints"] = Utils(this).createPartFromString("0")
+//        mHashMap["LPointsPrice"] = Utils(this).createPartFromString("0")
+//        mHashMap["promoCode"] = Utils(this).createPartFromString(couponCodeId)
+//        mHashMap["companyId"] = Utils(this).createPartFromString(cartCompanyId/*GlobalConstants.COMPANY_ID*/)
+////        mHashMap["companyId"] = Utils(this).createPartFromString("89624900-a974-4849-9048-c32d6bed220a")
+//        mHashMap["cookingInstructions"] = Utils(this).createPartFromString(strCookingInstructions)
+//        mHashMap["pickupInstructions"] = Utils(this).createPartFromString(pickupInstruction)
+//        mHashMap["deliveryInstructions"] = Utils(this).createPartFromString(deliveryInstruction)
+//        mHashMap["tip"] = Utils(this).createPartFromString(tipSelected.toString())
+//        mHashMap["paymentType"] = Utils(this).createPartFromString(paymentStatus)
 
 
         var audio: MultipartBody.Part? = null
@@ -1171,8 +1184,13 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
             )
 
         }
-
+        var map= JSONObject(mHashMap);
         cartViewModel.orderPlace(mHashMap, audio)
+
+    }
+
+    private fun toRequestBody(value: String): RequestBody {
+        return RequestBody.create(MediaType.parse("application/json"), value)
     }
 
 }

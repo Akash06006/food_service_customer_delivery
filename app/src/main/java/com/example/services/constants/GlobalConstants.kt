@@ -71,7 +71,7 @@ object GlobalConstants {
     @JvmStatic
     val USERID = "USERID"
     @JvmStatic
-    var COMPANY_ID = ""
+    var COMPANY_ID = "89624900-a974-4849-9048-c32d6bed220a"
     @JvmStatic
     val JOBID = "JOBID"
     @JvmStatic
@@ -109,8 +109,10 @@ object GlobalConstants {
     @JvmStatic
     val SOCKET_CHAT_URL = "http://51.79.40.224:9070/"*/
 
+//    @JvmStatic
+//    val BASE_URL = "http://stgcerb.cerebruminfotech.com:9069/api/"   9069
     @JvmStatic
-    val BASE_URL = "http://stgcerb.cerebruminfotech.com:9062/api/"
+    val BASE_URL = "http://stgcerb.cerebruminfotech.com:9069/api/"
     @JvmStatic
     val BASE_SERVER = "http://stgcerb.cerebruminfotech.com:9062"
     @JvmStatic
@@ -170,6 +172,8 @@ object GlobalConstants {
     @JvmStatic
     var PRIVACY_POLICY = "PRIVACY_POLICY"
     @JvmStatic
+    var CANCAL_POLICY = "CANCAL_POLICY"
+    @JvmStatic
     var ABOUT_US = "ABOUT_US"
     @JvmStatic
     var ROOM_ID = "roomID"
@@ -182,6 +186,7 @@ object GlobalConstants {
     @JvmStatic
     var REFERRAL_CODE = "REFERRAL_CODE"
     @JvmStatic
-    var ADMIN_ID = "25cbf58b-46ba-4ba2-b25d-8f8f653e9f13"
+    var ADMIN_ID = "89624900-a974-4849-9048-c32d6bed220a"
+  //  var ADMIN_ID = "25cbf58b-46ba-4ba2-b25d-8f8f653e9f13"
 
 }

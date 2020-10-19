@@ -78,8 +78,7 @@ HomeFragment : BaseFragment(), SocketInterface, OnMapReadyCallback {
         ArrayList<com.example.services.viewmodels.home.Trending>()
     private var offersList =
         ArrayList<com.example.services.viewmodels.home.Offers>()
-    private var galleryList =
-        ArrayList<com.example.services.viewmodels.home.Gallery>()
+    private var galleryList = ArrayList<com.example.services.viewmodels.home.Gallery>()
     private var myJobsListAdapter: CategoriesListAdapter? = null
     private lateinit var fragmentHomeBinding: FragmentHomeBinding
     private lateinit var homeViewModel: HomeViewModel
@@ -212,51 +211,56 @@ HomeFragment : BaseFragment(), SocketInterface, OnMapReadyCallback {
 
                             galleryList.addAll(response.body.gallery)
                             //Vendor Detail
-                            if (!TextUtils.isEmpty(details?.logo1)) {
-                                Glide.with(activity!!).load(details?.logo1)
-                                    .into(fragmentHomeBinding.imgVendorImage)
-                            } else {
-                                fragmentHomeBinding.imgVendorImage.visibility = View.GONE
-                            }
-                            if (!TextUtils.isEmpty(details?.document?.aboutUs)) {
-                                fragmentHomeBinding.txtAboutHeading.visibility = View.VISIBLE
-                                fragmentHomeBinding.txtAboutHeading.setText("About " + details?.companyName + "'s")
-                                fragmentHomeBinding.txtAbout.setText(Html.fromHtml(details?.document?.aboutUs).toString())
-                            } else {
-                                fragmentHomeBinding.txtAboutHeading.visibility = View.GONE
-                            }
-
-                            phoneNumber = "+" + details?.countryCode + "" + details?.phoneNumber
-                            fragmentHomeBinding.txtMobNumber.setText(details?.countryCode + "-" + details?.phoneNumber)
-                            fragmentHomeBinding.txtEmail.setText(details?.email)
-                            fragmentHomeBinding.txtAddress.setText(details?.address1)
-
-                            comapnyName = details?.companyName!!
-                            companyAddress = details?.address1!!
-
-                            if (TextUtils.isEmpty(details?.startTime) || details?.startTime.equals(
-                                    "null"
-                                )
-                            ) {
-                                fragmentHomeBinding.txtDeliveryTime.visibility = View.GONE
-                                //  fragmentHomeBinding.llTime.visibility = View.GONE
-                            } else {
-                                fragmentHomeBinding.txtDeliveryTime.visibility = View.VISIBLE
-                                fragmentHomeBinding.txtDeliveryTime.setText(details?.startTime + " - " + details?.endTime)
-                            }
-                            if (details?.rating?.toDouble()!! > 0) {
-                                fragmentHomeBinding.rBar.setRating(1f)
-                                if (details?.rating?.length!!
-                                    > 3
-                                ) {
-                                    var rating = details?.rating?.substring(
-                                        0,
-                                        3
-                                    )
-                                    fragmentHomeBinding.txtRating.setText(rating + " (" + details?.totalRatings + " Votes)")
+                            if(details!=null){
+                                if (!TextUtils.isEmpty(details?.logo1)) {
+                                    Glide.with(activity!!).load(details?.logo1)
+                                        .into(fragmentHomeBinding.imgVendorImage)
                                 } else {
-                                    fragmentHomeBinding.txtRating.setText(details?.rating + " (" + details?.totalRatings + " Votes)")
+                                    fragmentHomeBinding.imgVendorImage.visibility = View.GONE
                                 }
+                                if (!TextUtils.isEmpty(details?.document?.aboutUs)) {
+                                    fragmentHomeBinding.txtAboutHeading.visibility = View.VISIBLE
+                                    fragmentHomeBinding.txtAboutHeading.setText("About " + details?.companyName + "'s")
+                                    fragmentHomeBinding.txtRestName.setText(details?.companyName)
+                                    fragmentHomeBinding.txtAbout.setText(Html.fromHtml(details?.document?.aboutUs).toString())
+                                } else {
+                                    fragmentHomeBinding.txtAboutHeading.visibility = View.GONE
+                                }
+
+                                phoneNumber = "+" + details?.countryCode + "" + details?.phoneNumber
+                                fragmentHomeBinding.txtMobNumber.setText("+"+details?.countryCode + "  " + details?.phoneNumber)
+                                fragmentHomeBinding.txtEmail.setText(details?.email)
+                                fragmentHomeBinding.txtAddress.setText(details?.address1)
+
+                                comapnyName = details?.companyName!!
+                                companyAddress = details?.address1!!
+
+                                if (TextUtils.isEmpty(details?.startTime) || details?.startTime.equals(
+                                        "null"
+                                    )
+                                ) {
+                                    fragmentHomeBinding.txtDeliveryTime.visibility = View.GONE
+                                    //  fragmentHomeBinding.llTime.visibility = View.GONE
+                                } else {
+                                    fragmentHomeBinding.txtDeliveryTime.visibility = View.VISIBLE
+                                    fragmentHomeBinding.txtDeliveryTime.setText(details?.startTime + " - " + details?.endTime)
+                                }
+                                if (details?.rating?.toDouble()!! > 0) {
+                                    fragmentHomeBinding.rBar.setRating(1f)
+                                    if (details?.rating?.length!!
+                                        > 3
+                                    ) {
+                                        var rating = details?.rating?.substring(
+                                            0,
+                                            3
+                                        )
+                                        fragmentHomeBinding.txtRating.setText(rating + " (" + details?.totalRatings + " Votes)")
+                                    } else {
+                                        fragmentHomeBinding.txtRating.setText(details?.rating + " (" + details?.totalRatings + " Votes)")
+                                    }
+                            }
+
+
 
                             }
 
@@ -824,14 +828,17 @@ HomeFragment : BaseFragment(), SocketInterface, OnMapReadyCallback {
 
     override fun onMapReady(googleMap: GoogleMap?) {
 
-        mMap = googleMap!!
-        // Add a marker in India and move the camera
-        /* val myLocation = LatLng(20.5937, 78.9629)
+        if(details!=null) {
+
+
+            mMap = googleMap!!
+            // Add a marker in India and move the camera
+            /* val myLocation = LatLng(20.5937, 78.9629)
          mMap.addMarker(MarkerOptions().position(myLocation).title("Marker in India"))
          mMap.moveCamera(CameraUpdateFactory.newLatLng(myLocation))*/
 
 
-        /* googleMap.apply {
+            /* googleMap.apply {
              val sydney = LatLng(40.7138353, -73.9920178)
              addMarker(
                  MarkerOptions()
@@ -841,29 +848,30 @@ HomeFragment : BaseFragment(), SocketInterface, OnMapReadyCallback {
          }*/
 
 
-        val mCameraPosition = CameraPosition.Builder()
-            .target(
-                LatLng(
-                    java.lang.Double.parseDouble(details!!.latitude),
-                    java.lang.Double.parseDouble(details!!.longitude)
+            val mCameraPosition = CameraPosition.Builder()
+                .target(
+                    LatLng(
+                        java.lang.Double.parseDouble(details!!.latitude),
+                        java.lang.Double.parseDouble(details!!.longitude)
+                    )
                 )
+                .zoom(15.5f)
+                .tilt(30f)
+                .build()
+            val myLocation = LatLng(
+                java.lang.Double.parseDouble(details!!.latitude),
+                java.lang.Double.parseDouble(details!!.longitude)
             )
-            .zoom(15.5f)
-            .tilt(30f)
-            .build()
-        val myLocation = LatLng(
-            java.lang.Double.parseDouble(details!!.latitude),
-            java.lang.Double.parseDouble(details!!.longitude)
-        )
-        mMap.addMarker(
-            MarkerOptions().position(myLocation).icon(
-                BitmapDescriptorFactory.defaultMarker(
-                    BitmapDescriptorFactory.HUE_RED
-                )
-            ).title(details!!.companyName)
-        )
-        mMap.moveCamera(CameraUpdateFactory.newCameraPosition(mCameraPosition))
-        mMap.uiSettings.isZoomControlsEnabled = true
+            mMap.addMarker(
+                MarkerOptions().position(myLocation).icon(
+                    BitmapDescriptorFactory.defaultMarker(
+                        BitmapDescriptorFactory.HUE_RED
+                    )
+                ).title(details!!.companyName)
+            )
+            mMap.moveCamera(CameraUpdateFactory.newCameraPosition(mCameraPosition))
+            mMap.uiSettings.isZoomControlsEnabled = true
+        }
     }
 
 

@@ -103,10 +103,6 @@ class SplashActivity : BaseActivity() {
                 Intent(this, LandingMainActivity::class.java)
             } else {
                 Intent(this, LandingMainActivity::class.java)
-
-                // Intent(this, RecordAudioActivity::class.java)
-
-
             }
 
             // Intent(this, PaymentActivity::class.java)

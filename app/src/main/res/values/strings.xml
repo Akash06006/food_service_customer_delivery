@@ -194,7 +194,8 @@
     <string name="send_message">Send Message</string>
     <string name="edit_payment_method">Edit payment method</string>
     <string name="location">Location</string>
-    <string name="privacy_policy">Privacy policy</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="cancel_order_policy">Order Cancel Policy</string>
     <string name="invite_a_friend">Invite a friend</string>
     <string name="notifications">Notifications</string>
     <string name="help_and_info">Help and info</string>

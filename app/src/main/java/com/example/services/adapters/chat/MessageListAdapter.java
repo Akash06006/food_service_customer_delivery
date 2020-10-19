@@ -179,7 +179,7 @@ public class MessageListAdapter extends RecyclerView.Adapter {
             Glide.with(mContext)
                     .load(GlobalConstants.getSOCKET_CHAT_URL()+""+message.getMedia())
                     //.apply(RequestOptions.bitmapTransform(RoundedCorners(20)))
-                    .placeholder(R.drawable.ic_category)
+                    .placeholder(R.drawable.img_placeholder)
                     .into(imageView);
 
             // Format the stored timestamp into a readable String using method.
@@ -210,7 +210,7 @@ public class MessageListAdapter extends RecyclerView.Adapter {
             Glide.with(mContext)
                     .load(GlobalConstants.getSOCKET_CHAT_URL()+""+message.getMedia())
                     //.apply(RequestOptions.bitmapTransform(RoundedCorners(20)))
-                    .placeholder(R.drawable.ic_category)
+                    .placeholder(R.drawable.img_placeholder)
                     .into(imageView);
 
             // Format the stored timestamp into a readable String using method.

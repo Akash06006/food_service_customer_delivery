@@ -20,9 +20,7 @@ import java.util.regex.Pattern
 class Utils(internal var context: Context) {
 
     fun createPartFromString(string: String): RequestBody {
-        return RequestBody.create(
-            MultipartBody.FORM, string
-        )
+        return RequestBody.create(MultipartBody.FORM, string)
     }
 
     fun prepareFilePart(partName: String, fileUri: File): MultipartBody.Part {

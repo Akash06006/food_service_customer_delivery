@@ -131,7 +131,7 @@ class ContactUsActivity : BaseActivity() {
                 isEmailAdded = true
             }
         }
-        if (TextUtils.isEmpty(contactusBinding.edtQuery.getText().toString())) {
+        if (TextUtils.isEmpty(contactusBinding.edtQuery.getText().trim().toString())) {
             showToastError("Please enter your concern")
         } else {
             if (!isEmailAdded) {

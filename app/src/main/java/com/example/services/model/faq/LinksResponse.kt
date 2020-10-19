@@ -26,6 +26,16 @@ class LinksResponse {
         @SerializedName("aboutusLink")
         @Expose
         var aboutusLink: String? = null
+
+        @SerializedName("cancellationLink")
+        @Expose
+        var cancellationLink: String? = null
+
+        @SerializedName("cancellationPolicy")
+        @Expose
+        var cancellationPolicy: String? = null
+
+
         @SerializedName("privacyContent")
         @Expose
         var privacyContent: String? = null

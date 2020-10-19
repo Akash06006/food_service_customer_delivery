@@ -207,7 +207,7 @@ class ChatActivity : com.example.services.utils.BaseActivity(), ConnectionListen
             }
 
         chatBinding.buttonChatboxSend.setOnClickListener {
-            if (!chatBinding.edittextChatbox.text.toString().isEmpty()) {
+            if (!chatBinding.edittextChatbox.text.toString().trim().isEmpty()) {
                 val objectChatHistory = JSONObject()
                 objectChatHistory.put(
                     "authToken", sharedPrefClass.getPrefValue(
@@ -222,7 +222,7 @@ class ChatActivity : com.example.services.utils.BaseActivity(), ConnectionListen
                     ).toString()
                 )
                 objectChatHistory.put("type", 1)
-                objectChatHistory.put("message", chatBinding.edittextChatbox.text.toString())
+                objectChatHistory.put("message", chatBinding.edittextChatbox.text.toString().trim())
                 objectChatHistory.put("usertype", "user")
                 objectChatHistory.put("receiverId", GlobalConstants.ADMIN_ID)
                 SocketConnectionManager.getInstance().socket.emit("sendMessage", objectChatHistory)
@@ -474,6 +474,5 @@ class ChatActivity : com.example.services.utils.BaseActivity(), ConnectionListen
         SocketConnectionManager.getInstance().socket.emit("sendMessage", objectChatHistory)
         chatBinding!!.boatMessageView.visibility = View.GONE
         chatBinding.edittextChatbox.isEnabled = true
-
     }
 }

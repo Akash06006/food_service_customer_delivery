@@ -226,14 +226,15 @@
 
                         <ImageView
                             android:id="@+id/imgFilter"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="@dimen/dp_45"
+                            android:layout_height="@dimen/dp_45"
                             android:layout_alignParentRight="true"
                             android:layout_marginLeft="@dimen/dp_10"
                             android:layout_marginRight="@dimen/dp_10"
+                            android:layout_centerVertical="true"
                             android:backgroundTint="#ffffff"
                             android:onClick="@{(v) -> homeViewModel.clickListener(v)}"
-                            android:src="@drawable/ic_filter"
+                            android:src="@drawable/ic_restaurent_image"
                             android:visibility="visible" />
 
                         <EditText
@@ -248,7 +249,7 @@
                             android:drawablePadding="@dimen/dp_10"
                             android:editable="false"
                             android:gravity="center_vertical"
-                            android:hint="Search for restaurant or dish"
+                            android:hint="Search for food..."
                             android:imeOptions="actionDone"
                             android:onClick="@{(v) -> homeViewModel.clickListener(v)}"
                             android:paddingLeft="@dimen/dp_15"
@@ -346,6 +347,64 @@
                     </RelativeLayout>
 
 
+
+
+                    <androidx.viewpager.widget.ViewPager
+                        android:id="@+id/bannersViewpager"
+                        android:layout_width="match_parent"
+                        android:layout_height="165dp"
+                        android:layout_marginLeft="@dimen/dp_10"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:layout_marginRight="@dimen/dp_10"
+                        android:elevation="@dimen/dp_20"
+                        android:visibility="gone"
+                        tools:ignore="UnusedAttribute" />
+
+                    <androidx.viewpager.widget.ViewPager
+                        android:id="@+id/dealsViewPager"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_150"
+                        android:layout_marginLeft="@dimen/dp_10"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:layout_marginRight="@dimen/dp_10"
+                        android:elevation="@dimen/dp_20"
+                        android:visibility="gone"
+                        tools:ignore="UnusedAttribute" />
+
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_5">
+
+
+                        <TextView
+                            android:id="@+id/txtSuggested"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/dp_15"
+                            android:layout_marginTop="@dimen/dp_5"
+                            android:text="Suggested Items"
+                            android:textAllCaps="false"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="@dimen/sp_16"
+                            android:textStyle="bold"
+                            app:font="@{`bold`}" />
+
+
+                    </RelativeLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvSuggested"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/dp_5"
+                        android:layout_marginTop="@dimen/dp_5"
+                        android:layout_marginRight="@dimen/dp_5"
+                        android:padding="@dimen/dp_5"
+                        android:visibility="visible" />
+
+
                     <RelativeLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -377,29 +436,6 @@
                         android:layout_marginRight="@dimen/dp_5"
                         android:padding="@dimen/dp_5"
                         android:visibility="visible" />
-
-                    <androidx.viewpager.widget.ViewPager
-                        android:id="@+id/bannersViewpager"
-                        android:layout_width="match_parent"
-                        android:layout_height="165dp"
-                        android:layout_marginLeft="@dimen/dp_10"
-                        android:layout_marginTop="@dimen/dp_10"
-                        android:layout_marginRight="@dimen/dp_10"
-                        android:elevation="@dimen/dp_20"
-                        android:visibility="gone"
-                        tools:ignore="UnusedAttribute" />
-
-                    <androidx.viewpager.widget.ViewPager
-                        android:id="@+id/dealsViewPager"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/dp_150"
-                        android:layout_marginLeft="@dimen/dp_10"
-                        android:layout_marginTop="@dimen/dp_10"
-                        android:layout_marginRight="@dimen/dp_10"
-                        android:elevation="@dimen/dp_20"
-                        android:visibility="gone"
-                        tools:ignore="UnusedAttribute" />
-
                     <LinearLayout
                         android:id="@+id/trending_layout"
                         android:layout_width="match_parent"
@@ -484,9 +520,12 @@
                         android:layout_marginTop="@dimen/dp_5"
                         android:layout_marginRight="@dimen/dp_5"
                         android:padding="@dimen/dp_5"
+                        android:layout_marginBottom="@dimen/dp_70"
+
                         android:visibility="visible" />
 
                     <RelativeLayout
+                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="@dimen/dp_5"
@@ -597,6 +636,7 @@
                     </RelativeLayout>
 
                     <RelativeLayout
+                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
 
@@ -695,14 +735,17 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true">
 
+
+
+
+
             <RelativeLayout
+                android:layout_above="@+id/llOrderStatus"
                 android:id="@+id/img_right"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_alignParentRight="true"
-                android:layout_alignParentBottom="true"
                 android:layout_marginRight="5dp"
-                android:layout_marginBottom="40dp"
                 android:background="@drawable/ic_cart_back"
                 android:onClick="@{(v) -> homeViewModel.clickListener(v)}">
 
@@ -715,12 +758,12 @@
 
                 <TextView
                     android:id="@+id/txtCount"
-                    android:layout_width="17dp"
-                    android:layout_height="17dp"
+                    android:layout_width="11dp"
+                    android:layout_height="10dp"
                     android:layout_alignTop="@+id/imgCart"
                     android:layout_alignParentRight="true"
-                    android:layout_marginTop="-5dp"
-                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginRight="21dp"
                     android:background="@drawable/ic_count_back"
                     android:gravity="center"
                     android:text="1"
@@ -729,8 +772,19 @@
 
             </RelativeLayout>
 
-            <RelativeLayout
 
+            <ImageView
+                android:layout_above="@+id/llOrderStatus"
+                android:id="@+id/menuItems"
+                android:layout_width="40dp"
+                android:onClick="@{(v) -> homeViewModel.clickListener(v)}"
+                android:layout_height="40dp"
+                android:layout_marginBottom="@dimen/dp_12"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:src="@drawable/ic_hamburger" />
+
+
+            <RelativeLayout
                 android:id="@+id/llOrderStatus"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -740,8 +794,16 @@
                 android:elevation="8dp"
                 android:onClick="@{(v) -> homeViewModel.clickListener(v)}"
                 android:orientation="vertical"
-                android:padding="5dp"
-                android:visibility="gone">
+                android:padding="5dp">
+
+                <TextView
+                    android:id="@+id/deliverType"
+                    android:textColor="@color/white"
+                    android:layout_marginRight="@dimen/dp_5"
+                    android:layout_marginTop="@dimen/dp_5"
+                    android:layout_alignParentRight="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
 
                 <TextView
                     android:id="@+id/txtOrderStatus"

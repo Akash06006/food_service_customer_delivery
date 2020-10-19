@@ -63,7 +63,7 @@ class HomeJobsRepository {
                     }
 
                 },
-                ApiClient.getApiInterface().getlandingResponse(
+                ApiClient.getApiInterface().getHomeVenderResponse(
                     deliveryPickupType,
                     currentLat,
                     currentLong, vegNonVeg

@@ -120,6 +120,7 @@ class AddressListActivity : BaseActivity(), DialogssInterface {
                         response.code == 200 -> {
                             addressesList.clear()
                             addressViewModel.addressList()
+                            showToastSuccess("Address deleted successfully")
                         }
                         else -> message?.let {
                             UtilsFunctions.showToastError(it)

@@ -221,6 +221,10 @@
                         android:elevation="@dimen/dp_10"
                         android:gravity="center"
                         android:padding="@dimen/dp_10" />
+                    <TextView
+                        android:layout_below="@+id/rv_serviceDetail"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_30"/>
 
 
                 </RelativeLayout>
@@ -452,39 +456,39 @@
 
         <RelativeLayout
             android:id="@+id/img_right"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_above="@+id/AddCart"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_above="@+id/AddCart"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="5dp"
+        android:background="@drawable/ic_cart_back"
+        android:onClick="@{(v) -> servicesViewModel.clickListener(v)}">
+
+        <ImageView
+            android:id="@+id/imgCart"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/ic_cart" />
+
+        <TextView
+            android:id="@+id/txtCount"
+            android:layout_width="17dp"
+            android:layout_height="17dp"
+            android:layout_alignTop="@+id/imgCart"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="5dp"
-            android:background="@drawable/ic_cart_back"
-            android:onClick="@{(v) -> servicesViewModel.clickListener(v)}">
+            android:layout_marginTop="-5dp"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/ic_count_back"
+            android:gravity="center"
+            android:text="1"
+            android:textColor="@color/colorWhite"
+            android:textSize="10sp" />
 
-            <ImageView
-                android:id="@+id/imgCart"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_centerInParent="true"
-                android:src="@drawable/ic_cart" />
+    </RelativeLayout>
 
-            <TextView
-                android:id="@+id/txtCount"
-                android:layout_width="17dp"
-                android:layout_height="17dp"
-                android:layout_alignTop="@+id/imgCart"
-                android:layout_alignParentRight="true"
-                android:layout_marginTop="-5dp"
-                android:layout_marginRight="15dp"
-                android:background="@drawable/ic_count_back"
-                android:gravity="center"
-                android:text="1"
-                android:textColor="@color/colorWhite"
-                android:textSize="10sp" />
-
-        </RelativeLayout>
-
-        <Button
-            android:id="@+id/AddCart"
+    <Button
+        android:id="@+id/AddCart"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"

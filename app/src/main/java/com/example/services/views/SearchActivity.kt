@@ -28,7 +28,7 @@ import com.uniongoods.adapters.SearchListAdapter
 class SearchActivity : BaseActivity() {
     lateinit var searchbinding: ActivitySearchBinding
     lateinit var searchViewModel: SearchViewModel
-    var type = "restaurant"
+    var type = "food"
     var vendorList = ArrayList<SearchResponse.Services>()
     var isEmpty = true
     var DELIVERY_PICKUP_TYPE = "1"
@@ -93,16 +93,21 @@ class SearchActivity : BaseActivity() {
                             vendorList.clear()
                             if (isEmpty) {
                                 searchbinding.rvList.visibility = View.GONE
-                                searchbinding.tvNoRecord.visibility = View.VISIBLE
+                                searchbinding.tvNoRecord.visibility = View.GONE
+                                searchbinding.tvNoRecord1.visibility = View.VISIBLE
                             } else {
                                 vendorList.addAll(response.data?.services!!)
                                 if (vendorList.size > 0) {
-                                    searchbinding.rvList.visibility = View.VISIBLE
                                     searchbinding.tvNoRecord.visibility = View.GONE
+
+                                    searchbinding.rvList.visibility = View.VISIBLE
+                                    searchbinding.tvNoRecord1.visibility = View.GONE
                                     initRecyclerView()
                                 } else {
+                                    searchbinding.tvNoRecord.visibility = View.GONE
+
                                     searchbinding.rvList.visibility = View.GONE
-                                    searchbinding.tvNoRecord.visibility = View.VISIBLE
+                                    searchbinding.tvNoRecord1.visibility = View.VISIBLE
                                 }
 
                             }
@@ -111,7 +116,7 @@ class SearchActivity : BaseActivity() {
                         else -> message?.let {
                             UtilsFunctions.showToastError(it)
                             searchbinding.rvList.visibility = View.GONE
-                            searchbinding.tvNoRecord.visibility = View.VISIBLE
+                            searchbinding.tvNoRecord1.visibility = View.VISIBLE
                         }
                     }
 

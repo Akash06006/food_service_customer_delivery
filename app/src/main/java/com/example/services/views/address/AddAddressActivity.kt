@@ -110,7 +110,7 @@ class AddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationListener,
                     when {
                         response.code == 200 -> {
                             // profileBinding.profileModel = response.data
-                            showToastSuccess(message)
+                            showToastSuccess("Address added Successfully")
                             val intent = Intent()
                             setResult(Activity.RESULT_OK, intent)
                             finish()

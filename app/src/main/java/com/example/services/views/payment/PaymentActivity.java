@@ -27,6 +27,7 @@ import com.payumoney.core.PayUmoneyConfig;
 import com.payumoney.core.PayUmoneyConstants;
 import com.payumoney.core.PayUmoneySdkInitializer;
 import com.payumoney.core.entity.TransactionResponse;
+import com.payumoney.core.utils.SdkHelper;
 import com.payumoney.sdkui.ui.utils.PayUmoneyFlowManager;
 import com.payumoney.sdkui.ui.utils.ResultModel;
 
@@ -143,6 +144,7 @@ public class PaymentActivity extends BaseActivity {
 
             String hash = hashCal(stringBuilder.toString());
             mPaymentParams.setMerchantHash(hash);
+
             PayUmoneyFlowManager.startPayUMoneyFlow(mPaymentParams, PaymentActivity.this, R.style.PayUMoney, true);
             // calculateHashInServer(mPaymentParams);
         } catch (Exception e) {

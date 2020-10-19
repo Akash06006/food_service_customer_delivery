@@ -71,6 +71,14 @@ interface ApiInterface {
         ) itemType: String
     ): Call<JsonObject>
 
+    @GET("mobile/services/homeVendor")
+    fun getHomeVenderResponse(
+        @Query("deliveryType") deliveryType: String, @Query("lat") lat: String, @Query("lng") lng: String, @Query(
+            "itemType"
+        ) itemType: String
+    ): Call<JsonObject>
+
+
     @DELETE("mobile/cart/clear")
     fun clearCart(): Call<JsonObject>
 

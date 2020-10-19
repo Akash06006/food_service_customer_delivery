@@ -486,7 +486,7 @@ class ServiceDetailActivity : BaseActivity(), DialogssInterface {
 
                     }
                     "img_add_favorite" -> {
-                        // addRemovefav()
+                         addRemovefav()
                     }
                 }
 

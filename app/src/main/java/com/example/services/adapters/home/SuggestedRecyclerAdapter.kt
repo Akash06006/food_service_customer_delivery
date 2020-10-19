@@ -22,15 +22,15 @@ import com.example.services.views.home.LandingHomeFragment
 import java.util.*
 
 
-class TopPicksRecyclerAdapter(
+class SuggestedRecyclerAdapter(
     context: LandingHomeFragment,
-    addressList: ArrayList<LandingResponse.TopPicks>,
+    addressList: ArrayList<LandingResponse.Suggested>,
     var activity: Context
 ) :
-    RecyclerView.Adapter<TopPicksRecyclerAdapter.ViewHolder>() {
+    RecyclerView.Adapter<SuggestedRecyclerAdapter.ViewHolder>() {
     private val mContext: LandingHomeFragment
     private var viewHolder: ViewHolder? = null
-    private var topPicksList: ArrayList<LandingResponse.TopPicks>
+    private var topPicksList: ArrayList<LandingResponse.Suggested>
 
     init {
         this.mContext = context
@@ -51,20 +51,19 @@ class TopPicksRecyclerAdapter(
     override fun onBindViewHolder(@NonNull holder: ViewHolder, position: Int) {
         viewHolder = holder
 
-        holder.binding!!.txtVendorName.setText(topPicksList[position].companyName)
-        Glide.with(mContext).load(topPicksList[position].logo1)
+        holder.binding!!.txtVendorName.setText(topPicksList[position].name)
+        Glide.with(mContext).load(topPicksList[position].thumbnail)
             //  .apply(RequestOptions.bitmapTransform(RoundedCorners(30)))
             .placeholder(R.drawable.img_placeholder)
             .into(holder.binding!!.imgVendor)
 
-
-        holder.binding!!.llVendor.setOnClickListener {
-            GlobalConstants.COMPANY_ID = topPicksList[position].id.toString()
-            GlobalConstants.CATEGORY_SELECTED_NAME = topPicksList[position].companyName.toString()
-            GlobalConstants.CATEGORY_SELECTED = topPicksList[position].id.toString()
-            val intent = Intent(activity, DashboardActivity::class.java)
-            mContext.startActivity(intent)
-        }
+//        holder.binding!!.llVendor.setOnClickListener {
+//            GlobalConstants.COMPANY_ID = topPicksList[position].id.toString()
+//            GlobalConstants.CATEGORY_SELECTED_NAME = topPicksList[position].offerName.toString()
+//            GlobalConstants.CATEGORY_SELECTED = topPicksList[position].id.toString()
+//            val intent = Intent(activity, DashboardActivity::class.java)
+//            mContext.startActivity(intent)
+//        }
     }
 
     override fun getItemCount(): Int {
@@ -76,7 +75,7 @@ class TopPicksRecyclerAdapter(
         v: View, val viewType: Int, //These are the general elements in the RecyclerView
         val binding: TopPicksItemBinding?,
         mContext: LandingHomeFragment,
-        addressList: ArrayList<LandingResponse.TopPicks>?
+        addressList: ArrayList<LandingResponse.Suggested>?
     ) : RecyclerView.ViewHolder(v) {
         /*init {
             binding.linAddress.setOnClickListener {

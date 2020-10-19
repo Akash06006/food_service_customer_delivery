@@ -42,6 +42,7 @@ class MyAccountsActivity : BaseActivity() {
                             GlobalConstants.TERMS_CONDITION = response.data?.termsLink!!
                             GlobalConstants.ABOUT_US = response.data?.aboutusLink!!
                             GlobalConstants.PRIVACY_POLICY = response.data?.privacyLink!!
+                            GlobalConstants.CANCAL_POLICY = response.data?.cancellationLink!!
                         }
                         else -> message?.let {
                             UtilsFunctions.showToastError(message)
@@ -75,6 +76,14 @@ class MyAccountsActivity : BaseActivity() {
                           startActivity(intent1)*/
                         // binding.tvChangePassword.isEnabled = false
                     }
+                    "tv_order_cancel" -> {
+                        val intent1 = Intent(this, WebViewActivity::class.java)
+                        intent1.putExtra("title", getString(R.string.cancel_order_policy))
+                        startActivity(intent1)
+                        /*  val intent1 = Intent(this, ChangePasswrodActivity::class.java)
+                          startActivity(intent1)*/
+                        // binding.tvChangePassword.isEnabled = false
+                    }
                     "tv_faq" -> {
                         val intent1 = Intent(this, FAQListActivity::class.java)
                         startActivity(intent1)
@@ -101,12 +110,14 @@ class MyAccountsActivity : BaseActivity() {
                         // binding.tvChangePassword.isEnabled = false
                     }
                     "tv_rate_us" ->{
-                        startActivity(
-                            Intent(
-                                Intent.ACTION_VIEW,
-                                Uri.parse("https://play.google.com/store/apps/"/*details?id=$appPackageName*/)
-                            )
-                        )
+
+                        showToastSuccess("Coming Soon")
+//                        startActivity(
+//                            Intent(
+//                                Intent.ACTION_VIEW,
+//                                Uri.parse("https://play.google.com/store/apps/"/*details?id=$appPackageName*/)
+//                            )
+//                        )
 
                     }
                     "tv_share_app" ->{

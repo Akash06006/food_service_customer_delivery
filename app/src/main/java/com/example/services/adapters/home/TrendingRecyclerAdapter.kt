@@ -52,6 +52,7 @@ class TrendingRecyclerAdapter(
         holder.binding!!.txtVendorName.setText(topPicksList[position].name)
         Glide.with(mContext).load(topPicksList[position].thumbnail)
             .apply(RequestOptions.bitmapTransform(RoundedCorners(20)))
+            .placeholder(R.drawable.img_placeholder)
             .into(holder.binding!!.imgVendor)
 
         /*holder.binding!!.llVendor.setOnClickListener {
