@@ -55,6 +55,8 @@ interface ApiInterface {
     @GET("notification/driver/getList")
     fun getNotificationList1(): Call<JsonObject>
 
+
+
     @DELETE("mobile/address/delete")
     fun deleteAddress(@Query("addressId") addressId: String): Call<JsonObject>
 
@@ -262,10 +264,12 @@ interface ApiInterface {
     @GET("mobile/notification")
     fun getNotificationList(): Call<JsonObject>
 
-    /*@Path("id") id: String*/
-    @DELETE("/mobile/notification/clearAll")
+//    @FormUrlEncoded
+//    @HTTP(method = "DELETE", path = "/mobile/notification/clearAll", hasBody = false)
+
+    @DELETE("mobile/notification/clearAll")
     fun clearAllNotification(): Call<JsonObject>
-/*@Path("id") id: String*/
+
 
     @GET("mobile/document")
     fun getLinks(): Call<JsonObject>

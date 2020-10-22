@@ -93,7 +93,7 @@ class ServicesListActivity : BaseActivity(), CompoundButton.OnCheckedChangeListe
 
         cartCategory = SharedPrefClass().getPrefValue(
             MyApplication.instance,
-            GlobalConstants.cartCategory
+            GlobalConstants.singleVenderCartId
         ).toString()
 
         if (isCart.equals("true")) {
@@ -289,7 +289,7 @@ class ServicesListActivity : BaseActivity(), CompoundButton.OnCheckedChangeListe
                             )
                             SharedPrefClass().putObject(
                                 this,
-                                GlobalConstants.cartCategory,
+                                GlobalConstants.singleVenderCartId,
                                 GlobalConstants.COMPANY_ID
                             )
                             cartCount = cartCount.toInt().plus(1).toString()
@@ -432,7 +432,7 @@ class ServicesListActivity : BaseActivity(), CompoundButton.OnCheckedChangeListe
                             )
                             SharedPrefClass().putObject(
                                 this,
-                                GlobalConstants.cartCategory,
+                                GlobalConstants.singleVenderCartId,
                                 ""
                             )
                             SharedPrefClass().putObject(

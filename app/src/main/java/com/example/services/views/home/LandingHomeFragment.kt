@@ -175,7 +175,7 @@ LandingHomeFragment : BaseFragment(), DialogssInterface, CompoundButton.OnChecke
 //                                )
                                 SharedPrefClass().putObject(
                                     activity!!,
-                                    GlobalConstants.cartCategory,
+                                    GlobalConstants.singleVenderCartId,
                                     ""
                                 )
                               //  fragmentHomeBinding.imgRight.visibility = View.GONE
@@ -188,7 +188,7 @@ LandingHomeFragment : BaseFragment(), DialogssInterface, CompoundButton.OnChecke
                                 )
                                 SharedPrefClass().putObject(
                                     activity!!,
-                                    GlobalConstants.cartCategory,
+                                    GlobalConstants.singleVenderCartId,
                                     cartCategoryTypeId.toString()
                                 )
                                 fragmentHomeBinding.imgRight.visibility = View.VISIBLE
@@ -204,14 +204,14 @@ LandingHomeFragment : BaseFragment(), DialogssInterface, CompoundButton.OnChecke
                                 fragmentHomeBinding.txtPrice.setText("Amount: " + response.data?.recentOrder?.totalOrderPrice)
 
 
-                                //fragmentHomeBinding.deliverType.setText("Amount: " + response.data?)
+                              //  fragmentHomeBinding.deliverType.setText("Amount: " + response.data?.paymentType)
 
                             } else {
                                 fragmentHomeBinding.llOrderStatus.visibility = View.GONE
                             }
-                            if(!cartCategoryTypeId.toString().isEmpty()){
-                                GlobalConstants.COMPANY_ID = cartCategoryTypeId.toString()
-                            }
+//                            if(!cartCategoryTypeId.toString().isEmpty()){
+//                                GlobalConstants.COMPANY_ID = cartCategoryTypeId.toString()
+//                            }
 
                             bannerList.clear()
                             bannerList.addAll(response.data?.banners!!)
@@ -321,7 +321,7 @@ LandingHomeFragment : BaseFragment(), DialogssInterface, CompoundButton.OnChecke
                             )
                             SharedPrefClass().putObject(
                                 activity!!,
-                                GlobalConstants.cartCategory,
+                                GlobalConstants.singleVenderCartId,
                                 ""
                             )
                             SharedPrefClass().putObject(

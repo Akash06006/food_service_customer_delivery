@@ -84,7 +84,7 @@ class PromoCodeListAdapter(
 
         }
 
-        if (addressList[position].description!!.contains("div")) {
+        if (addressList[position].description!!.contains("div") || addressList[position].description!!.contains("<p>")) {
             holder.binding!!.tvPromoDesc.setText(Html.fromHtml(addressList[position].description.toString()))
         } else {
             holder.binding!!.tvPromoDesc.setText(

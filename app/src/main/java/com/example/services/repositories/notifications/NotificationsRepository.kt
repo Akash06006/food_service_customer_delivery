@@ -78,7 +78,6 @@ class NotificationsRepository {
                             UtilsFunctions.showToastError(MyApplication.instance.getString(R.string.internal_server_error))
                             data1!!.postValue(null)
                         }
-
 //
 //                        val loginResponse = if (mResponse.body() != null)
 //                            gson.fromJson<CommonModel>(
@@ -93,7 +92,6 @@ class NotificationsRepository {
 //                        }
 
                     }
-
                     override fun onError(mKey: String) {
                         UtilsFunctions.showToastError(MyApplication.instance.getString(R.string.internal_server_error))
                         data1!!.postValue(null)

@@ -132,7 +132,7 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
 
         cartCompanyId = SharedPrefClass().getPrefValue(
             MyApplication.instance,
-            GlobalConstants.cartCategory
+            GlobalConstants.singleVenderCartId
         ).toString()
         /* val bottomSheetBehavior = BottomSheetBehavior.from(cartBinding.bottomLayout)
          bottomSheetBehavior.state == BottomSheetBehavior.STATE_COLLAPSED*/
@@ -201,7 +201,7 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
                         response.code == 200 -> {
                             cartList.addAll(response.body!!.data!!)
                             cartBinding.rlLoyalty.visibility = View.GONE
-                            /*  points = response.body?.lPoints?.maxRange.toString()
+                              points = response.body?.lPoints?.maxRange.toString()
                               val balance = response.body?.lPoints?.balance.toString()
                               singlePointValue = response.body?.lPoints?.onePointValue!!.toDouble()
                               if (balance!!.toDouble() > 0 && !TextUtils.isEmpty(response.body?.lPoints?.maxRange)) {
@@ -211,7 +211,7 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
                                   cartBinding.txtloyalDes.setText("Use loyalty point to redeem price, 1 point = " + GlobalConstants.Currency + response.body?.lPoints?.onePointValue)
                               } else {
                                   cartBinding.rlLoyalty.visibility = View.GONE
-                              }*/
+                              }
                             payableAmount = response.body?.sum.toString()
                             cartBinding.tvTotalItems.setText(cartList.size.toString())
                             var total =
@@ -523,6 +523,24 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
             this, Observer<String>(function =
             fun(it: String?) {
                 when (it) {
+                    "rlCoupon" -> {
+                        if (cartBinding.tvPromo.getText().toString()
+                                .equals(getString(R.string.apply_coupon))
+                        ) {
+                            val intent = Intent(this, PromoCodeActivity::class.java)
+                            startActivityForResult(intent, SECOND_ACTIVITY_REQUEST_CODE)
+                        } else {
+                            confirmationDialog = mDialogClass.setDefaultDialog(
+                                this,
+                                this,
+                                "Remove Coupon",
+                                getString(R.string.warning_remove_coupon)
+                            )
+                            confirmationDialog?.show()
+
+                        }
+                    }
+
                     "tvPromo" -> {
                         if (cartBinding.tvPromo.getText().toString()
                                 .equals(getString(R.string.apply_coupon))
@@ -540,6 +558,9 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
 
                         }
                     }
+
+
+
                     "imgBack" -> {
                         finish()
                     }
@@ -635,9 +656,8 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
             addressObject.addProperty(
                 "addressId", addressId
             )
-            addressObject.addProperty(
-                "companyId", cartCompanyId/*GlobalConstants.COMPANY_ID*/
-            )
+            //addressObject.addProperty("companyId", cartCompanyId/*GlobalConstants.COMPANY_ID*/)
+            addressObject.addProperty("companyId", GlobalConstants.singleVenderId/*GlobalConstants.COMPANY_ID*/)
             Log.e("address", "Before Call")
             cartViewModel.checkDeliveryAddress(addressObject)
             Log.e("address", "Call")
@@ -1140,8 +1160,8 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
         mHashMap["usedLPoints"] = toRequestBody("0")
         mHashMap["LPointsPrice"] =toRequestBody("0")
         mHashMap["promoCode"] = toRequestBody(couponCodeId)
-        mHashMap["companyId"] = toRequestBody(cartCompanyId/*GlobalConstants.COMPANY_ID*/)
-//        mHashMap["companyId"] = Utils(this).createPartFromString("89624900-a974-4849-9048-c32d6bed220a")
+//        mHashMap["companyId"] = toRequestBody(cartCompanyId/*GlobalConstants.COMPANY_ID*/)
+        mHashMap["companyId"] = toRequestBody(GlobalConstants.singleVenderId)
         mHashMap["cookingInstructions"] = toRequestBody(strCookingInstructions)
         mHashMap["pickupInstructions"] =toRequestBody(pickupInstruction)
         mHashMap["deliveryInstructions"] =toRequestBody(deliveryInstruction)
@@ -1184,7 +1204,6 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
             )
 
         }
-        var map= JSONObject(mHashMap);
         cartViewModel.orderPlace(mHashMap, audio)
 
     }

@@ -385,6 +385,7 @@
                         android:gravity="center"
                         android:orientation="vertical">
 
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -522,6 +523,33 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:textColor="@color/colorBlack"
                     app:font="@{`regular`}" />
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:layout_marginTop="@dimen/dp_5"
+                    android:layout_marginRight="@dimen/dp_5"
+                    android:singleLine="true"
+                    android:text="Payment Type"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textColor="@color/colorGrey"
+                    app:font="@{`regular`}" />
+
+                <TextView
+                    android:id="@+id/tvDeliveryType"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:layout_marginRight="@dimen/dp_5"
+                    android:layout_marginBottom="@dimen/dp_5"
+                    android:singleLine="true"
+                    android:text=""
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textColor="@color/colorBlack"
+                    app:font="@{`regular`}" />
+
 
                 <LinearLayout
                     android:id="@+id/driverDetail"

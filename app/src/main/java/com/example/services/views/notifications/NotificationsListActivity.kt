@@ -29,7 +29,7 @@ class NotificationsListActivity : BaseActivity() {
     override fun initViews() {
         notificationsListBinding = viewDataBinding as ActivityNotificationsListBinding
         notificationsViewModel = ViewModelProviders.of(this).get(NotificationsViewModel::class.java)
-        notificationsViewModel.getNotificationList()
+        //notificationsViewModel.getNotificationList()
         notificationsListBinding.notificationViewModel = notificationsViewModel
         notificationsListBinding.commonToolBar.imgToolbarText.text =
             resources.getString(R.string.notifications)
@@ -110,7 +110,12 @@ class NotificationsListActivity : BaseActivity() {
                         finish()
                     }
                     "btn_clear" -> {
-                        notificationsViewModel.clearAllNotification(userId)
+
+
+                        if (UtilsFunctions.isNetworkConnected()) {
+                            notificationsViewModel.clearAllNotification(userId)
+                            startProgressDialog()
+                        }
                     }
                 }
             })
@@ -129,12 +134,12 @@ class NotificationsListActivity : BaseActivity() {
         linearLayoutManager.orientation = RecyclerView.VERTICAL
         notificationsListBinding.rvNotification.layoutManager = linearLayoutManager
         notificationsListBinding.rvNotification.adapter = notificationsListAdapter
-        notificationsListBinding.rvNotification.addOnScrollListener(object :
-            RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-
-            }
-        })
+//        notificationsListBinding.rvNotification.addOnScrollListener(object :
+//            RecyclerView.OnScrollListener() {
+//            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+//
+//            }
+//        })
     }
 
 }

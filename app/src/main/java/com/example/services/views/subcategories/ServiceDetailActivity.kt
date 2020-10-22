@@ -66,6 +66,7 @@ class ServiceDetailActivity : BaseActivity(), DialogssInterface {
     var dateList = ArrayList<DateSlotsResponse.Body>()
     var applicationType: String? = null
     var isfav = "false"
+    var favroiteId = ""
     var addressType = "false"
     var cartCount = "0"
     // public var addressType = ""
@@ -82,7 +83,7 @@ class ServiceDetailActivity : BaseActivity(), DialogssInterface {
 
         cartCategory = SharedPrefClass().getPrefValue(
             MyApplication.instance,
-            GlobalConstants.cartCategory
+            GlobalConstants.singleVenderCartId
         ).toString()
 
         cartCount = SharedPrefClass().getPrefValue(
@@ -278,8 +279,12 @@ class ServiceDetailActivity : BaseActivity(), DialogssInterface {
                                 )
                             ) {
                                 serviceDetailBinding.imgAddFavorite.setImageResource(R.drawable.ic_unfavorite)
+                                isfav = "false"
+                                favroiteId=response.data!!.favourite.toString()
                             } else {
                                 serviceDetailBinding.imgAddFavorite.setImageResource(R.drawable.ic_favorite)
+                                isfav = "true"
+                                favroiteId=response.data!!.favourite.toString()
                             }
                             // serviceDetailBinding.servicesViewModel=response.body
                         }
@@ -326,7 +331,7 @@ class ServiceDetailActivity : BaseActivity(), DialogssInterface {
 
                                 SharedPrefClass().putObject(
                                     this,
-                                    GlobalConstants.cartCategory,
+                                    GlobalConstants.singleVenderCartId,
                                     GlobalConstants.COMPANY_ID
                                 )
                                 val intent = Intent(this, CartListActivity::class.java)
@@ -394,6 +399,10 @@ class ServiceDetailActivity : BaseActivity(), DialogssInterface {
                             } else {
                                 isfav = "false"
                                 serviceDetailBinding.imgAddFavorite.setImageResource(R.drawable.ic_unfavorite)
+                            }
+                            if (UtilsFunctions.isNetworkConnected()) {
+                                servicesViewModel.getServiceDetail(serviceId)
+                             //   startProgressDialog()
                             }
                         }
                         else -> message?.let {
@@ -508,7 +517,7 @@ class ServiceDetailActivity : BaseActivity(), DialogssInterface {
                             )
                             SharedPrefClass().putObject(
                                 this,
-                                GlobalConstants.cartCategory,
+                                GlobalConstants.singleVenderCartId,
                                 ""
                             )
                             SharedPrefClass().putObject(
@@ -634,19 +643,25 @@ class ServiceDetailActivity : BaseActivity(), DialogssInterface {
 
         if (isfav.equals("false")) {
             isCart = "true"
+            favObject.addProperty(
+                "status", isCart
+            )
+            favObject.addProperty(
+                "serviceId", serviceId
+            )
+            if (UtilsFunctions.isNetworkConnected()) {
+            servicesViewModel.addFav(favObject)
+                startProgressDialog()
+            }
         } else {
             isCart = "false"
+            if (UtilsFunctions.isNetworkConnected()) {
+                servicesViewModel.removeFav(favroiteId)
+                startProgressDialog()
+            }
+
         }
-        favObject.addProperty(
-            "status", isCart
-        )
-        favObject.addProperty(
-            "serviceId", serviceId
-        )
-        if (UtilsFunctions.isNetworkConnected()) {
-            servicesViewModel.addFav(favObject)
-            startProgressDialog()
-        }
+
     }
 
 

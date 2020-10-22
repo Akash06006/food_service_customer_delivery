@@ -20,7 +20,7 @@ class NotificationsViewModel : BaseViewModel() {
 
     init {
         if (UtilsFunctions.isNetworkConnectedWithoutToast()) {
-            notificationList = notificationRepository.getNotificationsList("")
+         //   notificationList = notificationRepository.getNotificationsList("")
             clearAllNotifications = notificationRepository.clearAllNotifications("")
         }
 
@@ -49,7 +49,7 @@ class NotificationsViewModel : BaseViewModel() {
     fun clearAllNotification(id:String) {
         if (UtilsFunctions.isNetworkConnected()) {
             clearAllNotifications = notificationRepository.clearAllNotifications(id)
-            mIsUpdating.postValue(true)
+           // mIsUpdating.postValue(true)
         }
     }
 

@@ -67,6 +67,12 @@ object GlobalConstants {
     @JvmStatic
     val cartCategory = "cartCategory"
     @JvmStatic
+    val singleVenderCartId = "89624900-a974-4849-9048-c32d6bed220a"
+    @JvmStatic
+
+
+    val singleVenderId = "89624900-a974-4849-9048-c32d6bed220a"
+    @JvmStatic
     val cartCount = "cartCount"
     @JvmStatic
     val USERID = "USERID"
@@ -114,11 +120,11 @@ object GlobalConstants {
     @JvmStatic
     val BASE_URL = "http://stgcerb.cerebruminfotech.com:9069/api/"
     @JvmStatic
-    val BASE_SERVER = "http://stgcerb.cerebruminfotech.com:9062"
+    val BASE_SERVER = "http://stgcerb.cerebruminfotech.com:9069"
     @JvmStatic
-    val SOCKET_URL = "http://stgcerb.cerebruminfotech.com:9062/"
+    val SOCKET_URL = "http://stgcerb.cerebruminfotech.com:9069/"
     @JvmStatic
-    val SOCKET_CHAT_URL = "http://stgcerb.cerebruminfotech.com:9062/"
+    val SOCKET_CHAT_URL = "http://stgcerb.cerebruminfotech.com:9069/"
 
     const val PLATFORM = "android"
     @JvmStatic

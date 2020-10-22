@@ -104,9 +104,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_gravity="start"
-                android:background="#ffffff"
-                android:orientation="vertical">
+                android:background="#ffffff">
                 <!-- <include
                      layout="@layout/header_view"/>-->
 
@@ -183,29 +181,32 @@
                     <!-- android:background="@drawable/text_back"-->
                 </RelativeLayout>
 
+
+                <ImageView
+                    android:id="@+id/imgSidePhoneTwo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@+id/llBottom"
+                    android:layout_below="@+id/topBannerLayout"
+                    android:layout_marginTop="10dp"
+                    android:scaleType="fitXY"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginBottom="30dp"
+                    android:src="@drawable/ic_side_menu_blur" />
+
+
                 <ImageView
                     android:id="@+id/imgSidePhone"
-                    android:layout_width="50dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_above="@+id/llBottom"
                     android:layout_below="@+id/topBannerLayout"
                     android:layout_alignParentRight="true"
                     android:layout_marginTop="-30dp"
                     android:scaleType="fitXY"
-                    android:src="@drawable/side_phone" />
+                    android:src="@drawable/ic_side_menu" />
 
-                <ImageView
-                    android:id="@+id/imgSidePhoneTwo"
-                    android:layout_width="30dp"
-                    android:layout_height="match_parent"
-                    android:layout_above="@+id/llBottom"
-                    android:layout_below="@+id/topBannerLayout"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginRight="-10dp"
-                    android:layout_marginBottom="30dp"
-                    android:layout_toLeftOf="@+id/imgSidePhone"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/side_phone_two" />
+
 
                 <ScrollView
                     android:layout_width="match_parent"

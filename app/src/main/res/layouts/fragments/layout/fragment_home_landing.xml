@@ -224,18 +224,32 @@
                         android:paddingTop="10dp"
                         android:paddingBottom="10dp">
 
-                        <ImageView
-                            android:id="@+id/imgFilter"
-                            android:layout_width="@dimen/dp_45"
-                            android:layout_height="@dimen/dp_45"
-                            android:layout_alignParentRight="true"
+                        <RelativeLayout
                             android:layout_marginLeft="@dimen/dp_10"
                             android:layout_marginRight="@dimen/dp_10"
-                            android:layout_centerVertical="true"
-                            android:backgroundTint="#ffffff"
-                            android:onClick="@{(v) -> homeViewModel.clickListener(v)}"
-                            android:src="@drawable/ic_restaurent_image"
-                            android:visibility="visible" />
+                            android:layout_alignParentRight="true"
+                            android:id="@+id/imgFilter1"
+
+                            android:backgroundTint="#F89B94"
+
+                            android:background="@drawable/round_layout"
+                            android:layout_width="@dimen/dp_50"
+                            android:layout_height="@dimen/dp_50">
+                            <ImageView
+                                android:id="@+id/imgFilter"
+                                android:layout_width="@dimen/dp_30"
+                                android:layout_height="@dimen/dp_30"
+                             android:layout_centerInParent="true"
+
+                                android:layout_centerVertical="true"
+                                android:backgroundTint="#ffffff"
+                                android:onClick="@{(v) -> homeViewModel.clickListener(v)}"
+                                android:src="@drawable/ic_resto"
+                                android:visibility="visible" />
+
+                        </RelativeLayout>
+
+
 
                         <EditText
                             android:id="@+id/etSearch"
@@ -243,7 +257,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/dp_10"
                             android:layout_marginBottom="2dp"
-                            android:layout_toLeftOf="@+id/imgFilter"
+                            android:layout_toLeftOf="@+id/imgFilter1"
                             android:background="@drawable/round_back_transparent_search"
                             android:drawableLeft="@drawable/ic_search"
                             android:drawablePadding="@dimen/dp_10"

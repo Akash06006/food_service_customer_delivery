@@ -157,6 +157,11 @@ class OrdersDetailActivity : BaseActivity(), DialogssInterface {
                                 }
 
                             }
+                            if(response.data!!.paymentType.equals("1")){
+                                orderBinding.tvDeliveryType.setText("Paid")
+                            } else if (response.data!!.paymentType.equals("2")){
+                                orderBinding.tvDeliveryType.setText("Cash on Delivery")
+                            }
 
                             orderBinding.tvServiceDate.text =
                                 resources.getString(R.string.order_date)

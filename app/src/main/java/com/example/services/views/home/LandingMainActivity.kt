@@ -366,7 +366,6 @@ class LandingMainActivity : BaseActivity(),
         } else {
             activityLandingBinding!!.tvName.text = name.toString()
         }
-
     }
 
     override fun onDialogConfirmAction(mView: View?, mKey: String) {

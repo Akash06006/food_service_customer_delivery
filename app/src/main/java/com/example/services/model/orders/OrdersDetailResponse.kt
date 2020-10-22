@@ -52,6 +52,14 @@ class OrdersDetailResponse {
         @SerializedName("trackStatus")
         @Expose
         var trackStatus: String? = null
+
+        @SerializedName("deliveryType")
+        @Expose
+        var deliveryType: String? = null
+
+        @SerializedName("paymentType")
+        @Expose
+        var paymentType: String? = null
         /*@SerializedName("assignedEmployees")
         @Expose
         var assignedEmployees: String? = null*/

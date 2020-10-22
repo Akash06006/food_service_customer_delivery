@@ -32,13 +32,13 @@ class WebViewActivity : BaseActivity() {
                 return true
             }
         }
-          if (title.equals(resources.getString(R.string.terms_and_conditions))) {
+          if (title.equals("Terms and Conditions")) {
             binding.webView.loadUrl(GlobalConstants.TERMS_CONDITION)
         }
-          else if (title.equals(resources.getString(R.string.privacy_policy))) {
+          else if (title.equals("Privacy Policy")) {
             binding.webView.loadUrl(GlobalConstants.PRIVACY_POLICY)
         }
-          else if (title.equals(resources.getString(R.string.cancel_order_policy))) {
+          else if (title.equals("Order Cancel Policy")) {
             binding.webView.loadUrl(GlobalConstants.CANCAL_POLICY)
         }
           else {

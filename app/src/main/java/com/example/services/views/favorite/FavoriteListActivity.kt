@@ -131,6 +131,8 @@ class FavoriteListActivity : BaseActivity(), DialogssInterface {
     }
 
 
+
+
     private fun initRecyclerView() {
         favoriteListAdapter = FavoriteListAdapter(this, cartList, this)
         // val linearLayoutManager = LinearLayoutManager(this)

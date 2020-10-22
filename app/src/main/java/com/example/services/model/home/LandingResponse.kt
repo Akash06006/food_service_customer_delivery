@@ -70,6 +70,10 @@ class LandingResponse {
         @Expose
         var deliveryType: String? = null
 
+        @SerializedName("paymentType")
+        @Expose
+        var paymentType: String? = null
+
 
     }
 

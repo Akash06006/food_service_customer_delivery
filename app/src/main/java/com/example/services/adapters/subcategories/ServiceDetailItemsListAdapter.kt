@@ -50,6 +50,10 @@ class ServiceDetailItemsListAdapter(
             holder.binding!!.tvItemName.setTextColor(Color.RED)
         }
 
+        if (dateList[position].title.equals("Prepration Time")) {
+            holder.binding!!.tvItemName.text = dateList[position].value+ " min"
+        }
+
     }
 
     override fun getItemCount(): Int {

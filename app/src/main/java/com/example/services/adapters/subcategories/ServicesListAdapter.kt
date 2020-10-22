@@ -60,7 +60,7 @@ class ServicesListAdapter(
 
         holder.binding!!.tvOfferPrice.text =
             GlobalConstants.Currency + "" + addressList[position].price.toString()
-        holder.binding!!.tvDuration.setText(mContext.resources.getString(R.string.duration) + ": " + addressList[position].duration)
+        holder.binding!!.tvDuration.setText(mContext.resources.getString(R.string.duration) + ": " + addressList[position].duration+" min")
 
         val applicationType = SharedPrefClass()!!.getPrefValue(
             MyApplication.instance,
