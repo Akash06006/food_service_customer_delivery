@@ -105,9 +105,15 @@ class ProfileActivity : BaseActivity(), ChoiceCallBack {
                     when {
                         response.code == 200 -> {
                             profileBinding.profileModel = response.data
+
+                            Glide.with(this).load(response.data?.image)
+                                .placeholder(R.drawable.ic_person).into(profileBinding.imgProfile)
                             // maritalStatus = response.data?.maritalStatus!!
                             profileBinding.tvName.setText(response.data?.firstName + " " + response.data?.lastName)
-                            profileBinding.tvPoints.setText("My loyalty points: " + response.data?.lPoints)
+                            if (!TextUtils.isEmpty(response.data?.lPoints)) {
+                                profileBinding.tvPoints.setText("My loyalty points: " + response.data?.lPoints)
+                            }
+
                         }
                         else -> showToastError(message)
                     }
@@ -156,17 +162,13 @@ class ProfileActivity : BaseActivity(), ChoiceCallBack {
                         val intent = Intent(this, OrdersHistoryListActivity::class.java)
                         startActivity(intent)
                     }
-                    "iv_edit" -> {
-                        // editImage = 0
-                        //  showPictureDialog()
-                    }
                     "img_right" -> {
                         // isEditable = true
                         profileBinding.commonToolBar.imgToolbarText.text =
                             resources.getString(R.string.edit_profile)
                         makeEnableDisableViews(true)
                     }
-                    "upload_profile_layer" -> {
+                    "iv_edit" -> {
                         if (checkAndRequestPermissions()) {
                             confirmationDialog =
                                 mDialogClass.setUploadConfirmationDialog(this, this, "gallery")

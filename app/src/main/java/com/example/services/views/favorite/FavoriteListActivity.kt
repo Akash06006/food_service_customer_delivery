@@ -74,6 +74,7 @@ class FavoriteListActivity : BaseActivity(), DialogssInterface {
                     val message = response.message
                     when {
                         response.code == 200 -> {
+                            cartList.clear()
                             cartList.addAll(response.body!!)
                             if (cartList.size > 0) {
                                 favoriteBinding.rvFavorite.visibility = View.VISIBLE
@@ -129,8 +130,6 @@ class FavoriteListActivity : BaseActivity(), DialogssInterface {
         )
 
     }
-
-
 
 
     private fun initRecyclerView() {

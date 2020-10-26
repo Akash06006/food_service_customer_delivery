@@ -36,8 +36,18 @@ class OrdersHistoryListActivity : BaseActivity() {
     lateinit var ordersViewModel: OrdersViewModel
     var orderList = ArrayList<OrdersListResponse.Body>()
     var orderListAdapter: OrderListAdapter? = null
+    var filterValue = "5"
     override fun getLayoutId(): Int {
         return R.layout.activity_order_list
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        if (UtilsFunctions.isNetworkConnected()) {
+            startProgressDialog()
+            ordersViewModel.getOrderHistoryList(filterValue)
+        }
     }
 
     override fun initViews() {
@@ -52,10 +62,7 @@ class OrdersHistoryListActivity : BaseActivity() {
         orderBinding.rdComCancelled.visibility = View.VISIBLE
         orderBinding.cartViewModel = ordersViewModel
 
-        if (UtilsFunctions.isNetworkConnected()) {
-            startProgressDialog()
-            ordersViewModel.getOrderHistoryList("5")
-        }
+
         ordersViewModel.getOrdersHistoryListRes().observe(this,
             Observer<OrdersListResponse> { response ->
                 stopProgressDialog()
@@ -114,16 +121,17 @@ class OrdersHistoryListActivity : BaseActivity() {
                     if (UtilsFunctions.isNetworkConnected()) {
                         // baseActivity.startProgressDialog()
                         startProgressDialog()
-                        ordersViewModel.getOrderHistoryList("5")
+                        ordersViewModel.getOrderHistoryList(filterValue)
                     }
                 } else {
+                    filterValue = "2,4"
                     rdCancelled.setTextColor(resources.getColor(R.color.colorWhite))
                     rdCancelled.setBackgroundResource(R.drawable.round_back_transparent_new)
                     rdCompleted.setTextColor(resources.getColor(R.color.colorBlack))
                     rdCompleted.setBackgroundResource(R.color.transparent)
                     if (UtilsFunctions.isNetworkConnected()) {
                         startProgressDialog()
-                        ordersViewModel.getOrderHistoryList("2,4")
+                        ordersViewModel.getOrderHistoryList(filterValue)
                     }
                 }
 
