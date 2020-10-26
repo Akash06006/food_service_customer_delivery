@@ -6,6 +6,7 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.media.RingtoneManager
 import android.os.Build
 import android.util.Log
@@ -129,11 +130,12 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
               .setAutoCancel(true)
               .setSound(defaultSoundUri)
               .setContentIntent(pendingIntent)*/
+        val icon1 = BitmapFactory.decodeResource(resources, R.drawable.ic_app_icon)
 
         val notificationBuilder: NotificationCompat.Builder?
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             notificationBuilder = NotificationCompat.Builder(this, channelId)
-                .setSmallIcon(R.drawable.ic_app_icon)
+                .setSmallIcon(notificationIcon).setLargeIcon(icon1)
                 .setContentTitle(getString(R.string.app_name))
                 .setChannelId(channelId)
                 .setContentIntent(pendingIntent)
@@ -159,9 +161,10 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             }*/
         } else {
             notificationBuilder = NotificationCompat.Builder(this, channelId)
-                .setSmallIcon(R.drawable.ic_app_icon)
+                .setSmallIcon(notificationIcon).setLargeIcon(icon1)
                 .setContentTitle(getString(R.string.app_name))
                 .setContentText(message)
+                .setSmallIcon(notificationIcon).setLargeIcon(icon1)
                 .setAutoCancel(true)
                 .setOngoing(false)
                 .setDefaults(Notification.DEFAULT_ALL)
@@ -184,6 +187,11 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         }
         notificationManager.notify(0 /*ID of notification*/, notificationBuilder.build())
     }
+    private val notificationIcon: Int
+        get() {
+            val useWhiteIcon = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
+            return if (useWhiteIcon) R.drawable.ic_app_icon else R.drawable.ic_app_icon
+        }
 
 
 }

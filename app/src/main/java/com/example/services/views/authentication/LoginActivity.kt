@@ -132,14 +132,14 @@ class LoginActivity : BaseActivity() {
                                 activityLoginbinding.txtLogin.setText("Use Referral Code")
                                 showToastSuccess("Please enter if you have any referral code")
                             } else {
-                                FirebaseFunctions.sendOTP("login", mJsonObject, this)
-//                                val intent = Intent(this, LandingMainActivity::class.java)
-//                                //val intent = Intent(this, OTPVerificationActivity::class.java)
-//                                intent.flags =
-//                                    Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-//                                intent.putExtra("data", mJsonObject.toString())
-//                                startActivity(intent)
-//                                finish()
+//                                FirebaseFunctions.sendOTP("login", mJsonObject, this)
+                                val intent = Intent(this, LandingMainActivity::class.java)
+                                //val intent = Intent(this, OTPVerificationActivity::class.java)
+                                intent.flags =
+                                    Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                intent.putExtra("data", mJsonObject.toString())
+                                startActivity(intent)
+                                finish()
                             }
 
 
