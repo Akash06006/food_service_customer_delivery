@@ -201,17 +201,17 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
                         response.code == 200 -> {
                             cartList.addAll(response.body!!.data!!)
                             cartBinding.rlLoyalty.visibility = View.GONE
-                              points = response.body?.lPoints?.maxRange.toString()
-                              val balance = response.body?.lPoints?.balance.toString()
-                              singlePointValue = response.body?.lPoints?.onePointValue!!.toDouble()
-                              if (balance!!.toDouble() > 0 && !TextUtils.isEmpty(response.body?.lPoints?.maxRange)) {
-                                  cartBinding.rlLoyalty.visibility = View.VISIBLE
-                                  maxRangePoints = response.body?.lPoints?.maxRange!!.toDouble()
-                                  cartBinding.txtLoyalMes.setText("Your can use loyalty points : " + response.body?.lPoints?.usablePoints + "/" + response.body?.lPoints?.balance)
-                                  cartBinding.txtloyalDes.setText("Use loyalty point to redeem price, 1 point = " + GlobalConstants.Currency + response.body?.lPoints?.onePointValue)
-                              } else {
-                                  cartBinding.rlLoyalty.visibility = View.GONE
-                              }
+                            points = response.body?.lPoints?.maxRange.toString()
+                            val balance = response.body?.lPoints?.balance.toString()
+                            singlePointValue = response.body?.lPoints?.onePointValue!!.toDouble()
+                            if (balance!!.toDouble() > 0 && !TextUtils.isEmpty(response.body?.lPoints?.maxRange)) {
+                                cartBinding.rlLoyalty.visibility = View.VISIBLE
+                                maxRangePoints = response.body?.lPoints?.maxRange!!.toDouble()
+                                cartBinding.txtLoyalMes.setText("Your can use loyalty points : " + response.body?.lPoints?.usablePoints + "/" + response.body?.lPoints?.balance)
+                                cartBinding.txtloyalDes.setText("Use loyalty point to redeem price, 1 point = " + GlobalConstants.Currency + response.body?.lPoints?.onePointValue)
+                            } else {
+                                cartBinding.rlLoyalty.visibility = View.GONE
+                            }
                             payableAmount = response.body?.sum.toString()
                             cartBinding.tvTotalItems.setText(cartList.size.toString())
                             var total =
@@ -303,6 +303,11 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
                                 GlobalConstants.SelectedAddressType,
                                 "null"
                             )
+                            SharedPrefClass().putObject(
+                                this,
+                                GlobalConstants.isCartAdded,
+                                "false"
+                            )
                             //showToastSuccess(message)
                             showPaymentSuccessDialog()
                         }
@@ -375,7 +380,16 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
                                 intent.putExtra("totalItems", cartList.size.toString())
                                 startActivityForResult(intent, 200)
                             } else {
-
+                                SharedPrefClass().putObject(
+                                    this,
+                                    GlobalConstants.SelectedAddressType,
+                                    "null"
+                                )
+                                SharedPrefClass().putObject(
+                                    this,
+                                    GlobalConstants.isCartAdded,
+                                    "false"
+                                )
                                 showPaymentSuccessDialog()
                             }
 
@@ -560,7 +574,6 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
                     }
 
 
-
                     "imgBack" -> {
                         finish()
                     }
@@ -657,7 +670,10 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
                 "addressId", addressId
             )
             //addressObject.addProperty("companyId", cartCompanyId/*GlobalConstants.COMPANY_ID*/)
-            addressObject.addProperty("companyId", GlobalConstants.singleVenderId/*GlobalConstants.COMPANY_ID*/)
+            addressObject.addProperty(
+                "companyId",
+                GlobalConstants.singleVenderId/*GlobalConstants.COMPANY_ID*/
+            )
             Log.e("address", "Before Call")
             cartViewModel.checkDeliveryAddress(addressObject)
             Log.e("address", "Call")
@@ -1152,20 +1168,20 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
 
         val mHashMap = HashMap<String, RequestBody>()
         mHashMap["addressId"] = toRequestBody(addressId)
-        mHashMap["deliveryType"] =toRequestBody(DELIVERY_PICKUP_TYPE)
+        mHashMap["deliveryType"] = toRequestBody(DELIVERY_PICKUP_TYPE)
         mHashMap["serviceDateTime"] =
             toRequestBody(selectedDate + " " + selectedTime)
         mHashMap["orderPrice"] = toRequestBody(payableAmount)
-        mHashMap["serviceCharges"] =toRequestBody(deliveryCharges.toString())
+        mHashMap["serviceCharges"] = toRequestBody(deliveryCharges.toString())
         mHashMap["usedLPoints"] = toRequestBody("0")
-        mHashMap["LPointsPrice"] =toRequestBody("0")
+        mHashMap["LPointsPrice"] = toRequestBody("0")
         mHashMap["promoCode"] = toRequestBody(couponCodeId)
 //        mHashMap["companyId"] = toRequestBody(cartCompanyId/*GlobalConstants.COMPANY_ID*/)
         mHashMap["companyId"] = toRequestBody(GlobalConstants.singleVenderId)
         mHashMap["cookingInstructions"] = toRequestBody(strCookingInstructions)
-        mHashMap["pickupInstructions"] =toRequestBody(pickupInstruction)
-        mHashMap["deliveryInstructions"] =toRequestBody(deliveryInstruction)
-        mHashMap["tip"] =toRequestBody(tipSelected.toString())
+        mHashMap["pickupInstructions"] = toRequestBody(pickupInstruction)
+        mHashMap["deliveryInstructions"] = toRequestBody(deliveryInstruction)
+        mHashMap["tip"] = toRequestBody(tipSelected.toString())
         mHashMap["paymentType"] = toRequestBody(paymentStatus)
 //  val mHashMap = HashMap<String, RequestBody>()
 //        mHashMap["addressId"] = Utils(this).createPartFromString(addressId)
