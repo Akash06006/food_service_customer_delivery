@@ -580,7 +580,7 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
                     "tvChange" -> {
                         if (TextUtils.isEmpty(addressId)) {
                             val intent = Intent(this, AddAddressActivity::class.java)
-                            startActivity(intent)
+                            startActivityForResult(intent, 201)
                         } else {
                             addressDialog()
                         }
@@ -1022,6 +1022,8 @@ class CheckoutAddressActivity : BaseActivity(), DialogssInterface {
                     cartBinding!!.tvAddAudio.setText("Audio_" + timeMilli2)
                     cartBinding!!.icCross.visibility = View.VISIBLE
                 }
+            } else if (requestCode == 201) {
+                addressViewModel.addressList()
             }
         }
 
