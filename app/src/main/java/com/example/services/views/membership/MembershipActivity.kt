@@ -69,11 +69,13 @@ class MembershipActivity : BaseActivity() {
                     when {
                         response.code == 200 -> {
                             planList!!.clear()
-                            planList!!.addAll(response.data!![0].subscriptionDurations!!)
-                            if (planList!!.size > 0) {
+                            if (response.data?.size!! > 0) {
+                                planList!!.addAll(response.data!![0].subscriptionDurations!!)
+                                // if (planList!!.size > 0) {
                                 mResponse = response
+                                binding.txtTitle.visibility = View.VISIBLE
                                 binding.reyclerviewMembershipPlanList.visibility = View.VISIBLE
-                                // binding.tvNoRecord.visibility = View.GONE
+                                binding.txtNoRecord.visibility = View.GONE
                                 planAdapter =
                                     PlanListAdapter(this, planList!!, response.data!![0].features!!)
                                 // binding.reyclerviewMembershipPlanList.setLayoutManager(LinearLayoutManager(this))
@@ -84,8 +86,10 @@ class MembershipActivity : BaseActivity() {
                                 binding.reyclerviewMembershipPlanList.setAdapter(planAdapter)
                                 // showCurrentPlanDialog(response)
                             } else {
-                                binding.reyclerviewMembershipPlanList.visibility = View.GONE
-                                //   binding.tvNoRecord.visibility = View.VISIBLE
+
+                                binding.reyclerviewMembershipPlanList.visibility = View.INVISIBLE
+                                binding.txtTitle.visibility = View.INVISIBLE
+                                binding.txtNoRecord.visibility = View.VISIBLE
                             }
 
                         }

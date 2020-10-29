@@ -36,8 +36,11 @@ object ApiClient {
     private fun setApiInterface(): ApiInterface {
         val lang = "en"
         var mAuthToken = GlobalConstants.SESSION_TOKEN
-        var companyId = GlobalConstants.COMPANY_ID
-
+        //var companyId = GlobalConstants.COMPANY_ID
+        val companyId = SharedPrefClass().getPrefValue(
+            MyApplication.instance.applicationContext,
+            GlobalConstants.COMPANY_ID
+        ).toString()
 
         if (mAuthToken == "session_token" && UtilsFunctions.checkObjectNull(
                 SharedPrefClass().getPrefValue(
@@ -84,7 +87,7 @@ object ApiClient {
                         .header("authorization", finalMAuthToken)
                         .header("lang", lang)
 //                        .header("companyId", companyId)
-                        .header("companyId", "89624900-a974-4849-9048-c32d6bed220a")
+                        .header("companyId", /*"25cbf58b-46ba-4ba2-b25d-8f8f653e9f13"*/companyId)
                     val request = builder.build()
                     val response = chain.proceed(request)
                     return if (response.code() == 401) {

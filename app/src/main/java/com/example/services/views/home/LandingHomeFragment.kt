@@ -140,6 +140,12 @@ LandingHomeFragment : BaseFragment(), DialogssInterface, CompoundButton.OnChecke
         homeViewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
         fragmentHomeBinding.homeViewModel = homeViewModel
 
+        GlobalConstants.COMPANY_ID = SharedPrefClass().getPrefValue(
+            MyApplication.instance.applicationContext,
+            GlobalConstants.COMPANY_ID
+        ).toString()
+
+
         categoriesList?.clear()
         val mJsonObject = JsonObject()
         mJsonObject.addProperty(
@@ -178,7 +184,7 @@ LandingHomeFragment : BaseFragment(), DialogssInterface, CompoundButton.OnChecke
                                     GlobalConstants.singleVenderCartId,
                                     ""
                                 )
-                              //  fragmentHomeBinding.imgRight.visibility = View.GONE
+                                //  fragmentHomeBinding.imgRight.visibility = View.GONE
                                 (activity as LandingMainActivity).onResumedForFragment()
                             } else {
                                 SharedPrefClass().putObject(
@@ -197,14 +203,14 @@ LandingHomeFragment : BaseFragment(), DialogssInterface, CompoundButton.OnChecke
 
                             if (response.data?.recentOrder != null/*!TextUtils.isEmpty("")*/) {
                                 orderId = response.data?.recentOrder?.id.toString()
-                                   fragmentHomeBinding.llOrderStatus.visibility = View.VISIBLE
+                                fragmentHomeBinding.llOrderStatus.visibility = View.VISIBLE
                                 fragmentHomeBinding.txtOrderStatus.setText("Your order is " + response.data?.recentOrder?.orderStatus?.statusName)
                                 fragmentHomeBinding.txtOrderDes.setText("Sit back & relax as your order is " + response.data?.recentOrder?.orderStatus?.statusName)
                                 fragmentHomeBinding.txtOrderNumber.setText("Order No: " + response.data?.recentOrder?.orderNo)
                                 fragmentHomeBinding.txtPrice.setText("Amount: " + response.data?.recentOrder?.totalOrderPrice)
 
 
-                              //  fragmentHomeBinding.deliverType.setText("Amount: " + response.data?.paymentType)
+                                //  fragmentHomeBinding.deliverType.setText("Amount: " + response.data?.paymentType)
 
                             } else {
                                 fragmentHomeBinding.llOrderStatus.visibility = View.GONE
@@ -217,8 +223,8 @@ LandingHomeFragment : BaseFragment(), DialogssInterface, CompoundButton.OnChecke
                             bannerList.addAll(response.data?.banners!!)
 
                             if (bannerList.size > 0) {
-                               // bannerListViewPager()
-                               // fragmentHomeBinding.bannersViewpager.visibility = View.VISIBLE
+                                // bannerListViewPager()
+                                // fragmentHomeBinding.bannersViewpager.visibility = View.VISIBLE
                             } else {
                                 fragmentHomeBinding.bannersViewpager.visibility = View.GONE
                             }
@@ -236,7 +242,7 @@ LandingHomeFragment : BaseFragment(), DialogssInterface, CompoundButton.OnChecke
                                 fragmentHomeBinding.rvCouponsList.visibility = View.GONE
                             }
                             trendingList.clear()
-                            if(response.data?.trending!=null){
+                            if (response.data?.trending != null) {
                                 trendingList.addAll(response.data?.trending!!)
                             }
                             if (trendingList.size > 0) {
@@ -283,7 +289,7 @@ LandingHomeFragment : BaseFragment(), DialogssInterface, CompoundButton.OnChecke
                             if (suggestedList.size > 0) {
                                 fragmentHomeBinding.txtSuggested.visibility = View.VISIBLE
                                 fragmentHomeBinding.rvSuggested.visibility = View.VISIBLE
-                            } else{
+                            } else {
                                 fragmentHomeBinding.txtSuggested.visibility = View.GONE
                                 fragmentHomeBinding.rvSuggested.visibility = View.GONE
                             }

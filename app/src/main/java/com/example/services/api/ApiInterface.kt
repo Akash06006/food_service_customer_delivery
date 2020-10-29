@@ -9,7 +9,7 @@ import java.util.HashMap
 
 interface ApiInterface {
     @Headers("Content-Type: application/json")
-    @POST("mobile/auth/login")
+    @POST("mobile/auth/loginTrial")
     fun callLogin(@Body jsonObject: JsonObject): Call<JsonObject>
 
     @POST("mobile/auth/useReferral")
@@ -54,7 +54,6 @@ interface ApiInterface {
 
     @GET("notification/driver/getList")
     fun getNotificationList1(): Call<JsonObject>
-
 
 
     @DELETE("mobile/address/delete")

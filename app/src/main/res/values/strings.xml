@@ -402,7 +402,7 @@
     <string name="faq">FAQ</string>
 
     <string name="chat_support">Chat and Support</string>
-        <string name="refer_earn">Refer  &amp; Earn</string>
+    <string name="refer_earn">Refer  &amp; Earn</string>
     <string name="cart_quotes">I just do not want to look back and think  I could have eaten that </string>
     <string name="filter_title">Filter your search</string>
     <string name="sort">Sort</string>
@@ -441,6 +441,7 @@
     <string name="referral_code">Referral Code (Optional)</string>
     <string name="referral_msg"> This referral code gives 50 loyalty points to your friends when they will login in Delicio using this code, and you will receive 100 loyalty points for a referral.
 </string>
+    <string name="trial_msg"><u>Do you want to start free trial? Get Help</u></string>
     <string name="complete_address">Complete Address</string>
     <string name="save_address">Save Address</string>
     <string name="skip">Skip</string>

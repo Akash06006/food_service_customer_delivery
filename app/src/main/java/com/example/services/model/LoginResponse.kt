@@ -21,6 +21,10 @@ class LoginResponse {
         @SerializedName("referralCode")
         @Expose
         var referralCode: String? = null
+        @SerializedName("companyId")
+        @Expose
+        var companyId: String? = null
+
         @SerializedName("id")
         @Expose
         var id: String? = null

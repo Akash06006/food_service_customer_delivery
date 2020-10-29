@@ -4,6 +4,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.content.IntentFilter
+import android.net.Uri
 import androidx.databinding.DataBindingUtil
 import android.text.TextUtils
 import android.view.View
@@ -33,6 +34,7 @@ class LoginActivity : BaseActivity() {
     }
 
     private val mJsonObject = JsonObject()
+    private val otpJsonObject = JsonObject()
 
     override fun initViews() {
         checkAndRequestPermissions()
@@ -50,7 +52,15 @@ class LoginActivity : BaseActivity() {
                         response.code == 200 -> {
                             // FirebaseFunctions.sendOTP("login", mJsonObject, this)
                             mJsonObject.addProperty("phoneNumber", response.data?.phoneNumber)
-                            mJsonObject.addProperty("countryCode", response.data?.countryCode)
+                            mJsonObject.addProperty("countryCode", "+" + response.data?.countryCode)
+
+
+
+                            SharedPrefClass().putObject(
+                                this,
+                                GlobalConstants.COMPANY_ID,
+                                response.data!!.companyId
+                            )
 
                             SharedPrefClass().putObject(
                                 this,
@@ -118,11 +128,11 @@ class LoginActivity : BaseActivity() {
                                 GlobalConstants.USER_IAMGE,
                                 response.data!!.image
                             )
-                             SharedPrefClass().putObject(
-                                 MyApplication.instance.applicationContext,
-                                 "isLogin",
-                                 true
-                             )
+                            SharedPrefClass().putObject(
+                                MyApplication.instance.applicationContext,
+                                "isLogin",
+                                true
+                            )
 
                             if (response.data!!.isFirst.equals("true")) {
                                 isLogin = "no"
@@ -163,7 +173,6 @@ class LoginActivity : BaseActivity() {
                     when {
                         response.code == 200 -> {
                             FirebaseFunctions.sendOTP("login", mJsonObject, this)
-
 
 
                             /*mJsonObject.addProperty("phoneNumber", response.data?.phoneNumber)
@@ -272,6 +281,13 @@ class LoginActivity : BaseActivity() {
             fun(it: String?) {
                 val phone = activityLoginbinding.etPhoneNo.text.toString()
                 when (it) {
+
+                    "txtTrial" -> {
+                        val url = "https://www.cerebruminfotech.com"
+                        val intent = Intent(Intent.ACTION_VIEW)
+                        intent.data = Uri.parse(url)
+                        startActivity(intent)
+                    }
                     "txtSkip" -> {
 
                         FirebaseFunctions.sendOTP("login", mJsonObject, this)
@@ -317,10 +333,12 @@ class LoginActivity : BaseActivity() {
                                         )
                                         mJsonObject.addProperty(
                                             "countryCode",
-                                            "+" + activityLoginbinding.btnCcp.selectedCountryCode
+                                            /*"+" +*/
+                                            activityLoginbinding.btnCcp.selectedCountryCode
                                         )
                                         mJsonObject.addProperty(
-                                            "companyId", GlobalConstants.ADMIN_ID)
+                                            "companyId", GlobalConstants.ADMIN_ID
+                                        )
                                         mJsonObject.addProperty("device_id", androidId)
                                         mJsonObject.addProperty("app-version", versionName)
                                         loginViewModel.checkPhoneExistence(mJsonObject)

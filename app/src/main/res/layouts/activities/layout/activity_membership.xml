@@ -51,6 +51,7 @@
                         android:src="@drawable/ic_bubbles" />
 
                     <TextView
+                        android:id="@+id/txtTitle"
                         android:layout_width="@dimen/dp_300"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
@@ -83,6 +84,23 @@
                     android:layout_marginTop="@dimen/dp_10"
                     android:gravity="start"
                     android:text="Current Subscription Plan"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:visibility="gone"
+                    app:font="@{`regular`}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/reyclerview_membership_plan_list" />
+
+
+                <TextView
+                    android:id="@+id/txtNoRecord"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp_10"
+                    android:layout_marginTop="@dimen/dp_30"
+                    android:gravity="center"
+                    android:text="@string/no_record_found"
                     android:textColor="@color/white"
                     android:textSize="16sp"
                     android:visibility="gone"

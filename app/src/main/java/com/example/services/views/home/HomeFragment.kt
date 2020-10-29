@@ -109,7 +109,7 @@ HomeFragment : BaseFragment(), SocketInterface, OnMapReadyCallback {
         super.onResume()
         if (UtilsFunctions.isNetworkConnected()) {
             homeViewModel.getSubServices(
-                "b21a7c8f-078f-4323-b914-8f59054c4467",
+                GlobalConstants.COMPANY_ID,/*"b21a7c8f-078f-4323-b914-8f59054c4467",*/
                 ""/*GlobalConstants.CATEGORY_SELECTED*/
             )
             baseActivity.startProgressDialog()
@@ -211,7 +211,7 @@ HomeFragment : BaseFragment(), SocketInterface, OnMapReadyCallback {
 
                             galleryList.addAll(response.body.gallery)
                             //Vendor Detail
-                            if(details!=null){
+                            if (details != null) {
                                 if (!TextUtils.isEmpty(details?.logo1)) {
                                     Glide.with(activity!!).load(details?.logo1)
                                         .into(fragmentHomeBinding.imgVendorImage)
@@ -228,7 +228,7 @@ HomeFragment : BaseFragment(), SocketInterface, OnMapReadyCallback {
                                 }
 
                                 phoneNumber = "+" + details?.countryCode + "" + details?.phoneNumber
-                                fragmentHomeBinding.txtMobNumber.setText("+"+details?.countryCode + "  " + details?.phoneNumber)
+                                fragmentHomeBinding.txtMobNumber.setText("+" + details?.countryCode + "  " + details?.phoneNumber)
                                 fragmentHomeBinding.txtEmail.setText(details?.email)
                                 fragmentHomeBinding.txtAddress.setText(details?.address1)
 
@@ -258,8 +258,7 @@ HomeFragment : BaseFragment(), SocketInterface, OnMapReadyCallback {
                                     } else {
                                         fragmentHomeBinding.txtRating.setText(details?.rating + " (" + details?.totalRatings + " Votes)")
                                     }
-                            }
-
+                                }
 
 
                             }
@@ -308,7 +307,7 @@ HomeFragment : BaseFragment(), SocketInterface, OnMapReadyCallback {
 
                             if (UtilsFunctions.isNetworkConnected()) {
                                 homeViewModel.getSubServices(
-                                    "b21a7c8f-078f-4323-b914-8f59054c4467",
+                                    GlobalConstants.COMPANY_ID/*"b21a7c8f-078f-4323-b914-8f59054c4467"*/,
                                     ""/*GlobalConstants.CATEGORY_SELECTED*/
                                 )
                                 baseActivity.startProgressDialog()
@@ -828,7 +827,7 @@ HomeFragment : BaseFragment(), SocketInterface, OnMapReadyCallback {
 
     override fun onMapReady(googleMap: GoogleMap?) {
 
-        if(details!=null) {
+        if (details != null) {
 
 
             mMap = googleMap!!
