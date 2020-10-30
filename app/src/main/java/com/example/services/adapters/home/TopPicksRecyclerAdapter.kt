@@ -19,6 +19,7 @@ import com.example.services.databinding.TopPicksItemBinding
 import com.example.services.model.home.LandingResponse
 import com.example.services.views.home.DashboardActivity
 import com.example.services.views.home.LandingHomeFragment
+import com.example.services.views.subcategories.ServiceDetailActivity
 import java.util.*
 
 
@@ -59,10 +60,14 @@ class TopPicksRecyclerAdapter(
 
 
         holder.binding!!.llVendor.setOnClickListener {
-            GlobalConstants.COMPANY_ID = topPicksList[position].id.toString()
-            GlobalConstants.CATEGORY_SELECTED_NAME = topPicksList[position].companyName.toString()
-            GlobalConstants.CATEGORY_SELECTED = topPicksList[position].id.toString()
-            val intent = Intent(activity, DashboardActivity::class.java)
+//            GlobalConstants.COMPANY_ID = topPicksList[position].id.toString()
+//            GlobalConstants.CATEGORY_SELECTED_NAME = topPicksList[position].companyName.toString()
+//            GlobalConstants.CATEGORY_SELECTED = topPicksList[position].id.toString()
+//            val intent = Intent(activity, DashboardActivity::class.java)
+//            mContext.startActivity(intent)
+
+            val intent = Intent(activity, ServiceDetailActivity::class.java)
+            intent.putExtra("serviceId", topPicksList[position].id)
             mContext.startActivity(intent)
         }
     }

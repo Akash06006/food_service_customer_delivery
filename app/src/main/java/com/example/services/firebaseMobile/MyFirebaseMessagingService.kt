@@ -54,7 +54,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         // manage this apps subscriptions on the server side, send the
         // Instance ID token to your app server.
     }
-
+    val icon1 = BitmapFactory.decodeResource(resources, R.drawable.ic_app_icon)
     //* @param messageBody FCM message body received.
     private fun sendNotification(messageBody: String) {
         val intent = Intent(this, DashboardActivity::class.java)
@@ -67,12 +67,18 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         val channelId = getString(R.string.app_name)
         val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
         val notificationBuilder = NotificationCompat.Builder(this, channelId)
-            .setSmallIcon(R.drawable.ic_app_icon)
+          //.setSmallIcon(notificationIcon).setLargeIcon(icon1)
             .setContentTitle(getString(R.string.app_name))
             .setContentText(messageBody)
             .setAutoCancel(true)
             .setSound(defaultSoundUri)
             .setContentIntent(pendingIntent)
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            notificationBuilder.setSmallIcon(R.drawable.notification_app_icon);
+            notificationBuilder.setColor(getResources().getColor(R.color.colorPrimary));
+        } else {
+            notificationBuilder.setSmallIcon(R.drawable.ic_app_icon);
+        }
 
         val notificationManager =
             getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -130,12 +136,12 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
               .setAutoCancel(true)
               .setSound(defaultSoundUri)
               .setContentIntent(pendingIntent)*/
-        val icon1 = BitmapFactory.decodeResource(resources, R.drawable.ic_app_icon)
+
 
         val notificationBuilder: NotificationCompat.Builder?
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             notificationBuilder = NotificationCompat.Builder(this, channelId)
-                .setSmallIcon(notificationIcon).setLargeIcon(icon1)
+             //   .setSmallIcon(notificationIcon).setLargeIcon(icon1)
                 .setContentTitle(getString(R.string.app_name))
                 .setChannelId(channelId)
                 .setContentIntent(pendingIntent)
@@ -149,6 +155,13 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                         .bigText(message)
                 )
 
+            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                notificationBuilder.setSmallIcon(R.drawable.notification_app_icon);
+                notificationBuilder.setColor(getResources().getColor(R.color.colorPrimary));
+            } else {
+                notificationBuilder.setSmallIcon(R.drawable.ic_app_icon);
+            }
+
             /*val notificationManager =
                 getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -161,15 +174,21 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             }*/
         } else {
             notificationBuilder = NotificationCompat.Builder(this, channelId)
-                .setSmallIcon(notificationIcon).setLargeIcon(icon1)
+               // .setSmallIcon(notificationIcon).setLargeIcon(icon1)
                 .setContentTitle(getString(R.string.app_name))
                 .setContentText(message)
-                .setSmallIcon(notificationIcon).setLargeIcon(icon1)
                 .setAutoCancel(true)
                 .setOngoing(false)
                 .setDefaults(Notification.DEFAULT_ALL)
                 .setSound(defaultSoundUri)
                 .setContentIntent(pendingIntent)
+
+            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                notificationBuilder.setSmallIcon(R.drawable.notification_app_icon);
+                notificationBuilder.setColor(getResources().getColor(R.color.colorPrimary));
+            } else {
+                notificationBuilder.setSmallIcon(R.drawable.ic_app_icon);
+            }
         }
 
 
