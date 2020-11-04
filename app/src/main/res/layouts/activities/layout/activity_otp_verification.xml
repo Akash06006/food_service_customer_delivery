@@ -4,15 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="verifViewModel"
             type="com.example.services.viewmodels.OTPVerificationModel" />
-
         <variable
             name="resendOTP"
             type="Integer" />
-
     </data>
 
     <RelativeLayout
@@ -50,7 +47,6 @@
 
 
         <TextView
-
             android:id="@+id/tv_verifyEmail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -64,7 +60,6 @@
             android:textSize="@dimen/sp_20"
             android:visibility="gone"
             app:font="@{`bold`}"
-
             />
 
         <TextView

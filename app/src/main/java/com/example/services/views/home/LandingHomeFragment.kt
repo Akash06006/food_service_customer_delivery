@@ -197,9 +197,9 @@ LandingHomeFragment : BaseFragment(), DialogssInterface, CompoundButton.OnChecke
 
                             if (response.data?.recentOrder != null/*!TextUtils.isEmpty("")*/) {
                                 orderId = response.data?.recentOrder?.id.toString()
-                                   fragmentHomeBinding.llOrderStatus.visibility = View.VISIBLE
-                                fragmentHomeBinding.txtOrderStatus.setText("Your order is " + response.data?.recentOrder?.orderStatus?.statusName)
-                                fragmentHomeBinding.txtOrderDes.setText("Sit back & relax as your order is " + response.data?.recentOrder?.orderStatus?.statusName)
+                                fragmentHomeBinding.llOrderStatus.visibility = View.VISIBLE
+                                fragmentHomeBinding.txtOrderStatus.setText("Your order is " + response.data?.recentOrder?.orderStatus?.statusName!!.trim()!!)
+                                fragmentHomeBinding.txtOrderDes.setText("Sit back & relax as your order is " + response.data?.recentOrder?.orderStatus?.statusName!!.trim())
                                 fragmentHomeBinding.txtOrderNumber.setText("Order No: " + response.data?.recentOrder?.orderNo)
                                 fragmentHomeBinding.txtPrice.setText("Amount: " + response.data?.recentOrder?.totalOrderPrice)
 

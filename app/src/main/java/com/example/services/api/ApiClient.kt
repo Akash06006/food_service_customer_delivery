@@ -50,7 +50,6 @@ object ApiClient {
                 MyApplication.instance,
                 GlobalConstants.ACCESS_TOKEN
             ).toString()
-
         }
 
 

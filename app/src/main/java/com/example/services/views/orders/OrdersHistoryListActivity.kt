@@ -114,6 +114,7 @@ class OrdersHistoryListActivity : BaseActivity() {
                 val radio: RadioButton = findViewById(checkedId)
                 if (radio == rdCompleted) {
                     //startProgressDialog()
+                    filterValue="5"
                     rdCompleted.setTextColor(resources.getColor(R.color.colorWhite))
                     rdCancelled.setTextColor(resources.getColor(R.color.colorBlack))
                     rdCompleted.setBackgroundResource(R.drawable.round_back_transparent_new)
